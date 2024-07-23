@@ -29,7 +29,7 @@ public class GeneLifespan extends Gene<EnumLifespan> {
     }
 
     @Override
-    public Gene<EnumLifespan> deserialize(CompoundTag tag) {
+    public GeneLifespan deserialize(CompoundTag tag) {
         return new GeneLifespan(EnumLifespan.getFromString(tag.getString(DATA)), tag.getBoolean(DOMINANT));
     }
 }
