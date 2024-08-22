@@ -6,21 +6,24 @@
     {
       "item": "complicated_bees:comb",
       "nbt": {
-        "comb_type": "complicated_bees:stringy"
+        "comb_type": "complicated_bees:honey"
       }
     }
   ],
   "default_chromosome": {
     "complicated_bees:lifespan": {
-      "data": "shorter"
+      "data": "shortest"
     },
     "complicated_bees:temperature": {
       "data": "normal",
       "tolerance": "up_1"
     },
+    "complicated_bees:humidity": {
+      "data": "normal",
+      "tolerance": "none"
+    },
     "complicated_bees:flower": {
-      "data": "complicated_bees:flower",
-      "dominant": false
+      "data": "complicated_bees:flower"
     }
   }
 }
