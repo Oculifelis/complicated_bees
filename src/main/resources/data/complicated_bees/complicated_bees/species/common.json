@@ -1,53 +1,55 @@
 {
-  "dominant": false,
+  "dominant": true,
   "color": "c2c2c2",
+  "nest_color": "c2c2c2",
   "products": [
     {
-      "item": "minecraft:stick",
+      "item": "complicated_bees:comb",
+      "nbt": {
+        "comb_type": "complicated_bees:honey"
+      },
       "chance": 0.5
-    },
-    {
-      "item": "minecraft:apple",
-      "chance": 0.5
-    },
-    {
-      "item": "minecraft:gold_ingot",
-      "chance": 0.257
-    },
-    {
-      "item": "minecraft:iron_ingot",
-      "chance": 0.9212
-    },
-    {
-      "item": "minecraft:honey_bottle",
-      "chance": 0.5314
     }
   ],
-  "specialty_products": [
-    {
-      "item": "minecraft:diamond",
-      "chance": 1
-    }
-  ],
+  "specialty_products": [],
   "default_chromosome": {
+    "complicated_bees:lifespan": {
+      "data": "shortest",
+      "dominant": true
+    },
     "complicated_bees:temperature": {
       "data": "normal",
-      "tolerance": "both_1"
+      "tolerance": "both_1",
+      "dominant": false
     },
     "complicated_bees:humidity": {
       "data": "normal",
-      "tolerance": "none"
+      "tolerance": "none",
+      "dominant": false
+    },
+    "complicated_bees:productivity": {
+      "data": "slower",
+      "dominant": true
+    },
+    "complicated_bees:fertility": {
+      "data": "2",
+      "dominant": true
     },
     "complicated_bees:flower": {
       "data": "complicated_bees:flower",
-      "dominant": false
+      "dominant": true
     },
-    "complicated_bees:fertility": {
-      "data": 3,
-      "dominant": false
+    "complicated_bees:nocturnal": {
+      "data": false,
+      "dominant": true
     },
-    "complicated_bees:effect": {
-      "data": "complicated_bees:debug"
+    "complicated_bees:cave_dwelling": {
+      "data": false,
+      "dominant": true
+    },
+    "complicated_bees:weatherproof": {
+      "data": false,
+      "dominant": true
     }
   }
 }
