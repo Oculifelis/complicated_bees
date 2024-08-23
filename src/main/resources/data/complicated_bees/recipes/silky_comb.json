@@ -13,11 +13,11 @@
     },
     {
       "item": "complicated_bees:honey_droplet",
-      "chance": 0.6
+      "chance": 0.5
     },
     {
       "item": "complicated_bees:beeswax",
-      "chance": 0.2
+      "chance": 0.1
     }
   ]
 }
