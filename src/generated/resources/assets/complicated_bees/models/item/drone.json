@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
-  "loader": "neoforge:item_layers",
+  "loader": "complicated_bees:bee_model",
   "neoforge_data": {
     "layers": {}
   },
@@ -8,5 +8,6 @@
   "textures": {
     "layer0": "complicated_bees:item/bee_base",
     "layer1": "complicated_bees:item/bee_outline"
-  }
+  },
+  "variants": {}
 }
