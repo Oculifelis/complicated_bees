@@ -17,6 +17,10 @@
     },
     {
       "item": "complicated_bees:honey_droplet",
+      "chance": 0.2
+    },
+    {
+      "item": "minecraft:rotten_flesh",
       "chance": 0.1
     }
   ]
