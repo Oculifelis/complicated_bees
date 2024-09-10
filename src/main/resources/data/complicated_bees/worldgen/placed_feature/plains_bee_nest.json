@@ -16,8 +16,17 @@
       "type": "minecraft:biome"
     },
     {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "minecraft:short_grass"
+        }
+      }
+    },
+    {
       "type": "minecraft:rarity_filter",
-      "chance": 300
+      "chance": 200
     }
   ]
 }
