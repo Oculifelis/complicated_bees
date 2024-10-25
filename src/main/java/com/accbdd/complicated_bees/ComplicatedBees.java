@@ -3,6 +3,7 @@ package com.accbdd.complicated_bees;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.client.BeeModel;
 import com.accbdd.complicated_bees.client.ColorHandlers;
+import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
@@ -237,6 +238,7 @@ public class ComplicatedBees {
         @SubscribeEvent
         public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
             event.register(BeeModel.Loader.ID.getPath(), BeeModel.Loader.INSTANCE);
+            event.register(OptimizedBeeModelLoader.ID.getPath(), new OptimizedBeeModelLoader());
         }
 
         @SubscribeEvent

@@ -21,9 +21,12 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.ForgeRenderTypes;
 import net.minecraftforge.client.RenderTypeGroup;
 import net.minecraftforge.client.model.CompositeModel;
@@ -34,7 +37,7 @@ import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -45,7 +48,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
     public record Variant(BakedModel drone, BakedModel princess, BakedModel queen) {
     }
 
-    private final Map<Species, Variant> cacheMap = new HashMap<>();
+    public static final IdentityHashMap<Species, Variant> cacheMap = new IdentityHashMap<>();
     private final Int2ObjectMap<ForgeFaceData> layerData;
     private final Int2ObjectMap<ResourceLocation> renderTypeNames;
     private ImmutableList<Material> textures = null;
@@ -140,6 +143,62 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
                 int layer = Integer.parseInt(entry.getKey());
                 var data = ForgeFaceData.read(entry.getValue(), ForgeFaceData.DEFAULT);
                 layerData.put(layer, data);
+            }
+        }
+    }
+
+    public static class Baked implements BakedModel {
+
+        @Override
+        public List<BakedQuad> getQuads(@Nullable BlockState p_235039_, @Nullable Direction p_235040_, RandomSource p_235041_) {
+            return List.of();
+        }
+
+        @Override
+        public boolean useAmbientOcclusion() {
+            return false;
+        }
+
+        @Override
+        public boolean isGui3d() {
+            return false;
+        }
+
+        @Override
+        public boolean usesBlockLight() {
+            return false;
+        }
+
+        @Override
+        public boolean isCustomRenderer() {
+            return false;
+        }
+
+        @Override
+        public TextureAtlasSprite getParticleIcon() {
+            return null;
+        }
+
+        @Override
+        public ItemOverrides getOverrides() {
+            return new OverrideList();
+        }
+
+        public static class OverrideList extends ItemOverrides {
+            @Nullable
+            @Override
+            public BakedModel resolve(BakedModel baked, ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int p_173469_) {
+                Species species = GeneticHelper.getSpecies(stack, true);
+                if (species == null) {
+                    return baked;
+                } else {
+                    if (stack.is(ItemsRegistration.QUEEN.get()))
+                        return cacheMap.get(species).queen;
+                    else if (stack.is(ItemsRegistration.PRINCESS.get()))
+                        return cacheMap.get(species).princess;
+                    else
+                        return cacheMap.get(species).drone;
+                }
             }
         }
     }

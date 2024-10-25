@@ -31,9 +31,9 @@ public class Species {
     private final boolean foil;
 
     public static List<ResourceLocation> DEFAULT_MODELS = new ArrayList<>() {{
-        add(new ResourceLocation(MODID, "item/drone"));
-        add(new ResourceLocation(MODID, "item/princess"));
-        add(new ResourceLocation(MODID, "item/queen"));
+        add(new ResourceLocation(MODID, "item/base_drone"));
+        add(new ResourceLocation(MODID, "item/base_princess"));
+        add(new ResourceLocation(MODID, "item/base_queen"));
     }};
     public static final Species INVALID = new Species();
 
