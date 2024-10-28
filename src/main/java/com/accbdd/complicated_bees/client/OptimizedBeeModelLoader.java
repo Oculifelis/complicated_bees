@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.client;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -8,7 +7,6 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -56,8 +54,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
         @Override
         public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
             BakedModel bakedModel = model.bake(baker, spriteGetter, modelState, modelLocation);
-            ComplicatedBees.LOGGER.debug("baking model at location {}", modelLocation);
-            return new BeeOverrideModel(bakedModel);
+            return new BeeOverrideModel(bakedModel, baker, modelState, spriteGetter);
         }
 
         @Override
@@ -70,10 +67,10 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
     {
         private final ItemOverrides overrideList;
 
-        BeeOverrideModel(BakedModel originalModel)
+        BeeOverrideModel(BakedModel originalModel, ModelBaker baker, ModelState modelState, Function<Material, TextureAtlasSprite> sprites)
         {
             super(originalModel);
-            this.overrideList = new BeeOverrideList();
+            this.overrideList = new BeeOverrideList(baker, modelState, sprites);
         }
 
         @Override
@@ -115,6 +112,15 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
 
     private static class BeeOverrideList extends ItemOverrides {
         public final IdentityHashMap<Species, Variant> cacheMap = new IdentityHashMap<>();
+        private final ModelBaker baker;
+        private final ModelState state;
+        private final Function<Material, TextureAtlasSprite> sprites;
+
+        public BeeOverrideList(ModelBaker baker, ModelState state, Function<Material, TextureAtlasSprite> sprites) {
+            this.baker = baker;
+            this.state = state;
+            this.sprites = sprites;
+        }
 
         @Nullable
         @Override
@@ -123,12 +129,9 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
             cacheMap.computeIfAbsent(species, spec -> {
                 BeeModel[] beeModels = new BeeModel[3];
                 for (int i = 0; i < 3; i++) {
-                    List<BakedQuad> quads = new ArrayList<>(bakedModel.getQuads(null, null, level.random, ModelData.EMPTY, null));
                     ResourceLocation modelLoc = spec.getModels().get(i);
-                    BakedModel bakedModelOverride = Minecraft.getInstance().getModelManager().getModel(modelLoc);
-                    //todo: fix this
-                    ComplicatedBees.LOGGER.debug("getting model location {} for species {}", modelLoc, GeneticHelper.getTranslationKey(spec));
-                    quads.addAll(bakedModelOverride.getQuads(null, null, level.random, ModelData.EMPTY, null));
+                    BakedModel bakedModelOverride = baker.bake(modelLoc, state, sprites);
+                    List<BakedQuad> quads = new ArrayList<>(bakedModelOverride.getQuads(null, null, level.random, ModelData.EMPTY, null));
                     beeModels[i] = new BeeModel(bakedModel, quads);
                 }
                 return new Variant(beeModels[0], beeModels[1], beeModels[2]);

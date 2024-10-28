@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees;
 
 import com.accbdd.complicated_bees.block.BeeNestBlock;
-import com.accbdd.complicated_bees.client.BeeModel;
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.config.Config;
@@ -26,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -238,22 +236,7 @@ public class ComplicatedBees {
 
         @SubscribeEvent
         public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-            event.register(BeeModel.Loader.ID.getPath(), BeeModel.Loader.INSTANCE);
             event.register(OptimizedBeeModelLoader.ID.getPath(), new OptimizedBeeModelLoader());
-        }
-
-        @SubscribeEvent
-        public static void onModelRegister(ModelEvent.RegisterAdditional event)
-        {
-            RegistryAccess access = GeneticHelper.getRegistryAccess();
-            if (access != null) {
-                Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
-                for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                    for (int i = 0; i < 3; i++) {
-                        event.register(entry.getValue().getModels().get(i));
-                    }
-                }
-            }
         }
 
         @SubscribeEvent
