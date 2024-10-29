@@ -28,7 +28,7 @@ import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
@@ -115,7 +115,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
     }
 
     private static class BeeOverrideList extends ItemOverrides {
-        public final IdentityHashMap<Species, Variant> cacheMap = new IdentityHashMap<>();
+        public final HashMap<Species, Variant> cacheMap = new HashMap<>();
         private final ModelBaker baker;
         private final ModelState state;
         private final Function<Material, TextureAtlasSprite> sprites;
