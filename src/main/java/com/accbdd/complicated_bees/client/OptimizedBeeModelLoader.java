@@ -93,7 +93,11 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
         @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand)
         {
-            return quads;
+            if (side == null)
+            {
+                return quads;
+            }
+            return List.of();
         }
 
         @Override
