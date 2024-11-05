@@ -7,6 +7,6 @@
   ],
   "type": "forge:add_features",
   "biomes": ["terralith:blooming_plateau"],
-  "features": "complicated_bees:plains_bee_nest",
+  "features": "complicated_bees:terralith/plains_bee_nest",
   "step": "vegetal_decoration"
 }
