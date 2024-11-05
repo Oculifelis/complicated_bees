@@ -51,4 +51,4 @@ jobs:
 
           version-type: release
 
-          loaders: neoforge
+          loaders: forge
