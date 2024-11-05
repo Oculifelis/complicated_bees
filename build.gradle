@@ -39,6 +39,7 @@ minecraft {
         }
 
         server {
+            workingDirectory project.file('runs_server_forge')
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
         }

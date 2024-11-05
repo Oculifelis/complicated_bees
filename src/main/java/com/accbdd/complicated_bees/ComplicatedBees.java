@@ -25,6 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -49,7 +50,6 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -124,17 +124,20 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.HONEY_BREAD.get());
                 output.accept(ItemsRegistration.HONEY_PORKCHOP.get());
                 output.accept(ItemsRegistration.AMBROSIA.get());
-                Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
-                for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                    output.accept(GeneticHelper.setBothGenome(ItemsRegistration.DRONE.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                    output.accept(GeneticHelper.setBothGenome(ItemsRegistration.PRINCESS.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                    output.accept(GeneticHelper.setBothGenome(ItemsRegistration.QUEEN.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                }
-                for (ResourceLocation id : Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
-                    output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
-                }
-                for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                    output.accept(BeeNestBlock.stackNest(ItemsRegistration.BEE_NEST.get().getDefaultInstance(), entry.getValue()));
+                RegistryAccess access = GeneticHelper.getRegistryAccess();
+                if (access != null) {
+                    Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
+                    for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
+                        output.accept(GeneticHelper.setBothGenome(ItemsRegistration.DRONE.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
+                        output.accept(GeneticHelper.setBothGenome(ItemsRegistration.PRINCESS.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
+                        output.accept(GeneticHelper.setBothGenome(ItemsRegistration.QUEEN.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
+                    }
+                    for (ResourceLocation id : Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
+                        output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
+                    }
+                    for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
+                        output.accept(BeeNestBlock.stackNest(ItemsRegistration.BEE_NEST.get().getDefaultInstance(), entry.getValue()));
+                    }
                 }
             }).build());
 
