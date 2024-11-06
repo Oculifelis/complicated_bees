@@ -7,8 +7,8 @@ assignees: ACCBDD
 
 ---
 
-**Version of the mod**
-The version of the mod you are using.
+**Version of the mod/Minecraft**
+The version of the mod you are using and version of Minecraft you are on.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -27,4 +27,4 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Error Logs**
-It's very hard to debug without error logs!
+It's very hard to debug without complete error logs!
