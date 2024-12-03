@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
-  build-21:
+  build-1-20-1:
     runs-on: ubuntu-latest
     env:
       MINECRAFT_VERSION: 1.20.1
