@@ -135,7 +135,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
                 for (int i = 0; i < 3; i++) {
                     ResourceLocation modelLoc = spec.getModels().get(i);
                     BakedModel bakedModelOverride = baker.bake(modelLoc, state, sprites);
-                    List<BakedQuad> quads = new ArrayList<>(bakedModelOverride.getQuads(null, null, level.random, ModelData.EMPTY, null));
+                    List<BakedQuad> quads = new ArrayList<>(bakedModelOverride.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, null));
                     beeModels[i] = new BeeModel(bakedModel, quads);
                 }
                 return new Variant(beeModels[0], beeModels[1], beeModels[2]);
