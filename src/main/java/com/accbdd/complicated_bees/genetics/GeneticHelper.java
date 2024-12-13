@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.genetics.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
@@ -118,6 +119,21 @@ public class GeneticHelper {
     public static MutableComponent getTranslationKey(Flower flower) {
         RegistryAccess registryAccess = getRegistryAccess();
         return Component.translatable("flower.complicated_bees." + registryAccess.registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().getKey(flower));
+    }
+
+    public static MutableComponent getSpeciesHybridName(ItemStack stack) {
+        if (stack.getItem() instanceof BeeItem) {
+            Species primary = GeneticHelper.getSpecies(stack, true);
+            Species secondary = GeneticHelper.getSpecies(stack, false);
+            if (!primary.equals(secondary)) {
+                MutableComponent name = Component.empty();
+                name.append(GeneticHelper.getTranslationKey(primary));
+                name.append("-").append(GeneticHelper.getTranslationKey(secondary));
+                name.append(" ").append(Component.translatable("gene.complicated_bees.hybrid"));
+                return name;
+            }
+        }
+        return null;
     }
 
     public static IGene<?> getGene(ItemStack stack, ResourceLocation id, boolean primary) {
