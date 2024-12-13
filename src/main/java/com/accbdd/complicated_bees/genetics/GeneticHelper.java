@@ -30,6 +30,7 @@ import java.util.Random;
 public class GeneticHelper {
     public static final String CHROMOSOME_A = "chromosome_a";
     public static final String CHROMOSOME_B = "chromosome_b";
+    public static final String SPECIES = "species";
     public static final String MATE = "mate";
     private static final Random rand = new Random();
 
@@ -53,6 +54,12 @@ public class GeneticHelper {
     public static ItemStack setGenome(ItemStack stack, Genome genome) {
         stack.getOrCreateTag().put(CHROMOSOME_A, genome.getPrimary().serialize());
         stack.getOrCreateTag().put(CHROMOSOME_B, genome.getSecondary().serialize());
+        setSpeciesTag(stack);
+        return stack;
+    }
+
+    public static ItemStack setGenome(ItemStack stack, Chromosome chromosome) {
+        setGenome(stack, new Genome(chromosome));
         return stack;
     }
 
@@ -63,11 +70,7 @@ public class GeneticHelper {
         stack.getOrCreateTag().put(MATE, tag);
     }
 
-    public static ItemStack setBothGenome(ItemStack stack, Chromosome chromosome) {
-        stack.getOrCreateTag().put(CHROMOSOME_A, chromosome.serialize());
-        stack.getOrCreateTag().put(CHROMOSOME_B, chromosome.serialize());
-        return stack;
-    }
+
 
     public static RegistryAccess getRegistryAccess() {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
@@ -134,6 +137,11 @@ public class GeneticHelper {
             }
         }
         return null;
+    }
+
+    public static void setSpeciesTag(ItemStack stack) {
+        Species species = getSpecies(stack, true);
+        stack.getOrCreateTag().putString(SPECIES, SpeciesRegistration.getResourceLocation(species).toString());
     }
 
     public static IGene<?> getGene(ItemStack stack, ResourceLocation id, boolean primary) {
@@ -235,6 +243,7 @@ public class GeneticHelper {
         }
         if (resultType instanceof PrincessItem)
             PrincessItem.setGeneration(result, QueenItem.getGeneration(bee) + 1);
+        setSpeciesTag(result);
         return result;
     }
 
