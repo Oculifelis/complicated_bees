@@ -1,9 +1,6 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.block.ApiaryBlock;
-import com.accbdd.complicated_bees.block.BeeNestBlock;
-import com.accbdd.complicated_bees.block.CentrifugeBlock;
-import com.accbdd.complicated_bees.block.GeneratorBlock;
+import com.accbdd.complicated_bees.block.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -33,6 +30,7 @@ public class BlocksRegistration {
     public static final RegistryObject<ApiaryBlock> APIARY = BLOCKS.register("apiary", ApiaryBlock::new);
     public static final RegistryObject<CentrifugeBlock> CENTRIFUGE = BLOCKS.register("centrifuge", CentrifugeBlock::new);
     public static final RegistryObject<GeneratorBlock> GENERATOR = BLOCKS.register("generator", GeneratorBlock::new);
+    public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
 
     public static final RegistryObject<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES));
     public static final RegistryObject<StairBlock> WAX_BLOCK_STAIRS = BLOCKS.register("wax_block_stairs", () -> stair(WAX_BLOCK.get()));

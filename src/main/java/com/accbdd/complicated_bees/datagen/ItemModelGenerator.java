@@ -2,8 +2,10 @@ package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -23,6 +25,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.APIARY.getId().getPath(), modLoc("block/apiary"));
         withExistingParent(BlocksRegistration.CENTRIFUGE.getId().getPath(), modLoc("block/centrifuge"));
         withExistingParent(BlocksRegistration.GENERATOR.getId().getPath(), modLoc("block/generator"));
+        microscopeModel();
         withExistingParent(BlocksRegistration.WAX_BLOCK.getId().getPath(), modLoc("block/wax_block"));
         withExistingParent(BlocksRegistration.WAX_BLOCK_STAIRS.getId().getPath(), modLoc("block/wax_block_stairs"));
         withExistingParent(BlocksRegistration.WAX_BLOCK_SLAB.getId().getPath(), modLoc("block/wax_block_slab"));
@@ -115,5 +118,22 @@ public class ItemModelGenerator extends ItemModelProvider {
     private void buttonItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))
                 .texture("texture", new ResourceLocation(MODID, "block/" + baseBlock.getId().getPath()));
+    }
+
+    private void microscopeModel() {
+        ResourceLocation path = modLoc("microscope");
+        getBuilder(path.toString())
+                .parent(getExistingFile(modLoc("block/microscope")))
+                .transforms()
+                    .transform(ItemDisplayContext.GROUND)
+                        .scale(0.5f)
+                        .translation(0, 3, 0)
+                    .end()
+                    .transform(ItemDisplayContext.GUI)
+                        .scale(0.625f)
+                        .rotation(30, 225, 0)
+                    .end()
+                .end().guiLight(BlockModel.GuiLight.SIDE);
+
     }
 }

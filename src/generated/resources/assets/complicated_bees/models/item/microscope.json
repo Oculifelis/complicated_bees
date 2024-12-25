@@ -1,0 +1,30 @@
+{
+  "parent": "complicated_bees:block/microscope",
+  "display": {
+    "ground": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.825,
+        0.825,
+        0.825
+      ]
+    }
+  },
+  "gui_light": "side"
+}

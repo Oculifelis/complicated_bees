@@ -68,6 +68,7 @@
   "block.complicated_bees.honeyed_pressure_plate": "Honeyed Pressure Plate",
   "block.complicated_bees.honeyed_door": "Honeyed Door",
   "block.complicated_bees.honeyed_trapdoor": "Honeyed Trapdoor",
+  "block.complicated_bees.microscope": "Microscope",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
@@ -191,7 +192,7 @@
   "gene.complicated_bees.active_time.vespertine": "Vespertine",
   "gene.complicated_bees.active_time.crepuscular": "Crepuscular",
   "gene.complicated_bees.active_time.cathemeral": "Cathemeral",
-  "gene.complicated_bees.active_time.never_sleeps": "Never Sleeps",
+  "gene.complicated_bees.active_time.never_sleeps": "Always",
 
   "gui.complicated_bees.mutations.has_conditions": "Special conditions for mutation:",
   "gui.complicated_bees.mutations.block_under" : "Requires %s underneath apiary",

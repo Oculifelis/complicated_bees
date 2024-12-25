@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "complicated_bees:block/microscope",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "complicated_bees:block/microscope",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "complicated_bees:block/microscope",
+      "y": -90
+    },
+    "facing=west": {
+      "model": "complicated_bees:block/microscope"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-03T17:13:46.8374839	Block States: complicated_bees
+// 1.20.1	2024-12-24T15:56:32.8173819	Block States: complicated_bees
 f96c3049aa45fc2ee1427d6b9010e4d655e13430 assets/complicated_bees/blockstates/apiary.json
 6f082c4f7826e0853af1c6128556032c8325066e assets/complicated_bees/blockstates/bee_nest.json
 25dfbbaa9d3a13e3bdcd4d8a4fa0e6007da24b41 assets/complicated_bees/blockstates/centrifuge.json
@@ -13,6 +13,7 @@ e6d425084ead6235efab71ec61de4dc19add25db assets/complicated_bees/blockstates/hon
 8c364cfd422bfdcd0d048a9c11b15b20ca5b8685 assets/complicated_bees/blockstates/honeyed_slab.json
 5c3b5cd9b9f01296954a29ef9d8a9958f34298bd assets/complicated_bees/blockstates/honeyed_stairs.json
 042790b789b7726adca1cb58cdbb03a3c80dab7f assets/complicated_bees/blockstates/honeyed_trapdoor.json
+aa60b60ecd51aaad04932e726f50834b74d03b52 assets/complicated_bees/blockstates/microscope.json
 51e69f4883808208c0d160fb9e55806d9dfc2ccc assets/complicated_bees/blockstates/smooth_wax.json
 6dd665a2a87614451f3b01fe520704c4f54004f7 assets/complicated_bees/blockstates/smooth_wax_slab.json
 c0e987d62e0934775295459acd6c9d1171b601d4 assets/complicated_bees/blockstates/smooth_wax_stairs.json

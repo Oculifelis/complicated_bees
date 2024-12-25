@@ -98,6 +98,7 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.METER.get());
                 output.accept(ItemsRegistration.ANALYZER.get());
                 output.accept(ItemsRegistration.GENERATOR.get());
+                output.accept(ItemsRegistration.MICROSCOPE.get());
                 output.accept(ItemsRegistration.FRAME.get());
                 output.accept(ItemsRegistration.WAXED_FRAME.get());
                 output.accept(ItemsRegistration.HONEYED_FRAME.get());
