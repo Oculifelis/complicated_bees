@@ -21,17 +21,23 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
         renderBackground(graphics);
         graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
-        int relX = (this.width - this.imageWidth) / 2;
-        int relY = (this.height - this.imageHeight) / 2;
+
     }
 
     @Override
     public void render(GuiGraphics graphics, int mousex, int mousey, float partialTick) {
         super.render(graphics, mousex, mousey, partialTick);
+        int relX = (this.width - this.imageWidth) / 2;
+        int relY = (this.height - this.imageHeight) / 2;
+        renderGlassSlotOverlay(graphics, relX, relY);
         renderTooltip(graphics, mousex, mousey);
     }
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int mousex, int mousey) {
+    }
+
+    public void renderGlassSlotOverlay(GuiGraphics graphics, int relX, int relY) {
+        graphics.blit(GUI, relX + 108, relY + 59, 0, 230, 16, 16);
     }
 }

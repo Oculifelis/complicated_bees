@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
@@ -38,10 +39,7 @@ public class MicroscopeBlockEntity extends BaseContainerBlockEntity {
 
             @Override
             protected void onContentsChanged(int slot) {
-                setChanged();
-                //todo: blockrenderer not updating to empty until opened again
-                if(!level.isClientSide())
-                    level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+                markDirty();
             }
         };
     }
@@ -111,6 +109,12 @@ public class MicroscopeBlockEntity extends BaseContainerBlockEntity {
 
     public ItemStackHandler getItemHandler() {
         return itemHandler;
+    }
+
+    public void markDirty() {
+        this.setChanged();
+        ComplicatedBees.LOGGER.debug("sending packet, client: {}", level.isClientSide());
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     @Nullable

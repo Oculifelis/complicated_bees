@@ -25,8 +25,8 @@ public class MicroscopeBlockEntityRenderer implements BlockEntityRenderer<Micros
     @Override
     public void render(MicroscopeBlockEntity be, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-
-        ItemStack stack = be.getItem(0);
+        if (be.isEmpty())
+            return;
         poseStack.pushPose();
         switch (be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING)) {
             case EAST -> {
@@ -54,6 +54,7 @@ public class MicroscopeBlockEntityRenderer implements BlockEntityRenderer<Micros
             }
         }
 
+        ItemStack stack = be.getItem(0);
         itemRenderer.renderStatic(stack, ItemDisplayContext.GUI, getLightLevel(be.getLevel(), be.getBlockPos()), OverlayTexture.NO_OVERLAY, poseStack, bufferSource, be.getLevel(), 1);
         poseStack.popPose();
     }
