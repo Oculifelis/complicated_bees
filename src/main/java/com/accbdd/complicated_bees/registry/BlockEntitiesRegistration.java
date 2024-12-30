@@ -1,9 +1,6 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
-import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
-import com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity;
-import com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity;
+import com.accbdd.complicated_bees.block.entity.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,5 +20,7 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(BeeNestBlockEntity::new, BlocksRegistration.BEE_NEST.get()).build(null));
     public static final Supplier<BlockEntityType<GeneratorBlockEntity>> GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("generator",
             () -> BlockEntityType.Builder.of(GeneratorBlockEntity::new, BlocksRegistration.GENERATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<MicroscopeBlockEntity>> MICROSCOPE_BLOCK_ENTITY = BLOCK_ENTITIES.register("microscope",
+            () -> BlockEntityType.Builder.of(MicroscopeBlockEntity::new, BlocksRegistration.MICROSCOPE.get()).build(null));
 
 }

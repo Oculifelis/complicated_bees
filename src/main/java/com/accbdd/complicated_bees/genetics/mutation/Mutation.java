@@ -84,7 +84,7 @@ public class Mutation {
         for (IMutationCondition condition : conditions) {
             ResourceLocation loc = ComplicatedBees.MUTATION_CONDITION_REGISTRY.get().getKey(condition);
             if (loc == null) {
-                ComplicatedBees.LOGGER.error("tried to serialize non-registered mutation condition!");
+                ComplicatedBees.LOGGER.error("tried to serialize non-registered mutation condition! description: {}", condition.getDescription());
             } else {
                 tag.put(loc.toString(), condition.serialize());
             }

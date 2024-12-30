@@ -1,9 +1,6 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.screen.AnalyzerMenu;
-import com.accbdd.complicated_bees.screen.ApiaryMenu;
-import com.accbdd.complicated_bees.screen.CentrifugeMenu;
-import com.accbdd.complicated_bees.screen.GeneratorMenu;
+import com.accbdd.complicated_bees.screen.*;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,6 +19,9 @@ public class MenuRegistration {
             () -> IForgeMenuType.create((windowId, inv, data) -> new ApiaryMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<GeneratorMenu>> GENERATOR_MENU = MENU_TYPES.register("generator",
             () -> IForgeMenuType.create(((windowId, inv, data) -> new GeneratorMenu(windowId, inv.player, data.readBlockPos()))));
+    public static final Supplier<MenuType<MicroscopeMenu>> MICROSCOPE_MENU = MENU_TYPES.register("microscope",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MicroscopeMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<AnalyzerMenu>> ANALYZER_MENU = MENU_TYPES.register("analyzer",
             () -> IForgeMenuType.create((windowId, playerInv, data) -> AnalyzerMenu.fromNetwork(windowId, playerInv)));
+
 }

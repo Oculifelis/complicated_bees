@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees;
 
 import com.accbdd.complicated_bees.block.BeeNestBlock;
+import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.config.Config;
@@ -16,10 +17,7 @@ import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationConditio
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.particle.BeeParticle;
 import com.accbdd.complicated_bees.registry.*;
-import com.accbdd.complicated_bees.screen.AnalyzerScreen;
-import com.accbdd.complicated_bees.screen.ApiaryScreen;
-import com.accbdd.complicated_bees.screen.CentrifugeScreen;
-import com.accbdd.complicated_bees.screen.GeneratorScreen;
+import com.accbdd.complicated_bees.screen.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -31,6 +29,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -234,6 +233,7 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.APIARY_MENU.get(), ApiaryScreen::new);
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
+                MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);
             });
         }
 
@@ -246,6 +246,11 @@ public class ComplicatedBees {
         public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(EsotericRegistration.BEE_PARTICLE.get(),
                     BeeParticle.Provider::new);
+        }
+
+        @SubscribeEvent
+        public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(BlockEntitiesRegistration.MICROSCOPE_BLOCK_ENTITY.get(), MicroscopeBlockEntityRenderer::new);
         }
     }
 }
