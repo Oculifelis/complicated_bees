@@ -49,6 +49,8 @@ jobs:
           modrinth-id: uhqEKIQS
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
 
+          changelog-file: changelog.md
+
           version-type: release
 
           loaders: forge
