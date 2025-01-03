@@ -57,14 +57,18 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
 
     @Override
     public void discover(Species species) {
-        discoveredSpecies.add(SpeciesRegistration.getResourceLocation(species));
-        setDirty();
+        if (!discoveredSpecies.contains(species)) {
+            discoveredSpecies.add(SpeciesRegistration.getResourceLocation(species));
+            setDirty();
+        }
     }
 
     @Override
     public void discover(Mutation mutation) {
-        discoveredMutations.add(MutationRegistration.getResourceLocation(mutation));
-        setDirty();
+        if (!discoveredMutations.contains(mutation)) {
+            discoveredMutations.add(MutationRegistration.getResourceLocation(mutation));
+            setDirty();
+        }
     }
 
     @Override
