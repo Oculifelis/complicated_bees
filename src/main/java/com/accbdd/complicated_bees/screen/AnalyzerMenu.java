@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
+import com.accbdd.complicated_bees.genetics.GeneticHelper;
+import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
@@ -28,9 +30,14 @@ public class AnalyzerMenu extends AbstractContainerMenu {
             protected void onContentsChanged(int slot) {
                 if (getSlot(0).hasItem()) {
                     ItemStack bee = getSlot(1).getItem();
-                    if (!isBeeAnalyzed() && !bee.isEmpty()) {
-                        bee.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
-                        getSlot(0).remove(1);
+                    if (!bee.isEmpty()) {
+                        var tracker = ServerBreedingTracker.getTracker(player);
+                        tracker.discover(GeneticHelper.getSpecies(bee, true));
+                        tracker.discover(GeneticHelper.getSpecies(bee, false));
+                        if (!isBeeAnalyzed()) {
+                            bee.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
+                            getSlot(0).remove(1);
+                        }
                     }
                 }
                 player.getInventory().getItem(bagSlot).getOrCreateTag().put(INVENTORY_TAG, this.serializeNBT());
