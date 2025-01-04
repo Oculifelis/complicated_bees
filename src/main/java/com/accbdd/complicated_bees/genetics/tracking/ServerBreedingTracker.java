@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.genetics.tracking;
 
+import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -8,7 +9,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
@@ -57,17 +60,33 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
 
     @Override
     public void discover(Species species) {
-        if (!discoveredSpecies.contains(species)) {
+        if (!discoveredSpecies.contains(SpeciesRegistration.getResourceLocation(species))) {
             discoveredSpecies.add(SpeciesRegistration.getResourceLocation(species));
             setDirty();
+            //debug messages
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            var playerName = server.getPlayerList().getPlayer(playerId).getName();
+            server.getPlayerList().broadcastSystemMessage(
+                    MutableComponent.create(playerName.getContents())
+                            .append(" has discovered ")
+                            .append(GeneticHelper.getTranslationKey(species)),
+                    false);
         }
     }
 
     @Override
     public void discover(Mutation mutation) {
-        if (!discoveredMutations.contains(mutation)) {
+        if (!discoveredMutations.contains(MutationRegistration.getResourceLocation(mutation))) {
             discoveredMutations.add(MutationRegistration.getResourceLocation(mutation));
             setDirty();
+            //debug messages
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            var playerName = server.getPlayerList().getPlayer(playerId).getName();
+            server.getPlayerList().broadcastSystemMessage(
+                    MutableComponent.create(playerName.getContents())
+                            .append(" has discovered ")
+                            .append(MutationRegistration.getResourceLocation(mutation).toString()),
+                    false);
         }
     }
 
