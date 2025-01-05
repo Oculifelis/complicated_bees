@@ -577,5 +577,12 @@
   "tag.item.complicated_bees.bee": "Bees",
   "tag.item.complicated_bees.frame": "Frames",
   "tag.item.complicated_bees.royal": "Royal Bees",
-  "tag.item.complicated_bees.scoop_tool": "Scoop Tools"
+  "tag.item.complicated_bees.scoop_tool": "Scoop Tools",
+
+  "command.complicated_bees.discover.species.clear": "Cleared species discoveries from %s players",
+  "command.complicated_bees.discover.species": "Discovered %s for %s players",
+  "command.complicated_bees.discover.species.no_change": "Species already discovered!",
+  "command.complicated_bees.discover.mutation.clear": "Cleared mutation discoveries from %s players",
+  "command.complicated_bees.discover.mutation": "Discovered %s for %s players",
+  "command.complicated_bees.discover.mutation.no_change": "Mutation already discovered!"
 }

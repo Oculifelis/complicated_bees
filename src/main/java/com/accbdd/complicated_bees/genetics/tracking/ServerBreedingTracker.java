@@ -1,8 +1,10 @@
 package com.accbdd.complicated_bees.genetics.tracking;
 
+import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
+import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +15,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -58,9 +61,18 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         return discoveredMutations.contains(MutationRegistration.getResourceLocation(mutation));
     }
 
+    public void discoverIndividual(ItemStack stack) {
+        if (stack.is(ItemTagGenerator.BEE)) {
+            discover(GeneticHelper.getSpecies(stack, true));
+            if (stack.getOrCreateTag().getBoolean(BeeItem.ANALYZED_TAG)) {
+                discover(GeneticHelper.getSpecies(stack, false));
+            }
+        }
+    }
+
     @Override
     public void discover(Species species) {
-        if (!discoveredSpecies.contains(SpeciesRegistration.getResourceLocation(species))) {
+        if (!isDiscovered(species)) {
             discoveredSpecies.add(SpeciesRegistration.getResourceLocation(species));
             setDirty();
             //debug messages
@@ -76,7 +88,7 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
 
     @Override
     public void discover(Mutation mutation) {
-        if (!discoveredMutations.contains(MutationRegistration.getResourceLocation(mutation))) {
+        if (!isDiscovered(mutation)) {
             discoveredMutations.add(MutationRegistration.getResourceLocation(mutation));
             setDirty();
             //debug messages
@@ -88,6 +100,16 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
                             .append(MutationRegistration.getResourceLocation(mutation).toString()),
                     false);
         }
+    }
+
+    public void clearSpecies() {
+        discoveredSpecies.clear();
+        setDirty();
+    }
+
+    public void clearMutations() {
+        discoveredMutations.clear();
+        setDirty();
     }
 
     @Override

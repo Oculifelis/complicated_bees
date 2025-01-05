@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
+import com.accbdd.complicated_bees.command.ModCommands;
 import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
@@ -35,6 +36,7 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -214,6 +216,11 @@ public class ComplicatedBees {
     public void registerSerializers(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS,
                 helper -> CraftingHelper.register(ItemEnabledCondition.Serializer.INSTANCE));
+    }
+
+    @SubscribeEvent
+    public void registerCommands(RegisterCommandsEvent event) {
+        ModCommands.register(event.getDispatcher(), event.getBuildContext());
     }
 
     @SubscribeEvent
