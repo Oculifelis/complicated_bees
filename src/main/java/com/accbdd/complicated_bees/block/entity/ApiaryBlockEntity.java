@@ -39,10 +39,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -68,6 +65,9 @@ public class ApiaryBlockEntity extends BlockEntity {
     public static final int CYCLE_LENGTH = Config.CONFIG.productionCycleLength.get();
     public static final String CYCLE_TAG = "cycle";
     public static final int SATISFY_CYCLE_LENGTH = Config.CONFIG.enviroCycleLength.get();
+
+    public static final String OWNER_TAG = "owner";
+    private UUID owner = null;
 
     private final ContainerData data;
     private int cycleProgress = 0;
@@ -122,7 +122,7 @@ public class ApiaryBlockEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap== ForgeCapabilities.ITEM_HANDLER) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             if (side == null) {
                 return this.getItemHandler().cast();
             }
@@ -199,6 +199,15 @@ public class ApiaryBlockEntity extends BlockEntity {
         return CYCLE_LENGTH - this.cycleProgress;
     }
 
+    public void setOwner(UUID owner) {
+        this.owner = owner;
+    }
+
+    @Nullable
+    public UUID getOwner() {
+        return owner;
+    }
+
     private ItemStackHandler createOutputHandler() {
         return new ItemStackHandler(ApiaryBlockEntity.OUTPUT_SLOT_COUNT) {
             @Override
@@ -259,6 +268,8 @@ public class ApiaryBlockEntity extends BlockEntity {
         tag.put(ITEMS_BEES_TAG, beeItems.serializeNBT());
         tag.put(ITEMS_OUTPUT_TAG, outputItems.serializeNBT());
         tag.put(FRAME_SLOT_TAG, frameItems.serializeNBT());
+        if (owner != null)
+            tag.putUUID(OWNER_TAG, owner);
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : outputBuffer) {
             bufferTag.add(stack.save(new CompoundTag()));
@@ -284,6 +295,9 @@ public class ApiaryBlockEntity extends BlockEntity {
                 outputBuffer.add(ItemStack.of((CompoundTag) itemCompound));
             }
         }
+        if (tag.contains(OWNER_TAG))
+            owner = tag.getUUID(OWNER_TAG);
+
         satisfyCycleProgress = SATISFY_CYCLE_LENGTH - new Random().nextInt(20, 80);
     }
 
