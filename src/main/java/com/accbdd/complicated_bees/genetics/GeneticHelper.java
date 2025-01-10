@@ -1,11 +1,13 @@
 package com.accbdd.complicated_bees.genetics;
 
+import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
 import com.accbdd.complicated_bees.genetics.gene.GeneSpecies;
 import com.accbdd.complicated_bees.genetics.gene.GeneTolerant;
 import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.genetics.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
@@ -24,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -159,11 +163,15 @@ public class GeneticHelper {
     private static Genome mixGenomes(Genome left, Genome right, Level level, BlockPos pos, float... mutationModifiers) {
         Chromosome chromosome_a = new Chromosome();
         Chromosome chromosome_b = new Chromosome();
-        Chromosome mutated_a = null;
-        Chromosome mutated_b = null;
         float mutationChanceMod = 1;
         for (float f : mutationModifiers) {
             mutationChanceMod *= f;
+        }
+        List<Mutation> possibleMutations = new ArrayList<>();
+        ServerBreedingTracker tracker = null;
+
+        if (level.getBlockEntity(pos) instanceof ApiaryBlockEntity apiary && apiary.getOwner() != null) {
+            tracker = ServerBreedingTracker.getTracker(apiary.getOwner());
         }
 
         for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {
@@ -186,9 +194,7 @@ public class GeneticHelper {
                             canMutate = canMutate && condition.check(level, pos);
                         if (canMutate) {
                             if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod))
-                                mutated_a = mutation.getResultSpecies().getDefaultChromosome();
-                            if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod))
-                                mutated_b = mutation.getResultSpecies().getDefaultChromosome();
+                                possibleMutations.add(mutation);
                         }
                     }
                 }
@@ -198,9 +204,23 @@ public class GeneticHelper {
             chromosome_b.setGene(key, geneB);
         }
 
-        //set default chromosome if mutation found
-        if (mutated_a != null) chromosome_a = mutated_a.copy();
-        if (mutated_b != null) chromosome_b = mutated_b.copy();
+        //pick a random possible mutation, and assign it to a chromosome, rolling again to see if we double mutate
+        if (!possibleMutations.isEmpty()) {
+            Mutation selected = possibleMutations.get(rand.nextInt(possibleMutations.size()));
+            boolean doubleMutate = (rand.nextFloat() < (selected.getChance() * mutationChanceMod));
+            if (tracker != null)
+                tracker.discover(selected);
+
+            if (rand.nextFloat() < 0.5) {
+                chromosome_a = selected.getResultSpecies().getDefaultChromosome().copy();
+                if (doubleMutate)
+                    chromosome_b = chromosome_a.copy();
+            } else {
+                chromosome_b = selected.getResultSpecies().getDefaultChromosome().copy();
+                if (doubleMutate)
+                    chromosome_a = chromosome_b.copy();
+            }
+        }
 
         //sort genome so that dominant genes are always in a
         for (Map.Entry<ResourceLocation, IGene<?>> entry : chromosome_a.getGenes().entrySet()) {
