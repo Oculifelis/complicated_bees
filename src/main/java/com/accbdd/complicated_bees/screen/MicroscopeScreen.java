@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -29,6 +30,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super.render(graphics, mousex, mousey, partialTick);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
+        renderText(graphics, relX, relY);
         renderGlassSlotOverlay(graphics, relX, relY);
         renderTooltip(graphics, mousex, mousey);
     }
@@ -40,4 +42,10 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public void renderGlassSlotOverlay(GuiGraphics graphics, int relX, int relY) {
         graphics.blit(GUI, relX + 108, relY + 59, 0, 230, 16, 16);
     }
+
+    public void renderText(GuiGraphics graphics, int relX, int relY) {
+        graphics.drawString(Minecraft.getInstance().font, String.format("%d mutations found out of %d", menu.discoveredMutations, menu.totalMutations), relX+8, relY+8, 0xFFFFFF);
+    }
+
+
 }
