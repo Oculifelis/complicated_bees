@@ -23,7 +23,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
-            addSlot(new TagSlot(microscope.getItemHandler(), 0, 108, 59, ItemTagGenerator.BEE));
+            addSlot(new TagSlot(microscope.getItems(), 0, 108, 59, ItemTagGenerator.BEE));
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
         }
     }

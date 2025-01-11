@@ -4,34 +4,33 @@ import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MicroscopeBlockEntity extends BaseContainerBlockEntity {
-    public NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    private final ItemStackHandler itemHandler = createItemHandler(items);
+public class MicroscopeBlockEntity extends BlockEntity {
+    public static final String ITEMS_TAG = "items";
+    private final ItemStackHandler items = createItemHandler();
+    private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
 
     public MicroscopeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistration.MICROSCOPE_BLOCK_ENTITY.get(), pos, state);
     }
 
-    private ItemStackHandler createItemHandler(NonNullList<ItemStack> items) {
-        return new ItemStackHandler(items) {
+    private ItemStackHandler createItemHandler() {
+        return new ItemStackHandler(1) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.is(ItemTagGenerator.BEE);
@@ -47,74 +46,37 @@ public class MicroscopeBlockEntity extends BaseContainerBlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        ContainerHelper.saveAllItems(tag, this.items);
+        tag.put(ITEMS_TAG, items.serializeNBT());
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        ContainerHelper.loadAllItems(tag, this.items);
+        if (tag.contains(ITEMS_TAG)) {
+            items.deserializeNBT(tag.getCompound(ITEMS_TAG));
+        }
     }
 
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("block.complicated_bees.microscope");
-    }
-
-    @Override
-    protected AbstractContainerMenu createMenu(int id, Inventory playerInv) {
-        return null;
-    }
-
-    @Override
-    public int getContainerSize() {
-        return 1;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return items.get(0).isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int index) {
-        return itemHandler.getStackInSlot(index);
-    }
-
-    @Override
-    public ItemStack removeItem(int index, int count) {
-        return itemHandler.extractItem(index, count, false);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int index) {
-        return ContainerHelper.takeItem(this.items, index);
-    }
-
-    @Override
-    public void setItem(int index, ItemStack stack) {
-        itemHandler.setStackInSlot(index, stack);
-        this.setChanged();
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return Container.stillValidBlockEntity(this, player);
-    }
-
-    @Override
-    public void clearContent() {
-        itemHandler.setStackInSlot(0, ItemStack.EMPTY);
-    }
-
-    public ItemStackHandler getItemHandler() {
+    public LazyOptional<IItemHandler> getItemHandler() {
         return itemHandler;
+    }
+
+    public ItemStackHandler getItems() {
+        return items;
     }
 
     public void markDirty() {
         this.setChanged();
         ComplicatedBees.LOGGER.debug("sending packet, client: {}", level.isClientSide());
         this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+    }
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+            return getItemHandler().cast();
+
+        return super.getCapability(cap, side);
     }
 
     @Nullable
