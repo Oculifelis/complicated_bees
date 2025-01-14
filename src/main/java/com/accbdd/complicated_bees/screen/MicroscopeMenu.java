@@ -64,6 +64,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     }
 
     private int[] totalMutations() {
+        //todo: optimize
         ItemStack bee = getSlot(0).getItem();
         if (bee.isEmpty())
             return new int[]{0,0};
