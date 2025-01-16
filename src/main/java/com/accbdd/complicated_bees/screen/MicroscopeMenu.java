@@ -6,7 +6,6 @@ import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,66 +14,54 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Random;
+
 public class MicroscopeMenu extends AbstractContainerMenu {
     public static int SLOT_COUNT = 1;
 
     private final BlockPos pos;
     private final Player player;
-    protected int totalMutations = 0;
-    protected int discoveredMutations = 0;
+    private byte[] researchCode;
+    private byte difficulty;
+//    protected int totalMutations = 0;
+//    protected int discoveredMutations = 0;
 
     public MicroscopeMenu(int windowId, Player player, BlockPos pos) {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         this.player = player;
+        this.difficulty = 5;
+        this.researchCode = new byte[difficulty];
+        for (byte i = 0; i < difficulty; i++) {
+            researchCode[i] = i;
+        }
+        shuffle();
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
-            addSlot(new TagSlot(microscope.getItems(), 0, 108, 59, ItemTagGenerator.BEE));
-//            addDataSlot(new DataSlot() {
-//                @Override
-//                public int get() {
-//                    return totalMutations()[0];
-//                }
-//
-//                @Override
-//                public void set(int pValue) {
-//                    totalMutations = pValue;
-//                }
-//            });
-//            addDataSlot(new DataSlot() {
-//                @Override
-//                public int get() {
-//                    return totalMutations()[1];
-//                }
-//
-//                @Override
-//                public void set(int pValue) {
-//                    discoveredMutations = pValue;
-//                }
-//            });
+            addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE));
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
         }
     }
 
-//    private int[] totalMutations() {
-//        //todo: optimize?
-//        ItemStack bee = getSlot(0).getItem();
-//        if (bee.isEmpty())
-//            return new int[]{0,0};
-//        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
-//        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
-//        List<Mutation> mutationList = mutationRegistry.stream().filter(
-//                mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
-//        ).toList();
-//        List<ResourceLocation> discovered = ServerBreedingTracker.getTracker(this.player).getDiscoveredMutations().stream().filter(
-//                location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
-//        ).toList();
-//
-//        return new int[]{mutationList.size(), discovered.size()};
-//    }
+    public byte[] getResearchCode() {
+        return researchCode;
+    }
 
-    public void playerWin() {
-        this.player.sendSystemMessage(Component.literal("you win!"));
-        setData(0, 1);
+    public BlockPos getPos() {
+        return pos;
+    }
+
+    public byte getDifficulty() {
+        return difficulty;
+    }
+
+    private void shuffle() {
+        Random rnd = new Random();
+        for (int i = researchCode.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i+1);
+            int a = researchCode[index];
+            researchCode[index] = researchCode[i];
+            researchCode[i] = (byte)a;
+        }
     }
 
     private int addSlotRange(Container playerInventory, int index, int x, int y, int amount, int dx) {

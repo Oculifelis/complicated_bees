@@ -1,33 +1,32 @@
 package com.accbdd.complicated_bees.screen.widget.microscope;
 
+import com.accbdd.complicated_bees.network.PacketHandler;
+import com.accbdd.complicated_bees.network.packet.WireGamePacketClientbound;
+import com.accbdd.complicated_bees.network.packet.WireGamePacketServerbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
 import java.util.Arrays;
-import java.util.Random;
-import java.util.stream.IntStream;
 
-public class ConnectWiresGame extends AbstractMicroscopeGame {
+public class ConnectWiresGame extends BaseMicroscopeGame {
 
-    int[] correctLinks;
-    int[] currentLinks;
+    byte[] currentGuess;
     int[] squareColors;
     int lastClicked = -1;
     int squareSize, squarePairs;
-    boolean won = false;
+    WireGamePacketClientbound.GameState gameState;
     MicroscopeScreen screen;
 
     public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty, MicroscopeScreen screen) {
         super(pX, pY, width, height);
         this.screen = screen;
         squarePairs = difficulty;
-        correctLinks = IntStream.range(squarePairs, squarePairs*2).toArray();
-        currentLinks = new int[squarePairs];
+        currentGuess = new byte[squarePairs];
         squareColors = new int[squarePairs * 2];
+        Arrays.fill(currentGuess, (byte)-1);
         squareSize = width/squarePairs;
-        reset();
     }
 
     @Override
@@ -56,9 +55,9 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     }
 
     private void drawAllLinks(GuiGraphics graphics) {
-        for (int i = 0; i < currentLinks.length; i++) {
-            if (currentLinks[i] != -1)
-                drawLineBetween(graphics, getSquareX(i)+squareSize/2, getSquareY(i)+squareSize/2, getSquareX(currentLinks[i])+squareSize/2, getSquareY(currentLinks[i])+squareSize/2);
+        for (int i = 0; i < currentGuess.length; i++) {
+            if (currentGuess[i] != -1)
+                drawLineBetween(graphics, getSquareX(i)+squareSize/2, getSquareY(i)+squareSize/2, getSquareX(currentGuess[i]+squarePairs)+squareSize/2, getSquareY(currentGuess[i]+squarePairs)+squareSize/2);
         }
     }
 
@@ -78,61 +77,41 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         graphics.pose().popPose();
     }
 
-    public boolean isWon() {
-        return won;
-    }
-
     @Override
     public void onClick(double pMouseX, double pMouseY) {
         super.onClick(pMouseX, pMouseY);
-        int clickedSquare = getSquare(pMouseX, pMouseY);
+        byte clickedSquare = getSquare(pMouseX, pMouseY);
         if (clickedSquare == -1)
             return;
-        if (squareColors[clickedSquare] == 0xFF00FF00)
-            return;
         if (lastClicked != -1 && lastClicked < squarePairs && clickedSquare >= squarePairs) {
-            currentLinks[lastClicked] = clickedSquare;
-            if (clickedSquare == correctLinks[lastClicked]) {
-                squareColors[clickedSquare] = 0xFF00FF00;
-                squareColors[lastClicked] = 0xFF00FF00;
-            } else {
-                //reset();
-            }
+            currentGuess[lastClicked] = (byte) (clickedSquare - squarePairs);
+            sendGuess(currentGuess);
+            squareColors[lastClicked] = 0xFF00FF00;
+            squareColors[clickedSquare] = 0xFF00FF00;
             lastClicked = -1;
         } else {
             lastClicked = clickedSquare;
         }
-
-        if (Arrays.equals(currentLinks, correctLinks)) {
-            won = true;
-        }
     }
 
-    private int getSquare(double pX, double pY) {
+    private byte getSquare(double pX, double pY) {
         if (getX() < pX && pX < getX()+getWidth() && getY() < pY && pY < getY()+getHeight()) {
             if (pY < getY() + squareSize) {
-                return (int)(pX-getX()) / squareSize;
+                return (byte) ((pX-getX()) / squareSize);
             } else if (pY > getY()+getHeight()-squareSize) {
-                return (int)(pX-getX()) / squareSize + squarePairs;
+                return (byte) ((pX-getX()) / squareSize + squarePairs);
             }
         }
         return -1;
     }
 
-    private void shuffle() {
-        Random rnd = new Random();
-        for (int i = correctLinks.length - 1; i > 0; i--) {
-            int index = rnd.nextInt(i+1);
-            int a = correctLinks[index];
-            correctLinks[index] = correctLinks[i];
-            correctLinks[i] = a;
-        }
+    @Override
+    public void sendGuess(byte[] guess) {
+        PacketHandler.CHANNEL.sendToServer(new WireGamePacketServerbound(guess));
     }
 
-    private void reset() {
-        lastClicked = -1;
-        Arrays.fill(currentLinks, -1);
-        Arrays.fill(squareColors, 0xFFCCCCCC);
-        shuffle();
+    @Override
+    public void setGameState(WireGamePacketClientbound.GameState state) {
+        gameState = state;
     }
 }

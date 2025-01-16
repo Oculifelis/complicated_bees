@@ -17,6 +17,7 @@ import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.item.CombItem;
+import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.particle.BeeParticle;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.*;
@@ -44,6 +45,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.*;
@@ -148,6 +150,7 @@ public class ComplicatedBees {
         modEventBus.addListener(this::registerSerializers);
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
+        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(DataGenerators::generate);
 
         if(FMLLoader.getDist().isClient()) {
@@ -221,6 +224,11 @@ public class ComplicatedBees {
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
         ModCommands.register(event.getDispatcher(), event.getBuildContext());
+    }
+
+    @SubscribeEvent
+    public void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(PacketHandler::register);
     }
 
     @SubscribeEvent
