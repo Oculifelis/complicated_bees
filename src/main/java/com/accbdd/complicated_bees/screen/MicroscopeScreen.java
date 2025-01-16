@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
-import net.minecraft.client.Minecraft;
+import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -16,6 +16,13 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super(container, inventory, title);
         this.imageWidth = 231;
         this.imageHeight = 216;
+
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 6));
     }
 
     @Override
@@ -28,10 +35,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     @Override
     public void render(GuiGraphics graphics, int mousex, int mousey, float partialTick) {
         super.render(graphics, mousex, mousey, partialTick);
-        int relX = (this.width - this.imageWidth) / 2;
-        int relY = (this.height - this.imageHeight) / 2;
-        renderText(graphics, relX, relY);
-        renderGlassSlotOverlay(graphics, relX, relY);
+        renderGlassSlotOverlay(graphics);
         renderTooltip(graphics, mousex, mousey);
     }
 
@@ -39,13 +43,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void renderLabels(GuiGraphics graphics, int mousex, int mousey) {
     }
 
-    public void renderGlassSlotOverlay(GuiGraphics graphics, int relX, int relY) {
-        graphics.blit(GUI, relX + 108, relY + 59, 0, 230, 16, 16);
+    public void renderGlassSlotOverlay(GuiGraphics graphics) {
+        graphics.blit(GUI, leftPos + 108, topPos + 59, 0, 230, 16, 16);
     }
-
-    public void renderText(GuiGraphics graphics, int relX, int relY) {
-        graphics.drawString(Minecraft.getInstance().font, String.format("%d mutations found out of %d", menu.discoveredMutations, menu.totalMutations), relX+8, relY+8, 0xFFFFFF);
-    }
-
-
 }
