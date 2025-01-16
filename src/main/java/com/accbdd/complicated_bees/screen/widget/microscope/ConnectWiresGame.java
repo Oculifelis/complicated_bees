@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen.widget.microscope;
 
+import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -15,17 +16,18 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     int[] squareColors;
     int lastClicked = -1;
     int squareSize, squarePairs;
+    boolean won = false;
+    MicroscopeScreen screen;
 
-    public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty) {
+    public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty, MicroscopeScreen screen) {
         super(pX, pY, width, height);
+        this.screen = screen;
         squarePairs = difficulty;
         correctLinks = IntStream.range(squarePairs, squarePairs*2).toArray();
         currentLinks = new int[squarePairs];
         squareColors = new int[squarePairs * 2];
-        Arrays.fill(currentLinks, -1);
-        Arrays.fill(squareColors, 0xFFFF0000);
         squareSize = width/squarePairs;
-        shuffle();
+        reset();
     }
 
     @Override
@@ -76,6 +78,10 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         graphics.pose().popPose();
     }
 
+    public boolean isWon() {
+        return won;
+    }
+
     @Override
     public void onClick(double pMouseX, double pMouseY) {
         super.onClick(pMouseX, pMouseY);
@@ -90,12 +96,15 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
                 squareColors[clickedSquare] = 0xFF00FF00;
                 squareColors[lastClicked] = 0xFF00FF00;
             } else {
-                squareColors[clickedSquare] = 0xFFFF0000;
-                squareColors[lastClicked] = 0xFFFF0000;
+                //reset();
             }
             lastClicked = -1;
         } else {
             lastClicked = clickedSquare;
+        }
+
+        if (Arrays.equals(currentLinks, correctLinks)) {
+            won = true;
         }
     }
 
@@ -118,5 +127,12 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
             correctLinks[index] = correctLinks[i];
             correctLinks[i] = a;
         }
+    }
+
+    private void reset() {
+        lastClicked = -1;
+        Arrays.fill(currentLinks, -1);
+        Arrays.fill(squareColors, 0xFFCCCCCC);
+        shuffle();
     }
 }

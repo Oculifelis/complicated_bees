@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -70,6 +71,11 @@ public class MicroscopeMenu extends AbstractContainerMenu {
 //
 //        return new int[]{mutationList.size(), discovered.size()};
 //    }
+
+    public void playerWin() {
+        this.player.sendSystemMessage(Component.literal("you win!"));
+        setData(0, 1);
+    }
 
     private int addSlotRange(Container playerInventory, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {

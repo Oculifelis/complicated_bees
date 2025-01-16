@@ -11,6 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope.png");
+    ConnectWiresGame game;
 
     public MicroscopeScreen(MicroscopeMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -22,7 +23,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5));
+        game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
     }
 
     @Override
@@ -37,6 +38,10 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super.render(graphics, mousex, mousey, partialTick);
         renderGlassSlotOverlay(graphics);
         renderTooltip(graphics, mousex, mousey);
+        if (game.isWon()) {
+            getMinecraft().player.sendSystemMessage(Component.literal("you win!"));
+            onClose();
+        }
     }
 
     @Override
