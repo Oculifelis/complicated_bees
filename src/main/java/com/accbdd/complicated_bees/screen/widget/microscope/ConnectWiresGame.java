@@ -12,16 +12,19 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     int[] correctLinks;
     int[] currentLinks;
+    int[] squareColors;
     int lastClicked = -1;
     int squareSize, squarePairs;
 
-    public ConnectWiresGame(int pX, int pY, int difficulty) {
-        super(pX, pY, 120, 100);
+    public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty) {
+        super(pX, pY, width, height);
         squarePairs = difficulty;
-        correctLinks = IntStream.range(0, squarePairs).toArray();
+        correctLinks = IntStream.range(squarePairs, squarePairs*2).toArray();
         currentLinks = new int[squarePairs];
+        squareColors = new int[squarePairs * 2];
         Arrays.fill(currentLinks, -1);
-        squareSize = 120/squarePairs;
+        Arrays.fill(squareColors, 0xFFFF0000);
+        squareSize = width/squarePairs;
         shuffle();
     }
 
@@ -43,17 +46,17 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     }
 
     private void drawAllSquares(GuiGraphics graphics, int pX, int pY) {
-        for (int i = 0; i < (squarePairs *2); i++) {
+        for (int i = 0; i < (squarePairs*2); i++) {
             drawBorderedRectangle(graphics, getSquareX(i), getSquareY(i), squareSize, squareSize,
-                    i == lastClicked ? 0xFFFFCC00 : 0xFF00FF00,
-                    i == lastClicked ? 0xFFFF0000 : 0xFF0000FF);
+                    0xFFAAAAAA,
+                    lastClicked == i ? 0xFFFFCC00 : squareColors[i]);
         }
     }
 
     private void drawAllLinks(GuiGraphics graphics) {
         for (int i = 0; i < currentLinks.length; i++) {
             if (currentLinks[i] != -1)
-                drawLineBetween(graphics, getSquareX(i)+squareSize/2, getSquareY(i)+squareSize/2, getSquareX(currentLinks[i]+squarePairs)+squareSize/2, getSquareY(currentLinks[i]+squarePairs)+squareSize/2);
+                drawLineBetween(graphics, getSquareX(i)+squareSize/2, getSquareY(i)+squareSize/2, getSquareX(currentLinks[i])+squareSize/2, getSquareY(currentLinks[i])+squareSize/2);
         }
     }
 
@@ -77,8 +80,19 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     public void onClick(double pMouseX, double pMouseY) {
         super.onClick(pMouseX, pMouseY);
         int clickedSquare = getSquare(pMouseX, pMouseY);
+        if (clickedSquare == -1)
+            return;
+        if (squareColors[clickedSquare] == 0xFF00FF00)
+            return;
         if (lastClicked != -1 && lastClicked < squarePairs && clickedSquare >= squarePairs) {
-            currentLinks[lastClicked] = clickedSquare - squarePairs;
+            currentLinks[lastClicked] = clickedSquare;
+            if (clickedSquare == correctLinks[lastClicked]) {
+                squareColors[clickedSquare] = 0xFF00FF00;
+                squareColors[lastClicked] = 0xFF00FF00;
+            } else {
+                squareColors[clickedSquare] = 0xFFFF0000;
+                squareColors[lastClicked] = 0xFFFF0000;
+            }
             lastClicked = -1;
         } else {
             lastClicked = clickedSquare;

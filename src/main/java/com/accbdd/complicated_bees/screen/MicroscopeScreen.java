@@ -22,7 +22,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     @Override
     protected void init() {
         super.init();
-        addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 6));
+        addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5));
     }
 
     @Override
