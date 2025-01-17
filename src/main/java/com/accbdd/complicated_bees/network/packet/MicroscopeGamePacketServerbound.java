@@ -39,19 +39,19 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                 byte[] researchCode = microscopeMenu.getResearchCode();
                 ComplicatedBees.LOGGER.debug("we are in a microscope! guesses from client: {}, mutation code: {}", packet.guesses, researchCode);
                 if (Arrays.equals(packet.guesses, researchCode)) {
-                    PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new WireGamePacketClientbound(WireGamePacketClientbound.GameState.WON));
+                    PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.WON));
                     //microscopeMenu.getSlot(0).set(Items.DIAMOND.getDefaultInstance());
                     level.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                     microscopeMenu.research();
                 } else {
                     for (int i = 0; i < researchCode.length; i++) {
                         if (packet.guesses[i] != researchCode[i] && packet.guesses[i] != -1) {
-                            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new WireGamePacketClientbound(WireGamePacketClientbound.GameState.FAILED));
+                            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.FAILED));
                             level.sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                             return;
                         }
                     }
-                    PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new WireGamePacketClientbound(WireGamePacketClientbound.GameState.ONGOING));
+                    PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.ONGOING));
                 }
             }
         });

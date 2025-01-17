@@ -50,7 +50,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;
         }
-        resetGame();
+        startGame();
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
             addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE) {
                 @Override
@@ -58,7 +58,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                     super.setChanged();
                     queryTracker();
                     if (!getItem().isEmpty())
-                        resetGame();
+                        startGame();
                 }
             });
             addDataSlot(new DataSlot() {
@@ -93,9 +93,9 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         }
     }
 
-    private void resetGame() {
+    private void startGame() {
         shuffle();
-        if (player instanceof ServerPlayer serverPlayer)
+        if (player instanceof ServerPlayer serverPlayer && researchedMutations < totalMutations)
             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
     }
 

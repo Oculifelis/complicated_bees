@@ -54,4 +54,8 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public IMicroscopeGame getGame() {
         return game;
     }
+
+    public void clearGame() {
+        renderables.clear();
+    }
 }

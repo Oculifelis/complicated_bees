@@ -14,7 +14,8 @@ public record MicroscopeGamePacketClientbound(GameState state) implements IModPa
         WON,
         ONGOING,
         FAILED,
-        START
+        START,
+        CLEAR
     }
 
     @Override
@@ -40,6 +41,10 @@ public record MicroscopeGamePacketClientbound(GameState state) implements IModPa
             switch (state) {
                 case START:
                     screen.getGame().reset();
+                    break;
+                case CLEAR:
+                    screen.clearGame();
+                    break;
             }
         }
     }
