@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.network;
 
 import com.accbdd.complicated_bees.network.packet.IModPacket;
-import com.accbdd.complicated_bees.network.packet.WireGamePacketClientbound;
-import com.accbdd.complicated_bees.network.packet.WireGamePacketServerbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketServerbound;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkEvent;
@@ -27,8 +27,8 @@ public class PacketHandler {
     public static void register() {
         PacketRegistry registry = new PacketRegistry(CHANNEL);
 
-        registry.register(WireGamePacketServerbound.class, WireGamePacketServerbound::encode, WireGamePacketServerbound::decode, WireGamePacketServerbound::handle);
-        registry.register(WireGamePacketClientbound.class, WireGamePacketClientbound::encode, WireGamePacketClientbound::decode, WireGamePacketClientbound::handle);
+        registry.register(MicroscopeGamePacketServerbound.class, MicroscopeGamePacketServerbound::encode, MicroscopeGamePacketServerbound::decode, MicroscopeGamePacketServerbound::handle);
+        registry.register(MicroscopeGamePacketClientbound.class, MicroscopeGamePacketClientbound::encode, MicroscopeGamePacketClientbound::decode, MicroscopeGamePacketClientbound::handle);
     }
 
     private static final class PacketRegistry {

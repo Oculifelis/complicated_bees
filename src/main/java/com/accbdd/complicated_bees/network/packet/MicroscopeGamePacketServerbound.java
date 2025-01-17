@@ -17,17 +17,17 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public record WireGamePacketServerbound(byte[] guesses) implements IModPacket {
+public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPacket {
     @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeByteArray(guesses);
     }
 
-    public static WireGamePacketServerbound decode(FriendlyByteBuf buffer) {
-        return new WireGamePacketServerbound(buffer.readByteArray());
+    public static MicroscopeGamePacketServerbound decode(FriendlyByteBuf buffer) {
+        return new MicroscopeGamePacketServerbound(buffer.readByteArray());
     }
 
-    public static void handle(WireGamePacketServerbound packet, Supplier<NetworkEvent.Context> context) {
+    public static void handle(MicroscopeGamePacketServerbound packet, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ServerPlayer sender = context.get().getSender();
             if (sender.containerMenu instanceof MicroscopeMenu microscopeMenu) {

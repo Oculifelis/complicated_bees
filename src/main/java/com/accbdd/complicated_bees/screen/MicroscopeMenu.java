@@ -6,7 +6,7 @@ import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
 import com.accbdd.complicated_bees.network.PacketHandler;
-import com.accbdd.complicated_bees.network.packet.WireGamePacketClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -50,9 +50,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;
         }
-        shuffle();
+        resetGame();
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
-
             addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE) {
                 @Override
                 public void setChanged() {
@@ -97,7 +96,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private void resetGame() {
         shuffle();
         if (player instanceof ServerPlayer serverPlayer)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new WireGamePacketClientbound(WireGamePacketClientbound.GameState.START));
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
     }
 
     public byte[] getResearchCode() {

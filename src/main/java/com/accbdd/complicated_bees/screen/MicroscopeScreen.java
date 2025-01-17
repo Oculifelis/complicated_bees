@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import net.minecraft.client.Minecraft;
@@ -26,7 +25,6 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void init() {
         super.init();
         this.game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
-        ComplicatedBees.LOGGER.debug("added widget!");
     }
 
     @Override
