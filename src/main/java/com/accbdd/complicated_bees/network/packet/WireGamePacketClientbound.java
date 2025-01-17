@@ -1,10 +1,8 @@
 package com.accbdd.complicated_bees.network.packet;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -15,7 +13,8 @@ public record WireGamePacketClientbound(GameState state) implements IModPacket {
     public enum GameState {
         WON,
         ONGOING,
-        FAILED
+        FAILED,
+        START
     }
 
     @Override
@@ -38,11 +37,9 @@ public record WireGamePacketClientbound(GameState state) implements IModPacket {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
             GameState state = packet.state();
             screen.getGame().setGameState(state);
-            ComplicatedBees.LOGGER.debug("recieved packet, state {}", state);
-            if (state.equals(GameState.FAILED)) {
-                Minecraft.getInstance().player.sendSystemMessage(Component.literal("you failed :("));
-            } else if (state.equals(GameState.WON)) {
-                Minecraft.getInstance().player.sendSystemMessage(Component.literal("you won!"));
+            switch (state) {
+                case START:
+                    screen.getGame().reset();
             }
         }
     }

@@ -19,7 +19,6 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class ConnectWiresGame extends BaseMicroscopeGame {
     private static final ResourceLocation BG = new ResourceLocation(MODID, "textures/gui/microscope/matching.png");
     private static final int BORDER_WIDTH = 1;
-    private static final int MIN_SPACING = 5;
     private static final int VERTICAL_PADDING = 3;
     private static final int VERTICAL_SPACE = 29;
     private static final int MIN_SECTION_HEIGHT = 15;
@@ -190,6 +189,12 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
                 lastClicked = -1;
                 break;
         }
+    }
+
+    @Override
+    public void reset() {
+        setGameState(WireGamePacketClientbound.GameState.ONGOING);
+
     }
 
     private static final class Section {

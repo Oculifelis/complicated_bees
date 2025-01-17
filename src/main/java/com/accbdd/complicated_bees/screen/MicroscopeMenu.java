@@ -112,6 +112,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         if (bee.isEmpty()) {
             totalMutations = -1;
             researchedMutations = -1;
+            return;
         }
         ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();

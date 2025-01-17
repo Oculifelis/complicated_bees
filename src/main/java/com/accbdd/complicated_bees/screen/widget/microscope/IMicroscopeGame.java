@@ -6,4 +6,6 @@ public interface IMicroscopeGame {
     void sendGuess(byte[] guess);
 
     void setGameState(WireGamePacketClientbound.GameState state);
+
+    void reset();
 }
