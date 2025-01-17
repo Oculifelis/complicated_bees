@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void init() {
         super.init();
         this.game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
+        ComplicatedBees.LOGGER.debug("added widget!");
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super.render(graphics, mousex, mousey, partialTick);
         renderGlassSlotOverlay(graphics);
         if (getMenu().researchedMutations > -1)
-            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutations, getMenu().totalMutations), leftPos, topPos - 10, 0xFFFFFFFF);
+            graphics.drawString(Minecraft.getInstance().font, Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutations, getMenu().totalMutations), leftPos, topPos - 10, 0xFFFFFFFF);
         renderTooltip(graphics, mousex, mousey);
     }
 

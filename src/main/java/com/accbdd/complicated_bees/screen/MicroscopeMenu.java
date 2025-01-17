@@ -5,6 +5,8 @@ import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.network.PacketHandler;
+import com.accbdd.complicated_bees.network.packet.WireGamePacketClientbound;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -12,6 +14,7 @@ import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +23,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.Random;
@@ -51,16 +55,11 @@ public class MicroscopeMenu extends AbstractContainerMenu {
 
             addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE) {
                 @Override
-                public void onTake(Player pPlayer, ItemStack pStack) {
-                    super.onTake(pPlayer, pStack);
-                    totalMutations = -1;
-                    researchedMutations = -1;
-                }
-
-                @Override
-                public void setByPlayer(ItemStack pStack) {
-                    super.setByPlayer(pStack);
+                public void setChanged() {
+                    super.setChanged();
                     queryTracker();
+                    if (!getItem().isEmpty())
+                        resetGame();
                 }
             });
             addDataSlot(new DataSlot() {
@@ -93,6 +92,12 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             });
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
         }
+    }
+
+    private void resetGame() {
+        shuffle();
+        if (player instanceof ServerPlayer serverPlayer)
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new WireGamePacketClientbound(WireGamePacketClientbound.GameState.START));
     }
 
     public byte[] getResearchCode() {
@@ -192,6 +197,9 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             if (index < SLOT_COUNT) {
                 if (!this.moveItemStackTo(stack, SLOT_COUNT, Inventory.INVENTORY_SIZE + SLOT_COUNT, true)) {
                     return ItemStack.EMPTY;
+                } else {
+                    researchedMutations = -1;
+                    totalMutations = -1;
                 }
             }
             if (!this.moveItemStackTo(stack, 0, 2, false)) {

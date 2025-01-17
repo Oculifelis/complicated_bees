@@ -40,14 +40,12 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
         this.screen = screen;
         sectionPairs = difficulty;
         currentGuess = new byte[sectionPairs];
-        Arrays.fill(currentGuess, (byte)-1);
-        maxSectionWidth = width/sectionPairs;
-        gameState = WireGamePacketClientbound.GameState.ONGOING;
-        generateSections();
+        reset();
     }
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        //todo: add animation
         pGuiGraphics.blit(BG, getX(), getY(), 0, 0, getWidth(), getHeight());
         drawAllSections(pGuiGraphics, getX(), getY());
         drawAllLinks(pGuiGraphics);
@@ -121,6 +119,7 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     private void generateSections() {
         sections = new Section[sectionPairs * 2];
+        maxSectionWidth = getWidth()/sectionPairs;
         for (int i = 0; i < sections.length; i++) {
             int minX = (i % sectionPairs) * maxSectionWidth;
             int x = rand.nextInt(minX, minX+maxSectionWidth-MIN_SECTION_WIDTH);
@@ -174,6 +173,9 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     public void setGameState(WireGamePacketClientbound.GameState state) {
         gameState = state;
         switch (state) {
+            case START:
+                reset();
+                break;
             case FAILED:
                 lastClicked = -1;
                 for (byte i = 0; i < sections.length; i++) {
@@ -181,8 +183,8 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
                 }
                 bannerText = Component.translatable("gui.complicated_bees.microscope.sequence.lose");
                 break;
-            case ONGOING:
             case WON:
+            case ONGOING:
                 sections[lastClicked].color = 0x6600FF00;
                 sections[clickedSquare].color = 0x6600FF00;
                 bannerText = Component.translatable("gui.complicated_bees.microscope.sequence.win");
@@ -193,8 +195,10 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     @Override
     public void reset() {
-        setGameState(WireGamePacketClientbound.GameState.ONGOING);
-
+        maxSectionWidth = width/sectionPairs;
+        Arrays.fill(currentGuess, (byte)-1);
+        gameState = WireGamePacketClientbound.GameState.ONGOING;
+        generateSections();
     }
 
     private static final class Section {
