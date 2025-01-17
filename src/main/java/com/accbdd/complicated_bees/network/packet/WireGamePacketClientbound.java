@@ -41,7 +41,6 @@ public record WireGamePacketClientbound(GameState state) implements IModPacket {
             ComplicatedBees.LOGGER.debug("recieved packet, state {}", state);
             if (state.equals(GameState.FAILED)) {
                 Minecraft.getInstance().player.sendSystemMessage(Component.literal("you failed :("));
-                screen.onClose();
             } else if (state.equals(GameState.WON)) {
                 Minecraft.getInstance().player.sendSystemMessage(Component.literal("you won!"));
             }

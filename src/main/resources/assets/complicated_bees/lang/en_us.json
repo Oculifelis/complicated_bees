@@ -206,6 +206,10 @@
   "gui.complicated_bees.mutations.humidity_range": "Requires a humidity between %s and %s",
   "gui.complicated_bees.mutations.dimension": "Requires the %s dimension",
 
+  "gui.complicated_bees.microscope.sequence.lose": "SEQUENCE FAILED",
+  "gui.complicated_bees.microscope.sequence.win": "SEQUENCE COMPLETE",
+  "gui.complicated_bees.microscope.mutation_count": "You have researched %s of %s mutation(s).",
+
   "jei.complicated_bees.chance": "Chance",
 
   "comb.complicated_bees.invalid": "Any",

@@ -30,15 +30,18 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     public static String UUID_KEY = "uuid";
     public static String SPECIES_KEY = "species";
     public static String MUTATIONS_KEY = "mutations";
+    public static String RESEARCH_KEY = "researched";
 
     private final UUID playerId;
     protected final Set<ResourceLocation> discoveredSpecies;
     protected final Set<ResourceLocation> discoveredMutations;
+    protected final Set<ResourceLocation> researchedMutations;
 
     public ServerBreedingTracker(UUID playerId) {
         this.playerId = playerId;
         this.discoveredSpecies = new HashSet<>();
         this.discoveredMutations = new HashSet<>();
+        this.researchedMutations = new HashSet<>();
     }
 
     @Override
@@ -52,6 +55,11 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     }
 
     @Override
+    public Set<ResourceLocation> getResearchedMutations() {
+        return researchedMutations;
+    }
+
+    @Override
     public boolean isDiscovered(Species species) {
         return discoveredSpecies.contains(SpeciesRegistration.getResourceLocation(species));
     }
@@ -59,6 +67,11 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     @Override
     public boolean isDiscovered(Mutation mutation) {
         return discoveredMutations.contains(MutationRegistration.getResourceLocation(mutation));
+    }
+
+    @Override
+    public boolean isResearched(Mutation mutation) {
+        return researchedMutations.contains(MutationRegistration.getResourceLocation(mutation));
     }
 
     public void discoverIndividual(ItemStack stack) {
@@ -102,6 +115,22 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         }
     }
 
+    @Override
+    public void research(Mutation mutation) {
+        if (!isResearched(mutation)) {
+            researchedMutations.add(MutationRegistration.getResourceLocation(mutation));
+            setDirty();
+            //debug messages
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            var playerName = server.getPlayerList().getPlayer(playerId).getName();
+            server.getPlayerList().broadcastSystemMessage(
+                    MutableComponent.create(playerName.getContents())
+                            .append(" has researched ")
+                            .append(MutationRegistration.getResourceLocation(mutation).toString()),
+                    false);
+        }
+    }
+
     public void clearSpecies() {
         discoveredSpecies.clear();
         setDirty();
@@ -117,6 +146,7 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         pCompoundTag.putUUID(UUID_KEY, playerId);
         writeListToNBT(pCompoundTag, discoveredSpecies, SPECIES_KEY);
         writeListToNBT(pCompoundTag, discoveredMutations, MUTATIONS_KEY);
+        writeListToNBT(pCompoundTag, researchedMutations, RESEARCH_KEY);
         return pCompoundTag;
     }
 
@@ -126,6 +156,7 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         ServerBreedingTracker tracker = new ServerBreedingTracker(tag.getUUID(UUID_KEY));
         readListFromNBT(tag, str -> tracker.discoveredSpecies.add(ResourceLocation.tryParse(str)), SPECIES_KEY);
         readListFromNBT(tag, str -> tracker.discoveredMutations.add(ResourceLocation.tryParse(str)), MUTATIONS_KEY);
+        readListFromNBT(tag, str -> tracker.researchedMutations.add(ResourceLocation.tryParse(str)), RESEARCH_KEY);
         return tracker;
     }
 

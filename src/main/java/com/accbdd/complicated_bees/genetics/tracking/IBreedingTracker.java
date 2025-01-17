@@ -18,6 +18,11 @@ public interface IBreedingTracker {
     Collection<ResourceLocation> getDiscoveredMutations();
 
     /**
+     * @return a collection of researched mutations
+     */
+    Collection<ResourceLocation> getResearchedMutations();
+
+    /**
      * @param species the species to query
      * @return whether the player has discovered this species
      */
@@ -30,6 +35,12 @@ public interface IBreedingTracker {
     boolean isDiscovered(Mutation mutation);
 
     /**
+     * @param mutation the mutation to query
+     * @return whether the player has researched this mutation
+     */
+    boolean isResearched(Mutation mutation);
+
+    /**
      * @param species the species to mark as discovered
      */
     void discover(Species species);
@@ -38,4 +49,9 @@ public interface IBreedingTracker {
      * @param mutation the mutation to mark as discovered
      */
     void discover(Mutation mutation);
+
+    /**
+     * @param mutation the mutation to mark as researched
+     */
+    void research(Mutation mutation);
 }

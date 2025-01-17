@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -11,14 +12,13 @@ import net.minecraft.world.entity.player.Inventory;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope.png");
+    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope/base.png");
     private IMicroscopeGame game;
 
     public MicroscopeScreen(MicroscopeMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
         this.imageWidth = 248;
         this.imageHeight = 216;
-
     }
 
     @Override
@@ -38,6 +38,8 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public void render(GuiGraphics graphics, int mousex, int mousey, float partialTick) {
         super.render(graphics, mousex, mousey, partialTick);
         renderGlassSlotOverlay(graphics);
+        if (getMenu().researchedMutations > -1)
+            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutations, getMenu().totalMutations), leftPos, topPos - 10, 0xFFFFFFFF);
         renderTooltip(graphics, mousex, mousey);
     }
 
