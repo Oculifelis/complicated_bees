@@ -592,5 +592,8 @@
   "command.complicated_bees.discover.species.no_change": "Species already discovered!",
   "command.complicated_bees.discover.mutation.clear": "Cleared mutation discoveries from %s players",
   "command.complicated_bees.discover.mutation": "Discovered %s for %s players",
-  "command.complicated_bees.discover.mutation.no_change": "Mutation already discovered!"
+  "command.complicated_bees.discover.mutation.no_change": "Mutation already discovered!",
+  "command.complicated_bees.discover.research.clear": "Cleared mutation researches from %s players",
+  "command.complicated_bees.discover.research": "Researched %s for %s players",
+  "command.complicated_bees.discover.research.no_change": "Mutation already researched!"
 }

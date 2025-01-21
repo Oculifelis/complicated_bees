@@ -35,8 +35,48 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                                 ).then(Commands.literal("mutation")
                                         .then(Commands.literal("clear").executes(context -> clearMutations(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverMutation(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).get())))
+                                ).then(Commands.literal("research")
+                                        .then(Commands.literal("clear").executes(context -> clearResearch(context.getSource(), EntityArgument.getEntities(context, "targets"))))
+                                        .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).get())))
                 )))
         );
+    }
+
+    private static int clearResearch(CommandSourceStack source, Collection<? extends Entity> targets) throws CommandSyntaxException {
+        int i = 0;
+        for (Entity entity : targets) {
+            if (entity instanceof Player player) {
+                ++i;
+                ServerBreedingTracker.getTracker(player).clearResearch();
+            }
+        }
+        if (i == 0)
+            throw new SimpleCommandExceptionType(Component.literal("0 players found")).create();
+        else {
+            int finalI = i;
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research.clear", finalI), true);
+        }
+        return i;
+    }
+
+    private static int discoverResearch(CommandSourceStack source, Collection<? extends Entity> targets, Mutation mutation) throws CommandSyntaxException {
+        int i = 0;
+        for (Entity entity : targets) {
+            if (entity instanceof Player player) {
+                var tracker = ServerBreedingTracker.getTracker(player);
+                if (!tracker.isDiscovered(mutation)) {
+                    ++i;
+                    ServerBreedingTracker.getTracker(player).discover(mutation);
+                }
+            }
+        }
+        if (i == 0)
+            throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.discover.research.no_change")).create();
+        else {
+            int finalI = i;
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research", MutationRegistration.getResourceLocation(mutation), finalI), true);
+        }
+        return i;
     }
 
     private static int clearMutations(CommandSourceStack source, Collection<? extends Entity> targets) throws CommandSyntaxException {
@@ -112,6 +152,8 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         }
         return i;
     }
+
+
 
     @Override
     public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
