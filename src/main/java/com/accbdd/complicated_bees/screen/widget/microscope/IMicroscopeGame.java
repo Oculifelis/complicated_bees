@@ -20,6 +20,13 @@ public interface IMicroscopeGame {
     void setGameState(MicroscopeGamePacketClientbound.GameState state);
 
     /**
+     * generally called by a packet, provides a hint for the sequence at index
+     * @param index - the index in the sequence to provide a hint for
+     * @param hint - the correct number for index
+     */
+    void hint(byte index, byte hint);
+
+    /**
      * resets the game
      */
     void reset();

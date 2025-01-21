@@ -210,6 +210,8 @@
   "gui.complicated_bees.microscope.sequence.win": "SEQUENCE COMPLETE",
   "gui.complicated_bees.microscope.click": "Click to continue...",
   "gui.complicated_bees.microscope.mutation_count": "You have researched %s of %s mutation(s).",
+  "gui.complicated_bees.microscope.place": "Add an individual to analyze.",
+  "gui.complicated_bees.microscope.fully": "You have researched this species fully.",
 
   "jei.complicated_bees.chance": "Chance",
 

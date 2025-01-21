@@ -73,6 +73,11 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     }
 
+    @Override
+    public void hint(byte index, byte hint) {
+
+    }
+
     private void drawText(GuiGraphics graphics) {
         graphics.pose().pushPose();
         graphics.pose().translate(getX(), getY(), 0);

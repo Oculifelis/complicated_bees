@@ -29,7 +29,7 @@ public class MicroscopeBlockEntity extends BlockEntity {
     }
 
     private ItemStackHandler createItemHandler() {
-        return new ItemStackHandler(1) {
+        return new ItemStackHandler(6) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.is(ItemTagGenerator.BEE);

@@ -50,11 +50,11 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         if (game == null) {
             graphics.pose().pushPose();
             graphics.pose().translate(leftPos+8, topPos+8-font.lineHeight/2, 0);
-            String pText = "";
+            Component pText = Component.empty();
             if (menu.totalMutations == -1)
-                pText = "Place an individual in to analyze.";
+                pText = Component.translatable("gui.complicated_bees.microscope.place");
             else if (menu.totalMutations == menu.researchedMutations)
-                pText = "You have researched this species fully.";
+                pText = Component.translatable("gui.complicated_bees.microscope.fully");
             graphics.drawCenteredString(Minecraft.getInstance().font,
                     pText,
                     215/2,
@@ -69,7 +69,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     }
 
     public void renderGlassSlotOverlay(GuiGraphics graphics) {
-        graphics.blit(GUI, leftPos + 224, topPos + 60, 0, 230, 16, 16);
+        graphics.blit(GUI, leftPos + 225, topPos + 8, 0, 230, 16, 16);
     }
 
     public IMicroscopeGame getGame() {

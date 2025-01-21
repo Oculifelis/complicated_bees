@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MicroscopeMenu extends AbstractContainerMenu {
-    public static int SLOT_COUNT = 1;
+    public static int SLOT_COUNT = 6;
     public static Random rand = new Random();
 
     private final BlockPos pos;
@@ -51,13 +51,16 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             researchCode[i] = i;
         }
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
-            addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE) {
+            addSlot(new TagSlot(microscope.getItems(), 0, 225, 8, ItemTagGenerator.BEE) {
                 @Override
                 public void setChanged() {
                     super.setChanged();
                     startGame(getItem());
                 }
             });
+            for (int i = 0; i < 5; i++) {
+                addSlot(new TagSlot(microscope.getItems(), i+1, 225, 40 + i * 18, ItemTagGenerator.BEE));
+            }
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
