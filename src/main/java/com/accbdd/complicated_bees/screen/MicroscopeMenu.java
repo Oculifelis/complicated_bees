@@ -57,7 +57,9 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 @Override
                 public void setChanged() {
                     super.setChanged();
-                    startGame(getItem());
+                    if (getItem().isEmpty())
+                        clearGame();
+                    queryTracker();
                 }
             });
             for (int i = 0; i < 5; i++) {
@@ -109,9 +111,14 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         queryTracker();
         if (player instanceof ServerPlayer serverPlayer)
             if (item.isEmpty() || possibleMutationsCount == researchedMutationsCount)
-                PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
+                clearGame();
             else if (researchedMutations.size() < possibleMutations.size())
                 PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
+    }
+
+    private void clearGame() {
+        if (player instanceof ServerPlayer serverPlayer)
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
     }
 
     public byte[] getResearchCode() {

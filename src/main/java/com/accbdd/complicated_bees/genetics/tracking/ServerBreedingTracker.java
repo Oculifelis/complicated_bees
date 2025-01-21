@@ -141,6 +141,11 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         setDirty();
     }
 
+    public void clearResearch() {
+        researchedMutations.clear();
+        setDirty();
+    }
+
     @Override
     public CompoundTag save(CompoundTag pCompoundTag) {
         pCompoundTag.putUUID(UUID_KEY, playerId);

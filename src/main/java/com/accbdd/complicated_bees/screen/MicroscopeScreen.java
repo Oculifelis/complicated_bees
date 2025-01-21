@@ -2,17 +2,14 @@ package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
-import net.minecraft.client.Minecraft;
+import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
-
-import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -48,8 +45,6 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super.render(graphics, mousex, mousey, partialTick);
         renderText(graphics);
         renderGlassSlotOverlay(graphics);
-        if (getMenu().researchedMutationsCount > -1)
-            graphics.drawString(Minecraft.getInstance().font, Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutationsCount, getMenu().possibleMutationsCount), leftPos, topPos - 10, 0xFFFFFFFF);
         renderTooltip(graphics, mousex, mousey);
     }
 
@@ -62,29 +57,28 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 pText = Component.translatable("gui.complicated_bees.microscope.place");
             else if (menu.possibleMutationsCount == menu.researchedMutationsCount || menu.possibleMutationsCount == 0)
                 pText = Component.translatable("gui.complicated_bees.microscope.complete");
-            drawLinesText(graphics,
-                    pText,
-                    215/2,
-                    120/2,
-                    0xFFFFFF);
+            if (getMenu().researchedMutationsCount > -1) {
+                GuiHelper.drawCenteredWrappedText(graphics,
+                        215 / 2,
+                        120 / 2 - 12,
+                        0xFFFFFF,
+                        12,
+                        215,
+                        3,
+                        Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutationsCount, getMenu().possibleMutationsCount),
+                        pText);
+            } else {
+                GuiHelper.drawCenteredWrappedText(graphics,
+                        215 / 2,
+                        120 / 2,
+                        0xFFFFFF,
+                        12,
+                        215,
+                        3,
+                        pText);
+            }
             graphics.pose().popPose();
         }
-    }
-
-    public void drawLinesText(GuiGraphics graphics, Component text, int x, int y, int color) {
-        int curY = y;
-        int lineHeight = 12;
-        int width = 215;
-        int padding = 3;
-        String[] linebroken = text.getString().split("\\r?\\n");
-        for (String prewrap : linebroken) {
-            List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(text.getStyle()), width - 3 * 2);
-            for (FormattedCharSequence line : lines) {
-                graphics.drawCenteredString(Minecraft.getInstance().font, line, x, curY, color);
-                curY += lineHeight;
-            }
-        }
-        curY += lineHeight / 2;
     }
 
     @Override
@@ -101,7 +95,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
 
     public void startGame() {
         clearGame();
-        if (game == null) {
+        if (menu.possibleMutationsCount != menu.researchedMutationsCount) {
             game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
         }
     }

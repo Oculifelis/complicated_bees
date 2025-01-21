@@ -11,6 +11,7 @@ import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.screen.AnalyzerMenu;
+import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,12 +19,12 @@ import net.minecraft.client.gui.components.AbstractScrollWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+import static com.accbdd.complicated_bees.util.GuiHelper.drawWrappedText;
 
 public class AnalyzerScrollWidget extends AbstractScrollWidget {
     private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/analyzer.png");
@@ -66,7 +67,13 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         if (menu.isBeeAnalyzed())
             drawGeneInfo(graphics, menu.getSlot(1).getItem(), mouseX, mouseY);
         else {
-            drawWrappedText(graphics, 2, 2, 0xFFFFFF,
+            drawWrappedText(graphics,
+                    2 + getX(),
+                    2 + getY(),
+                    0xFFFFFF,
+                    LINE_HEIGHT,
+                    getWidth(),
+                    PADDING,
                     Component.translatable("gui.complicated_bees.analyzer_line_1"),
                     Component.translatable("gui.complicated_bees.analyzer_line_2"),
                     Component.translatable("gui.complicated_bees.analyzer_line_3"),
@@ -147,32 +154,6 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
 
     private void lineBreak() {
         nextLine += LINE_HEIGHT / 2;
-    }
-
-    /**
-     * draws a number of components as wrapped paragraphs, with each component getting spaced by LINE_HEIGHT / 2
-     *
-     * @param graphics   a GuiGraphics
-     * @param x          the x coordinate of the top left line
-     * @param y          the y coordinate of the top left line
-     * @param color      a color for text
-     * @param components a number of components
-     * @return a y coordinate for the next line of text, spaced accordingly
-     */
-    private int drawWrappedText(GuiGraphics graphics, int x, int y, int color, Component... components) {
-        int lineHeight = y;
-        for (Component component : components) {
-            String[] linebroken = component.getString().split("\\r?\\n");
-            for (String prewrap : linebroken) {
-                List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), getWidth() - PADDING * 2);
-                for (FormattedCharSequence line : lines) {
-                    graphics.drawString(Minecraft.getInstance().font, line, x + getX(), lineHeight + getY(), color);
-                    lineHeight += LINE_HEIGHT;
-                }
-            }
-            lineHeight += LINE_HEIGHT / 2;
-        }
-        return lineHeight;
     }
 
     private int getAdjustedMouseY() {
@@ -280,7 +261,14 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
     private void drawFlavor(GuiGraphics graphics, ItemStack bee) {
         Species species = GeneticHelper.getSpecies(bee, true);
 
-        nextLine = drawWrappedText(graphics, PADDING, nextLine, 0xA4A4A4, GeneticHelper.getFlavorTextKey(species).withStyle(ChatFormatting.ITALIC));
+        nextLine = GuiHelper.drawWrappedText(graphics,
+                PADDING,
+                nextLine,
+                0xA4A4A4,
+                LINE_HEIGHT,
+                getWidth(),
+                PADDING,
+                GeneticHelper.getFlavorTextKey(species).withStyle(ChatFormatting.ITALIC));
         nextLine -= LINE_HEIGHT / 2;
         drawRightAlignedText(graphics, Component.literal("-").append(GeneticHelper.getFlavorTextAuthorKey(species)), getWidth() - PADDING, nextLine, 0xA4A4A4);
         nextLine += LINE_HEIGHT;
