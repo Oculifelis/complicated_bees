@@ -108,7 +108,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         shuffle();
         queryTracker();
         if (player instanceof ServerPlayer serverPlayer)
-            if (item.isEmpty())
+            if (item.isEmpty() || possibleMutationsCount == researchedMutationsCount)
                 PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
             else if (researchedMutations.size() < possibleMutations.size())
                 PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));

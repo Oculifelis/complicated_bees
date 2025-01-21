@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import java.util.List;
 
@@ -28,9 +29,12 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     @Override
     protected void init() {
         super.init();
-        if (!getMenu().getSlot(0).getItem().isEmpty()) {
-            startGame();
-        }
+        addRenderableWidget(new ExtendedButton(leftPos - 50,
+                topPos,
+                40,
+                20,
+                Component.literal("play game!"),
+                pButton -> startGame()));
     }
 
     @Override
