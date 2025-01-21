@@ -50,7 +50,6 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        //todo: add animation
         if (animationTimer > 0)
             animationTimer -= pPartialTick;
         pGuiGraphics.blit(BG,
