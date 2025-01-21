@@ -50,15 +50,12 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;
         }
-        startGame();
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
             addSlot(new TagSlot(microscope.getItems(), 0, 224, 60, ItemTagGenerator.BEE) {
                 @Override
                 public void setChanged() {
                     super.setChanged();
-                    queryTracker();
-                    if (!getItem().isEmpty())
-                        startGame();
+                    startGame(getItem());
                 }
             });
             addDataSlot(new DataSlot() {
@@ -93,10 +90,14 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         }
     }
 
-    private void startGame() {
+    protected void startGame(ItemStack item) {
         shuffle();
-        if (player instanceof ServerPlayer serverPlayer && researchedMutations < totalMutations)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
+        queryTracker();
+        if (player instanceof ServerPlayer serverPlayer)
+            if (item.isEmpty())
+                PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
+            else if (researchedMutations < totalMutations)
+                PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
     }
 
     public byte[] getResearchCode() {
@@ -111,7 +112,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         return difficulty;
     }
 
-    private void queryTracker() {
+    protected void queryTracker() {
         ItemStack bee = getSlot(0).getItem();
         if (bee.isEmpty()) {
             totalMutations = -1;

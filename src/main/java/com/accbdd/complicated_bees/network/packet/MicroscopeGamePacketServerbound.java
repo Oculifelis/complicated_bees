@@ -40,7 +40,6 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                 ComplicatedBees.LOGGER.debug("we are in a microscope! guesses from client: {}, mutation code: {}", packet.guesses, researchCode);
                 if (Arrays.equals(packet.guesses, researchCode)) {
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.WON));
-                    //microscopeMenu.getSlot(0).set(Items.DIAMOND.getDefaultInstance());
                     level.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                     microscopeMenu.research();
                 } else {
@@ -51,6 +50,7 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                             return;
                         }
                     }
+                    //todo: guess counter validation, to stop window cheat
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.ONGOING));
                 }
             }

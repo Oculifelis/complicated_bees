@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.network.packet;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -36,14 +37,16 @@ public record MicroscopeGamePacketClientbound(GameState state) implements IModPa
 
     public static void handlePacket(MicroscopeGamePacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
+            ComplicatedBees.LOGGER.debug("got packet with state {}", packet.state);
             GameState state = packet.state();
-            screen.getGame().setGameState(state);
             switch (state) {
-                case START:
-                    screen.getGame().reset();
-                    break;
                 case CLEAR:
                     screen.clearGame();
+                    break;
+                case START:
+                    screen.startGame();
+                default:
+                    screen.getGame().setGameState(state);
                     break;
             }
         }

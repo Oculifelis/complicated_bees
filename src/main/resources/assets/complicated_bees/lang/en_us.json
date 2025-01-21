@@ -208,6 +208,7 @@
 
   "gui.complicated_bees.microscope.sequence.lose": "SEQUENCE FAILED",
   "gui.complicated_bees.microscope.sequence.win": "SEQUENCE COMPLETE",
+  "gui.complicated_bees.microscope.click": "Click to continue...",
   "gui.complicated_bees.microscope.mutation_count": "You have researched %s of %s mutation(s).",
 
   "jei.complicated_bees.chance": "Chance",

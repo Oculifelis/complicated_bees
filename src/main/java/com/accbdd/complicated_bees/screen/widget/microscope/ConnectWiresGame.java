@@ -28,12 +28,17 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     Section[] sections;
     byte lastClicked = -1;
     byte clickedSquare = -1;
-    float transparencyMod = 0;
     int maxSectionWidth, sectionPairs;
     Component bannerText;
     MicroscopeGamePacketClientbound.GameState gameState;
     MicroscopeScreen screen;
     Random rand = new Random();
+
+    //animation stuff
+    private static final int BG_ANIM_LENGTH = 40;
+    private static final int SQUARE_ANIM_LENGTH = 60;
+    private float transparencyMod = 0;
+    private float animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
 
     public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty, MicroscopeScreen screen) {
         super(pX, pY, width, height);
@@ -46,7 +51,15 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         //todo: add animation
-        pGuiGraphics.blit(BG, getX(), getY(), 0, 0, getWidth(), getHeight());
+        if (animationTimer > 0)
+            animationTimer -= pPartialTick;
+        pGuiGraphics.blit(BG,
+                getX(),
+                getY(),
+                0,
+                0,
+                animationTimer > SQUARE_ANIM_LENGTH ? (int) (getWidth()-((animationTimer-SQUARE_ANIM_LENGTH) * getWidth()/BG_ANIM_LENGTH)) : getWidth(),
+                getHeight());
         drawAllSections(pGuiGraphics, getX(), getY());
         drawAllLinks(pGuiGraphics);
         if (gameState != MicroscopeGamePacketClientbound.GameState.ONGOING) {
@@ -64,13 +77,19 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     private void drawText(GuiGraphics graphics) {
         graphics.pose().pushPose();
         graphics.pose().translate(getX(), getY(), 0);
-        graphics.pose().scale(2, 2, 1);
         int color = gameState == MicroscopeGamePacketClientbound.GameState.FAILED ? 0xFFFF0000 : 0xFF00FF00;
-        graphics.fill(0, getHeight()/4-Minecraft.getInstance().font.lineHeight/2 - 3, getWidth()/2, getHeight()/4+7, color & (transparencyMod < 15 ? 0xCCCCCC00 : 0xAACCCC00));
+        graphics.fill(0, getHeight()/2-Minecraft.getInstance().font.lineHeight/2 - 14, getWidth(), getHeight()/2+16, color & (transparencyMod < 15 ? 0xCCCCCC00 : 0xAACCCC00));
+        graphics.pose().scale(2, 2, 1);
         graphics.drawCenteredString(Minecraft.getInstance().font,
                 bannerText,
                 getWidth()/4,
-                getHeight()/4-Minecraft.getInstance().font.lineHeight/2,
+                getHeight()/4-Minecraft.getInstance().font.lineHeight/2-3,
+                color);
+        graphics.pose().scale(0.5f, 0.5f, 1);
+        graphics.drawCenteredString(Minecraft.getInstance().font,
+                Component.translatable("gui.complicated_bees.microscope.click"),
+                getWidth()/2,
+                getHeight()/2-Minecraft.getInstance().font.lineHeight/2+9,
                 color);
         graphics.pose().popPose();
     }
@@ -86,16 +105,18 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     private void drawAllSections(GuiGraphics graphics, int pX, int pY) {
         graphics.pose().pushPose();
         graphics.pose().translate(getX(), getY(), 0);
-        for (int i = 0; i < sections.length; i++) {
-            Section section = sections[i];
-            drawBorderedRectangle(graphics,
-                    section.x,
-                    section.y,
-                    section.width,
-                    section.height,
-                    0xFFFFCC00,
-                    lastClicked == i ? 0x66FFCC00 : section.color);
-        }
+        if (animationTimer <= SQUARE_ANIM_LENGTH)
+            for (int i = 0; i < sections.length; i++) {
+                Section section = sections[i];
+                if ((sections.length - i) * (SQUARE_ANIM_LENGTH / sections.length) >= animationTimer)
+                    drawBorderedRectangle(graphics,
+                            section.x,
+                            section.y,
+                            section.width,
+                            section.height,
+                            0xFFFFCC00,
+                            lastClicked == i ? 0x66FFCC00 : section.color);
+            }
         graphics.pose().popPose();
     }
 
@@ -137,8 +158,14 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     public void onClick(double pMouseX, double pMouseY) {
         super.onClick(pMouseX, pMouseY);
         clickedSquare = getSquare(pMouseX, pMouseY);
+        if (animationTimer > 0) {
+            animationTimer = 0;
+            return;
+        }
         if (clickedSquare == -1 || gameState != MicroscopeGamePacketClientbound.GameState.ONGOING) {
             lastClicked = -1;
+            if (gameState == MicroscopeGamePacketClientbound.GameState.FAILED || gameState == MicroscopeGamePacketClientbound.GameState.WON)
+                reset();
             return;
         }
         if (lastClicked != -1) { //we have a previously clicked square
@@ -195,6 +222,7 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     @Override
     public void reset() {
+        animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
         maxSectionWidth = width/sectionPairs;
         Arrays.fill(currentGuess, (byte)-1);
         gameState = MicroscopeGamePacketClientbound.GameState.ONGOING;

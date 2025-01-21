@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +14,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope/base.png");
-    private IMicroscopeGame game;
+    private IMicroscopeGame game = null;
 
     public MicroscopeScreen(MicroscopeMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -24,23 +25,43 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     @Override
     protected void init() {
         super.init();
-        this.game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
+        if (!getMenu().getSlot(0).getItem().isEmpty()) {
+            startGame();
+        }
     }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
         renderBackground(graphics);
         graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
-
     }
 
     @Override
     public void render(GuiGraphics graphics, int mousex, int mousey, float partialTick) {
         super.render(graphics, mousex, mousey, partialTick);
+        renderText(graphics);
         renderGlassSlotOverlay(graphics);
         if (getMenu().researchedMutations > -1)
             graphics.drawString(Minecraft.getInstance().font, Component.translatable("gui.complicated_bees.microscope.mutation_count", getMenu().researchedMutations, getMenu().totalMutations), leftPos, topPos - 10, 0xFFFFFFFF);
         renderTooltip(graphics, mousex, mousey);
+    }
+
+    public void renderText(GuiGraphics graphics) {
+        if (game == null) {
+            graphics.pose().pushPose();
+            graphics.pose().translate(leftPos+8, topPos+8-font.lineHeight/2, 0);
+            String pText = "";
+            if (menu.totalMutations == -1)
+                pText = "Place an individual in to analyze.";
+            else if (menu.totalMutations == menu.researchedMutations)
+                pText = "You have researched this species fully.";
+            graphics.drawCenteredString(Minecraft.getInstance().font,
+                    pText,
+                    215/2,
+                    120/2,
+                    0xFFFFFF);
+            graphics.pose().popPose();
+        }
     }
 
     @Override
@@ -55,7 +76,15 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         return game;
     }
 
+    public void startGame() {
+        clearGame();
+        if (game == null) {
+            game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
+        }
+    }
+
     public void clearGame() {
-        renderables.clear();
+        removeWidget((GuiEventListener) this.game);
+        game = null;
     }
 }
