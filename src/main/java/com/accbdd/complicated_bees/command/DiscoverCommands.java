@@ -64,9 +64,9 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
                 var tracker = ServerBreedingTracker.getTracker(player);
-                if (!tracker.isDiscovered(mutation)) {
+                if (!tracker.isResearched(mutation)) {
                     ++i;
-                    ServerBreedingTracker.getTracker(player).discover(mutation);
+                    ServerBreedingTracker.getTracker(player).research(mutation);
                 }
             }
         }
