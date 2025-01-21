@@ -46,11 +46,11 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                     for (int i = 0; i < researchCode.length; i++) {
                         if (packet.guesses[i] != researchCode[i] && packet.guesses[i] != -1) {
                             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.FAILED));
+                            microscopeMenu.shuffle();
                             level.sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                             return;
                         }
                     }
-                    //todo: guess counter validation, to stop window cheat
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.ONGOING));
                 }
             }

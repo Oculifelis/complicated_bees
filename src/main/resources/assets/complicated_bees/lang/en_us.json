@@ -211,7 +211,8 @@
   "gui.complicated_bees.microscope.click": "Click to continue...",
   "gui.complicated_bees.microscope.mutation_count": "You have researched %s of %s mutation(s).",
   "gui.complicated_bees.microscope.place": "Add an individual to analyze.",
-  "gui.complicated_bees.microscope.fully": "You have researched this species fully.",
+  "gui.complicated_bees.microscope.complete": "This species has no more mutations for you to discover.",
+  "gui.complicated_bees.microscope.locked": "This microscope is in use by another player.",
 
   "jei.complicated_bees.chance": "Chance",
 

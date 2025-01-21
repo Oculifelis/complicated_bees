@@ -38,8 +38,10 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private final Player player;
     private final byte[] researchCode;
     private final byte difficulty;
-    protected int totalMutations = -1;
-    protected int researchedMutations = -1;
+    protected List<Mutation> possibleMutations = List.of();
+    protected int possibleMutationsCount = -1;
+    protected List<Mutation> researchedMutations = List.of();
+    protected  int researchedMutationsCount = -1;
 
     public MicroscopeMenu(int windowId, Player player, BlockPos pos) {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
@@ -64,32 +66,41 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    if (totalMutations == -1) {
+                    if (possibleMutationsCount == -1) {
                         queryTracker();
                     }
-                    return totalMutations;
+                    return possibleMutationsCount;
                 }
 
                 @Override
                 public void set(int pValue) {
-                    totalMutations = pValue;
+                    possibleMutationsCount = pValue;
                 }
             });
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    if (researchedMutations == -1) {
+                    if (researchedMutationsCount == -1) {
                         queryTracker();
                     }
-                    return researchedMutations;
+                    return researchedMutationsCount;
                 }
 
                 @Override
                 public void set(int pValue) {
-                    researchedMutations = pValue;
+                    researchedMutationsCount = pValue;
                 }
             });
+            microscope.setLocked(true);
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
+        }
+    }
+
+    @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        if (pPlayer.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
+            microscope.setLocked(false);
         }
     }
 
@@ -99,7 +110,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         if (player instanceof ServerPlayer serverPlayer)
             if (item.isEmpty())
                 PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
-            else if (researchedMutations < totalMutations)
+            else if (researchedMutations.size() < possibleMutations.size())
                 PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
     }
 
@@ -116,23 +127,30 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     }
 
     protected void queryTracker() {
+        ServerBreedingTracker tracker = ServerBreedingTracker.getTracker(this.player);
+        if (tracker == null)
+            return;
         ItemStack bee = getSlot(0).getItem();
         if (bee.isEmpty()) {
-            totalMutations = -1;
-            researchedMutations = -1;
+            possibleMutations = List.of();
+            possibleMutationsCount = -1;
+            researchedMutations = List.of();
+            researchedMutationsCount = -1;
             return;
         }
         ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
-        Set<Mutation> mutations = mutationRegistry.stream().filter(
+        List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
-        ).collect(Collectors.toSet());
-        Set<ResourceLocation> researched = ServerBreedingTracker.getTracker(this.player).getResearchedMutations().stream().filter(
+        ).toList();
+        List<Mutation> researched = tracker.getResearchedMutations().stream().filter(
                 location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
-        ).collect(Collectors.toSet());
+        ).map(mutationRegistry::get).toList();
 
-        totalMutations = mutations.size();
-        researchedMutations = researched.size();
+        possibleMutations = mutations;
+        possibleMutationsCount = mutations.size();
+        researchedMutations = researched;
+        researchedMutationsCount = researched.size();
     }
 
     public void research() {
@@ -155,7 +173,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         }
     }
 
-    private void shuffle() {
+    public void shuffle() {
         Random rnd = new Random();
         for (int i = researchCode.length - 1; i > 0; i--) {
             int index = rnd.nextInt(i+1);
@@ -201,8 +219,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(stack, SLOT_COUNT, Inventory.INVENTORY_SIZE + SLOT_COUNT, true)) {
                     return ItemStack.EMPTY;
                 } else {
-                    researchedMutations = -1;
-                    totalMutations = -1;
+                    researchedMutations = List.of();
+                    possibleMutations = List.of();
                 }
             }
             if (!this.moveItemStackTo(stack, 0, 2, false)) {

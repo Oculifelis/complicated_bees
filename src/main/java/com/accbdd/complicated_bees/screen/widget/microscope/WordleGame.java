@@ -4,8 +4,8 @@ import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientboun
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
-public class WordleWiresGame extends BaseMicroscopeGame {
-    public WordleWiresGame(int pX, int pY, int pWidth, int pHeight) {
+public class WordleGame extends BaseMicroscopeGame {
+    public WordleGame(int pX, int pY, int pWidth, int pHeight) {
         super(pX, pY, pWidth, pHeight);
     }
 
@@ -26,6 +26,11 @@ public class WordleWiresGame extends BaseMicroscopeGame {
 
     @Override
     public void setGameState(MicroscopeGamePacketClientbound.GameState state) {
+
+    }
+
+    @Override
+    public void hint(byte index, byte hint) {
 
     }
 

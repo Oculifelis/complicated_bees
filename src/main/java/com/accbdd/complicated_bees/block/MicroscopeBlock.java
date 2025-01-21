@@ -28,7 +28,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-//todo: give actual function
 public class MicroscopeBlock extends BaseEntityBlock {
     public MicroscopeBlock() {
         super(Properties.of().noOcclusion());
@@ -64,7 +63,11 @@ public class MicroscopeBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof MicroscopeBlockEntity) {
+            if (be instanceof MicroscopeBlockEntity microscope) {
+                if (microscope.isLocked()) {
+                    player.displayClientMessage(Component.translatable("gui.complicated_bees.microscope.locked"), true);
+                    return InteractionResult.CONSUME;
+                }
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
