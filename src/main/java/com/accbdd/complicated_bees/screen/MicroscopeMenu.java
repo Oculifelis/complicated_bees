@@ -47,7 +47,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         this.player = player;
-        this.difficulty = 5;
+        //todo: actually set this based on the bee
+        this.difficulty = 3;
         this.researchCode = new byte[difficulty];
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;

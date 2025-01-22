@@ -115,7 +115,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public void startGame() {
         clearGame();
         if (menu.possibleMutationsCount != menu.researchedMutationsCount) {
-            game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, 5, this));
+            game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, menu.getDifficulty(), this));
         }
     }
 
