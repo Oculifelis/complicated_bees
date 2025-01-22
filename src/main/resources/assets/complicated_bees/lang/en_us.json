@@ -213,6 +213,7 @@
   "gui.complicated_bees.microscope.place": "Add an individual to analyze.",
   "gui.complicated_bees.microscope.complete": "This species has no more mutations for you to discover.",
   "gui.complicated_bees.microscope.locked": "This microscope is in use by another player.",
+  "gui.complicated_bees.microscope.start": "BEGIN SEQUENCING",
 
   "jei.complicated_bees.chance": "Chance",
 

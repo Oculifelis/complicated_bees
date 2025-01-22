@@ -95,6 +95,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             });
             microscope.setLocked(true);
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
+            shuffle();
         }
     }
 

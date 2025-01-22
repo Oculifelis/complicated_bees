@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketServerbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
+import com.accbdd.complicated_bees.util.GuiHelper;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -98,14 +99,6 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
         graphics.pose().popPose();
     }
 
-    private void drawBorderedRectangle(GuiGraphics graphics, int pX, int pY, int pWidth, int pHeight, int borderColor, int fillColor) {
-        graphics.fill(pX, pY, pX + pWidth, pY + BORDER_WIDTH, borderColor);
-        graphics.fill(pX, pY + pHeight - BORDER_WIDTH, pX + pWidth, pY + pHeight, borderColor);
-        graphics.fill(pX, pY + BORDER_WIDTH, pX + BORDER_WIDTH, pY + pHeight - BORDER_WIDTH, borderColor);
-        graphics.fill(pX + pWidth - BORDER_WIDTH, pY + BORDER_WIDTH, pX + pWidth, pY + pHeight - BORDER_WIDTH, borderColor);
-        graphics.fill(pX + BORDER_WIDTH, pY + BORDER_WIDTH, pX + pWidth - BORDER_WIDTH, pY + pHeight - BORDER_WIDTH, fillColor);
-    }
-
     private void drawAllSections(GuiGraphics graphics, int pX, int pY) {
         graphics.pose().pushPose();
         graphics.pose().translate(getX(), getY(), 0);
@@ -113,11 +106,12 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
             for (int i = 0; i < sections.length; i++) {
                 Section section = sections[i];
                 if ((sections.length - i) * (SQUARE_ANIM_LENGTH / sections.length) >= animationTimer)
-                    drawBorderedRectangle(graphics,
+                    GuiHelper.drawBorderedRectangle(graphics,
                             section.x,
                             section.y,
                             section.width,
                             section.height,
+                            BORDER_WIDTH,
                             0xFFFFCC00,
                             lastClicked == i ? 0x66FFCC00 : section.color);
             }
@@ -226,6 +220,7 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     @Override
     public void reset() {
+        screen.clearGame();
         animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
         maxSectionWidth = width/sectionPairs;
         Arrays.fill(currentGuess, (byte)-1);

@@ -14,7 +14,6 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPacket {
@@ -31,7 +30,6 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
         context.get().enqueueWork(() -> {
             ServerPlayer sender = context.get().getSender();
             if (sender.containerMenu instanceof MicroscopeMenu microscopeMenu) {
-                Random rand = new Random();
                 BlockPos pos = microscopeMenu.getPos();
                 ServerLevel level = (ServerLevel) sender.level();
                 if (!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ())))
