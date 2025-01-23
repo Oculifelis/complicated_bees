@@ -49,9 +49,11 @@ public class SpeciesRegistration {
             visited.add(mutation);
             complexities.put(species,
                     Math.min(
-                            calculateComplexity(mutation.getFirstSpecies(), visited, mutationRegistry) + 1,
-                            Math.min(calculateComplexity(mutation.getSecondSpecies(), visited, mutationRegistry) + 1,
-                            complexities.getOrDefault(species, Integer.MAX_VALUE))
+                            complexities.getOrDefault(species, Integer.MAX_VALUE),
+                            Math.max(
+                                    calculateComplexity(mutation.getFirstSpecies(), visited, mutationRegistry) + 1,
+                                    calculateComplexity(mutation.getSecondSpecies(), visited, mutationRegistry) + 1
+                            )
                     )
             );
         });
