@@ -102,7 +102,6 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             microscope.setLocked(true);
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
             setDifficulty();
-            shuffle();
         }
     }
 
@@ -130,6 +129,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;
         }
+        shuffle();
     }
 
     private void clearGame() {
