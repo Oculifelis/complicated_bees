@@ -18,7 +18,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 //custom registry for species
 public class SpeciesRegistration {
     public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MODID, "species"));
-    private static final Map<Species, Integer> complexities = new HashMap<>();
+    private static final Map<ResourceLocation, Integer> complexities = new HashMap<>();
 
     public static Species getFromResourceLocation(ResourceLocation resourceLocation) {
         return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().get(resourceLocation);
@@ -29,12 +29,13 @@ public class SpeciesRegistration {
     }
 
     public static int getComplexity(Species species) {
-        if (complexities.containsKey(species))
-            return complexities.get(species);
-        return calculateComplexity(species) ;
+        ResourceLocation loc = getResourceLocation(species);
+        if (complexities.containsKey(loc))
+            return complexities.get(loc);
+        return calculateComplexity(loc) ;
     }
 
-    public static int calculateComplexity(Species species) {
+    public static int calculateComplexity(ResourceLocation species) {
         if (complexities.containsKey(species))
             return complexities.get(species);
         Set<Mutation> visited = new HashSet<>();
@@ -42,8 +43,8 @@ public class SpeciesRegistration {
         return calculateComplexity(species, visited, registryAccess.registry(MutationRegistration.MUTATION_REGISTRY_KEY).get());
     }
 
-    public static int calculateComplexity(Species species, Set<Mutation> visited, Registry<Mutation> mutationRegistry) {
-        var x = mutationRegistry.stream().filter(mutation -> mutation.getResultSpecies() == species && !visited.contains(mutation)).toList();
+    public static int calculateComplexity(ResourceLocation species, Set<Mutation> visited, Registry<Mutation> mutationRegistry) {
+        var x = mutationRegistry.stream().filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
         if (x.isEmpty())
             complexities.put(species, 1);
         x.forEach(mutation -> {
@@ -52,13 +53,13 @@ public class SpeciesRegistration {
                     Math.min(
                             complexities.getOrDefault(species, Integer.MAX_VALUE),
                             Math.max(
-                                    calculateComplexity(mutation.getFirstSpecies(), visited, mutationRegistry) + 1,
-                                    calculateComplexity(mutation.getSecondSpecies(), visited, mutationRegistry) + 1
+                                    calculateComplexity(mutation.getFirst(), visited, mutationRegistry) + 1,
+                                    calculateComplexity(mutation.getSecond(), visited, mutationRegistry) + 1
                             )
                     )
             );
         });
-        ComplicatedBees.LOGGER.debug("calculated complexity {} for species {}", complexities.get(species), getResourceLocation(species));
+        ComplicatedBees.LOGGER.debug("calculated complexity {} for species {}", complexities.get(species), species);
         return complexities.get(species);
     }
 }

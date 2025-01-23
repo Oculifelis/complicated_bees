@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import com.accbdd.complicated_bees.util.GuiHelper;
@@ -71,7 +72,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         super.render(graphics, mousex, mousey, partialTick);
         startButton.visible = game == null;
         renderText(graphics);
-        renderGlassSlotOverlay(graphics);
+        renderSlotOverlays(graphics);
         renderTooltip(graphics, mousex, mousey);
     }
 
@@ -104,8 +105,12 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void renderLabels(GuiGraphics graphics, int mousex, int mousey) {
     }
 
-    public void renderGlassSlotOverlay(GuiGraphics graphics) {
-        graphics.blit(GUI, leftPos + 225, topPos + 8, 0, 230, 16, 16);
+    public void renderSlotOverlays(GuiGraphics graphics) {
+        graphics.blit(GUI, leftPos + 225, topPos + 8, 0, 240, 16, 16);
+        for (int i = 0; i < 5; i++) {
+            if (menu.difficulty < i + 2 || game == null)
+                graphics.blit(GUI, leftPos+225, topPos+40+18*i, 16, 240, 16, 16);
+        }
     }
 
     public IMicroscopeGame getGame() {
@@ -116,6 +121,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         clearGame();
         if (menu.possibleMutationsCount != menu.researchedMutationsCount) {
             game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, menu.getDifficulty(), this));
+            menu.setState(MicroscopeGamePacketClientbound.GameState.ONGOING);
         }
     }
 

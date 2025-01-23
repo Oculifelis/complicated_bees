@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.network.packet;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -30,7 +29,7 @@ public record MicroscopeHintPacketClientbound(byte index, byte hint) implements 
 
     public static void handlePacket(MicroscopeHintPacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
-            ComplicatedBees.LOGGER.debug("got packet with hint {} for index {}", packet.hint, packet.index);
+            //ComplicatedBees.LOGGER.debug("got packet with hint {} for index {}", packet.hint, packet.index);
             screen.getGame().hint(packet.index, packet.hint);
         }
     }

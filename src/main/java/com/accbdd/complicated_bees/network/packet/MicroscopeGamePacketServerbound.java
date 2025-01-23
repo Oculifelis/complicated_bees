@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.network.packet;
 
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.screen.MicroscopeMenu;
 import net.minecraft.core.BlockPos;
@@ -35,21 +34,27 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                 if (!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ())))
                     return;
                 byte[] researchCode = microscopeMenu.getResearchCode();
-                ComplicatedBees.LOGGER.debug("we are in a microscope! guesses from client: {}, mutation code: {}", packet.guesses, researchCode);
+                //ComplicatedBees.LOGGER.debug("we are in a microscope! guesses from client: {}, mutation code: {}", packet.guesses, researchCode);
                 if (Arrays.equals(packet.guesses, researchCode)) {
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.WON));
+                    microscopeMenu.setState(MicroscopeGamePacketClientbound.GameState.WON);
                     level.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                     microscopeMenu.research();
                 } else {
+                    if (packet.guesses.length != researchCode.length) {
+                        throw new IllegalStateException("recieved a packet of guesses with a different length than code!");
+                    }
                     for (int i = 0; i < researchCode.length; i++) {
                         if (packet.guesses[i] != researchCode[i] && packet.guesses[i] != -1) {
                             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.FAILED));
+                            microscopeMenu.setState(MicroscopeGamePacketClientbound.GameState.FAILED);
                             microscopeMenu.shuffle();
                             level.sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
                             return;
                         }
                     }
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.ONGOING));
+                    microscopeMenu.setState(MicroscopeGamePacketClientbound.GameState.ONGOING);
                     microscopeMenu.setGuess(packet.guesses.clone());
                 }
             }

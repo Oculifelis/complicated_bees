@@ -38,7 +38,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private final Player player;
     private byte[] researchCode;
     private byte[] guessCode;
-    private int difficulty;
+    private MicroscopeGamePacketClientbound.GameState state;
+    protected int difficulty;
     protected List<Mutation> possibleMutations = List.of();
     protected int possibleMutationsCount = -1;
     protected List<Mutation> researchedMutations = List.of();
@@ -48,6 +49,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         this.player = player;
+        this.state = MicroscopeGamePacketClientbound.GameState.CLEAR;
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
             addSlot(new TagSlot(microscope.getItems(), 0, 225, 8, ItemTagGenerator.BEE) {
                 @Override
@@ -59,12 +61,19 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 }
             });
             for (int i = 0; i < 5; i++) {
-                addSlot(new TagSlot(microscope.getItems(), i+1, 225, 40 + i * 18, ItemTagGenerator.BEE) {
+                addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.BEE) {
                     @Override
                     public void setByPlayer(ItemStack pStack) {
                         super.setByPlayer(pStack);
                         if (!pStack.isEmpty())
-                            sendHint();
+                            trySendHint();
+                    }
+
+                    @Override
+                    public boolean mayPlace(ItemStack stack) {
+                        if (difficulty < this.getSlotIndex() + 1 || getState() != MicroscopeGamePacketClientbound.GameState.ONGOING)
+                            return false;
+                        return super.mayPlace(stack);
                     }
                 });
             }
@@ -96,6 +105,17 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                     researchedMutationsCount = pValue;
                 }
             });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return difficulty;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    difficulty = pValue;
+                }
+            });
             microscope.setLocked(true);
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
             setDifficulty();
@@ -114,8 +134,15 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         this.guessCode = guess.clone();
     }
 
-    private void sendHint() {
+    private void trySendHint() {
         if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide) {
+            for (int i = 1; i < Math.min(difficulty, 6); i++) {
+                if (!getSlot(i).hasItem())
+                    return;
+            }
+            for (int i = 1; i < Math.min(difficulty, 6); i++) {
+                getSlot(i).getItem().shrink(1);
+            }
             List<Integer> unguessed = new ArrayList<>();
             for (int i = 0; i < guessCode.length; i++) {
                 if (guessCode[i] == -1) {
@@ -143,6 +170,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private void clearGame() {
         if (player instanceof ServerPlayer serverPlayer)
             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
+        this.setState(MicroscopeGamePacketClientbound.GameState.CLEAR);
     }
 
     public byte[] getResearchCode() {
@@ -285,5 +313,13 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(player.level(), pos), player, BlocksRegistration.MICROSCOPE.get());
+    }
+
+    public MicroscopeGamePacketClientbound.GameState getState() {
+        return state;
+    }
+
+    public void setState(MicroscopeGamePacketClientbound.GameState state) {
+        this.state = state;
     }
 }

@@ -228,6 +228,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
         maxSectionWidth = width/sectionPairs;
         Arrays.fill(currentGuess, (byte)-1);
+        sendGuess(currentGuess);
         gameState = MicroscopeGamePacketClientbound.GameState.ONGOING;
         generateSections();
     }
