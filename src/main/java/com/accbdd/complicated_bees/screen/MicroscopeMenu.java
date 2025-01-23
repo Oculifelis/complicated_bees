@@ -27,9 +27,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MicroscopeMenu extends AbstractContainerMenu {
@@ -39,7 +37,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private final BlockPos pos;
     private final Player player;
     private byte[] researchCode;
-    private byte difficulty;
+    private byte[] guessCode;
+    private int difficulty;
     protected List<Mutation> possibleMutations = List.of();
     protected int possibleMutationsCount = -1;
     protected List<Mutation> researchedMutations = List.of();
@@ -54,9 +53,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 @Override
                 public void setChanged() {
                     super.setChanged();
-                    if (getItem().isEmpty()) {
-                        clearGame();
-                    }
+                    clearGame();
                     setDifficulty();
                     queryTracker();
                 }
@@ -113,9 +110,19 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         }
     }
 
+    public void setGuess(byte[] guess) {
+        this.guessCode = guess.clone();
+    }
+
     private void sendHint() {
         if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide) {
-            byte index = (byte) rand.nextInt(researchCode.length);
+            List<Integer> unguessed = new ArrayList<>();
+            for (int i = 0; i < guessCode.length; i++) {
+                if (guessCode[i] == -1) {
+                    unguessed.add(i);
+                }
+            }
+            byte index = unguessed.get(rand.nextInt(unguessed.size())).byteValue();
             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintPacketClientbound(index, researchCode[index]));
         }
     }
@@ -124,7 +131,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         if (getSlot(0).getItem().isEmpty())
             this.difficulty = 1;
         else
-            this.difficulty = (byte) (SpeciesRegistration.getComplexity(GeneticHelper.getSpecies(getSlot(0).getItem(), true)) + 2);
+            this.difficulty = (int) (5 * Math.log10(SpeciesRegistration.getComplexity(GeneticHelper.getSpecies(getSlot(0).getItem(), true))) + 3);
+        this.difficulty = Math.min(difficulty, 8);
         this.researchCode = new byte[difficulty];
         for (byte i = 0; i < difficulty; i++) {
             researchCode[i] = i;
@@ -145,7 +153,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         return pos;
     }
 
-    public byte getDifficulty() {
+    public int getDifficulty() {
         return difficulty;
     }
 
@@ -204,6 +212,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             researchCode[index] = researchCode[i];
             researchCode[i] = (byte)a;
         }
+        guessCode = new byte[difficulty];
+        Arrays.fill(guessCode, (byte) -1);
     }
 
     private int addSlotRange(Container playerInventory, int index, int x, int y, int amount, int dx) {

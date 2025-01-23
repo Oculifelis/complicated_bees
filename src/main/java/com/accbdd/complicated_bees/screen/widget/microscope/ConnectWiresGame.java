@@ -12,7 +12,9 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -27,6 +29,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     byte[] currentGuess;
     Section[] sections;
+    List<Section> hintHighlighted = new ArrayList<>();
     byte lastClicked = -1;
     byte clickedSquare = -1;
     int maxSectionWidth, sectionPairs;
@@ -74,10 +77,9 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     @Override
     public void hint(byte index, byte hint) {
-        currentGuess[index] = hint;
-        lastClicked = index;
-        clickedSquare = (byte) (hint + sectionPairs);
-        sendGuess(currentGuess);
+        hintHighlighted.clear();
+        hintHighlighted.add(sections[index]);
+        hintHighlighted.add(sections[sectionPairs + hint]);
     }
 
     private void drawText(GuiGraphics graphics) {
@@ -113,7 +115,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
                             section.width,
                             section.height,
                             BORDER_WIDTH,
-                            0xFFFFCC00,
+                            hintHighlighted.contains(section) ? 0xFF00FFFF : 0xFFFFCC00,
                             lastClicked == i ? 0x66FFCC00 : section.color);
             }
         graphics.pose().popPose();
@@ -167,6 +169,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
                 reset();
             return;
         }
+        hintHighlighted.clear();
         if (lastClicked != -1) { //we have a previously clicked square
             if (lastClicked < sectionPairs && clickedSquare >= sectionPairs) { //top to bottom
                 currentGuess[lastClicked] = (byte) (clickedSquare - sectionPairs);

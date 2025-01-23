@@ -50,6 +50,7 @@ public record MicroscopeGamePacketServerbound(byte[] guesses) implements IModPac
                         }
                     }
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.ONGOING));
+                    microscopeMenu.setGuess(packet.guesses.clone());
                 }
             }
         });

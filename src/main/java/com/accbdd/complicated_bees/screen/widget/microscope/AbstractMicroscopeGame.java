@@ -16,7 +16,7 @@ public abstract class AbstractMicroscopeGame extends AbstractWidget implements I
      * @param pY the y of the widget
      * @param pWidth the width of the widget
      * @param pHeight the height of the widget
-     * @param difficulty the difficulty of the widget (3-10)
+     * @param difficulty the difficulty of the widget (3-8)
      * @param screen the screen this widget is attached to
      */
     public AbstractMicroscopeGame(int pX, int pY, int pWidth, int pHeight, int difficulty, MicroscopeScreen screen) {
