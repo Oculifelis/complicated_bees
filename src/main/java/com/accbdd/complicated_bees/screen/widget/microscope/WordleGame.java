@@ -4,7 +4,7 @@ import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientboun
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
-public class WordleGame extends BaseMicroscopeGame {
+public class WordleGame extends AbstractMicroscopeGame {
     public WordleGame(int pX, int pY, int pWidth, int pHeight) {
         super(pX, pY, pWidth, pHeight);
     }

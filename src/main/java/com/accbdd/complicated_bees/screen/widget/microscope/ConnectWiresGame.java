@@ -17,7 +17,7 @@ import java.util.Random;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class ConnectWiresGame extends BaseMicroscopeGame {
+public class ConnectWiresGame extends AbstractMicroscopeGame {
     private static final ResourceLocation BG = new ResourceLocation(MODID, "textures/gui/microscope/matching.png");
     private static final int BORDER_WIDTH = 1;
     private static final int VERTICAL_PADDING = 3;
@@ -32,7 +32,6 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     int maxSectionWidth, sectionPairs;
     Component bannerText;
     MicroscopeGamePacketClientbound.GameState gameState;
-    MicroscopeScreen screen;
     Random rand = new Random();
 
     //animation stuff
@@ -42,9 +41,8 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     private float animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
 
     public ConnectWiresGame(int pX, int pY, int width, int height, int difficulty, MicroscopeScreen screen) {
-        super(pX, pY, width, height);
-        this.screen = screen;
-        sectionPairs = difficulty;
+        super(pX, pY, width, height, difficulty, screen);
+        sectionPairs = getDifficulty();
         currentGuess = new byte[sectionPairs];
         reset();
     }
@@ -223,7 +221,7 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
 
     @Override
     public void reset() {
-        screen.clearGame();
+        getScreen().clearGame();
         animationTimer = BG_ANIM_LENGTH + SQUARE_ANIM_LENGTH;
         maxSectionWidth = width/sectionPairs;
         Arrays.fill(currentGuess, (byte)-1);
