@@ -77,7 +77,8 @@ public class ConnectWiresGame extends BaseMicroscopeGame {
     @Override
     public void hint(byte index, byte hint) {
         currentGuess[index] = hint;
-        lastClicked = -1;
+        lastClicked = index;
+        clickedSquare = (byte) (hint + sectionPairs);
         sendGuess(currentGuess);
     }
 

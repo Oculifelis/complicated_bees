@@ -7,9 +7,11 @@ import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeHintPacketClientbound;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -36,8 +38,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
 
     private final BlockPos pos;
     private final Player player;
-    private final byte[] researchCode;
-    private final byte difficulty;
+    private byte[] researchCode;
+    private byte difficulty;
     protected List<Mutation> possibleMutations = List.of();
     protected int possibleMutationsCount = -1;
     protected List<Mutation> researchedMutations = List.of();
@@ -47,24 +49,27 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         this.player = player;
-        //todo: actually set this based on the bee
-        this.difficulty = 3;
-        this.researchCode = new byte[difficulty];
-        for (byte i = 0; i < difficulty; i++) {
-            researchCode[i] = i;
-        }
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
             addSlot(new TagSlot(microscope.getItems(), 0, 225, 8, ItemTagGenerator.BEE) {
                 @Override
                 public void setChanged() {
                     super.setChanged();
-                    if (getItem().isEmpty())
+                    if (getItem().isEmpty()) {
                         clearGame();
+                    }
+                    setDifficulty();
                     queryTracker();
                 }
             });
             for (int i = 0; i < 5; i++) {
-                addSlot(new TagSlot(microscope.getItems(), i+1, 225, 40 + i * 18, ItemTagGenerator.BEE));
+                addSlot(new TagSlot(microscope.getItems(), i+1, 225, 40 + i * 18, ItemTagGenerator.BEE) {
+                    @Override
+                    public void setByPlayer(ItemStack pStack) {
+                        super.setByPlayer(pStack);
+                        if (!pStack.isEmpty())
+                            sendHint();
+                    }
+                });
             }
             addDataSlot(new DataSlot() {
                 @Override
@@ -96,6 +101,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
             });
             microscope.setLocked(true);
             layoutPlayerInventorySlots(player.getInventory(), 36, 134);
+            setDifficulty();
             shuffle();
         }
     }
@@ -108,14 +114,22 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         }
     }
 
-    protected void startGame(ItemStack item) {
-        shuffle();
-        queryTracker();
-        if (player instanceof ServerPlayer serverPlayer)
-            if (item.isEmpty() || possibleMutationsCount == researchedMutationsCount)
-                clearGame();
-            else if (researchedMutations.size() < possibleMutations.size())
-                PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.START));
+    private void sendHint() {
+        if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide) {
+            byte index = (byte) rand.nextInt(researchCode.length);
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintPacketClientbound(index, researchCode[index]));
+        }
+    }
+
+    private void setDifficulty() {
+        if (getSlot(0).getItem().isEmpty())
+            this.difficulty = 1;
+        else
+            this.difficulty = (byte) (SpeciesRegistration.getComplexity(GeneticHelper.getSpecies(getSlot(0).getItem(), true)) + 2);
+        this.researchCode = new byte[difficulty];
+        for (byte i = 0; i < difficulty; i++) {
+            researchCode[i] = i;
+        }
     }
 
     private void clearGame() {
