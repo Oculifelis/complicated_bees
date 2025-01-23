@@ -70,15 +70,6 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('P', ItemsRegistration.POLLEN.get())
                 .define('R', ItemsRegistration.ROYAL_JELLY.get())
                 .unlockedBy(getHasName(ItemsRegistration.HONEY_DROPLET.get()), has(ItemsRegistration.HONEY_DROPLET.get())), output);
-        enabledRecipe(ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ItemsRegistration.BEE_STAFF.get())
-                .pattern(" LJ")
-                .pattern("PZL")
-                .pattern("ZP ")
-                .define('Z', Items.BLAZE_ROD)
-                .define('P', ItemsRegistration.PROPOLIS.get())
-                .define('J', ItemsRegistration.ROYAL_JELLY.get())
-                .define('L', ItemsRegistration.POLLEN.get())
-                .unlockedBy(getHasName(ItemsRegistration.ROYAL_JELLY.get()), has(ItemsRegistration.ROYAL_JELLY.get())), output);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.ANALYZER.get())
                 .pattern("IGI")
                 .pattern("RWR")
@@ -139,6 +130,15 @@ public class RecipeGenerator extends RecipeProvider {
                 .pattern("WWW")
                 .define('W', ItemsRegistration.SILK_WISP.get())
                 .unlockedBy(getHasName(ItemsRegistration.SILK_WISP.get()), has(ItemsRegistration.SILK_WISP.get())).save(output);
+        enabledRecipe(ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ItemsRegistration.BEE_STAFF.get())
+                .pattern(" LJ")
+                .pattern("PZL")
+                .pattern("ZP ")
+                .define('Z', Items.BLAZE_ROD)
+                .define('P', ItemsRegistration.PROPOLIS.get())
+                .define('J', ItemsRegistration.ROYAL_JELLY.get())
+                .define('L', ItemsRegistration.POLLEN.get())
+                .unlockedBy(getHasName(ItemsRegistration.ROYAL_JELLY.get()), has(ItemsRegistration.ROYAL_JELLY.get())), output);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ItemsRegistration.APIARIST_HELMET.get())
                 .pattern("MMM")
                 .pattern("M M")
@@ -161,6 +161,15 @@ public class RecipeGenerator extends RecipeProvider {
                 .pattern("M M")
                 .define('M', ItemsRegistration.WOVEN_MESH.get())
                 .unlockedBy(getHasName(ItemsRegistration.SILK_WISP.get()), has(ItemsRegistration.SILK_WISP.get())).save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.MICROSCOPE.get(), 1)
+                .pattern(" SI")
+                .pattern(" GI")
+                .pattern("BBB")
+                .define('S', Items.SPYGLASS)
+                .define('I', Items.IRON_INGOT)
+                .define('B', Items.IRON_BLOCK)
+                .define('G', Items.GLASS_PANE)
+                .unlockedBy(getHasName(Items.AMETHYST_SHARD), has(Items.AMETHYST_SHARD)).save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ItemsRegistration.HONEYED_PLANKS.get(), 8)
                 .pattern("SSS")
