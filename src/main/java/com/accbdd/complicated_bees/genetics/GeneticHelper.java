@@ -193,7 +193,10 @@ public class GeneticHelper {
                         for (IMutationCondition condition : mutation.getConditions())
                             canMutate = canMutate && condition.check(level, pos);
                         if (canMutate) {
-                            if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod))
+                            float mod = 0;
+                            if (tracker != null && tracker.isResearched(mutation))
+                                mod = 0.2f;
+                            if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
                                 possibleMutations.add(mutation);
                         }
                     }
