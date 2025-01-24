@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
@@ -46,20 +45,19 @@ public class SpeciesRegistration {
     public static int calculateComplexity(ResourceLocation species, Set<Mutation> visited, Registry<Mutation> mutationRegistry) {
         var x = mutationRegistry.stream().filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
         if (x.isEmpty())
-            complexities.put(species, 1);
+            return complexities.getOrDefault(species, 1);
         x.forEach(mutation -> {
             visited.add(mutation);
             complexities.put(species,
                     Math.min(
-                            complexities.getOrDefault(species, Integer.MAX_VALUE),
                             Math.max(
-                                    calculateComplexity(mutation.getFirst(), visited, mutationRegistry) + 1,
-                                    calculateComplexity(mutation.getSecond(), visited, mutationRegistry) + 1
-                            )
+                                    calculateComplexity(mutation.getFirst(), visited, mutationRegistry),
+                                    calculateComplexity(mutation.getSecond(), visited, mutationRegistry)
+                            ) + 1,
+                            complexities.getOrDefault(species, Integer.MAX_VALUE)
                     )
             );
         });
-        ComplicatedBees.LOGGER.debug("calculated complexity {} for species {}", complexities.get(species), species);
         return complexities.get(species);
     }
 }
