@@ -22,6 +22,8 @@ public class MenuRegistration {
     public static final Supplier<MenuType<MicroscopeMenu>> MICROSCOPE_MENU = MENU_TYPES.register("microscope",
             () -> IForgeMenuType.create((windowId, inv, data) -> new MicroscopeMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<AnalyzerMenu>> ANALYZER_MENU = MENU_TYPES.register("analyzer",
-            () -> IForgeMenuType.create((windowId, playerInv, data) -> AnalyzerMenu.fromNetwork(windowId, playerInv)));
+            () -> IForgeMenuType.create((windowId, inv, data) -> AnalyzerMenu.fromNetwork(windowId, inv)));
+    public static final Supplier<MenuType<LibraryMenu>> LIBRARY_MENU = MENU_TYPES.register("library",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new LibraryMenu(windowId, inv.player)));
 
 }

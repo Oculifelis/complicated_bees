@@ -107,6 +107,7 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.ANALYZER.get());
                 output.accept(ItemsRegistration.GENERATOR.get());
                 output.accept(ItemsRegistration.MICROSCOPE.get());
+                output.accept(ItemsRegistration.APID_LIBRARY.get());
                 output.accept(ItemsRegistration.FRAME.get());
                 output.accept(ItemsRegistration.WAXED_FRAME.get());
                 output.accept(ItemsRegistration.HONEYED_FRAME.get());
@@ -262,6 +263,7 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
                 MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);
+                MenuScreens.register(MenuRegistration.LIBRARY_MENU.get(), LibraryScreen::new);
             });
         }
 

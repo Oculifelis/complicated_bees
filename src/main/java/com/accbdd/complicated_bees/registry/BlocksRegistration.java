@@ -32,6 +32,8 @@ public class BlocksRegistration {
     public static final RegistryObject<GeneratorBlock> GENERATOR = BLOCKS.register("generator", GeneratorBlock::new);
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
 
+    public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", () -> new ApidLibraryBlock());
+
     public static final RegistryObject<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES));
     public static final RegistryObject<StairBlock> WAX_BLOCK_STAIRS = BLOCKS.register("wax_block_stairs", () -> stair(WAX_BLOCK.get()));
     public static final RegistryObject<SlabBlock> WAX_BLOCK_SLAB = BLOCKS.register("wax_block_slab", () -> slab(WAX_BLOCK.get()));
