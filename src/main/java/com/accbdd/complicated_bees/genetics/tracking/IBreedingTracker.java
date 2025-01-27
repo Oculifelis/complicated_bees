@@ -5,8 +5,15 @@ import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface IBreedingTracker {
+
+    /**
+     * @return the UUID of the player this tracker is for
+     */
+    UUID getUUID();
+
     /**
      * @return a collection of discovered species
      */

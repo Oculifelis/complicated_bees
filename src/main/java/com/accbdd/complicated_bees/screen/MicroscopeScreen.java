@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import com.accbdd.complicated_bees.util.GuiHelper;
@@ -74,6 +75,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         renderText(graphics);
         renderSlotOverlays(graphics);
         renderTooltip(graphics, mousex, mousey);
+        graphics.drawCenteredString(Minecraft.getInstance().font, BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().toString(), leftPos, topPos - 20, 0xFFFFFF);
     }
 
     public void renderText(GuiGraphics graphics) {
@@ -121,7 +123,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         clearGame();
         if (menu.possibleMutationsCount != menu.researchedMutationsCount) {
             game = addRenderableWidget(new ConnectWiresGame(leftPos + 8, topPos + 8, 215, 120, menu.getDifficulty(), this));
-            menu.setState(MicroscopeGamePacketClientbound.GameState.ONGOING);
+            menu.setState(MicroscopeGameClientbound.GameState.ONGOING);
         }
     }
 

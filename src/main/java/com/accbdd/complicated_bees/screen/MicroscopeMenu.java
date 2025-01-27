@@ -4,10 +4,10 @@ import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.network.PacketHandler;
-import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
-import com.accbdd.complicated_bees.network.packet.MicroscopeHintPacketClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -38,7 +38,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     private final Player player;
     private byte[] researchCode;
     private byte[] guessCode;
-    private MicroscopeGamePacketClientbound.GameState state;
+    private MicroscopeGameClientbound.GameState state;
     protected int difficulty;
     protected List<Mutation> possibleMutations = List.of();
     protected int possibleMutationsCount = -1;
@@ -49,7 +49,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
         this.pos = pos;
         this.player = player;
-        this.state = MicroscopeGamePacketClientbound.GameState.CLEAR;
+        this.state = MicroscopeGameClientbound.GameState.CLEAR;
         if (player.level().getBlockEntity(pos) instanceof MicroscopeBlockEntity microscope) {
             addSlot(new TagSlot(microscope.getItems(), 0, 225, 8, ItemTagGenerator.BEE) {
                 @Override
@@ -71,7 +71,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
 
                     @Override
                     public boolean mayPlace(ItemStack stack) {
-                        if (difficulty < this.getSlotIndex() + 1 || getState() != MicroscopeGamePacketClientbound.GameState.ONGOING)
+                        if (difficulty < this.getSlotIndex() + 1 || getState() != MicroscopeGameClientbound.GameState.ONGOING)
                             return false;
                         return super.mayPlace(stack);
                     }
@@ -150,7 +150,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 }
             }
             byte index = unguessed.get(rand.nextInt(unguessed.size())).byteValue();
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintPacketClientbound(index, researchCode[index]));
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintClientbound(index, researchCode[index]));
         }
     }
 
@@ -169,8 +169,8 @@ public class MicroscopeMenu extends AbstractContainerMenu {
 
     private void clearGame() {
         if (player instanceof ServerPlayer serverPlayer)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGamePacketClientbound(MicroscopeGamePacketClientbound.GameState.CLEAR));
-        this.setState(MicroscopeGamePacketClientbound.GameState.CLEAR);
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.CLEAR));
+        this.setState(MicroscopeGameClientbound.GameState.CLEAR);
     }
 
     public byte[] getResearchCode() {
@@ -186,7 +186,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     }
 
     protected void queryTracker() {
-        ServerBreedingTracker tracker = ServerBreedingTracker.getTracker(this.player);
+        BreedingTracker tracker = BreedingTracker.getTracker(this.player);
         if (tracker == null)
             return;
         ItemStack bee = getSlot(0).getItem();
@@ -216,7 +216,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         ItemStack bee = getSlot(0).getItem();
         if (bee.isEmpty())
             return;
-        ServerBreedingTracker tracker = ServerBreedingTracker.getTracker(this.player);
+        BreedingTracker tracker = BreedingTracker.getTracker(this.player);
         ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
@@ -315,11 +315,11 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(player.level(), pos), player, BlocksRegistration.MICROSCOPE.get());
     }
 
-    public MicroscopeGamePacketClientbound.GameState getState() {
+    public MicroscopeGameClientbound.GameState getState() {
         return state;
     }
 
-    public void setState(MicroscopeGamePacketClientbound.GameState state) {
+    public void setState(MicroscopeGameClientbound.GameState state) {
         this.state = state;
     }
 }

@@ -7,7 +7,7 @@ import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.genetics.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
-import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
@@ -73,8 +73,6 @@ public class GeneticHelper {
         tag.put(CHROMOSOME_B, genome.getSecondary().serialize());
         stack.getOrCreateTag().put(MATE, tag);
     }
-
-
 
     public static RegistryAccess getRegistryAccess() {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
@@ -168,10 +166,10 @@ public class GeneticHelper {
             mutationChanceMod *= f;
         }
         List<Mutation> possibleMutations = new ArrayList<>();
-        ServerBreedingTracker tracker = null;
+        BreedingTracker tracker = null;
 
         if (level.getBlockEntity(pos) instanceof ApiaryBlockEntity apiary && apiary.getOwner() != null) {
-            tracker = ServerBreedingTracker.getTracker(apiary.getOwner());
+            tracker = BreedingTracker.getTracker(apiary.getOwner());
         }
 
         for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {

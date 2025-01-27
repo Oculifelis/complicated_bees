@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.screen.widget.microscope;
 
 import com.accbdd.complicated_bees.network.PacketHandler;
-import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
-import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketServerbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGameServerbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import com.mojang.math.Axis;
@@ -34,7 +34,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     byte clickedSquare = -1;
     int maxSectionWidth, sectionPairs;
     Component bannerText;
-    MicroscopeGamePacketClientbound.GameState gameState;
+    MicroscopeGameClientbound.GameState gameState;
     Random rand = new Random();
 
     //animation stuff
@@ -63,7 +63,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
                 getHeight());
         drawAllSections(pGuiGraphics, getX(), getY());
         drawAllLinks(pGuiGraphics);
-        if (gameState != MicroscopeGamePacketClientbound.GameState.ONGOING) {
+        if (gameState != MicroscopeGameClientbound.GameState.ONGOING) {
             transparencyMod += pPartialTick;
             transparencyMod %= 30;
             drawText(pGuiGraphics);
@@ -85,7 +85,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     private void drawText(GuiGraphics graphics) {
         graphics.pose().pushPose();
         graphics.pose().translate(getX(), getY(), 0);
-        int color = gameState == MicroscopeGamePacketClientbound.GameState.FAILED ? 0xFFFF0000 : 0xFF00FF00;
+        int color = gameState == MicroscopeGameClientbound.GameState.FAILED ? 0xFFFF0000 : 0xFF00FF00;
         graphics.fill(0, getHeight()/2-Minecraft.getInstance().font.lineHeight/2 - 14, getWidth(), getHeight()/2+16, color & (transparencyMod < 15 ? 0xCCCCCC00 : 0xAACCCC00));
         graphics.pose().scale(2, 2, 1);
         graphics.drawCenteredString(Minecraft.getInstance().font,
@@ -163,9 +163,9 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
             animationTimer = 0;
             return;
         }
-        if (clickedSquare == -1 || gameState != MicroscopeGamePacketClientbound.GameState.ONGOING) {
+        if (clickedSquare == -1 || gameState != MicroscopeGameClientbound.GameState.ONGOING) {
             lastClicked = -1;
-            if (gameState == MicroscopeGamePacketClientbound.GameState.FAILED || gameState == MicroscopeGamePacketClientbound.GameState.WON)
+            if (gameState == MicroscopeGameClientbound.GameState.FAILED || gameState == MicroscopeGameClientbound.GameState.WON)
                 reset();
             return;
         }
@@ -195,11 +195,11 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     @Override
     public void sendGuess(byte[] guess) {
-        PacketHandler.CHANNEL.sendToServer(new MicroscopeGamePacketServerbound(guess));
+        PacketHandler.CHANNEL.sendToServer(new MicroscopeGameServerbound(guess));
     }
 
     @Override
-    public void setGameState(MicroscopeGamePacketClientbound.GameState state) {
+    public void setGameState(MicroscopeGameClientbound.GameState state) {
         gameState = state;
         switch (state) {
             case START:
@@ -229,7 +229,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         maxSectionWidth = width/sectionPairs;
         Arrays.fill(currentGuess, (byte)-1);
         sendGuess(currentGuess);
-        gameState = MicroscopeGamePacketClientbound.GameState.ONGOING;
+        gameState = MicroscopeGameClientbound.GameState.ONGOING;
         generateSections();
     }
 

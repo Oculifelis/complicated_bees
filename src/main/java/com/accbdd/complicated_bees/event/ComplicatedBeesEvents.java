@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.event;
 
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
@@ -10,7 +10,7 @@ public class ComplicatedBeesEvents {
         ItemStack stack = event.getItem().getItem();
         if (!stack.isEmpty()) {
             if(stack.is(ItemTagGenerator.BEE)) {
-                ServerBreedingTracker.getTracker(event.getEntity()).discoverIndividual(stack);
+                BreedingTracker.getTracker(event.getEntity()).discoverIndividual(stack);
             }
         }
     }

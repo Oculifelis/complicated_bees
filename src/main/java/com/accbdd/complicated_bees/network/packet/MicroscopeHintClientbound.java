@@ -9,25 +9,25 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record MicroscopeHintPacketClientbound(byte index, byte hint) implements IModPacket {
+public record MicroscopeHintClientbound(byte index, byte hint) implements IModPacket {
     @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeByte(index);
         buf.writeByte(hint);
     }
 
-    public static MicroscopeHintPacketClientbound decode(FriendlyByteBuf buf) {
-        return new MicroscopeHintPacketClientbound(buf.readByte(), buf.readByte());
+    public static MicroscopeHintClientbound decode(FriendlyByteBuf buf) {
+        return new MicroscopeHintClientbound(buf.readByte(), buf.readByte());
     }
 
-    public static void handle(MicroscopeHintPacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(MicroscopeHintClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MicroscopeHintPacketClientbound.handlePacket(packet, ctx))
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MicroscopeHintClientbound.handlePacket(packet, ctx))
         );
         ctx.get().setPacketHandled(true);
     }
 
-    public static void handlePacket(MicroscopeHintPacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handlePacket(MicroscopeHintClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
             //ComplicatedBees.LOGGER.debug("got packet with hint {} for index {}", packet.hint, packet.index);
             screen.getGame().hint(packet.index, packet.hint);

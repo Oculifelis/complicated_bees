@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
@@ -37,7 +37,7 @@ public class AnalyzerMenu extends AbstractContainerMenu {
                         }
                     }
                 }
-                var tracker = ServerBreedingTracker.getTracker(player);
+                var tracker = BreedingTracker.getTracker(player);
                 tracker.discoverIndividual(bee);
                 player.getInventory().getItem(bagSlot).getOrCreateTag().put(INVENTORY_TAG, this.serializeNBT());
             }

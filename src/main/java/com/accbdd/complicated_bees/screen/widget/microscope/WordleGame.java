@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.screen.widget.microscope;
 
-import com.accbdd.complicated_bees.network.packet.MicroscopeGamePacketClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -34,7 +34,7 @@ public class WordleGame extends AbstractMicroscopeGame {
     }
 
     @Override
-    public void setGameState(MicroscopeGamePacketClientbound.GameState state) {
+    public void setGameState(MicroscopeGameClientbound.GameState state) {
 
     }
 

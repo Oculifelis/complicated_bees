@@ -5,6 +5,9 @@ import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.item.BeeItem;
+import com.accbdd.complicated_bees.network.PacketHandler;
+import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
+import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.Collection;
@@ -26,7 +30,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ServerBreedingTracker extends SavedData implements IBreedingTracker {
+public class BreedingTracker extends SavedData implements IBreedingTracker {
+    public static BreedingTracker CLIENT_INSTANCE;
+
     public static String UUID_KEY = "uuid";
     public static String SPECIES_KEY = "species";
     public static String MUTATIONS_KEY = "mutations";
@@ -37,11 +43,16 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     protected final Set<ResourceLocation> discoveredMutations;
     protected final Set<ResourceLocation> researchedMutations;
 
-    public ServerBreedingTracker(UUID playerId) {
+    public BreedingTracker(UUID playerId) {
         this.playerId = playerId;
         this.discoveredSpecies = new HashSet<>();
         this.discoveredMutations = new HashSet<>();
         this.researchedMutations = new HashSet<>();
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.playerId;
     }
 
     @Override
@@ -86,8 +97,10 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     @Override
     public void discover(Species species) {
         if (!isDiscovered(species)) {
-            discoveredSpecies.add(SpeciesRegistration.getResourceLocation(species));
+            ResourceLocation loc = SpeciesRegistration.getResourceLocation(species);
+            discoveredSpecies.add(loc);
             setDirty();
+            sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.SPECIES, loc);
             //debug messages
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             var playerName = server.getPlayerList().getPlayer(playerId).getName();
@@ -102,8 +115,10 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     @Override
     public void discover(Mutation mutation) {
         if (!isDiscovered(mutation)) {
-            discoveredMutations.add(MutationRegistration.getResourceLocation(mutation));
+            ResourceLocation loc = MutationRegistration.getResourceLocation(mutation);
+            discoveredMutations.add(loc);
             setDirty();
+            sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.MUTATION, loc);
             //debug messages
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             var playerName = server.getPlayerList().getPlayer(playerId).getName();
@@ -118,8 +133,10 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     @Override
     public void research(Mutation mutation) {
         if (!isResearched(mutation)) {
-            researchedMutations.add(MutationRegistration.getResourceLocation(mutation));
+            ResourceLocation loc = MutationRegistration.getResourceLocation(mutation);
+            researchedMutations.add(loc);
             setDirty();
+            sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.RESEARCH, loc);
             //debug messages
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             var playerName = server.getPlayerList().getPlayer(playerId).getName();
@@ -134,16 +151,29 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
     public void clearSpecies() {
         discoveredSpecies.clear();
         setDirty();
+        syncToPlayer();
     }
 
     public void clearMutations() {
         discoveredMutations.clear();
         setDirty();
+        syncToPlayer();
     }
 
     public void clearResearch() {
         researchedMutations.clear();
         setDirty();
+        syncToPlayer();
+    }
+
+    public void syncToPlayer() {
+        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())),
+                new TrackerSyncClientbound(this));
+    }
+
+    public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
+        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())),
+                new TrackerUpdateClientbound(type, loc));
     }
 
     @Override
@@ -155,10 +185,10 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         return pCompoundTag;
     }
 
-    public static ServerBreedingTracker load(CompoundTag tag) {
+    public static BreedingTracker load(CompoundTag tag) {
         if (!tag.contains(UUID_KEY))
             throw new NullPointerException("tried to load breeding tracker with no uuid!");
-        ServerBreedingTracker tracker = new ServerBreedingTracker(tag.getUUID(UUID_KEY));
+        BreedingTracker tracker = new BreedingTracker(tag.getUUID(UUID_KEY));
         readListFromNBT(tag, str -> tracker.discoveredSpecies.add(ResourceLocation.tryParse(str)), SPECIES_KEY);
         readListFromNBT(tag, str -> tracker.discoveredMutations.add(ResourceLocation.tryParse(str)), MUTATIONS_KEY);
         readListFromNBT(tag, str -> tracker.researchedMutations.add(ResourceLocation.tryParse(str)), RESEARCH_KEY);
@@ -194,14 +224,23 @@ public class ServerBreedingTracker extends SavedData implements IBreedingTracker
         }
     }
 
-    public static ServerBreedingTracker getTracker(Player player) {
+    public static BreedingTracker getTracker(Player player) {
         return getTracker(player.getUUID());
     }
 
-    public static ServerBreedingTracker getTracker(UUID uuid) {
+    public static BreedingTracker getTracker(UUID uuid) {
         if (ServerLifecycleHooks.getCurrentServer() == null)
             return null;
         DimensionDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
-        return storage.computeIfAbsent(ServerBreedingTracker::load, () -> new ServerBreedingTracker(uuid), "complicated_bees." + uuid.toString());
+        return storage.computeIfAbsent(BreedingTracker::load, () -> new BreedingTracker(uuid), "complicated_bees." + uuid.toString());
     }
+
+    public static void updateFromPacket(TrackerUpdateClientbound packet) {
+        switch (packet.type()) {
+            case SPECIES -> CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
+            case MUTATION -> CLIENT_INSTANCE.discoveredMutations.add(packet.loc());
+            case RESEARCH -> CLIENT_INSTANCE.researchedMutations.add(packet.loc());
+        }
+    }
+
 }

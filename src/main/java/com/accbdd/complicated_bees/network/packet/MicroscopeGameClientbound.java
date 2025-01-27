@@ -9,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record MicroscopeGamePacketClientbound(GameState state) implements IModPacket {
+public record MicroscopeGameClientbound(GameState state) implements IModPacket {
     public enum GameState {
         WON,
         ONGOING,
@@ -23,18 +23,18 @@ public record MicroscopeGamePacketClientbound(GameState state) implements IModPa
         buf.writeEnum(state());
     }
 
-    public static MicroscopeGamePacketClientbound decode(FriendlyByteBuf buf) {
-        return new MicroscopeGamePacketClientbound(buf.readEnum(GameState.class));
+    public static MicroscopeGameClientbound decode(FriendlyByteBuf buf) {
+        return new MicroscopeGameClientbound(buf.readEnum(GameState.class));
     }
 
-    public static void handle(MicroscopeGamePacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(MicroscopeGameClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MicroscopeGamePacketClientbound.handlePacket(packet, ctx))
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MicroscopeGameClientbound.handlePacket(packet, ctx))
         );
         ctx.get().setPacketHandled(true);
     }
 
-    public static void handlePacket(MicroscopeGamePacketClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handlePacket(MicroscopeGameClientbound packet, Supplier<NetworkEvent.Context> ctx) {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
             //ComplicatedBees.LOGGER.debug("got packet with state {}", packet.state);
             GameState state = packet.state();

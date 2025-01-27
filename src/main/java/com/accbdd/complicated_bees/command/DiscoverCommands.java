@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.command;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.tracking.ServerBreedingTracker;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.brigadier.Command;
@@ -47,7 +47,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
                 ++i;
-                ServerBreedingTracker.getTracker(player).clearResearch();
+                BreedingTracker.getTracker(player).clearResearch();
             }
         }
         if (i == 0)
@@ -63,10 +63,10 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         int i = 0;
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
-                var tracker = ServerBreedingTracker.getTracker(player);
+                var tracker = BreedingTracker.getTracker(player);
                 if (!tracker.isResearched(mutation)) {
                     ++i;
-                    ServerBreedingTracker.getTracker(player).research(mutation);
+                    BreedingTracker.getTracker(player).research(mutation);
                 }
             }
         }
@@ -84,7 +84,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
                 ++i;
-                ServerBreedingTracker.getTracker(player).clearMutations();
+                BreedingTracker.getTracker(player).clearMutations();
             }
         }
         if (i == 0)
@@ -100,10 +100,10 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         int i = 0;
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
-                var tracker = ServerBreedingTracker.getTracker(player);
+                var tracker = BreedingTracker.getTracker(player);
                 if (!tracker.isDiscovered(mutation)) {
                     ++i;
-                    ServerBreedingTracker.getTracker(player).discover(mutation);
+                    BreedingTracker.getTracker(player).discover(mutation);
                 }
             }
         }
@@ -121,7 +121,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
                 ++i;
-                ServerBreedingTracker.getTracker(player).clearSpecies();
+                BreedingTracker.getTracker(player).clearSpecies();
             }
         }
         if (i == 0)
@@ -137,10 +137,10 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         int i = 0;
         for (Entity entity : targets) {
             if (entity instanceof Player player) {
-                var tracker = ServerBreedingTracker.getTracker(player);
+                var tracker = BreedingTracker.getTracker(player);
                 if (!tracker.isDiscovered(species)) {
                     ++i;
-                    ServerBreedingTracker.getTracker(player).discover(species);
+                    BreedingTracker.getTracker(player).discover(species);
                 }
             }
         }
