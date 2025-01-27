@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.screen.widget;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Product;
 import com.accbdd.complicated_bees.genetics.Species;
@@ -8,7 +9,6 @@ import com.accbdd.complicated_bees.genetics.gene.GeneEffect;
 import com.accbdd.complicated_bees.genetics.gene.GeneTolerant;
 import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.item.PrincessItem;
-import com.accbdd.complicated_bees.item.QueenItem;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.screen.AnalyzerMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
@@ -54,7 +54,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
 
     @Override
     protected double scrollRate() {
-        return 5;
+        return 10;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         drawProducts(graphics, bee);
         lineBreak();
 
-        if (bee.getItem() instanceof PrincessItem || bee.getItem() instanceof QueenItem) {
+        if (bee.is(ItemTagGenerator.ROYAL)) {
             drawTextCentered(graphics, Component.translatable("gui.complicated_bees.generations", PrincessItem.getGeneration(bee)), 107, nextLine, 0x8cf536);
             lineBreak();
             lineBreak();
@@ -260,7 +260,8 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
 
     private void drawFlavor(GuiGraphics graphics, ItemStack bee) {
         Species species = GeneticHelper.getSpecies(bee, true);
-
+        graphics.pose().pushPose();
+        graphics.pose().translate(getX(), getY(), 0);
         nextLine = GuiHelper.drawWrappedText(graphics,
                 PADDING,
                 nextLine,
@@ -269,6 +270,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
                 getWidth(),
                 PADDING,
                 GeneticHelper.getFlavorTextKey(species).withStyle(ChatFormatting.ITALIC));
+        graphics.pose().popPose();
         nextLine -= LINE_HEIGHT / 2;
         drawRightAlignedText(graphics, Component.literal("-").append(GeneticHelper.getFlavorTextAuthorKey(species)), getWidth() - PADDING, nextLine, 0xA4A4A4);
         nextLine += LINE_HEIGHT;

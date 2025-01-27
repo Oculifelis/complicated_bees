@@ -17,10 +17,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
@@ -30,9 +28,11 @@ import net.minecraftforge.network.PacketDistributor;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MicroscopeMenu extends AbstractContainerMenu {
+public class MicroscopeMenu extends AbstractBaseInventoryMenu {
     public static int SLOT_COUNT = 6;
     public static Random rand = new Random();
+    private static int INV_X = 36;
+    private static int INV_Y = 134;
 
     private final BlockPos pos;
     private final Player player;
@@ -46,7 +46,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
     protected  int researchedMutationsCount = -1;
 
     public MicroscopeMenu(int windowId, Player player, BlockPos pos) {
-        super(MenuRegistration.MICROSCOPE_MENU.get(), windowId);
+        super(MenuRegistration.MICROSCOPE_MENU.get(), windowId, player, SLOT_COUNT, INV_X, INV_Y);
         this.pos = pos;
         this.player = player;
         this.state = MicroscopeGameClientbound.GameState.CLEAR;
@@ -117,7 +117,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                 }
             });
             microscope.setLocked(true);
-            layoutPlayerInventorySlots(player.getInventory(), 36, 134);
+            layoutPlayerInventorySlots(player.getInventory());
             setDifficulty();
         }
     }
@@ -244,31 +244,6 @@ public class MicroscopeMenu extends AbstractContainerMenu {
         Arrays.fill(guessCode, (byte) -1);
     }
 
-    private int addSlotRange(Container playerInventory, int index, int x, int y, int amount, int dx) {
-        for (int i = 0; i < amount; i++) {
-            addSlot(new Slot(playerInventory, index, x, y));
-            x += dx;
-            index++;
-        }
-        return index;
-    }
-
-    private void addSlotBox(Container playerInventory, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
-        for (int j = 0; j < verAmount; j++) {
-            index = addSlotRange(playerInventory, index, x, y, horAmount, dx);
-            y += dy;
-        }
-    }
-
-    private void layoutPlayerInventorySlots(Container playerInventory, int leftCol, int topRow) {
-        // Player inventory
-        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18);
-
-        // Hotbar
-        topRow += 58;
-        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
-    }
-
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
@@ -284,7 +259,7 @@ public class MicroscopeMenu extends AbstractContainerMenu {
                     possibleMutations = List.of();
                 }
             }
-            if (!this.moveItemStackTo(stack, 0, 2, false)) {
+            if (!this.moveItemStackTo(stack, 0, SLOT_COUNT, false)) {
                 if (index < 27 + SLOT_COUNT) {
                     if (!this.moveItemStackTo(stack, 27 + SLOT_COUNT, 36 + SLOT_COUNT, false)) {
                         return ItemStack.EMPTY;
