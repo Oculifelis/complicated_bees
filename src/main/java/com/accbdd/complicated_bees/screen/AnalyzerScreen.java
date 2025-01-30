@@ -55,6 +55,4 @@ public class AnalyzerScreen extends AbstractContainerScreen<AnalyzerMenu> {
             }
         }
     }
-
-
 }

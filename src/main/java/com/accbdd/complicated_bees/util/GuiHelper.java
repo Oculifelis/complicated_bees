@@ -29,7 +29,7 @@ public class GuiHelper {
             for (String prewrap : linebroken) {
                 List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), maxWidth - padding * 2);
                 for (FormattedCharSequence line : lines) {
-                    graphics.drawString(Minecraft.getInstance().font, line, x, curY, color);
+                    graphics.drawString(Minecraft.getInstance().font, line, x + padding, curY, color);
                     curY += lineHeight;
                 }
             }
