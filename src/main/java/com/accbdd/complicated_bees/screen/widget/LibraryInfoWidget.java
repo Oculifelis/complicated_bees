@@ -85,14 +85,13 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 mutationWidget.selectedResearched ? 0x00FF00 : 0xFF0000,
                 Component.literal("Researched:"),
                 Component.literal(mutationWidget.selectedResearched ? "✔" : "✘"));
-
+        //todo: add obfuscation
         nextY = drawTextAndValue(graphics,
                 nextY,
                 0xFFFFFF,
                 0xFFFFFF,
                 Component.literal("Chance:"),
                 Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).getChance() * 100) + (mutationWidget.selectedResearched ? Config.CONFIG.researchBonus.get() * 100 : 0)))));
-
         nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
                 infoPanelX,
                 nextY,

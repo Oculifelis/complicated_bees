@@ -1,5 +1,6 @@
-// 1.20.1	2024-12-24T15:56:32.8173819	Block States: complicated_bees
+// 1.20.1	2025-02-09T00:05:14.7989578	Block States: complicated_bees
 f96c3049aa45fc2ee1427d6b9010e4d655e13430 assets/complicated_bees/blockstates/apiary.json
+ad30e8af550fe579d5740d7da33a0a335261bfab assets/complicated_bees/blockstates/apid_library.json
 6f082c4f7826e0853af1c6128556032c8325066e assets/complicated_bees/blockstates/bee_nest.json
 25dfbbaa9d3a13e3bdcd4d8a4fa0e6007da24b41 assets/complicated_bees/blockstates/centrifuge.json
 31c8c5a3959231614a67ce3b12861491df7680db assets/complicated_bees/blockstates/chiseled_wax.json
@@ -27,6 +28,7 @@ e414bb9a45feb35b6d2516fafd5dfa9654760f29 assets/complicated_bees/blockstates/wax
 1c7a56ea56fcd248ea7414f4ee1a32f8ab87432f assets/complicated_bees/blockstates/wax_brick_stairs.json
 55488b525f900be7df5cf030ae4573dc5937ffdc assets/complicated_bees/blockstates/wax_brick_wall.json
 b8d341a6b69eacead66a55524a7bbba3ce7909e9 assets/complicated_bees/models/block/apiary.json
+9a18ac8d7f583cb7107094ef6cd6cf2a067166ad assets/complicated_bees/models/block/apid_library.json
 483136423e051bb780b87623d6adab9e6b8281c2 assets/complicated_bees/models/block/bee_nest.json
 1510c0def729ff7e4e440ad4e855683238113a7e assets/complicated_bees/models/block/centrifuge.json
 0de3bbdd5594c9fe48372bea590d794a515efde2 assets/complicated_bees/models/block/centrifuge_on.json
