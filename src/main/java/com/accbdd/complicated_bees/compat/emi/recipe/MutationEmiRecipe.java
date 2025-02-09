@@ -1,9 +1,12 @@
 package com.accbdd.complicated_bees.compat.emi.recipe;
 
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
+import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import com.accbdd.complicated_bees.registry.MutationRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -98,7 +101,12 @@ public class MutationEmiRecipe implements EmiRecipe {
                 .drawBack(false)
                 .recipeContext(this);
 
-        String chanceString = mutation.getConditions().isEmpty() ? String.format("%.0f%%", mutation.getChance() * 100) : String.format("[%.0f%%]", mutation.getChance() * 100);
+        float chance = mutation.getChance() * 100;
+        if (BreedingTracker.CLIENT_INSTANCE != null) {
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation)) ? Config.CONFIG.researchBonus.get() * 100 : 0;
+        }
+
+        String chanceString = mutation.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);
         widgets.addText(Component.literal(chanceString), 95, 1, -1, true)
                 .horizontalAlign(TextWidget.Alignment.CENTER);
 

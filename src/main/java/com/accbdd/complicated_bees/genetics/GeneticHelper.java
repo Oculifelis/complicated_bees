@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.genetics;
 
 import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
+import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.genetics.gene.GeneSpecies;
 import com.accbdd.complicated_bees.genetics.gene.GeneTolerant;
 import com.accbdd.complicated_bees.genetics.gene.IGene;
@@ -193,7 +194,7 @@ public class GeneticHelper {
                         if (canMutate) {
                             float mod = 0;
                             if (tracker != null && tracker.isResearched(mutation))
-                                mod = 0.2f; //flat 20% increase to all mutations researched
+                                mod = Config.CONFIG.researchBonus.get();
                             if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
                                 possibleMutations.add(mutation);
                         }

@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen.widget;
 
+import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.screen.LibraryMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
@@ -90,7 +91,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 0xFFFFFF,
                 0xFFFFFF,
                 Component.literal("Chance:"),
-                Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).getChance() * 100) + (mutationWidget.selectedResearched ? 20 : 0)))));
+                Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).getChance() * 100) + (mutationWidget.selectedResearched ? Config.CONFIG.researchBonus.get() * 100 : 0)))));
 
         nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
                 infoPanelX,
