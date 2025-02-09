@@ -195,6 +195,9 @@
   "gene.complicated_bees.active_time.cathemeral": "Cathemeral",
   "gene.complicated_bees.active_time.never_sleeps": "Always",
 
+  "gui.complicated_bees.analyzer.active": "Active",
+  "gui.complicated_bees.analyzer.inactive": "Inactive",
+
   "gui.complicated_bees.mutations.has_conditions": "Special conditions for mutation:",
   "gui.complicated_bees.mutations.block_under" : "Requires %s underneath apiary",
   "gui.complicated_bees.mutations.ecstatic" : "Queen must be ecstatic",
@@ -215,6 +218,13 @@
   "gui.complicated_bees.microscope.complete": "This species has no more mutations for you to discover.",
   "gui.complicated_bees.microscope.locked": "This microscope is in use by another player.",
   "gui.complicated_bees.microscope.start": "BEGIN SEQUENCING",
+
+  "gui.complicated_bees.library.discovered": "Discovered:",
+  "gui.complicated_bees.library.researched": "Researched:",
+  "gui.complicated_bees.library.conditions": "Conditions",
+  "gui.complicated_bees.library.info": "Info",
+  "gui.complicated_bees.library.detail": "Select a mutation on the right to view detailed information.",
+  "gui.complicated_bees.library.tutorial": "Place a bee in the top right slot to see its mutations.",
 
   "jei.complicated_bees.chance": "Chance",
 
@@ -597,5 +607,6 @@
   "command.complicated_bees.discover.mutation.no_change": "Mutation already discovered!",
   "command.complicated_bees.discover.research.clear": "Cleared mutation researches from %s players",
   "command.complicated_bees.discover.research": "Researched %s for %s players",
-  "command.complicated_bees.discover.research.no_change": "Mutation already researched!"
+  "command.complicated_bees.discover.research.no_change": "Mutation already researched!",
+  "command.complicated_bees.no_players": "0 players found"
 }

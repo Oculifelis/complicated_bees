@@ -94,8 +94,8 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         this.mouseX = mouseX;
         this.mouseY = mouseY;
 
-        drawText(graphics, Component.literal("Active"), ACTIVE_COL, nextLine, 0xFFFFFF);
-        drawText(graphics, Component.literal("Inactive"), INACTIVE_COL, nextLine, 0xFFFFFF);
+        drawText(graphics, Component.translatable("gui.complicated_bees.analyzer.active"), ACTIVE_COL, nextLine, 0xFFFFFF);
+        drawText(graphics, Component.translatable("gui.complicated_bees.analyzer.inactive"), INACTIVE_COL, nextLine, 0xFFFFFF);
         lineBreak();
         lineBreak();
 

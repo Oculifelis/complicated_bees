@@ -51,7 +51,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             }
         }
         if (i == 0)
-            throw new SimpleCommandExceptionType(Component.literal("0 players found")).create();
+            throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.no_players")).create();
         else {
             int finalI = i;
             source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research.clear", finalI), true);
@@ -88,7 +88,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             }
         }
         if (i == 0)
-            throw new SimpleCommandExceptionType(Component.literal("0 players found")).create();
+            throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.no_players")).create();
         else {
             int finalI = i;
             source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.mutation.clear", finalI), true);
@@ -125,7 +125,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             }
         }
         if (i == 0)
-            throw new SimpleCommandExceptionType(Component.literal("0 players found")).create();
+            throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.no_players")).create();
         else {
             int finalI = i;
             source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.species.clear", finalI), true);

@@ -44,7 +44,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                     12,
                     98,
                     3,
-                    Component.literal("Place a bee in the top right slot to see its mutations."));
+                    Component.translatable("gui.complicated_bees.library.tutorial"));
             innerHeight = getHeight() - 8;
         } else if (mutationWidget.selected != -1 && mutationWidget.selected < mutationWidget.possibleMutations.size()) {
             renderMutationInfo(pGuiGraphics, mutationWidget.possibleMutations.get(mutationWidget.selected));
@@ -56,7 +56,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                     12,
                     98,
                     3,
-                    Component.literal("Select a mutation on the right to view detailed information."));
+                    Component.translatable("gui.complicated_bees.library.detail"));
             innerHeight = getHeight() - 8;
         }
     }
@@ -68,14 +68,14 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 12,
                 106,
                 3,
-                Component.literal("Info").withStyle(ChatFormatting.UNDERLINE));
+                Component.translatable("gui.complicated_bees.library.info").withStyle(ChatFormatting.UNDERLINE));
 
         nextY -= 6;
         nextY = drawTextAndValue(graphics,
                 nextY,
                 0xFFFFFF,
                 mutationWidget.selectedDiscovered ? 0x00FF00 : 0xFF0000,
-                Component.literal("Discovered:"),
+                Component.translatable("gui.complicated_bees.library.discovered"),
                 Component.literal(mutationWidget.selectedDiscovered ? "✔" : "✘"));
 
         nextY -= 6;
@@ -83,14 +83,14 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 nextY,
                 0xFFFFFF,
                 mutationWidget.selectedResearched ? 0x00FF00 : 0xFF0000,
-                Component.literal("Researched:"),
+                Component.translatable("gui.complicated_bees.library.researched"),
                 Component.literal(mutationWidget.selectedResearched ? "✔" : "✘"));
         //todo: add obfuscation
         nextY = drawTextAndValue(graphics,
                 nextY,
                 0xFFFFFF,
                 0xFFFFFF,
-                Component.literal("Chance:"),
+                Component.translatable("jei.complicated_bees.chance"),
                 Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).getChance() * 100) + (mutationWidget.selectedResearched ? Config.CONFIG.researchBonus.get() * 100 : 0)))));
         nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
                 infoPanelX,
@@ -99,7 +99,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 12,
                 98,
                 3,
-                Component.literal("Conditions").withStyle(ChatFormatting.UNDERLINE));
+                Component.translatable("gui.complicated_bees.library.conditions").withStyle(ChatFormatting.UNDERLINE));
         nextY -= 6;
         nextY = GuiHelper.drawWrappedText(graphics,
                 getX(),
