@@ -170,7 +170,15 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('B', Items.IRON_BLOCK)
                 .define('G', Items.GLASS_PANE)
                 .unlockedBy(getHasName(Items.AMETHYST_SHARD), has(Items.AMETHYST_SHARD)).save(output);
-
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.APID_LIBRARY.get(), 1)
+                .pattern("IGI")
+                .pattern("PWP")
+                .pattern("III")
+                .define('W', ItemsRegistration.WAX_BLOCK.get())
+                .define('I', Items.IRON_INGOT)
+                .define('P', ItemsRegistration.PROPOLIS.get())
+                .define('G', Items.GLASS_PANE)
+                .unlockedBy(getHasName(Items.AMETHYST_SHARD), has(Items.AMETHYST_SHARD)).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ItemsRegistration.HONEYED_PLANKS.get(), 8)
                 .pattern("SSS")
                 .pattern("SBS")

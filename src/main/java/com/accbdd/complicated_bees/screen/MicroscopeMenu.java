@@ -61,7 +61,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 }
             });
             for (int i = 0; i < 5; i++) {
-                addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.BEE) {
+                addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.RESEARCH_MATERIAL) {
                     @Override
                     public void setByPlayer(ItemStack pStack) {
                         super.setByPlayer(pStack);

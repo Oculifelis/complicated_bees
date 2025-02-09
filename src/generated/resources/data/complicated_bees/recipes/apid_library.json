@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "complicated_bees:propolis"
+    },
+    "W": {
+      "item": "complicated_bees:wax_block"
+    }
+  },
+  "pattern": [
+    "IGI",
+    "PWP",
+    "III"
+  ],
+  "result": {
+    "item": "complicated_bees:apid_library"
+  },
+  "show_notification": true
+}

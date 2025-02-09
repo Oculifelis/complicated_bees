@@ -40,6 +40,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
                 BlocksRegistration.CENTRIFUGE.get(),
                 BlocksRegistration.CHISELED_WAX.get(),
+                BlocksRegistration.APID_LIBRARY.get(),
                 BlocksRegistration.WAX_BLOCK.get(),
                 BlocksRegistration.WAX_BLOCK_STAIRS.get(),
                 BlocksRegistration.WAX_BLOCK_SLAB.get(),

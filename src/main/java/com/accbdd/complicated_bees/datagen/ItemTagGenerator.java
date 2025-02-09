@@ -6,6 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +24,7 @@ public class ItemTagGenerator extends ItemTagsProvider {
     public static final TagKey<Item> ROYAL = ItemTags.create(new ResourceLocation(MODID, "royal"));
     public static final TagKey<Item> FRAME = ItemTags.create(new ResourceLocation(MODID, "frame"));
     public static final TagKey<Item> ANALYZER_FUEL = ItemTags.create(new ResourceLocation(MODID, "analyzer_fuel"));
+    public static final TagKey<Item> RESEARCH_MATERIAL = ItemTags.create(new ResourceLocation(MODID, "research_material"));
 
     public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, provider, blockTagProvider, MODID, existingFileHelper);
@@ -47,6 +49,8 @@ public class ItemTagGenerator extends ItemTagsProvider {
                 ItemsRegistration.TWISTING_FRAME.get(),
                 ItemsRegistration.SOOTHING_FRAME.get()
         );
+        tag(RESEARCH_MATERIAL).add(ItemsRegistration.ROYAL_JELLY.get()).add(TagEntry.tag(BEE.location()));
         tag(ItemTags.PLANKS).add(ItemsRegistration.HONEYED_PLANKS.get());
+
     }
 }
