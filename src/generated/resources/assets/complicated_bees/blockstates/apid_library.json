@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "complicated_bees:block/apid_library",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "complicated_bees:block/apid_library"
+    },
+    "facing=south": {
+      "model": "complicated_bees:block/apid_library",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "complicated_bees:block/apid_library",
+      "y": 270
+    }
+  }
+}

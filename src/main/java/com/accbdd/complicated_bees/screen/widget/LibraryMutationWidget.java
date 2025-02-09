@@ -101,6 +101,7 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
     }
 
     private void renderMutations(GuiGraphics graphics, int pX, int pY) {
+        //todo: render different colored question marks for species status (discovered, unknown, etc)
         for (int i = 0; i < possibleMutations.size(); i++) {
             if (this.selected == i) {
                 graphics.fill(pX - 1, pY + 18 * i - 1, pX + getWidth(), pY + 18 * (i + 1) - 1, 0xFF666666);
