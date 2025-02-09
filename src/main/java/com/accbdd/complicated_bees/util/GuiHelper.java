@@ -64,9 +64,9 @@ public class GuiHelper {
                 paragraphLines.addAll(lines);
             }
             paragraphs.add(paragraphLines);
-            curY -= paragraphLines.size() * (lineHeight/2);
+            curY -= paragraphLines.size() * (lineHeight / 2);
         }
-        curY -= (paragraphs.size() - 1) * (lineHeight/4);
+        curY -= (paragraphs.size() - 1) * (lineHeight / 4);
 
         for (List<FormattedCharSequence> paragraph : paragraphs) {
             for (FormattedCharSequence line : paragraph) {
@@ -79,7 +79,59 @@ public class GuiHelper {
     }
 
     /**
+     * draws a number of components as wrapped center-aligned paragraphs, with each component getting spaced by lineHeight / 2
+     *
+     * @param graphics   a GuiGraphics
+     * @param x          the x coordinate of the center of the topmost line
+     * @param y          the y coordinate of the top of the topmost line
+     * @param color      a color for text
+     * @param lineHeight the height of a line
+     * @param maxWidth   the maximum width of each line
+     * @param padding    the padding between maxWidth and the actual width of each line
+     * @param components a number of components
+     * @return a y coordinate for the next line of text, spaced accordingly
+     */
+    public static int drawTopAlignedCenteredWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
+        int curY = y;
+        List<List<FormattedCharSequence>> paragraphs = new ArrayList<>();
+        for (Component component : components) {
+            if (component == null)
+                continue;
+            List<FormattedCharSequence> paragraphLines = new ArrayList<>();
+            String[] linebroken = component.getString().split("\\r?\\n");
+            for (String prewrap : linebroken) {
+                List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), maxWidth - padding * 2);
+                paragraphLines.addAll(lines);
+            }
+            paragraphs.add(paragraphLines);
+        }
+
+        for (List<FormattedCharSequence> paragraph : paragraphs) {
+            for (FormattedCharSequence line : paragraph) {
+                graphics.drawCenteredString(Minecraft.getInstance().font, line, x, curY, color);
+                curY += lineHeight;
+            }
+            curY += lineHeight / 2;
+        }
+        return curY;
+    }
+
+    /**
+     * draws a component right-aligned
+     *
+     * @param graphics  a GuiGraphics
+     * @param x         the x coordinate of the right side of the line
+     * @param y         the y coordinate of the line
+     * @param color     the color of the text
+     * @param component the component to write
+     */
+    public static void drawRightAlignedText(GuiGraphics graphics, int x, int y, int color, Component component) {
+        graphics.drawString(Minecraft.getInstance().font, component, x - Minecraft.getInstance().font.width(component), y, color);
+    }
+
+    /**
      * Draws a bordered rectangle
+     *
      * @param graphics
      * @param pX
      * @param pY

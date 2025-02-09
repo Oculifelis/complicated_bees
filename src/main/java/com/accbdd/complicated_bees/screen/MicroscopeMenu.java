@@ -223,7 +223,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
         ).collect(Collectors.toSet());
         List<Mutation> mutationsToDiscover = mutationRegistry.stream().filter(
-                mutation -> ((mutation.getFirst().equals(species) || mutation.getSecond().equals(species) && !researched.contains(mutationRegistry.getKey(mutation))))
+                mutation -> (!researched.contains(mutationRegistry.getKey(mutation)) && ((mutation.getFirst().equals(species) || mutation.getSecond().equals(species))))
         ).toList();
 
         if (!mutationsToDiscover.isEmpty()) {

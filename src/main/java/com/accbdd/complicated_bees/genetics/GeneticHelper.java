@@ -193,7 +193,7 @@ public class GeneticHelper {
                         if (canMutate) {
                             float mod = 0;
                             if (tracker != null && tracker.isResearched(mutation))
-                                mod = 0.2f;
+                                mod = 0.2f; //flat 20% increase to all mutations researched
                             if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
                                 possibleMutations.add(mutation);
                         }

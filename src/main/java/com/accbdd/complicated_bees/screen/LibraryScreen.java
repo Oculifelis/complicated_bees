@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.screen.widget.LibraryWidget;
+import com.accbdd.complicated_bees.screen.widget.LibraryInfoWidget;
+import com.accbdd.complicated_bees.screen.widget.LibraryMutationWidget;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -12,7 +13,8 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
     public static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/library.png");
-    private LibraryWidget widget;
+    private LibraryMutationWidget mutationWidget;
+    private LibraryInfoWidget infoWidget;
 
     public LibraryScreen(LibraryMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -23,7 +25,8 @@ public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
     @Override
     protected void init() {
         super.init();
-        this.widget = addRenderableWidget(new LibraryWidget(leftPos + 8, topPos + 8, 215, 120, getMenu()));
+        this.mutationWidget = addRenderableWidget(new LibraryMutationWidget(leftPos + 8, topPos + 8, 107, 120, getMenu()));
+        this.infoWidget = addRenderableWidget(new LibraryInfoWidget(leftPos + 117, topPos + 8, 106, 120, getMenu(), mutationWidget));
     }
 
     @Override
@@ -49,8 +52,8 @@ public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
             if (this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
                 ItemStack itemstack = this.hoveredSlot.getItem();
                 graphics.renderTooltip(this.font, this.getTooltipFromContainerItem(itemstack), itemstack.getTooltipImage(), itemstack, mousex, mousey);
-            } else if (widget.hoveredStack != null) {
-                graphics.renderTooltip(this.font, this.getTooltipFromContainerItem(widget.hoveredStack), widget.hoveredStack.getTooltipImage(), widget.hoveredStack, mousex, mousey);
+            } else if (mutationWidget.hoveredStack != null) {
+                graphics.renderTooltip(this.font, this.getTooltipFromContainerItem(mutationWidget.hoveredStack), mutationWidget.hoveredStack.getTooltipImage(), mutationWidget.hoveredStack, mousex, mousey);
             }
         }
     }
