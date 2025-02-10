@@ -1,12 +1,15 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
+import com.accbdd.complicated_bees.network.packet.MicroscopeHintServerbound;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
 import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -18,9 +21,10 @@ import net.minecraft.world.entity.player.Inventory;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope/base.png");
+    private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/microscope/base.png");
     private IMicroscopeGame game = null;
     private PlainTextButton startButton;
+    private AnalyzeButton analyzeButton;
 
     public MicroscopeScreen(MicroscopeMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -32,11 +36,22 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     protected void init() {
         super.init();
         Component text = Component.translatable("gui.complicated_bees.microscope.start").withStyle(ChatFormatting.WHITE);
-        int textWidth = font.width(text);
-        startButton = new PlainTextButton(leftPos + 8 + 215/2 - textWidth / 2,
+        int textWidth = font.width(text) + 10;
+        analyzeButton = new AnalyzeButton(leftPos + 225,
+                topPos + 26,
+                16,
+                12,
                 0,
+                216,
+                GUI,
+                (button) -> {
+                    if (game != null)
+                        PacketHandler.CHANNEL.sendToServer(new MicroscopeHintServerbound());
+                });
+        startButton = new PlainTextButton(leftPos + 8 + 215/2 - textWidth / 2,
+                topPos + 50,
                 textWidth,
-                font.lineHeight,
+                font.lineHeight + 8,
                 text,
                 pButton -> startGame(),
                 Minecraft.getInstance().font) {
@@ -48,17 +63,31 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 animCount += pPartialTick;
                 animCount %= 40;
                 GuiHelper.drawBorderedRectangle(pGuiGraphics,
-                        getX()-5,
-                        getY()-5,
-                        getWidth()+10,
-                        getHeight()+8,
+                        this.getX(),
+                        this.getY(),
+                        getWidth(),
+                        getHeight(),
                         1,
                         isHoveredOrFocused() ? 0xFFFFFFFF : 0xFF00FF00,
                         animCount > 20 ? 0xFF00CC00 : 0x6600CC00);
-                pGuiGraphics.drawString(font, text, this.getX(), this.getY(), 16777215 | Mth.ceil(this.alpha * 255.0F) << 24);
+                pGuiGraphics.drawString(font, text, this.getX()+5, this.getY()+5, 16777215 | Mth.ceil(this.alpha * 255.0F) << 24);
             }
         };
         addRenderableWidget(startButton);
+        addRenderableWidget(analyzeButton);
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (analyzeButton.isHovered())
+            analyzeButton.clicked = true;
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    @Override
+    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+        analyzeButton.clicked = false;
+        return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
 
     @Override
@@ -128,5 +157,18 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public void clearGame() {
         removeWidget((GuiEventListener) this.game);
         game = null;
+    }
+
+    private class AnalyzeButton extends ImageButton {
+        private boolean clicked = false;
+
+        public AnalyzeButton(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, ResourceLocation pResourceLocation, OnPress pOnPress) {
+            super(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pResourceLocation, pOnPress);
+        }
+
+        @Override
+        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            pGuiGraphics.blit(this.resourceLocation, getX(), getY(), clicked ? 0 : isHovered ? 32 : 16, 228, 16, 12);
+        }
     }
 }

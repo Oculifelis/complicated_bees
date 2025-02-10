@@ -63,13 +63,6 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             for (int i = 0; i < 5; i++) {
                 addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.RESEARCH_MATERIAL) {
                     @Override
-                    public void setByPlayer(ItemStack pStack) {
-                        super.setByPlayer(pStack);
-                        if (!pStack.isEmpty())
-                            trySendHint();
-                    }
-
-                    @Override
                     public boolean mayPlace(ItemStack stack) {
                         if (difficulty < this.getSlotIndex() + 1 || getState() != MicroscopeGameClientbound.GameState.ONGOING)
                             return false;
@@ -134,8 +127,8 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         this.guessCode = guess.clone();
     }
 
-    private void trySendHint() {
-        if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide) {
+    public void trySendHint() {
+        if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide && state != MicroscopeGameClientbound.GameState.WON && state != MicroscopeGameClientbound.GameState.FAILED) {
             for (int i = 1; i < Math.min(difficulty, 6); i++) {
                 if (!getSlot(i).hasItem())
                     return;

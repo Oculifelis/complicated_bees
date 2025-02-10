@@ -25,11 +25,13 @@ public class PacketHandler {
     public static void register() {
         PacketRegistry registry = new PacketRegistry(CHANNEL);
 
-        registry.register(MicroscopeGameServerbound.class, MicroscopeGameServerbound::encode, MicroscopeGameServerbound::decode, MicroscopeGameServerbound::handle);
-        registry.register(MicroscopeGameClientbound.class, MicroscopeGameClientbound::encode, MicroscopeGameClientbound::decode, MicroscopeGameClientbound::handle);
-        registry.register(MicroscopeHintClientbound.class, MicroscopeHintClientbound::encode, MicroscopeHintClientbound::decode, MicroscopeHintClientbound::handle);
-        registry.register(TrackerSyncClientbound.class, TrackerSyncClientbound::encode, TrackerSyncClientbound::decode, TrackerSyncClientbound::handle);
-        registry.register(TrackerUpdateClientbound.class, TrackerUpdateClientbound::encode, TrackerUpdateClientbound::decode, TrackerUpdateClientbound::handle);
+        //surely there is a better way to do this
+        registry.register(MicroscopeGameServerbound.class, MicroscopeGameServerbound::decode, MicroscopeGameServerbound::handle);
+        registry.register(MicroscopeGameClientbound.class, MicroscopeGameClientbound::decode, MicroscopeGameClientbound::handle);
+        registry.register(MicroscopeHintServerbound.class, MicroscopeHintServerbound::decode, MicroscopeHintServerbound::handle);
+        registry.register(MicroscopeHintClientbound.class, MicroscopeHintClientbound::decode, MicroscopeHintClientbound::handle);
+        registry.register(TrackerSyncClientbound.class, TrackerSyncClientbound::decode, TrackerSyncClientbound::handle);
+        registry.register(TrackerUpdateClientbound.class, TrackerUpdateClientbound::decode, TrackerUpdateClientbound::handle);
     }
 
     private static final class PacketRegistry {
@@ -40,8 +42,8 @@ public class PacketHandler {
             this.channel = channel;
         }
 
-        public <P extends IModPacket> void register(Class<P> packetClass, BiConsumer<P, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, P> decoder, BiConsumer<P, Supplier<NetworkEvent.Context>> context) {
-            channel.registerMessage(packetId++, packetClass, encoder, decoder, context);
+        public <P extends IModPacket> void register(Class<P> packetClass, Function<FriendlyByteBuf, P> decoder, BiConsumer<P, Supplier<NetworkEvent.Context>> context) {
+            channel.registerMessage(packetId++, packetClass, P::encode, decoder, context);
         }
     }
 }
