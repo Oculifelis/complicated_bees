@@ -36,4 +36,8 @@ public class MutationRegistration {
     public static ResourceLocation getResourceLocation(Mutation mutation) {
         return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().getKey(mutation);
     }
+
+    public static Mutation getFromResourceLocation(ResourceLocation loc) {
+        return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().get(loc);
+    }
 }

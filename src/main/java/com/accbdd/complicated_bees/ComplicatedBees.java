@@ -137,9 +137,7 @@ public class ComplicatedBees {
                 if (access != null) {
                     Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.DRONE.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.PRINCESS.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.QUEEN.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
+                        output.acceptAll(entry.getValue().toMembers());
                     }
                     for (ResourceLocation id : access.registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
                         output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));

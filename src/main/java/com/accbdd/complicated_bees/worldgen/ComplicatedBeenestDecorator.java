@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.worldgen;
 
-import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -73,7 +73,7 @@ public class ComplicatedBeenestDecorator extends TreeDecorator {
                 if (optional.isPresent()) {
                     context.setBlock(optional.get(), BlocksRegistration.BEE_NEST.get().defaultBlockState());
                     context.level().getBlockEntity(optional.get(), BlockEntitiesRegistration.BEE_NEST_ENTITY.get()).ifPresent(
-                            be -> be.setSpecies(Species.getFromResourceLocation(ResourceLocation.tryParse(this.speciesKey))));
+                            be -> be.setSpecies(SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(this.speciesKey))));
                 }
             }
         }

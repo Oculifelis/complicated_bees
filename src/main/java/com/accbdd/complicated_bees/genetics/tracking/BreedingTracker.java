@@ -1,5 +1,7 @@
 package com.accbdd.complicated_bees.genetics.tracking;
 
+import com.accbdd.complicated_bees.client.DiscoverToast;
+import com.accbdd.complicated_bees.client.ResearchToast;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.Species;
@@ -10,17 +12,18 @@ import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
@@ -101,14 +104,6 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             discoveredSpecies.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.SPECIES, loc);
-            //debug messages
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            var playerName = server.getPlayerList().getPlayer(playerId).getName();
-            server.getPlayerList().broadcastSystemMessage(
-                    MutableComponent.create(playerName.getContents())
-                            .append(" has discovered ")
-                            .append(GeneticHelper.getTranslationKey(species)),
-                    false);
         }
     }
 
@@ -119,14 +114,6 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             discoveredMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.MUTATION, loc);
-            //debug messages
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            var playerName = server.getPlayerList().getPlayer(playerId).getName();
-            server.getPlayerList().broadcastSystemMessage(
-                    MutableComponent.create(playerName.getContents())
-                            .append(" has discovered ")
-                            .append(MutationRegistration.getResourceLocation(mutation).toString()),
-                    false);
         }
     }
 
@@ -137,14 +124,6 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             researchedMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.RESEARCH, loc);
-            //debug messages
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            var playerName = server.getPlayerList().getPlayer(playerId).getName();
-            server.getPlayerList().broadcastSystemMessage(
-                    MutableComponent.create(playerName.getContents())
-                            .append(" has researched ")
-                            .append(MutationRegistration.getResourceLocation(mutation).toString()),
-                    false);
         }
     }
 
@@ -235,11 +214,18 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         return storage.computeIfAbsent(BreedingTracker::load, () -> new BreedingTracker(uuid), "complicated_bees." + uuid.toString());
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void updateFromPacket(TrackerUpdateClientbound packet) {
         switch (packet.type()) {
-            case SPECIES -> CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
+            case SPECIES -> {
+                CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
+                Minecraft.getInstance().getToasts().addToast(new DiscoverToast(SpeciesRegistration.getFromResourceLocation(packet.loc())));
+            }
             case MUTATION -> CLIENT_INSTANCE.discoveredMutations.add(packet.loc());
-            case RESEARCH -> CLIENT_INSTANCE.researchedMutations.add(packet.loc());
+            case RESEARCH -> {
+                CLIENT_INSTANCE.researchedMutations.add(packet.loc());
+                Minecraft.getInstance().getToasts().addToast(new ResearchToast(MutationRegistration.getFromResourceLocation(packet.loc())));
+            }
         }
     }
 

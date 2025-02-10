@@ -39,7 +39,7 @@ public record TrackerUpdateClientbound(UpdateType type, ResourceLocation loc) im
             throw new IllegalStateException("received update packet on side with null player");
         if (BreedingTracker.CLIENT_INSTANCE == null)
             BreedingTracker.CLIENT_INSTANCE = new BreedingTracker(Minecraft.getInstance().player.getUUID());
-
         BreedingTracker.updateFromPacket(packet);
+
     }
 }

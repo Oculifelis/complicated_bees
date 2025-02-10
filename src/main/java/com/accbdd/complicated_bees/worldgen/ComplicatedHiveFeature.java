@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.worldgen;
 
-import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ public class ComplicatedHiveFeature extends Feature<ComplicatedHiveFeatureConfig
         BlockPos blockpos = context.origin();
 
         worldgenlevel.setBlock(blockpos, BlocksRegistration.BEE_NEST.get().defaultBlockState(), 2);
-        context.level().getBlockEntity(blockpos, BlockEntitiesRegistration.BEE_NEST_ENTITY.get()).ifPresent(be -> be.setSpecies(Species.getFromResourceLocation(ResourceLocation.tryParse(config.speciesKey()))));
+        context.level().getBlockEntity(blockpos, BlockEntitiesRegistration.BEE_NEST_ENTITY.get()).ifPresent(be -> be.setSpecies(SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(config.speciesKey()))));
 
         return true;
     }

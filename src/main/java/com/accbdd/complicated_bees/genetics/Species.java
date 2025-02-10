@@ -2,8 +2,8 @@ package com.accbdd.complicated_bees.genetics;
 
 
 import com.accbdd.complicated_bees.genetics.gene.GeneSpecies;
+import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
@@ -71,10 +71,6 @@ public class Species {
         default_chromosome.setGene(GeneSpecies.ID, new GeneSpecies(this, dominant));
     }
 
-    public static Species getFromResourceLocation(ResourceLocation loc) {
-        return GeneticHelper.getRegistryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().get(loc);
-    }
-
     public boolean isFoil() {
         return this.foil;
     }
@@ -109,6 +105,7 @@ public class Species {
 
     public ItemStack toStack(Item item) {
         ItemStack stack = new ItemStack(item);
+        stack.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
         return GeneticHelper.setGenome(stack, new Genome(getDefaultChromosome(), getDefaultChromosome()));
     }
 
