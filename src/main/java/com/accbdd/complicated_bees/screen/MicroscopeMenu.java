@@ -61,14 +61,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 }
             });
             for (int i = 0; i < 5; i++) {
-                addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.RESEARCH_MATERIAL) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        if (difficulty < this.getSlotIndex() + 1 || getState() != MicroscopeGameClientbound.GameState.ONGOING)
-                            return false;
-                        return super.mayPlace(stack);
-                    }
-                });
+                addSlot(new TagSlot(microscope.getItems(), i + 1, 225, 40 + i * 18, ItemTagGenerator.RESEARCH_MATERIAL));
             }
             addDataSlot(new DataSlot() {
                 @Override
@@ -127,12 +120,18 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         this.guessCode = guess.clone();
     }
 
+    public boolean canSendHint() {
+        for (int i = 1; i < Math.min(difficulty, 6); i++) {
+            if (!getSlot(i).hasItem())
+                return false;
+        }
+        return true;
+    }
+
     public void trySendHint() {
         if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide && state != MicroscopeGameClientbound.GameState.WON && state != MicroscopeGameClientbound.GameState.FAILED) {
-            for (int i = 1; i < Math.min(difficulty, 6); i++) {
-                if (!getSlot(i).hasItem())
-                    return;
-            }
+            if (!canSendHint())
+                return;
             for (int i = 1; i < Math.min(difficulty, 6); i++) {
                 getSlot(i).getItem().shrink(1);
             }

@@ -14,9 +14,13 @@ import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -45,7 +49,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 216,
                 GUI,
                 (button) -> {
-                    if (game != null)
+                    if (game != null && menu.canSendHint())
                         PacketHandler.CHANNEL.sendToServer(new MicroscopeHintServerbound());
                 });
         startButton = new PlainTextButton(leftPos + 8 + 215/2 - textWidth / 2,
@@ -137,7 +141,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     public void renderSlotOverlays(GuiGraphics graphics) {
         graphics.blit(GUI, leftPos + 225, topPos + 8, 0, 240, 16, 16);
         for (int i = 0; i < 5; i++) {
-            if (menu.difficulty < i + 2 || game == null)
+            if (!(menu.difficulty < i + 2 || game == null))
                 graphics.blit(GUI, leftPos+225, topPos+40+18*i, 16, 240, 16, 16);
         }
     }
@@ -154,6 +158,26 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         }
     }
 
+    @Override
+    protected void renderTooltip(GuiGraphics pGuiGraphics, int pX, int pY) {
+        super.renderTooltip(pGuiGraphics, pX, pY);
+        if (analyzeButton.isHovered() && game != null) {
+            List<Component> components = new ArrayList<>();
+            components.add(Component.literal("Analyze material").withStyle(ChatFormatting.GRAY));
+            components.add(Component.empty());
+            MutableComponent materialComponent;
+            ChatFormatting color = menu.canSendHint() ? ChatFormatting.GRAY : ChatFormatting.RED;
+            if (menu.difficulty == 1) {
+                materialComponent = Component.literal("1 research material").withStyle(color);
+            } else {
+                materialComponent = Component.literal(Math.min(menu.difficulty, 6) - 1 + " research materials").withStyle(color);
+            }
+            components.add(materialComponent);
+            pGuiGraphics.renderComponentTooltip(font, components, pX, pY);
+        }
+
+    }
+
     public void clearGame() {
         removeWidget((GuiEventListener) this.game);
         game = null;
@@ -168,7 +192,22 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
 
         @Override
         public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            pGuiGraphics.blit(this.resourceLocation, getX(), getY(), clicked ? 0 : isHovered ? 32 : 16, 228, 16, 12);
+            pGuiGraphics.blit(this.resourceLocation, getX(), getY(), (clicked || !menu.canSendHint() || game == null) ? 0 : isHovered ? 32 : 16, 228, 16, 12);
+        }
+
+        @Override
+        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+            if (this.active && this.visible) {
+                if (this.isValidClickButton(pButton)) {
+                    boolean flag = this.clicked(pMouseX, pMouseY);
+                    if (flag && menu.canSendHint() && game != null) {
+                        this.playDownSound(Minecraft.getInstance().getSoundManager());
+                        this.onClick(pMouseX, pMouseY);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
