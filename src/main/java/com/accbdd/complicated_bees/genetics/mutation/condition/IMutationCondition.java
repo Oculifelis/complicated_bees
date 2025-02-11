@@ -3,9 +3,16 @@ package com.accbdd.complicated_bees.genetics.mutation.condition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 public interface IMutationCondition {
+
+    /**
+     * @return a resource location associated with this mutation condition
+     */
+    ResourceLocation getID();
+
     /**
      * @param level the level to check this condition in
      * @param pos   the position to check this condition in

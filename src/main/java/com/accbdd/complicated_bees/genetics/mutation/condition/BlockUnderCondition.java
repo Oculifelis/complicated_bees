@@ -10,12 +10,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+
 public class BlockUnderCondition extends MutationCondition {
     public static String ID = "block_under";
     Block block;
 
     public BlockUnderCondition(Block block) {
         this.block = block;
+    }
+
+    @Override
+    public ResourceLocation getID() {
+        return new ResourceLocation(MODID, ID);
     }
 
     @Override

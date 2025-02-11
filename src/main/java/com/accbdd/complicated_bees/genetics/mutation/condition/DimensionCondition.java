@@ -7,12 +7,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+
 public class DimensionCondition extends MutationCondition {
     public static String ID = "dimension";
     private final ResourceLocation dimension;
 
     public DimensionCondition(ResourceLocation dimension) {
         this.dimension = dimension;
+    }
+
+    @Override
+    public ResourceLocation getID() {
+        return new ResourceLocation(MODID, ID);
     }
 
     @Override

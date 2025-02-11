@@ -5,14 +5,22 @@ import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class EcstaticCondition extends MutationCondition {
     public static String ID = "ecstatic";
 
     public EcstaticCondition() {
 
+    }
+
+    @Override
+    public ResourceLocation getID() {
+        return new ResourceLocation(MODID, ID);
     }
 
     @Override

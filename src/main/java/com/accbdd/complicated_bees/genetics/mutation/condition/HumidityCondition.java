@@ -5,7 +5,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class HumidityCondition extends MutationCondition {
     public static String ID = "humidity";
@@ -15,6 +18,11 @@ public class HumidityCondition extends MutationCondition {
     public HumidityCondition(EnumHumidity humidityMin, EnumHumidity humidityMax) {
         this.humidityMin = humidityMin;
         this.humidityMax = humidityMax;
+    }
+
+    @Override
+    public ResourceLocation getID() {
+        return new ResourceLocation(MODID, ID);
     }
 
     @Override

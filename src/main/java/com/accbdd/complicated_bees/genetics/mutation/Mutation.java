@@ -82,9 +82,9 @@ public class Mutation {
     public static CompoundTag getSerializedConditions(List<IMutationCondition> conditions) {
         CompoundTag tag = new CompoundTag();
         for (IMutationCondition condition : conditions) {
-            ResourceLocation loc = ComplicatedBees.MUTATION_CONDITION_REGISTRY.get().getKey(condition);
+            ResourceLocation loc = condition.getID();
             if (loc == null) {
-                ComplicatedBees.LOGGER.error("tried to serialize non-registered mutation condition! description: {}", condition.getDescription());
+                ComplicatedBees.LOGGER.error("tried to serialize mutation with no id! description: {}", condition.getDescription());
             } else {
                 tag.put(loc.toString(), condition.serialize());
             }
