@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -44,7 +43,7 @@ import java.util.*;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 @ParametersAreNonnullByDefault
-public class ApiaryBlockEntity extends BlockEntity {
+public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
     public static final int BEE_SLOT = 0;
     public static final int BEE_SLOT_COUNT = 2;
     public static final String ITEMS_BEES_TAG = "bee_items";
@@ -76,6 +75,7 @@ public class ApiaryBlockEntity extends BlockEntity {
     private int maxBreedingProgress = 20;
     private int errorState = 0;
     private boolean queenSatisfied = false;
+    private boolean queenEcstatic = false;
 
     private EnumTemperature temperatureCache = null;
     private EnumHumidity humidityCache = null;
@@ -298,7 +298,7 @@ public class ApiaryBlockEntity extends BlockEntity {
         if (tag.contains(OWNER_TAG))
             owner = tag.getUUID(OWNER_TAG);
 
-        satisfyCycleProgress = SATISFY_CYCLE_LENGTH - new Random().nextInt(20, 80);
+        satisfyCycleProgress = new Random().nextInt(0, SATISFY_CYCLE_LENGTH);
     }
 
     public void tickServer() {
@@ -338,13 +338,12 @@ public class ApiaryBlockEntity extends BlockEntity {
         //do queen cycle
         if (top_stack.getItem() instanceof QueenItem) {
             if (queenSatisfied) {
-                doBeeEffect(top_stack);
+                doBeeEffect();
                 if (cycleProgress < CYCLE_LENGTH) {
                     cycleProgress++;
                 } else {
                     cycleProgress = 0;
-                    ageQueen(top_stack);
-                    generateProduce(top_stack);
+                    beeTick();
                 }
             }
         } else {
@@ -352,11 +351,11 @@ public class ApiaryBlockEntity extends BlockEntity {
         }
     }
 
-    private void doBeeEffect(ItemStack topStack) {
-        if (topStack.getItem() instanceof QueenItem) {
-            IBeeEffect effect = (IBeeEffect) GeneticHelper.getGeneValue(topStack, GeneEffect.ID, true);
+    public void doBeeEffect() {
+        if (beeItems.getStackInSlot(0).getItem() instanceof QueenItem ) {
+            IBeeEffect effect = (IBeeEffect) GeneticHelper.getGeneValue(beeItems.getStackInSlot(0), GeneEffect.ID, true);
             if (effect != null)
-                effect.runEffect(this, topStack, cycleProgress);
+                effect.runEffect(this, beeItems.getStackInSlot(0), cycleProgress);
         }
     }
 
@@ -393,15 +392,37 @@ public class ApiaryBlockEntity extends BlockEntity {
         outputBuffer.add(stack);
     }
 
+    @Override
+    public boolean isQueenSatisfied() {
+        return queenSatisfied;
+    }
+
+    @Override
+    public boolean isQueenEcstatic() {
+        return queenEcstatic;
+    }
+
+    @Override
+    public int getErrors() {
+        return data.get(2);
+    }
+
+    @Override
+    public void beeTick() {
+        ItemStack top_stack = beeItems.getStackInSlot(0);
+        ageQueen(top_stack);
+        generateProduce(top_stack);
+    }
+
     public void generateProduce(ItemStack bee) {
         Species species = (Species) GeneticHelper.getGeneValue(bee, GeneSpecies.ID, true);
-        float frameModifiers = getFrameModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
+        float housingModifiers = getHousingModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
         for (Product product : species.getProducts()) {
-            outputBuffer.add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, frameModifiers));
+            outputBuffer.add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
         }
         if (errorState == EnumErrorCodes.ECSTATIC.value) {
             for (Product special : species.getSpecialtyProducts()) {
-                outputBuffer.add(special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, frameModifiers));
+                outputBuffer.add(special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
             }
         }
         setChanged();
@@ -440,7 +461,7 @@ public class ApiaryBlockEntity extends BlockEntity {
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
-        if (getLevel().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, getBlockPos()).getY() > getBlockPos().getY() + 1
+        if (getLevel().canSeeSky(getBlockPos())
                 && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;
@@ -465,21 +486,23 @@ public class ApiaryBlockEntity extends BlockEntity {
                 && ((GeneHumidity) chromosome.getGene(GeneHumidity.ID)).get().equals(getHumidity())
                 && queenSatisfied) {
             addError(EnumErrorCodes.ECSTATIC);
+            this.queenEcstatic = true;
         } else {
             removeError(EnumErrorCodes.ECSTATIC);
+            this.queenEcstatic = false;
         }
     }
 
     public void ageQueen(ItemStack queen) {
         float ageFactor = 1;
-        for (BeeHousingModifier mod : getFrameModifiers()) {
+        for (BeeHousingModifier mod : getHousingModifiers()) {
             ageFactor /= mod.getLifespanMod();
         }
         BeeItem.setAge(queen, BeeItem.getAge(queen) + ageFactor);
         damageFrames();
         if (BeeItem.getAge(queen) >= ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value) {
             errorState = 0;
-            float mutationMod = getFrameModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
+            float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
             outputBuffer.add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), getBlockPos(), mutationMod));
             for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
                 outputBuffer.add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), getBlockPos(), mutationMod));
@@ -489,7 +512,7 @@ public class ApiaryBlockEntity extends BlockEntity {
         }
     }
 
-    public List<BeeHousingModifier> getFrameModifiers() {
+    public List<BeeHousingModifier> getHousingModifiers() {
         List<BeeHousingModifier> modifiers = new ArrayList<>();
         for (int i = 0; i < frameItems.getSlots(); i++) {
             ItemStack item = frameItems.getStackInSlot(i);
@@ -513,7 +536,7 @@ public class ApiaryBlockEntity extends BlockEntity {
             }
             this.humidityCache = EnumHumidity.getFromPosition(getLevel(), getBlockPos());
 
-            for (BeeHousingModifier mod : getFrameModifiers()) {
+            for (BeeHousingModifier mod : getHousingModifiers()) {
                 int ordinal = humidityCache.ordinal() + mod.getHumidityMod().up - mod.getHumidityMod().down;
                 humidityCache = EnumHumidity.values()[Math.max(0, Math.min(EnumHumidity.values().length - 1, ordinal))];
             }
@@ -529,7 +552,7 @@ public class ApiaryBlockEntity extends BlockEntity {
             }
             this.temperatureCache = EnumTemperature.getFromPosition(getLevel(), getBlockPos());
 
-            for (BeeHousingModifier mod : getFrameModifiers()) {
+            for (BeeHousingModifier mod : getHousingModifiers()) {
                 int ordinal = temperatureCache.ordinal() + mod.getTemperatureMod().up - mod.getTemperatureMod().down;
                 temperatureCache = EnumTemperature.values()[Math.max(0, Math.min(EnumTemperature.values().length - 1, ordinal))];
             }
@@ -570,7 +593,7 @@ public class ApiaryBlockEntity extends BlockEntity {
             return;
         }
         float rangeModifier = 1f;
-        for (BeeHousingModifier modifier : getFrameModifiers()) {
+        for (BeeHousingModifier modifier : getHousingModifiers()) {
             rangeModifier *= modifier.getTerritoryMod();
         }
         int[] searchRadii = (int[]) GeneticHelper.getGeneValue(bee, GeneTerritory.ID, true);

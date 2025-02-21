@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.genetics.effect;
 
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
+import com.accbdd.complicated_bees.block.entity.IBeeHousing;
 import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
 import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.genetics.gene.GeneTerritory;
@@ -22,22 +22,22 @@ public abstract class BeeEffect implements IBeeEffect {
     public abstract void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress);
 
     /**
-     * @param apiary the BlockEntity generating this effect
+     * @param be the BlockEntity generating this effect
      * @param queen  the queen generating this effect
      * @return a list of all entities in this queen's territory, minus any players wearing a full set of apiarist armor
      */
-    protected List<Entity> getTerritoryEntities(BlockEntity apiary, ItemStack queen) {
+    protected List<Entity> getTerritoryEntities(BlockEntity be, ItemStack queen) {
         List<Entity> entities = new ArrayList<>();
-        Vec3 center = apiary.getBlockPos().getCenter();
+        Vec3 center = be.getBlockPos().getCenter();
         float rangeModifier = 1f;
-        if (apiary instanceof ApiaryBlockEntity apiaryBlockEntity) {
-            for (BeeHousingModifier modifier : apiaryBlockEntity.getFrameModifiers()) {
+        if (be instanceof IBeeHousing housing) {
+            for (BeeHousingModifier modifier : housing.getHousingModifiers()) {
                 rangeModifier *= modifier.getTerritoryMod();
             }
         }
         int[] radii = (int[]) GeneticHelper.getGeneValue(queen, GeneTerritory.ID, true);
         Vec3 offset = new Vec3(radii[0] * rangeModifier, radii[1] * rangeModifier, radii[0] * rangeModifier);
-        for (Entity entity : Objects.requireNonNull(apiary.getLevel()).getEntities(null, new AABB(center.add(offset), center.subtract(offset)))) {
+        for (Entity entity : Objects.requireNonNull(be.getLevel()).getEntities(null, new AABB(center.add(offset), center.subtract(offset)))) {
             if (entity instanceof Player player && hasApiaristArmorEquipped(player))
                 continue;
             entities.add(entity);
@@ -46,19 +46,19 @@ public abstract class BeeEffect implements IBeeEffect {
     }
 
     /**
-     * @param apiary the BlockEntity generating this effect
+     * @param be the BlockEntity generating this effect
      * @param queen  the queen generating this effect
      * @return a BlockPosBoxIterator sized to the queen's territory
      */
-    protected BlockPosBoxIterator getBlockIterator(BlockEntity apiary, ItemStack queen) {
+    protected BlockPosBoxIterator getBlockIterator(BlockEntity be, ItemStack queen) {
         float rangeModifier = 1f;
-        if (apiary instanceof ApiaryBlockEntity apiaryBlockEntity) {
-            for (BeeHousingModifier modifier : apiaryBlockEntity.getFrameModifiers()) {
+        if (be instanceof IBeeHousing housing) {
+            for (BeeHousingModifier modifier : housing.getHousingModifiers()) {
                 rangeModifier *= modifier.getTerritoryMod();
             }
         }
         int[] radii = (int[]) GeneticHelper.getGeneValue(queen, GeneTerritory.ID, true);
-        return new BlockPosBoxIterator(apiary.getBlockPos(), Math.round(radii[0] * rangeModifier), Math.round(radii[1] * rangeModifier));
+        return new BlockPosBoxIterator(be.getBlockPos(), Math.round(radii[0] * rangeModifier), Math.round(radii[1] * rangeModifier));
     }
 
     private boolean hasApiaristArmorEquipped(Player player) {

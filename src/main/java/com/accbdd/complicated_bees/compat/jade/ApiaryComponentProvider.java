@@ -41,7 +41,7 @@ public class ApiaryComponentProvider implements IBlockComponentProvider, IServer
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
         ApiaryBlockEntity apiary = (ApiaryBlockEntity) accessor.getBlockEntity();
-        tag.putInt("errors", apiary.getData().get(2));
+        tag.putInt("errors", apiary.getErrors());
         tag.putInt("cycle_ticks", apiary.getCycleProgress());
     }
 

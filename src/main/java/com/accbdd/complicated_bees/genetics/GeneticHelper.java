@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.genetics;
 
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
+import com.accbdd.complicated_bees.block.entity.IBeeHousing;
 import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.genetics.gene.GeneSpecies;
 import com.accbdd.complicated_bees.genetics.gene.GeneTolerant;
@@ -169,8 +169,8 @@ public class GeneticHelper {
         List<Mutation> possibleMutations = new ArrayList<>();
         BreedingTracker tracker = null;
 
-        if (level.getBlockEntity(pos) instanceof ApiaryBlockEntity apiary && apiary.getOwner() != null) {
-            tracker = BreedingTracker.getTracker(apiary.getOwner());
+        if (level.getBlockEntity(pos) instanceof IBeeHousing housing && housing.getOwner() != null) {
+            tracker = BreedingTracker.getTracker(housing.getOwner());
         }
 
         for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {

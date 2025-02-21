@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.genetics.mutation.condition;
 
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
-import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
+import com.accbdd.complicated_bees.block.entity.IBeeHousing;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -26,8 +25,8 @@ public class EcstaticCondition extends MutationCondition {
     @Override
     public boolean check(Level level, BlockPos pos) {
         BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof ApiaryBlockEntity apiary) {
-            return apiary.getData().get(2) == EnumErrorCodes.ECSTATIC.value;
+        if (be instanceof IBeeHousing housing) {
+            return housing.isQueenEcstatic();
         }
         return false;
     }

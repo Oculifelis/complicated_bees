@@ -107,6 +107,7 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.ANALYZER.get());
                 output.accept(ItemsRegistration.GENERATOR.get());
                 output.accept(ItemsRegistration.MICROSCOPE.get());
+                output.accept(ItemsRegistration.MELLARIUM_BASE.get());
                 output.accept(ItemsRegistration.APID_LIBRARY.get());
                 output.accept(ItemsRegistration.FRAME.get());
                 output.accept(ItemsRegistration.WAXED_FRAME.get());

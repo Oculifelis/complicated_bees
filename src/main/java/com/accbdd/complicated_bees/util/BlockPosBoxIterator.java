@@ -5,21 +5,21 @@ import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockPosBoxIterator extends AbstractIterator<BlockPos> {
-    private final BlockPos center;
     private final BlockPos maxPos;
     private final BlockPos minPos;
 
     private BlockPos current;
 
     public BlockPosBoxIterator(BlockPos center, int hRadius, int vRadius) {
-        this.center = center;
         this.maxPos = new BlockPos(center.getX() + hRadius, center.getY() + vRadius, center.getZ() + hRadius);
         this.minPos = new BlockPos(center.getX() - hRadius, center.getY() - vRadius, center.getZ() - hRadius);
         this.current = null;
     }
 
-    public BlockPos getCenter() {
-        return center;
+    public BlockPosBoxIterator(BlockPos min, BlockPos max) {
+        this.maxPos = max;
+        this.minPos = min;
+        this.current = null;
     }
 
     @Nullable
