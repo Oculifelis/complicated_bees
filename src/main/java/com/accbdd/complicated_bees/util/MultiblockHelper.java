@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.util;
 
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -25,8 +26,11 @@ public class MultiblockHelper {
                         flag = false;
                     }
                 }
-                if (flag)
+                if (flag) {
+                    level.setBlockEntity(new MellariumControllerBlockEntity(testCenter, level.getBlockState(testCenter)));
                     return new MellariumLogic(level, testCenter, owner);
+                }
+
             }
         }
         return null;

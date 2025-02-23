@@ -103,8 +103,8 @@ public class ApiaryBlock extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
         if (blockentity instanceof ApiaryBlockEntity apiary) {
-            while (!apiary.outputBuffer.empty()) {
-                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), apiary.outputBuffer.pop());
+            while (!apiary.getOutputBuffer().empty()) {
+                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), apiary.getOutputBuffer().pop());
             }
             IItemHandler handler = apiary.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
             for (int i = 0; i < handler.getSlots(); i++) {

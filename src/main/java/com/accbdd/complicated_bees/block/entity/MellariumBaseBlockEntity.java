@@ -29,17 +29,17 @@ public class MellariumBaseBlockEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null)
+        if (getLogic() == null || getLogic().getController() == null)
             return super.getCapability(cap, side);
 
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             if (side == null) {
-                return getLogic().getItemHandler().cast();
+                return getLogic().getController().getItemHandler().cast();
             }
             if (side == Direction.DOWN) {
-                return getLogic().getOutputItemHandler().cast();
+                return getLogic().getController().getOutputItemHandler().cast();
             }
-            return getLogic().getBeeItemHandler().cast();
+            return getLogic().getController().getBeeItemHandler().cast();
         }
 
         return super.getCapability(cap, side);

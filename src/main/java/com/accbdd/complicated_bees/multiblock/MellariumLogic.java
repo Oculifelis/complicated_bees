@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -42,5 +43,15 @@ public class MellariumLogic {
 
     public UUID getOwner() {
         return owner;
+    }
+
+    public BlockPos getCenter() {
+        return center;
+    }
+
+    public MellariumControllerBlockEntity getController() {
+        if (level.getBlockEntity(center) instanceof MellariumControllerBlockEntity controller)
+            return controller;
+        return null;
     }
 }
