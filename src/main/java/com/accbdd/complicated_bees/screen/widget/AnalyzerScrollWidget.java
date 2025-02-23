@@ -1,13 +1,13 @@
 package com.accbdd.complicated_bees.screen.widget;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Product;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.gene.GeneEffect;
+import com.accbdd.complicated_bees.bees.gene.GeneTolerant;
+import com.accbdd.complicated_bees.bees.gene.IGene;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Product;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.gene.GeneEffect;
-import com.accbdd.complicated_bees.genetics.gene.GeneTolerant;
-import com.accbdd.complicated_bees.genetics.gene.IGene;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.screen.AnalyzerMenu;

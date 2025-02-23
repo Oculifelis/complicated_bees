@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.compat.emi.recipe;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
-import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;

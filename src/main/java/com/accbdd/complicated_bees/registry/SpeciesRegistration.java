@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

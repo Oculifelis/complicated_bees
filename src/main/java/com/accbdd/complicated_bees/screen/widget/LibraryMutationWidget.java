@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.screen.widget;
 
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;

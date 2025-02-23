@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.genetics.gene.*;
+import com.accbdd.complicated_bees.bees.gene.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryBuilder;

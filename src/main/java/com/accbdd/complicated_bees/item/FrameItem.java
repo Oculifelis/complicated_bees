@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.item;
 
-import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumTolerance;
+import com.accbdd.complicated_bees.bees.BeeHousingModifier;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

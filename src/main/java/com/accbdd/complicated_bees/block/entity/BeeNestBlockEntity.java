@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.BlockPos;

@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.loot;
 
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Genome;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Genome;
-import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;

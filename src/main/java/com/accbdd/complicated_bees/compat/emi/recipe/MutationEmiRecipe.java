@@ -1,10 +1,10 @@
 package com.accbdd.complicated_bees.compat.emi.recipe;
 
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;

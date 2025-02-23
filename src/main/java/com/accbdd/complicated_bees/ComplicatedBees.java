@@ -1,5 +1,13 @@
 package com.accbdd.complicated_bees;
 
+import com.accbdd.complicated_bees.bees.Comb;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
+import com.accbdd.complicated_bees.bees.gene.IGene;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
 import com.accbdd.complicated_bees.client.ColorHandlers;
@@ -9,14 +17,6 @@ import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.event.ComplicatedBeesEvents;
-import com.accbdd.complicated_bees.genetics.Comb;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.effect.IBeeEffect;
-import com.accbdd.complicated_bees.genetics.gene.IGene;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;

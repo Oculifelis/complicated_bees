@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.genetics.effect.*;
+import com.accbdd.complicated_bees.bees.effect.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

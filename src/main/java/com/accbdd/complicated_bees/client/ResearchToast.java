@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.client;
 
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;

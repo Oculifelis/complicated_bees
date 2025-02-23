@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.Product;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;

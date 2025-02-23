@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.registry;
 
+import com.accbdd.complicated_bees.bees.BeeHousingModifier;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.item.ArmorMaterials;
 import com.accbdd.complicated_bees.item.*;
 import net.minecraft.world.effect.MobEffectInstance;

@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;

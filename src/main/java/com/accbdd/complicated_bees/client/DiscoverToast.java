@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.client;
 
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;

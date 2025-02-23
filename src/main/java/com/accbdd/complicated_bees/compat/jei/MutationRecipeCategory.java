@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.compat.jei;
 
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

@@ -1,10 +1,10 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;

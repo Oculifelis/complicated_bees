@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.network.packet;
 
-import com.accbdd.complicated_bees.genetics.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.genetics.Product;
-import com.accbdd.complicated_bees.genetics.Species;
+import com.accbdd.complicated_bees.bees.Product;
+import com.accbdd.complicated_bees.bees.Species;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;

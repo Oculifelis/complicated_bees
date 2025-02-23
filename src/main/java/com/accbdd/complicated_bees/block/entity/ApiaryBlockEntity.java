@@ -1,14 +1,11 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.bees.*;
+import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
+import com.accbdd.complicated_bees.bees.gene.*;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumLifespan;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumProductivity;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Product;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.effect.IBeeEffect;
-import com.accbdd.complicated_bees.genetics.gene.*;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumLifespan;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumProductivity;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -69,7 +66,7 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
     private int maxMatingProgress = 20;
     private int errorState = 0;
 
-    private BeeLogic beeLogic;
+    private final BeeLogic beeLogic;
 
     private final ItemStackHandler beeItems = createBeeHandler();
     private final ItemStackHandler outputItems = createOutputHandler();
@@ -166,18 +163,22 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
         return frameItems;
     }
 
+    @Override
     public LazyOptional<IItemHandler> getItemHandler() {
         return itemHandler;
     }
 
+    @Override
     public LazyOptional<IItemHandler> getBeeItemHandler() {
         return beeItemHandler;
     }
 
+    @Override
     public LazyOptional<IItemHandler> getOutputItemHandler() {
         return outputItemHandler;
     }
 
+    @Override
     public LazyOptional<IItemHandler> getFrameItemHandler() {
         return frameItemHandler;
     }
@@ -312,7 +313,7 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             if (hasFinished()) {
                 resetMatingProgress();
                 beeItems.extractItem(1, 1, false);
-                beeItems.setStackInSlot(0, createQueenFromPrincessAndDrone(top_stack, bottom_stack));
+                beeItems.setStackInSlot(0, GeneticHelper.createQueenFromPrincessAndDrone(top_stack, bottom_stack));
                 beeLogic.setLevel(getLevel());
                 beeLogic.rebuildFlowerCache();
                 beeLogic.checkConditions();
@@ -371,20 +372,7 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
         }
     }
 
-    private ItemStack createQueenFromPrincessAndDrone(ItemStack princess, ItemStack drone) {
-        ItemStack queen = new ItemStack(ItemsRegistration.QUEEN.get());
-        GeneticHelper.setGenome(queen, GeneticHelper.getGenome(princess));
-        GeneticHelper.setMate(queen, GeneticHelper.getGenome(drone));
-        QueenItem.setGeneration(queen, PrincessItem.getGeneration(princess));
-        if (princess.getTag().contains(BeeItem.ANALYZED_TAG)) {
-            if (princess.getTag().getBoolean(BeeItem.ANALYZED_TAG)) {
-                queen.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
-            }
-        }
-        return queen;
-    }
-
-    //hook for effects to add to output
+    @Override
     public void addToOutput(ItemStack stack) {
         outputBuffer.add(stack);
     }
@@ -397,6 +385,11 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
     @Override
     public boolean isQueenEcstatic() {
         return beeLogic.isQueenEcstatic();
+    }
+
+    @Override
+    public BeeLogic getLogic() {
+        return beeLogic;
     }
 
     @Override

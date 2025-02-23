@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.screen.widget;
 
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
 import com.accbdd.complicated_bees.screen.LibraryMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
