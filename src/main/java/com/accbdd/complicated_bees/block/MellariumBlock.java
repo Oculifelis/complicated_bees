@@ -1,9 +1,12 @@
 package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
-import com.accbdd.complicated_bees.multiblock.MultiblockHelper;
+import com.accbdd.complicated_bees.block.entity.MellariumFanBlockEntity;
+import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -30,9 +33,9 @@ public class MellariumBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-        super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
-        MultiblockHelper.tryBuildMellarium(pLevel, pPos);
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        MultiblockHelper.tryBuildMellarium(pLevel, pPos, pPlacer == null ? null : pPlacer.getUUID());
     }
 
     @Override
@@ -56,6 +59,7 @@ public class MellariumBlock extends BaseEntityBlock {
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return switch (type) {
             case BASE -> new MellariumBaseBlockEntity(pPos, pState);
+            case FAN -> new MellariumFanBlockEntity(pPos, pState);
             default -> null;
         };
     }

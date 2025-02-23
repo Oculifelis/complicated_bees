@@ -33,6 +33,7 @@ public class BlocksRegistration {
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
 
     public static final RegistryObject<MellariumBlock> MELLARIUM_BASE = BLOCKS.register("mellarium_base", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.BASE));
+    public static final RegistryObject<MellariumBlock> MELLARIUM_FAN = BLOCKS.register("mellarium_fan", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.FAN));
 
     public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
 

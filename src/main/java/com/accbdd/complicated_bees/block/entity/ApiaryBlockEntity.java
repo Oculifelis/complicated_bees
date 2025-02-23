@@ -77,10 +77,6 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
     private boolean queenSatisfied = false;
     private boolean queenEcstatic = false;
 
-    private EnumTemperature temperatureCache = null;
-    private EnumHumidity humidityCache = null;
-    private final List<BlockPos> flowerCache = new ArrayList<>();
-
     private final ItemStackHandler beeItems = createBeeHandler();
     private final ItemStackHandler outputItems = createOutputHandler();
     private final ItemStackHandler frameItems = createFrameHandler();

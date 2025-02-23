@@ -1,12 +1,15 @@
-package com.accbdd.complicated_bees.multiblock;
+package com.accbdd.complicated_bees.util;
 
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
-import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
+import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class MultiblockHelper {
-    public static MellariumLogic tryBuildMellarium(Level level, BlockPos pos) {
+    public static MellariumLogic tryBuildMellarium(Level level, BlockPos pos, @Nullable UUID owner) {
         if (level.getBlockEntity(pos) instanceof MellariumBaseBlockEntity) {
             BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
             while (centerIterator.hasNext()) {
@@ -23,7 +26,7 @@ public class MultiblockHelper {
                     }
                 }
                 if (flag)
-                    return new MellariumLogic(level, testCenter);
+                    return new MellariumLogic(level, testCenter, owner);
             }
         }
         return null;

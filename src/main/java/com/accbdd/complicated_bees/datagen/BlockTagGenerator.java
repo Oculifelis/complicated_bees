@@ -27,6 +27,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(SCOOPABLE).add(BlocksRegistration.BEE_NEST.get());
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),
+                BlocksRegistration.MELLARIUM_BASE.get(),
+                BlocksRegistration.MELLARIUM_FAN.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),
                 BlocksRegistration.HONEYED_SLAB.get(),
