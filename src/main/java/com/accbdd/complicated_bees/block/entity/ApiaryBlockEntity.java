@@ -1,18 +1,17 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.config.Config;
-import com.accbdd.complicated_bees.genetics.*;
+import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
+import com.accbdd.complicated_bees.genetics.GeneticHelper;
+import com.accbdd.complicated_bees.genetics.Product;
+import com.accbdd.complicated_bees.genetics.Species;
 import com.accbdd.complicated_bees.genetics.effect.IBeeEffect;
 import com.accbdd.complicated_bees.genetics.gene.*;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumHumidity;
 import com.accbdd.complicated_bees.genetics.gene.enums.EnumLifespan;
 import com.accbdd.complicated_bees.genetics.gene.enums.EnumProductivity;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumTemperature;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
-import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,10 +19,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -33,14 +30,11 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
-
-import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 @ParametersAreNonnullByDefault
 public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
@@ -71,11 +65,11 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
     private final ContainerData data;
     private int cycleProgress = 0;
     private int satisfyCycleProgress = 0;
-    private int breedingProgress = 0;
-    private int maxBreedingProgress = 20;
+    private int matingProgress = 0;
+    private int maxMatingProgress = 20;
     private int errorState = 0;
-    private boolean queenSatisfied = false;
-    private boolean queenEcstatic = false;
+
+    private BeeLogic beeLogic;
 
     private final ItemStackHandler beeItems = createBeeHandler();
     private final ItemStackHandler outputItems = createOutputHandler();
@@ -132,12 +126,13 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
 
     public ApiaryBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.APIARY_ENTITY.get(), pPos, pBlockState);
+        this.beeLogic = new BeeLogic(getLevel(), getBlockPos(), this);
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> ApiaryBlockEntity.this.breedingProgress;
-                    case 1 -> ApiaryBlockEntity.this.maxBreedingProgress;
+                    case 0 -> ApiaryBlockEntity.this.matingProgress;
+                    case 1 -> ApiaryBlockEntity.this.maxMatingProgress;
                     case 2 -> ApiaryBlockEntity.this.errorState;
                     default -> 0;
                 };
@@ -146,8 +141,8 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> ApiaryBlockEntity.this.breedingProgress = value;
-                    case 1 -> ApiaryBlockEntity.this.maxBreedingProgress = value;
+                    case 0 -> ApiaryBlockEntity.this.matingProgress = value;
+                    case 1 -> ApiaryBlockEntity.this.maxMatingProgress = value;
                     case 2 -> ApiaryBlockEntity.this.errorState = value;
                 }
             }
@@ -218,8 +213,7 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             @Override
             protected void onContentsChanged(int slot) {
                 setChanged();
-                ApiaryBlockEntity.this.humidityCache = null;
-                ApiaryBlockEntity.this.temperatureCache = null;
+                beeLogic.clearConditionCache();
             }
         };
     }
@@ -249,8 +243,9 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             protected void onContentsChanged(int slot) {
                 super.onContentsChanged(slot);
                 if (slot == 0) {
-                    ApiaryBlockEntity.this.clearFlowerCache();
-                    ApiaryBlockEntity.this.checkQueenSatisfied();
+                    beeLogic.setQueen(getStackInSlot(0));
+                    beeLogic.clearFlowerCache();
+                    beeLogic.checkConditions();
                 }
                 setChanged();
             }
@@ -293,8 +288,13 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
         }
         if (tag.contains(OWNER_TAG))
             owner = tag.getUUID(OWNER_TAG);
-
         satisfyCycleProgress = new Random().nextInt(0, SATISFY_CYCLE_LENGTH);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        beeLogic.setLevel(getLevel());
     }
 
     public void tickServer() {
@@ -306,25 +306,26 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             tryEmptyBuffer();
         }
 
-        //breed
+        //mate
         if (top_stack.getItem() instanceof PrincessItem && bottom_stack.getItem() instanceof DroneItem) {
-            increaseBreedingProgress();
+            increaseMatingProgress();
             if (hasFinished()) {
-                resetBreedingProgress();
+                resetMatingProgress();
                 beeItems.extractItem(1, 1, false);
                 beeItems.setStackInSlot(0, createQueenFromPrincessAndDrone(top_stack, bottom_stack));
-                rebuildFlowerCache(beeItems.getStackInSlot(0));
-                checkQueenSatisfied();
+                beeLogic.setLevel(getLevel());
+                beeLogic.rebuildFlowerCache();
+                beeLogic.checkConditions();
             }
         } else {
-            resetBreedingProgress();
+            resetMatingProgress();
         }
 
         //check if queen is satisfied
         if (satisfyCycleProgress >= SATISFY_CYCLE_LENGTH) {
             if (top_stack.getItem() instanceof QueenItem) {
-                checkFlowerCache(top_stack);
-                queenSatisfied = checkQueenSatisfied();
+                beeLogic.setQueen(top_stack);
+                beeLogic.checkConditions();
                 satisfyCycleProgress = 0;
             }
         } else {
@@ -333,7 +334,7 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
 
         //do queen cycle
         if (top_stack.getItem() instanceof QueenItem) {
-            if (queenSatisfied) {
+            if (beeLogic.isQueenSatisfied()) {
                 doBeeEffect();
                 if (cycleProgress < CYCLE_LENGTH) {
                     cycleProgress++;
@@ -390,17 +391,12 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
 
     @Override
     public boolean isQueenSatisfied() {
-        return queenSatisfied;
+        return beeLogic.isQueenSatisfied();
     }
 
     @Override
     public boolean isQueenEcstatic() {
-        return queenEcstatic;
-    }
-
-    @Override
-    public int getErrors() {
-        return data.get(2);
+        return beeLogic.isQueenEcstatic();
     }
 
     @Override
@@ -422,71 +418,6 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
             }
         }
         setChanged();
-    }
-
-    public boolean checkQueenSatisfied() {
-        if (!(beeItems.getStackInSlot(0).getItem() instanceof QueenItem))
-            return false;
-
-        if (getLevel() == null) return false;
-
-        Chromosome chromosome = GeneticHelper.getChromosome(beeItems.getStackInSlot(0), true);
-        queenSatisfied = true;
-
-        if (!((GeneTemperature) chromosome.getGene(GeneTemperature.ID)).withinTolerance(getTemperature())) {
-            addError(EnumErrorCodes.WRONG_TEMP);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.WRONG_TEMP);
-        }
-        if (!((GeneHumidity) chromosome.getGene(GeneHumidity.ID)).withinTolerance(getHumidity())) {
-            addError(EnumErrorCodes.WRONG_HUMIDITY);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.WRONG_HUMIDITY);
-        }
-        if (this.flowerCache.isEmpty()) {
-            addError(EnumErrorCodes.NO_FLOWER);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.NO_FLOWER);
-        }
-        if (getLevel().isRaining() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
-            addError(EnumErrorCodes.WEATHER);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.WEATHER);
-        }
-        if (getLevel().canSeeSky(getBlockPos())
-                && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
-            addError(EnumErrorCodes.UNDERGROUND);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.UNDERGROUND);
-        }
-        if (!((GeneActiveTime) chromosome.getGene(new ResourceLocation(MODID, "active_time"))).isSatisfied(getLevel())) {
-            addError(EnumErrorCodes.WRONG_TIME);
-            queenSatisfied = false;
-        } else {
-            removeError(EnumErrorCodes.WRONG_TIME);
-        }
-
-        queenEcstatic();
-
-        return queenSatisfied;
-    }
-
-    public void queenEcstatic() {
-        Chromosome chromosome = GeneticHelper.getChromosome(beeItems.getStackInSlot(0), true);
-        if (((GeneTemperature) chromosome.getGene(GeneTemperature.ID)).get().equals(getTemperature())
-                && ((GeneHumidity) chromosome.getGene(GeneHumidity.ID)).get().equals(getHumidity())
-                && queenSatisfied) {
-            addError(EnumErrorCodes.ECSTATIC);
-            this.queenEcstatic = true;
-        } else {
-            removeError(EnumErrorCodes.ECSTATIC);
-            this.queenEcstatic = false;
-        }
     }
 
     public void ageQueen(ItemStack queen) {
@@ -525,109 +456,35 @@ public class ApiaryBlockEntity extends BlockEntity implements IBeeHousing {
         }
     }
 
-    public EnumHumidity getHumidity() {
-        if (this.humidityCache == null) {
-            if (getLevel() == null) {
-                return null;
-            }
-            this.humidityCache = EnumHumidity.getFromPosition(getLevel(), getBlockPos());
-
-            for (BeeHousingModifier mod : getHousingModifiers()) {
-                int ordinal = humidityCache.ordinal() + mod.getHumidityMod().up - mod.getHumidityMod().down;
-                humidityCache = EnumHumidity.values()[Math.max(0, Math.min(EnumHumidity.values().length - 1, ordinal))];
-            }
-        }
-
-        return this.humidityCache;
-    }
-
-    public EnumTemperature getTemperature() {
-        if (this.temperatureCache == null) {
-            if (getLevel() == null) {
-                return null;
-            }
-            this.temperatureCache = EnumTemperature.getFromPosition(getLevel(), getBlockPos());
-
-            for (BeeHousingModifier mod : getHousingModifiers()) {
-                int ordinal = temperatureCache.ordinal() + mod.getTemperatureMod().up - mod.getTemperatureMod().down;
-                temperatureCache = EnumTemperature.values()[Math.max(0, Math.min(EnumTemperature.values().length - 1, ordinal))];
-            }
-        }
-
-        return this.temperatureCache;
-    }
-
-    private void checkFlowerCache(ItemStack bee) {
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
-                .get(((GeneFlower) GeneticHelper.getGene(bee, GeneFlower.ID, true)).get());
-        Level level = getLevel();
-        if (flower == null || level == null) {
-            //no valid flower gene or the level isn't loaded
-            flowerCache.add(getBlockPos());
-            return;
-        }
-        for (int i = 0; i < flowerCache.size(); i++) {
-            if (flower.isAcceptable(level.getBlockState(flowerCache.get(i)))) {
-                return;
-            } else {
-                flowerCache.remove(i);
-                i--;
-            }
-        }
-        //if we get here, there are no valid flowers in the flowerCache, rebuild
-        rebuildFlowerCache(bee);
-    }
-
-    private void rebuildFlowerCache(ItemStack bee) {
-        clearFlowerCache();
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
-                .get(((GeneFlower) GeneticHelper.getGene(bee, GeneFlower.ID, true)).get());
-
-        if (flower == null) {
-            //no valid flower gene
-            flowerCache.add(getBlockPos());
-            return;
-        }
-        float rangeModifier = 1f;
-        for (BeeHousingModifier modifier : getHousingModifiers()) {
-            rangeModifier *= modifier.getTerritoryMod();
-        }
-        int[] searchRadii = (int[]) GeneticHelper.getGeneValue(bee, GeneTerritory.ID, true);
-        BlockPosBoxIterator it = new BlockPosBoxIterator(this.getBlockPos(), Math.round(searchRadii[0] * rangeModifier), Math.round(searchRadii[1] * rangeModifier));
-        while (it.hasNext() && this.beeItems.getStackInSlot(0).is(ItemsRegistration.QUEEN.get())) {
-            BlockPos pos = it.next();
-            if (flower.isAcceptable(getLevel().getBlockState(pos))) {
-                flowerCache.add(pos);
-            }
-        }
-    }
-
-    private void clearFlowerCache() {
-        flowerCache.clear();
-    }
-
-    private void increaseBreedingProgress() {
-        breedingProgress++;
+    private void increaseMatingProgress() {
+        matingProgress++;
         setChanged();
     }
 
     private boolean hasFinished() {
-        return breedingProgress >= maxBreedingProgress;
+        return matingProgress >= maxMatingProgress;
     }
 
-    private void resetBreedingProgress() {
-        breedingProgress = 0;
+    private void resetMatingProgress() {
+        matingProgress = 0;
     }
 
-    private void addError(EnumErrorCodes... error) {
+    @Override
+    public void addError(EnumErrorCodes... error) {
         for (EnumErrorCodes err : error) {
             errorState |= err.value;
         }
     }
 
-    private void removeError(EnumErrorCodes... error) {
+    @Override
+    public void removeError(EnumErrorCodes... error) {
         for (EnumErrorCodes err : error) {
             errorState = (errorState & (err.value ^ Integer.MAX_VALUE));
         }
+    }
+
+    @Override
+    public int getErrors() {
+        return data.get(2);
     }
 }

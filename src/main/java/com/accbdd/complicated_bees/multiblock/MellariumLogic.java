@@ -1,59 +1,21 @@
 package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
-import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
 import com.accbdd.complicated_bees.block.entity.IBeeHousing;
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.effect.IBeeEffect;
-import com.accbdd.complicated_bees.genetics.gene.GeneEffect;
-import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
+import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
 
 public class MellariumLogic implements IBeeHousing {
-    private final ItemStackHandler beeItems = createBeeHandler();
-    private final ItemStackHandler outputItems = createOutputHandler();
-    private final ItemStackHandler frameItems = createFrameHandler();
-
-    private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItems, outputItems, frameItems));
-    private final LazyOptional<IItemHandler> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
-        @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-    });
-
-    private final LazyOptional<IItemHandler> outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
-        @Override
-        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return stack;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return false;
-        }
-    });
-    private final LazyOptional<IItemHandler> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() instanceof FrameItem;
-        }
-    });
-
     private final Level level;
     private final BlockPos center;
     private UUID owner;
@@ -127,11 +89,6 @@ public class MellariumLogic implements IBeeHousing {
 
     @Override
     public void doBeeEffect() {
-        if (beeItems.getStackInSlot(0).getItem() instanceof QueenItem ) {
-            IBeeEffect effect = (IBeeEffect) GeneticHelper.getGeneValue(beeItems.getStackInSlot(0), GeneEffect.ID, true);
-            if (effect != null)
-                effect.runEffect(level.getBlockEntity(center), beeItems.getStackInSlot(0), cycleProgress);
-        }
     }
 
     @Override
@@ -160,62 +117,17 @@ public class MellariumLogic implements IBeeHousing {
     }
 
     @Override
+    public void addError(EnumErrorCodes... error) {
+
+    }
+
+    @Override
+    public void removeError(EnumErrorCodes... error) {
+
+    }
+
+    @Override
     public void beeTick() {
 
     }
-
-    private ItemStackHandler createOutputHandler() {
-        return new ItemStackHandler(ApiaryBlockEntity.OUTPUT_SLOT_COUNT) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                //setChanged();
-            }
-        };
-    }
-
-    private ItemStackHandler createFrameHandler() {
-        return new ItemStackHandler(ApiaryBlockEntity.FRAME_SLOT_COUNT) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                //setChanged();
-                humidityCache = null;
-                temperatureCache = null;
-            }
-        };
-    }
-
-    private ItemStackHandler createBeeHandler() {
-        return new ItemStackHandler(ApiaryBlockEntity.BEE_SLOT_COUNT) {
-            @Override
-            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                boolean itemValid = isItemValid(slot, stack);
-                return itemValid ? super.insertItem(slot, stack, simulate) : stack;
-            }
-
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                if (stack.getItem() instanceof BeeItem) {
-                    switch (slot) {
-                        case 0:
-                            return (stack.getItem() instanceof QueenItem || stack.getItem() instanceof PrincessItem);
-                        case 1:
-                            return (stack.getItem() instanceof DroneItem);
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                if (slot == 0) {
-                    ;
-                    checkQueenSatisfied();
-                }
-                //setChanged();
-            }
-        };
-    }
-
-
 }

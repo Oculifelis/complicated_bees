@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.genetics.BeeHousingModifier;
+import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -31,6 +32,10 @@ public interface IBeeHousing {
     boolean isQueenEcstatic();
 
     int getErrors();
+
+    void addError(EnumErrorCodes... error);
+
+    void removeError(EnumErrorCodes... error);
 
     void beeTick();
 }
