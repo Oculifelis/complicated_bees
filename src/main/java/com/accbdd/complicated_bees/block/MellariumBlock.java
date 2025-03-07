@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.*;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
@@ -20,6 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MellariumBlock extends BaseEntityBlock {
     private final MellariumBlockType type;
@@ -63,10 +67,25 @@ public class MellariumBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide && pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumAbstractBlock) {
-            if (mellariumAbstractBlock.getLogic() == null)
+            if (mellariumAbstractBlock.getLogic() == null) {
                 pPlayer.displayClientMessage(Component.literal("not a valid mellarium!"), true);
-            else
+            } else {
                 pPlayer.displayClientMessage(Component.literal("valid mellarium"), true);
+                var logic = mellariumAbstractBlock.getLogic();
+                List<ItemStack> frames = logic.getFrameHousingBlocks().stream().map(pos -> {
+                    if (pLevel.getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
+                        return frameHousing.getFrameItemHandler().resolve().get().getStackInSlot(0);
+                    }
+                    return ItemStack.EMPTY;
+                }).collect(Collectors.toList());
+                frames.addAll(logic.getFrameHousingBlocks().stream().map(pos -> {
+                    if (pLevel.getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
+                        return frameHousing.getFrameItemHandler().resolve().get().getStackInSlot(1);
+                    }
+                    return ItemStack.EMPTY;
+                }).collect(Collectors.toList()));
+                ComplicatedBees.LOGGER.debug("frames available: {}", frames);
+            }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }

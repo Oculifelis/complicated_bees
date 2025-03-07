@@ -17,6 +17,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlockTagGenerator extends BlockTagsProvider {
     public static final TagKey<Block> SCOOPABLE = BlockTags.create(new ResourceLocation("complicated_bees:mineable/scoop_tool"));
+    public static final TagKey<Block> MELLARIUM = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/mellarium"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MODID, existingFileHelper);
@@ -25,11 +26,16 @@ public class BlockTagGenerator extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(SCOOPABLE).add(BlocksRegistration.BEE_NEST.get());
+        tag(MELLARIUM).add(
+                BlocksRegistration.MELLARIUM_BASE.get(),
+                BlocksRegistration.MELLARIUM_FAN.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING.get()
+        );
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),
                 BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.MELLARIUM_FAN.get(),
-                BlocksRegistration.MELLARIUM_BASE.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),
                 BlocksRegistration.HONEYED_SLAB.get(),

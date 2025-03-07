@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.multiblock;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
-import com.accbdd.complicated_bees.block.entity.MellariumFrameHousingBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
@@ -16,7 +15,7 @@ import java.util.UUID;
 public class MellariumLogic {
     private final Level level;
     private final BlockPos center;
-    private final List<MellariumFrameHousingBlockEntity> frameHousingBlockEntities = new ArrayList<>();
+    private final List<BlockPos> frameHousingBlocks = new ArrayList<>();
     private UUID owner;
 
     public MellariumLogic(Level level, BlockPos center, UUID owner) {
@@ -28,8 +27,8 @@ public class MellariumLogic {
             BlockPos pos = iterator.next();
             if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(this);
-                if (mellariumBlock instanceof MellariumFrameHousingBlockEntity frameHousing) {
-                    frameHousingBlockEntities.add(frameHousing);
+                if (level.getBlockState(pos).is(BlocksRegistration.MELLARIUM_FRAME_HOUSING.get())) {
+                    frameHousingBlocks.add(pos);
                 }
             } else if (level.getBlockEntity(pos) instanceof MellariumControllerBlockEntity controller) {
                 controller.setMellariumLogic(this);
@@ -71,7 +70,7 @@ public class MellariumLogic {
         return null;
     }
 
-    public List<MellariumFrameHousingBlockEntity> getFrameHousingBlockEntities() {
-        return frameHousingBlockEntities;
+    public List<BlockPos> getFrameHousingBlocks() {
+        return frameHousingBlocks;
     }
 }

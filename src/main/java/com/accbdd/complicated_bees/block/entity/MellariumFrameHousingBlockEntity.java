@@ -17,16 +17,21 @@ import org.jetbrains.annotations.Nullable;
 public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity {
     public static int FRAME_SLOTS = 2;
 
-    private final ItemStackHandler frameItems = new ItemStackHandler(FRAME_SLOTS);
-    private final LazyOptional<IItemHandler> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
+    private final ItemStackHandler frameItems = new ItemStackHandler(FRAME_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.getItem() instanceof FrameItem;
         }
-    });
+    };
+
+    private final LazyOptional<IItemHandler> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems));
 
     public MellariumFrameHousingBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(BlockEntitiesRegistration.MELLARIUM_FAN_BLOCK_ENTITY.get(), pPos, pBlockState);
+        super(BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_BLOCK_ENTITY.get(), pPos, pBlockState);
+    }
+
+    public LazyOptional<IItemHandler> getFrameItemHandler() {
+        return frameItemHandler;
     }
 
     @Override
@@ -35,9 +40,15 @@ public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEnti
             return super.getCapability(cap, side);
 
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return frameItemHandler.cast();
+            return this.getFrameItemHandler().cast();
         }
 
         return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        getFrameItemHandler().invalidate();
     }
 }
