@@ -1,10 +1,14 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
-import com.accbdd.complicated_bees.block.entity.MellariumFanBlockEntity;
+import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.block.entity.*;
+import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,6 +18,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class MellariumBlock extends BaseEntityBlock {
@@ -40,7 +45,7 @@ public class MellariumBlock extends BaseEntityBlock {
 
     @Override
     public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumBaseBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
+        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
             mellariumBase.getLogic().deconstruct();
         }
         super.destroy(pLevel, pPos, pState);
@@ -48,10 +53,22 @@ public class MellariumBlock extends BaseEntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumBaseBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
-            mellariumBase.getLogic().deconstruct();
+        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
+            if (!pNewState.is(BlocksRegistration.MELLARIUM_CONTROLLER.get()))
+                mellariumBase.getLogic().deconstruct();
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumAbstractBlock) {
+            if (mellariumAbstractBlock.getLogic() == null)
+                ComplicatedBees.LOGGER.debug("not a valid mellarium!");
+            else
+                ComplicatedBees.LOGGER.debug("mellarium center: {}", mellariumAbstractBlock.getLogic().getCenter());
+        }
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     @Nullable
@@ -60,12 +77,15 @@ public class MellariumBlock extends BaseEntityBlock {
         return switch (type) {
             case BASE -> new MellariumBaseBlockEntity(pPos, pState);
             case FAN -> new MellariumFanBlockEntity(pPos, pState);
+            case FRAME -> new MellariumFrameHousingBlockEntity(pPos, pState);
+            case CONTROLLER -> new MellariumControllerBlockEntity(pPos, pState, null);
             default -> null;
         };
     }
 
     public enum MellariumBlockType {
         BASE,
+        CONTROLLER,
         FAN,
         HEATER,
         HYDRO,

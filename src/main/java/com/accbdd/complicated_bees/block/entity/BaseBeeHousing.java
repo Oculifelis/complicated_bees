@@ -158,8 +158,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         tag.put(ITEMS_BEES_TAG, getBeeItems().serializeNBT());
         tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT());
         tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT());
-        if (owner != null)
-            tag.putUUID(OWNER_TAG, owner);
+        if (getOwner() != null)
+            tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
             bufferTag.add(stack.save(new CompoundTag()));
@@ -186,14 +186,15 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             }
         }
         if (tag.contains(OWNER_TAG))
-            owner = tag.getUUID(OWNER_TAG);
+            setOwner(tag.getUUID(OWNER_TAG));
         satisfyCycleProgress = new Random().nextInt(0, SATISFY_CYCLE_LENGTH);
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        getLogic().setLevel(getLevel());
+        if (getLogic() != null)
+            getLogic().setLevel(getLevel());
     }
 
     public void tickServer() {

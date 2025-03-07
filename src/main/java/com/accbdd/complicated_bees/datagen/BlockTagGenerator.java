@@ -29,6 +29,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.APIARY.get(),
                 BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.MELLARIUM_FAN.get(),
+                BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),
                 BlocksRegistration.HONEYED_SLAB.get(),

@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-22T21:17:58.155434	Block States: complicated_bees
+// 1.20.1	2025-02-24T14:36:51.0587272	Block States: complicated_bees
 f96c3049aa45fc2ee1427d6b9010e4d655e13430 assets/complicated_bees/blockstates/apiary.json
 ad30e8af550fe579d5740d7da33a0a335261bfab assets/complicated_bees/blockstates/apid_library.json
 6f082c4f7826e0853af1c6128556032c8325066e assets/complicated_bees/blockstates/bee_nest.json
@@ -16,6 +16,7 @@ e6d425084ead6235efab71ec61de4dc19add25db assets/complicated_bees/blockstates/hon
 042790b789b7726adca1cb58cdbb03a3c80dab7f assets/complicated_bees/blockstates/honeyed_trapdoor.json
 b2c578b563c0b5386ac380baead705aa3d90ae2d assets/complicated_bees/blockstates/mellarium_base.json
 a5543d35f6f82f931de7302e44beb30448f3f982 assets/complicated_bees/blockstates/mellarium_fan.json
+0505821b507aa33d674aa1722cacac992a93b624 assets/complicated_bees/blockstates/mellarium_frame_housing.json
 aa60b60ecd51aaad04932e726f50834b74d03b52 assets/complicated_bees/blockstates/microscope.json
 51e69f4883808208c0d160fb9e55806d9dfc2ccc assets/complicated_bees/blockstates/smooth_wax.json
 6dd665a2a87614451f3b01fe520704c4f54004f7 assets/complicated_bees/blockstates/smooth_wax_slab.json
@@ -67,6 +68,7 @@ cafdfe34000f8f065f6ae1d1f868698046cd3114 assets/complicated_bees/models/block/ho
 59e20e41a3fa6537595e9c9e043277e4c3202f87 assets/complicated_bees/models/block/honeyed_trapdoor_top.json
 39f928ab13fca495d27527bc040d9efaf6ec5476 assets/complicated_bees/models/block/mellarium_base.json
 bb8066f94aa97b7601e74cee71f02c8c59c0947c assets/complicated_bees/models/block/mellarium_fan.json
+e85e7d53d98f415538f401e5c259eeba7eb5905e assets/complicated_bees/models/block/mellarium_frame_housing.json
 0929fb2946dcf0e4ab268071c880c06a6462f811 assets/complicated_bees/models/block/smooth_wax.json
 7a8d27b9b48233f43f8d74a3ba7ce184a7f5e2b8 assets/complicated_bees/models/block/smooth_wax_slab.json
 0020d9fefdd020c409c239f146ae5ca8ae59cc19 assets/complicated_bees/models/block/smooth_wax_slab_double.json

@@ -1,8 +1,10 @@
 package com.accbdd.complicated_bees.util;
 
+import com.accbdd.complicated_bees.block.entity.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
+import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -11,28 +13,43 @@ import java.util.UUID;
 
 public class MultiblockHelper {
     public static MellariumLogic tryBuildMellarium(Level level, BlockPos pos, @Nullable UUID owner) {
-        if (level.getBlockEntity(pos) instanceof MellariumBaseBlockEntity) {
+        if (level.isClientSide) return null;
+        if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity) {
             BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
             while (centerIterator.hasNext()) {
                 BlockPos testCenter = centerIterator.next();
-                BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(testCenter.offset(-1, -1, -1), testCenter.offset(1, 1, 1));
-                boolean flag = true;
-                while (structureIterator.hasNext() && flag) {
-                    BlockPos structurePos = structureIterator.next();
-                    if (level.getBlockEntity(structurePos) instanceof MellariumBaseBlockEntity mellariumBaseBlock) {
-                        if (mellariumBaseBlock.getLogic() != null)
-                            flag = false;
-                    } else {
-                        flag = false;
-                    }
+                if (isValidMellarium(level, testCenter)) {
+                    return buildMellarium(level, testCenter, owner);
                 }
-                if (flag) {
-                    level.setBlockEntity(new MellariumControllerBlockEntity(testCenter, level.getBlockState(testCenter)));
-                    return new MellariumLogic(level, testCenter, owner);
-                }
-
             }
         }
         return null;
+    }
+
+    public static boolean isValidMellarium(Level level, BlockPos center) {
+        if (level.isClientSide) return false;
+        if (!(level.getBlockEntity(center) instanceof MellariumBaseBlockEntity || level.getBlockEntity(center) instanceof MellariumControllerBlockEntity))
+            return false;
+        BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
+        while (structureIterator.hasNext()) {
+            BlockPos structurePos = structureIterator.next();
+            if (level.getBlockEntity(structurePos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
+                if (mellariumBlock.getLogic() != null) {
+                    return false;
+                }
+            } else {
+                if (!(level.getBlockEntity(structurePos) instanceof MellariumControllerBlockEntity) || !structurePos.equals(center)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static MellariumLogic buildMellarium(Level level, BlockPos center, UUID owner) {
+        if (level.isClientSide) return null;
+        level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState());
+        MellariumLogic logic = new MellariumLogic(level, center, owner);
+        return logic;
     }
 }

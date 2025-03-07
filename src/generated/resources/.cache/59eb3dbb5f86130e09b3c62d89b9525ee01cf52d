@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-22T21:17:58.157434	Loot Tables
+// 1.20.1	2025-02-24T14:36:51.0607275	Loot Tables
 5dae4e0b0ceed05cb4b581710a7dae801d6fe69f data/complicated_bees/loot_tables/blocks/apiary.json
 7ccda92858bf0d6ed5d88301d4c4f40c249bdb7a data/complicated_bees/loot_tables/blocks/apid_library.json
 b7b392c87d6ac566b09c299a34ffe0374afe6285 data/complicated_bees/loot_tables/blocks/bee_nest.json
@@ -16,6 +16,7 @@ de7ba93aaaddb74775b0ddf9d87ef6aeb1f33222 data/complicated_bees/loot_tables/block
 a8ecc04d88bf56a086a1a7a8cafb64ff4d4b49da data/complicated_bees/loot_tables/blocks/honeyed_trapdoor.json
 da8762a169e3631f787334d72662d8380fca1253 data/complicated_bees/loot_tables/blocks/mellarium_base.json
 ee6344773429a6843da97172bc26f886fe819c78 data/complicated_bees/loot_tables/blocks/mellarium_fan.json
+8cd80606e2b909e08465b7386b739ce60a5a9176 data/complicated_bees/loot_tables/blocks/mellarium_frame_housing.json
 3edc9633bb5280c4c1b2b131ec31842edc754546 data/complicated_bees/loot_tables/blocks/microscope.json
 bd7a636694ceed66c0213a49c3aa86de890a9806 data/complicated_bees/loot_tables/blocks/smooth_wax.json
 bd1e6f46769a0a48f521c3a6609673a47305e315 data/complicated_bees/loot_tables/blocks/smooth_wax_slab.json
