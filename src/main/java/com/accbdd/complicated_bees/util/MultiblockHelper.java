@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class MultiblockHelper {
     public static MellariumLogic tryBuildMellarium(Level level, BlockPos pos, @Nullable UUID owner) {
-        if (level.isClientSide) return null;
         if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity) {
             BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
             while (centerIterator.hasNext()) {
@@ -27,7 +26,6 @@ public class MultiblockHelper {
     }
 
     public static boolean isValidMellarium(Level level, BlockPos center) {
-        if (level.isClientSide) return false;
         if (!(level.getBlockEntity(center) instanceof MellariumBaseBlockEntity || level.getBlockEntity(center) instanceof MellariumControllerBlockEntity))
             return false;
         BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
@@ -47,9 +45,7 @@ public class MultiblockHelper {
     }
 
     public static MellariumLogic buildMellarium(Level level, BlockPos center, UUID owner) {
-        if (level.isClientSide) return null;
         level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState());
-        MellariumLogic logic = new MellariumLogic(level, center, owner);
-        return logic;
+        return new MellariumLogic(level, center, owner);
     }
 }

@@ -1,10 +1,10 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.*;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -62,11 +62,11 @@ public class MellariumBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumAbstractBlock) {
+        if (!pLevel.isClientSide && pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumAbstractBlock) {
             if (mellariumAbstractBlock.getLogic() == null)
-                ComplicatedBees.LOGGER.debug("not a valid mellarium!");
+                pPlayer.displayClientMessage(Component.literal("not a valid mellarium!"), true);
             else
-                ComplicatedBees.LOGGER.debug("mellarium center: {}", mellariumAbstractBlock.getLogic().getCenter());
+                pPlayer.displayClientMessage(Component.literal("valid mellarium"), true);
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
