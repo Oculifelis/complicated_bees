@@ -18,13 +18,24 @@ import java.util.Stack;
 import java.util.UUID;
 
 public class MellariumControllerBlockEntity extends BaseBeeHousing {
+    public static final int BEE_SLOT = 0;
+    public static final int BEE_SLOT_COUNT = 2;
+    public static final String ITEMS_BEES_TAG = "bee_items";
+
+    public static final int OUTPUT_SLOT = 0;
+    public static final int OUTPUT_SLOT_COUNT = 7;
+    public static final String ITEMS_OUTPUT_TAG = "output_items";
+
+    public static final int SLOT_COUNT = BEE_SLOT_COUNT + OUTPUT_SLOT_COUNT;
+    public static final String OUTPUT_BUFFER_TAG = "output_buffer";
+
     private MellariumLogic mellariumLogic;
     BeeLogic beeLogic;
 
     private final Stack<ItemStack> outputBuffer = new Stack<>();
     private final ItemStackHandler beeItems = createBeeHandler();
     private final ItemStackHandler outputItems = createOutputHandler();
-    private final ItemStackHandler frameItems = new ItemStackHandler();
+    private final ItemStackHandler frameItems = new ItemStackHandler(0);
 
     private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItems, outputItems));
     private final LazyOptional<IItemHandler> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
@@ -53,6 +64,10 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         }
     });
 
+    public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        this(pPos, pBlockState, null);
+    }
+
     public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState, MellariumLogic mellariumLogic) {
         super(BlockEntitiesRegistration.MELLARIUM_CONTROLLER_BLOCK_ENTITY.get(), pPos, pBlockState);
         this.mellariumLogic = mellariumLogic;
@@ -63,7 +78,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     private ItemStackHandler createOutputHandler() {
-        return new ItemStackHandler(ApiaryBlockEntity.OUTPUT_SLOT_COUNT) {
+        return new ItemStackHandler(OUTPUT_SLOT_COUNT) {
             @Override
             protected void onContentsChanged(int slot) {
                 setChanged();
@@ -72,7 +87,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     private ItemStackHandler createBeeHandler() {
-        return new ItemStackHandler(ApiaryBlockEntity.BEE_SLOT_COUNT) {
+        return new ItemStackHandler(BEE_SLOT_COUNT) {
             @Override
             public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 boolean itemValid = isItemValid(slot, stack);
@@ -155,6 +170,11 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         super.setOwner(owner);
         if (getMellariumLogic() != null)
             getMellariumLogic().setOwner(owner);
+    }
+
+    @Override
+    public void tickServer() {
+        super.tickServer();
     }
 
     @Override

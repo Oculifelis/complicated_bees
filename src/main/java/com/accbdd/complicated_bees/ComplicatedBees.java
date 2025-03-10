@@ -261,6 +261,7 @@ public class ComplicatedBees {
             event.enqueueWork(() -> {
                 MenuScreens.register(MenuRegistration.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
                 MenuScreens.register(MenuRegistration.APIARY_MENU.get(), ApiaryScreen::new);
+                MenuScreens.register(MenuRegistration.MELLARIUM_MENU.get(), MellariumScreen::new);
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
                 MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);

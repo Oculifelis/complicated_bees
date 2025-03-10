@@ -17,6 +17,8 @@ public class MenuRegistration {
             () -> IForgeMenuType.create((windowId, inv, data) -> new CentrifugeMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<ApiaryMenu>> APIARY_MENU = MENU_TYPES.register("apiary",
             () -> IForgeMenuType.create((windowId, inv, data) -> new ApiaryMenu(windowId, inv.player, data.readBlockPos())));
+    public static final Supplier<MenuType<MellariumMenu>> MELLARIUM_MENU = MENU_TYPES.register("mellarium",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<GeneratorMenu>> GENERATOR_MENU = MENU_TYPES.register("generator",
             () -> IForgeMenuType.create(((windowId, inv, data) -> new GeneratorMenu(windowId, inv.player, data.readBlockPos()))));
     public static final Supplier<MenuType<MicroscopeMenu>> MICROSCOPE_MENU = MENU_TYPES.register("microscope",

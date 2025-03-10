@@ -23,12 +23,12 @@ public class BlockEntitiesRegistration {
     public static final Supplier<BlockEntityType<MicroscopeBlockEntity>> MICROSCOPE_BLOCK_ENTITY = BLOCK_ENTITIES.register("microscope",
             () -> BlockEntityType.Builder.of(MicroscopeBlockEntity::new, BlocksRegistration.MICROSCOPE.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumControllerBlockEntity>> MELLARIUM_CONTROLLER_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_controller",
-            () -> BlockEntityType.Builder.of((pos, state) -> new MellariumControllerBlockEntity(pos, state, null), BlocksRegistration.MELLARIUM_BASE.get()).build(null));
+            () -> BlockEntityType.Builder.of(MellariumControllerBlockEntity::new, BlocksRegistration.MELLARIUM_CONTROLLER.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumBaseBlockEntity>> MELLARIUM_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_base",
             () -> BlockEntityType.Builder.of(MellariumBaseBlockEntity::new, BlocksRegistration.MELLARIUM_BASE.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFanBlockEntity>> MELLARIUM_FAN_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_fan",
-            () -> BlockEntityType.Builder.of(MellariumFanBlockEntity::new, BlocksRegistration.MELLARIUM_BASE.get()).build(null));
+            () -> BlockEntityType.Builder.of(MellariumFanBlockEntity::new, BlocksRegistration.MELLARIUM_FAN.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing",
-            () -> BlockEntityType.Builder.of(MellariumFrameHousingBlockEntity::new, BlocksRegistration.MELLARIUM_BASE.get()).build(null));
+            () -> BlockEntityType.Builder.of(MellariumFrameHousingBlockEntity::new, BlocksRegistration.MELLARIUM_FRAME_HOUSING.get()).build(null));
 
 }
