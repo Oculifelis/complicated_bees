@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.bees.BeeLogic;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
@@ -9,11 +10,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 
@@ -37,15 +39,15 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler outputItems = createOutputHandler();
     private final ItemStackHandler frameItems = new ItemStackHandler(0);
 
-    private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItems, outputItems));
-    private final LazyOptional<IItemHandler> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
+    private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItems, outputItems));
+    private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
     });
 
-    private final LazyOptional<IItemHandler> outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+    private final LazyOptional<IItemHandlerModifiable> outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return stack;
@@ -57,7 +59,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         }
     });
 
-    private final LazyOptional<IItemHandler> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
+    private final LazyOptional<IItemHandlerModifiable> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.getItem() instanceof FrameItem;
@@ -136,23 +138,23 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public LazyOptional<IItemHandlerModifiable> getItemHandler() {
         return itemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getBeeItemHandler() {
+    public LazyOptional<IItemHandlerModifiable> getBeeItemHandler() {
         return beeItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getOutputItemHandler() {
+    public LazyOptional<IItemHandlerModifiable> getOutputItemHandler() {
         return outputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getFrameItemHandler() {
-        return frameItemHandler;
+    public LazyOptional<IItemHandlerModifiable> getFrameItemHandler() {
+        return LazyOptional.empty();
     }
 
     @Override
@@ -178,18 +180,47 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
+    public void generateProduce(ItemStack bee) {
+        super.generateProduce(bee);
+    }
+
+    @Override
     public void onLoad() {
-        super.onLoad();
         if (mellariumLogic == null && MultiblockHelper.isValidMellarium(getLevel(), getBlockPos())) {
             MultiblockHelper.buildMellarium(getLevel(), getBlockPos(), getOwner());
         }
+        super.onLoad();
+        getLogic().setPos(getLogic().getPos().above());
+        setChanged();
     }
 
     public MellariumLogic getMellariumLogic() {
+        if (mellariumLogic == null && MultiblockHelper.isValidMellarium(getLevel(), getBlockPos())) {
+            MultiblockHelper.buildMellarium(getLevel(), getBlockPos(), getOwner());
+        }
         return mellariumLogic;
     }
 
     public void setMellariumLogic(MellariumLogic logic) {
         this.mellariumLogic = logic;
+    }
+
+    @Override
+    public void damageFrames() {
+        for (BlockPos pos : getMellariumLogic().getFrameHousingBlocks()) {
+            if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
+                frameHousing.damageFrames();
+            }
+        }
+    }
+
+    @Override
+    public List<BeeHousingModifier> getHousingModifiers() {
+        return getMellariumLogic().getFrameHousingBlocks().stream().map(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
+                return frameHousing.getModifier();
+            }
+            return new BeeHousingModifier();
+        }).toList();
     }
 }

@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
@@ -13,6 +14,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity {
     public static int FRAME_SLOTS = 2;
@@ -50,5 +54,23 @@ public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEnti
     public void invalidateCaps() {
         super.invalidateCaps();
         getFrameItemHandler().invalidate();
+    }
+
+    public BeeHousingModifier getModifier() {
+        List<BeeHousingModifier> modifiers = new ArrayList<>();
+        for(int i = 0; i < frameItems.getSlots(); i++) {
+            ItemStack stack = frameItems.getStackInSlot(i);
+            if (stack.getItem() instanceof FrameItem frame) {
+                modifiers.add(frame.getModifier());
+            }
+        }
+        return BeeHousingModifier.of(modifiers.toArray(new BeeHousingModifier[0]));
+    }
+
+    public void damageFrames() {
+        for (int i = 0; i < frameItems.getSlots(); i++) {
+            if (frameItems.getStackInSlot(i).hurt(1, getLevel().random, null))
+                frameItems.setStackInSlot(i, ItemStack.EMPTY);
+        }
     }
 }

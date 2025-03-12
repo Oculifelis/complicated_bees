@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.*;
 import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.*;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -122,13 +123,13 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
     public abstract ItemStackHandler getFrameItems();
 
-    public abstract LazyOptional<IItemHandler> getItemHandler();
+    public abstract LazyOptional<IItemHandlerModifiable> getItemHandler();
 
-    public abstract LazyOptional<IItemHandler> getBeeItemHandler();
+    public abstract LazyOptional<IItemHandlerModifiable> getBeeItemHandler();
 
-    public abstract LazyOptional<IItemHandler> getOutputItemHandler();
+    public abstract LazyOptional<IItemHandlerModifiable> getOutputItemHandler();
 
-    public abstract LazyOptional<IItemHandler> getFrameItemHandler();
+    public abstract LazyOptional<IItemHandlerModifiable> getFrameItemHandler();
 
     public abstract Stack<ItemStack> getOutputBuffer();
 
@@ -296,6 +297,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public void generateProduce(ItemStack bee) {
         Species species = (Species) GeneticHelper.getGeneValue(bee, GeneSpecies.ID, true);
         float housingModifiers = getHousingModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
+        ComplicatedBees.LOGGER.debug("current production modifier: {}", housingModifiers);
         for (Product product : species.getProducts()) {
             getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
         }

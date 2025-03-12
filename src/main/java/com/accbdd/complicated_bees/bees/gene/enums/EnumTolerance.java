@@ -56,6 +56,10 @@ public enum EnumTolerance {
         };
     }
 
+    public static EnumTolerance getFromCollapsed(int collapsed) {
+        return values()[Math.max(6, Math.min(15, collapsed))];
+    }
+
     @Override
     public String toString() {
         return this.name;
@@ -63,5 +67,9 @@ public enum EnumTolerance {
 
     public Component getTranslationKey() {
         return Component.translatable("gene.complicated_bees.tolerance." + this.toString().toLowerCase());
+    }
+
+    public int collapsed() {
+        return this.up - this.down;
     }
 }

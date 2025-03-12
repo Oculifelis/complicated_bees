@@ -10,6 +10,25 @@ public class BeeHousingModifier {
     private final float territoryMod;
     private final float mutationMod;
 
+    public static BeeHousingModifier of(BeeHousingModifier... modifiers) {
+        EnumTolerance temperatureMod = EnumTolerance.NONE;
+        EnumTolerance humidityMod = EnumTolerance.NONE;
+        float lifespanMod = 1;
+        float productivityMod = 1;
+        float territoryMod = 1;
+        float mutationMod = 1;
+        for (BeeHousingModifier modifier : modifiers) {
+            temperatureMod = EnumTolerance.getFromCollapsed(temperatureMod.collapsed() + modifier.temperatureMod.collapsed());
+            humidityMod = EnumTolerance.getFromCollapsed(humidityMod.collapsed() + modifier.humidityMod.collapsed());
+            lifespanMod *= modifier.lifespanMod;
+            productivityMod *= modifier.productivityMod;
+            territoryMod *= modifier.territoryMod;
+            mutationMod *= modifier.mutationMod;
+        }
+
+        return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod);
+    }
+
     public BeeHousingModifier(EnumTolerance temperatureMod, EnumTolerance humidityMod, float lifespanMod, float productivityMod, float territoryMod, float mutationMod) {
         this.temperatureMod = temperatureMod;
         this.humidityMod = humidityMod;

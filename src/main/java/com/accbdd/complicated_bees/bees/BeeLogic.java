@@ -106,7 +106,7 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
-        if (level.canSeeSky(pos)
+        if (!getLevel().canSeeSky(pos.above())
                 && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;

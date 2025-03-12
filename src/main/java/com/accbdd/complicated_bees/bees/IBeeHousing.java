@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,10 +15,10 @@ public interface IBeeHousing {
     void setOwner(UUID owner);
     UUID getOwner();
 
-    LazyOptional<IItemHandler> getItemHandler();
-    LazyOptional<IItemHandler> getBeeItemHandler();
-    LazyOptional<IItemHandler> getOutputItemHandler();
-    LazyOptional<IItemHandler> getFrameItemHandler();
+    LazyOptional<IItemHandlerModifiable> getItemHandler();
+    LazyOptional<IItemHandlerModifiable> getBeeItemHandler();
+    LazyOptional<IItemHandlerModifiable> getOutputItemHandler();
+    LazyOptional<IItemHandlerModifiable> getFrameItemHandler();
 
     void doBeeEffect();
 

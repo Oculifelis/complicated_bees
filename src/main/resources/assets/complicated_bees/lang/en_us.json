@@ -223,7 +223,7 @@
   "gui.complicated_bees.library.researched": "Researched:",
   "gui.complicated_bees.library.conditions": "Conditions",
   "gui.complicated_bees.library.info": "Info",
-  "gui.complicated_bees.library.detail": "Select a mutation on the right to view detailed information.",
+  "gui.complicated_bees.library.detail": "Select a mutation on the left to view detailed information.",
   "gui.complicated_bees.library.tutorial": "Place a bee in the top right slot to see its mutations.",
 
   "jei.complicated_bees.chance": "Chance",
