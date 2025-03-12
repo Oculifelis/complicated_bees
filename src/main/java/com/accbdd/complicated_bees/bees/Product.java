@@ -50,7 +50,16 @@ public class Product {
         for (float modifier : modifiers) {
             stackChance *= modifier;
         }
-        return rand.nextFloat() < stackChance ? this.getStack() : ItemStack.EMPTY;
+        ItemStack stack;
+        if (stackChance > 1) {
+            stack = this.getStack();
+            stack.setCount((int)stackChance * stack.getCount());
+            stack.grow(rand.nextFloat() < (stackChance - (int) stackChance) ? this.getStack().getCount() : 0);
+        } else {
+            stack = rand.nextFloat() < stackChance ? this.getStack() : ItemStack.EMPTY;
+        }
+
+        return stack;
     }
 
     public void toNetwork(FriendlyByteBuf buf) {
