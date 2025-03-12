@@ -32,6 +32,13 @@ public class BlocksRegistration {
     public static final RegistryObject<GeneratorBlock> GENERATOR = BLOCKS.register("generator", GeneratorBlock::new);
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
 
+    public static final RegistryObject<MellariumBlock> MELLARIUM_BASE = BLOCKS.register("mellarium_base", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.BASE));
+    public static final RegistryObject<MellariumBlock> MELLARIUM_FAN = BLOCKS.register("mellarium_fan", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.FAN));
+    public static final RegistryObject<MellariumBlock> MELLARIUM_FRAME_HOUSING = BLOCKS.register("mellarium_frame_housing", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.FRAME));
+    public static final RegistryObject<MellariumBlock> MELLARIUM_CONTROLLER = BLOCKS.register("mellarium_controller", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.CONTROLLER));
+
+    public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
+
     public static final RegistryObject<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES));
     public static final RegistryObject<StairBlock> WAX_BLOCK_STAIRS = BLOCKS.register("wax_block_stairs", () -> stair(WAX_BLOCK.get()));
     public static final RegistryObject<SlabBlock> WAX_BLOCK_SLAB = BLOCKS.register("wax_block_slab", () -> slab(WAX_BLOCK.get()));

@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.compat.emi;
 
+import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.recipe.BeeProduceEmiRecipe;
 import com.accbdd.complicated_bees.compat.emi.recipe.CentrifugeEmiRecipe;
 import com.accbdd.complicated_bees.compat.emi.recipe.MutationEmiRecipe;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
 import com.accbdd.complicated_bees.item.BeeNestBlockItem;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;

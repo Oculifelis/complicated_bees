@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.recipe;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
-import com.accbdd.complicated_bees.genetics.Product;
+import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

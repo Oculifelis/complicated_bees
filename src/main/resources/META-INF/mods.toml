@@ -58,3 +58,11 @@ logoBlur=false
     versionRange="[1.20.1-84,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="biomesoplenty"
+    mandatory=false
+    reason="in-game guidebook"
+    versionRange="[19,)"
+    ordering="AFTER"
+    side="BOTH"

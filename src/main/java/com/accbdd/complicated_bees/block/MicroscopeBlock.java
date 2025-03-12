@@ -6,7 +6,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.*;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,7 +31,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-//todo: give actual function
 public class MicroscopeBlock extends BaseEntityBlock {
     public MicroscopeBlock() {
         super(Properties.of().noOcclusion());
@@ -64,7 +66,11 @@ public class MicroscopeBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof MicroscopeBlockEntity) {
+            if (be instanceof MicroscopeBlockEntity microscope) {
+                if (microscope.isLocked()) {
+                    player.displayClientMessage(Component.translatable("gui.complicated_bees.microscope.locked"), true);
+                    return InteractionResult.CONSUME;
+                }
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
@@ -93,9 +99,10 @@ public class MicroscopeBlock extends BaseEntityBlock {
     public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean p_60519_) {
         if (!oldState.is(newState.getBlock())) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof Container container) {
-                Containers.dropContents(level, pos, container);
-                level.updateNeighbourForOutputSignal(pos, this);
+            if (be instanceof MicroscopeBlockEntity microscope) {
+                for (int i = 0; i < microscope.getItems().getSlots(); i++) {
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), microscope.getItems().getStackInSlot(i));
+                }
             }
             super.onRemove(oldState, level, pos, newState, p_60519_);
         }

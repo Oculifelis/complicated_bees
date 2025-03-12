@@ -1,20 +1,25 @@
 package com.accbdd.complicated_bees;
 
+import com.accbdd.complicated_bees.bees.Comb;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
+import com.accbdd.complicated_bees.bees.gene.IGene;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
+import com.accbdd.complicated_bees.command.ModCommands;
 import com.accbdd.complicated_bees.config.Config;
 import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
-import com.accbdd.complicated_bees.genetics.Comb;
-import com.accbdd.complicated_bees.genetics.GeneticHelper;
-import com.accbdd.complicated_bees.genetics.Species;
-import com.accbdd.complicated_bees.genetics.effect.IBeeEffect;
-import com.accbdd.complicated_bees.genetics.gene.IGene;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.event.ComplicatedBeesEvents;
 import com.accbdd.complicated_bees.item.CombItem;
+import com.accbdd.complicated_bees.network.PacketHandler;
+import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.particle.BeeParticle;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.*;
@@ -34,6 +39,8 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,8 +48,10 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.*;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
@@ -98,6 +107,10 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.ANALYZER.get());
                 output.accept(ItemsRegistration.GENERATOR.get());
                 output.accept(ItemsRegistration.MICROSCOPE.get());
+                output.accept(ItemsRegistration.MELLARIUM_BASE.get());
+                output.accept(ItemsRegistration.MELLARIUM_FAN.get());
+                output.accept(ItemsRegistration.MELLARIUM_FRAME.get());
+                output.accept(ItemsRegistration.APID_LIBRARY.get());
                 output.accept(ItemsRegistration.FRAME.get());
                 output.accept(ItemsRegistration.WAXED_FRAME.get());
                 output.accept(ItemsRegistration.HONEYED_FRAME.get());
@@ -127,9 +140,7 @@ public class ComplicatedBees {
                 if (access != null) {
                     Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.DRONE.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.PRINCESS.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
-                        output.accept(GeneticHelper.setGenome(ItemsRegistration.QUEEN.get().getDefaultInstance(), entry.getValue().getDefaultChromosome()));
+                        output.acceptAll(entry.getValue().toMembers());
                     }
                     for (ResourceLocation id : access.registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
                         output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
@@ -145,6 +156,7 @@ public class ComplicatedBees {
         modEventBus.addListener(this::registerSerializers);
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
+        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(DataGenerators::generate);
 
         if(FMLLoader.getDist().isClient()) {
@@ -168,6 +180,7 @@ public class ComplicatedBees {
         EsotericRegistration.PARTICLE_TYPE.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(ComplicatedBeesEvents::onItemPickup);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
 
@@ -215,11 +228,28 @@ public class ComplicatedBees {
     }
 
     @SubscribeEvent
+    public void registerCommands(RegisterCommandsEvent event) {
+        ModCommands.register(event.getDispatcher(), event.getBuildContext());
+    }
+
+    @SubscribeEvent
+    public void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(PacketHandler::register);
+    }
+
+    @SubscribeEvent
     public void serverStarted(ServerStartedEvent event) {
         LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().size());
         LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().size());
         LOGGER.info("Registered {} mutations", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().size());
         LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().size());
+    }
+
+    @SubscribeEvent
+    public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        LOGGER.info("syncing tracker to {}", event.getEntity().getName());
+        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(event.getEntity().getUUID())),
+                new TrackerSyncClientbound(BreedingTracker.getTracker(event.getEntity())));
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -231,9 +261,11 @@ public class ComplicatedBees {
             event.enqueueWork(() -> {
                 MenuScreens.register(MenuRegistration.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
                 MenuScreens.register(MenuRegistration.APIARY_MENU.get(), ApiaryScreen::new);
+                MenuScreens.register(MenuRegistration.MELLARIUM_MENU.get(), MellariumScreen::new);
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
                 MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);
+                MenuScreens.register(MenuRegistration.LIBRARY_MENU.get(), LibraryScreen::new);
             });
         }
 

@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.genetics.Product;
+import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import mezz.jei.api.constants.VanillaTypes;

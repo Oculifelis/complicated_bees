@@ -46,4 +46,8 @@ public class AdaptedItemHandler implements IItemHandlerModifiable {
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         return handler.isItemValid(slot, stack);
     }
+
+    public IItemHandlerModifiable getInternalHandler() {
+        return this.handler;
+    }
 }

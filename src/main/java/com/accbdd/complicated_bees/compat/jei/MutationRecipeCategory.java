@@ -1,7 +1,10 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.registry.MutationRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -43,7 +46,12 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
     @Override
     public void draw(Mutation recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        String chanceString = recipe.getConditions().isEmpty() ? String.format("%.0f%%", recipe.getChance() * 100) : String.format("[%.0f%%]", recipe.getChance() * 100);
+        float chance = recipe.getChance() * 100;
+        if (BreedingTracker.CLIENT_INSTANCE != null) {
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(recipe)) ? Config.CONFIG.researchBonus.get() * 100 : 0;
+        }
+        chance = Math.min(100, chance);
+        String chanceString = recipe.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);
         guiGraphics.drawCenteredString(Minecraft.getInstance().font, chanceString, 95, 1, 0xFFFFFF);
     }
 

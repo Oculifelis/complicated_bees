@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.item;
 
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumHumidity;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumTemperature;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

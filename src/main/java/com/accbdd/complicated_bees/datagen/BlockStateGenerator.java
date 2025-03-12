@@ -26,7 +26,11 @@ public class BlockStateGenerator extends BlockStateProvider {
     protected void registerStatesAndModels() {
         simpleBlock(BlocksRegistration.BEE_NEST.get(), createBeeNestModel());
         simpleBlock(BlocksRegistration.APIARY.get(), createApiaryModel());
+        simpleBlock(BlocksRegistration.MELLARIUM_BASE.get());
+        simpleBlock(BlocksRegistration.MELLARIUM_FAN.get());
+        simpleBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING.get());
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
+        horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
         slabBlock(BlocksRegistration.WAX_BLOCK_SLAB.get(), modLoc("block/wax_block"), modLoc("block/wax_block"));
         wallBlock(BlocksRegistration.WAX_BLOCK_WALL.get(), modLoc("block/wax_block"));
@@ -86,6 +90,15 @@ public class BlockStateGenerator extends BlockStateProvider {
         ResourceLocation side = modLoc("block/apiary_side");
         ResourceLocation bottom = modLoc("block/apiary_bottom");
         ResourceLocation top = modLoc("block/apiary_top");
+
+        return models().cube(path, bottom, top, side, side, side, side).texture("particle", side);
+    }
+
+    public BlockModelBuilder createLibraryModel() {
+        String path = "apid_library";
+        ResourceLocation side = modLoc("block/apid_library_side");
+        ResourceLocation bottom = modLoc("block/apid_library_bottom");
+        ResourceLocation top = modLoc("block/apid_library_top");
 
         return models().cube(path, bottom, top, side, side, side, side).texture("particle", side);
     }

@@ -1,9 +1,10 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumHumidity;
-import com.accbdd.complicated_bees.genetics.gene.enums.EnumTemperature;
-import com.accbdd.complicated_bees.genetics.mutation.Mutation;
-import com.accbdd.complicated_bees.genetics.mutation.condition.*;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
+import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.bees.mutation.condition.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -31,4 +32,12 @@ public class MutationRegistration {
     public static final Supplier<IMutationCondition> HUMIDITY = MUTATION_CONDITIONS.register(HumidityCondition.ID, () -> new HumidityCondition(EnumHumidity.NORMAL, EnumHumidity.NORMAL));
     public static final Supplier<IMutationCondition> TEMPERATURE = MUTATION_CONDITIONS.register(TemperatureCondition.ID, () -> new TemperatureCondition(EnumTemperature.NORMAL, EnumTemperature.NORMAL));
     public static final Supplier<IMutationCondition> DIMENSION = MUTATION_CONDITIONS.register(DimensionCondition.ID, () -> new DimensionCondition(new ResourceLocation("minecraft:overworld")));
+
+    public static ResourceLocation getResourceLocation(Mutation mutation) {
+        return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().getKey(mutation);
+    }
+
+    public static Mutation getFromResourceLocation(ResourceLocation loc) {
+        return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().get(loc);
+    }
 }

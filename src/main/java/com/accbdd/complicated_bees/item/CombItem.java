@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.item;
 
-import com.accbdd.complicated_bees.genetics.Comb;
+import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
