@@ -1,4 +1,4 @@
-package com.accbdd.complicated_bees.block.entity;
+package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;

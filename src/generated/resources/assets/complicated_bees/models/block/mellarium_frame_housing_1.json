@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "complicated_bees:block/mellarium_frame_housing"
+    "all": "complicated_bees:block/mellarium_frame_housing_1"
   }
 }

@@ -57,7 +57,23 @@ public enum EnumTolerance {
     }
 
     public static EnumTolerance getFromCollapsed(int collapsed) {
-        return values()[Math.max(6, Math.min(15, collapsed))];
+        return switch (collapsed) {
+            case 0 -> NONE;
+            case 1 -> UP_1;
+            case 2 -> UP_2;
+            case 3 -> UP_3;
+            case 4 -> UP_4;
+            case 5 -> UP_5;
+            case -1 -> DOWN_1;
+            case -2 -> DOWN_2;
+            case -3 -> DOWN_3;
+            case -4 -> DOWN_4;
+            case -5 -> DOWN_5;
+            default -> {
+                ComplicatedBees.LOGGER.warn("tried to convert unknown int {} to tolerance; returning NONE", collapsed);
+                yield NONE;
+            }
+        };
     }
 
     @Override

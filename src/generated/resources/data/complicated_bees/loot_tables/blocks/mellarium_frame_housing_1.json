@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "complicated_bees:mellarium_frame_housing"
+          "name": "complicated_bees:mellarium_frame_housing_1"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "complicated_bees:blocks/mellarium_frame_housing"
+  "random_sequence": "complicated_bees:blocks/mellarium_frame_housing_1"
 }

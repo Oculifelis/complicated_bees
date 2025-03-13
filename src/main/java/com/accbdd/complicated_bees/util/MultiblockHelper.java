@@ -1,8 +1,8 @@
 package com.accbdd.complicated_bees.util;
 
-import com.accbdd.complicated_bees.block.entity.MellariumAbstractBlockEntity;
-import com.accbdd.complicated_bees.block.entity.MellariumBaseBlockEntity;
-import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import net.minecraft.core.BlockPos;

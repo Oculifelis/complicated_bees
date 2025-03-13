@@ -1,7 +1,10 @@
 package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
-import com.accbdd.complicated_bees.block.entity.*;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumFanBlockEntity;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.screen.MellariumMenu;
@@ -32,7 +35,7 @@ import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MellariumBlock extends BaseEntityBlock {
-    public static final String SCREEN_APIARY = "gui.complicated_bees.mellarium";
+    public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
     private final MellariumBlockType type;
 
     public MellariumBlock(MellariumBlockType type) {
@@ -57,7 +60,7 @@ public class MellariumBlock extends BaseEntityBlock {
     @Override
     public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
         if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
-            mellariumBase.getLogic().deconstruct();
+            mellariumBase.getLogic().deconstruct(pPos);
         }
         super.destroy(pLevel, pPos, pState);
     }
@@ -66,7 +69,7 @@ public class MellariumBlock extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
             if (!pNewState.is(BlocksRegistration.MELLARIUM_CONTROLLER.get()))
-                mellariumBase.getLogic().deconstruct();
+                mellariumBase.getLogic().deconstruct(pPos);
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
@@ -84,16 +87,16 @@ public class MellariumBlock extends BaseEntityBlock {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
-                        return Component.translatable(SCREEN_APIARY);
+                        return Component.translatable(SCREEN_MELLARIUM);
                     }
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-                        return new MellariumMenu(windowId, player, logic.getCenter(), logic.getController().getData());
+                        return new MellariumMenu(windowId, player, pPos, logic.getController().getData());
                     }
                 };
 
-                NetworkHooks.openScreen((ServerPlayer) pPlayer, containerProvider, logic.getCenter());
+                NetworkHooks.openScreen((ServerPlayer) pPlayer, containerProvider, pPos);
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
@@ -120,7 +123,6 @@ public class MellariumBlock extends BaseEntityBlock {
         return switch (type) {
             case BASE -> new MellariumBaseBlockEntity(pPos, pState);
             case FAN -> new MellariumFanBlockEntity(pPos, pState);
-            case FRAME -> new MellariumFrameHousingBlockEntity(pPos, pState);
             case CONTROLLER -> new MellariumControllerBlockEntity(pPos, pState, null);
             default -> null;
         };

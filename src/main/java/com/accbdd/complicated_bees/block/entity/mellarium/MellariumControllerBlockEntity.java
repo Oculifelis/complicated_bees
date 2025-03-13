@@ -1,7 +1,9 @@
-package com.accbdd.complicated_bees.block.entity;
+package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.bees.BeeLogic;
+import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
+import com.accbdd.complicated_bees.block.entity.BaseBeeHousing;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
@@ -207,7 +209,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void damageFrames() {
-        for (BlockPos pos : getMellariumLogic().getFrameHousingBlocks()) {
+        for (BlockPos pos : getMellariumLogic().getSpecialBlocks()) {
             if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
                 frameHousing.damageFrames();
             }
@@ -216,9 +218,11 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public List<BeeHousingModifier> getHousingModifiers() {
-        return getMellariumLogic().getFrameHousingBlocks().stream().map(pos -> {
-            if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
-                return frameHousing.getModifier();
+        if (getMellariumLogic() == null)
+            return List.of();
+        return getMellariumLogic().getSpecialBlocks().stream().map(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumModifier modifier) {
+                return modifier.getModifier();
             }
             return new BeeHousingModifier();
         }).toList();

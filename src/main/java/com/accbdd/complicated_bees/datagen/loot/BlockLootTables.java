@@ -35,8 +35,11 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.APID_LIBRARY.get());
         dropSelf(BlocksRegistration.MICROSCOPE.get());
         dropSelf(BlocksRegistration.MELLARIUM_BASE.get());
+        this.add(BlocksRegistration.MELLARIUM_CONTROLLER.get(), createSingleItemTable(ItemsRegistration.MELLARIUM_BASE.get()));
         dropSelf(BlocksRegistration.MELLARIUM_FAN.get());
-        dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING.get());
+        dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get());
+        dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get());
+        dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get());
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));
         dropSelf(BlocksRegistration.WAX_BLOCK.get());
         dropSelf(BlocksRegistration.WAX_BLOCK_STAIRS.get());
