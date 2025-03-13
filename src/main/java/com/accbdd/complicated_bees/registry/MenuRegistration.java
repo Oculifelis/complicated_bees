@@ -6,6 +6,7 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -27,5 +28,13 @@ public class MenuRegistration {
             () -> IForgeMenuType.create((windowId, inv, data) -> AnalyzerMenu.fromNetwork(windowId, inv)));
     public static final Supplier<MenuType<LibraryMenu>> LIBRARY_MENU = MENU_TYPES.register("library",
             () -> IForgeMenuType.create((windowId, inv, data) -> new LibraryMenu(windowId, inv.player)));
+    public static final Supplier<MenuType<MellariumFrameHousingMenu>> MELLARIUM_FRAME_MENU_1 = MENU_TYPES.register("mellarium_frame_1",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumFrameHousingMenu(windowId, inv.player, data.readBlockPos(), 1)));
+    public static final Supplier<MenuType<MellariumFrameHousingMenu>> MELLARIUM_FRAME_MENU_2 = MENU_TYPES.register("mellarium_frame_2",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumFrameHousingMenu(windowId, inv.player, data.readBlockPos(), 2)));
+    public static final Supplier<MenuType<MellariumFrameHousingMenu>> MELLARIUM_FRAME_MENU_3 = MENU_TYPES.register("mellarium_frame_3",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumFrameHousingMenu(windowId, inv.player, data.readBlockPos(), 3)));
+    public static final List<Supplier<MenuType<MellariumFrameHousingMenu>>> MELLARIUM_FRAME_MENUS = List.of(MELLARIUM_FRAME_MENU_1, MELLARIUM_FRAME_MENU_2, MELLARIUM_FRAME_MENU_3);
+
 
 }

@@ -1,12 +1,14 @@
 package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
-import com.accbdd.complicated_bees.block.entity.MellariumAbstractBlockEntity;
-import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.UUID;
 public class MellariumLogic {
     private final Level level;
     private final BlockPos center;
-    private final List<BlockPos> frameHousingBlocks = new ArrayList<>();
+    private final List<BlockPos> specialBlocks = new ArrayList<>();
     private UUID owner;
 
     public MellariumLogic(Level level, BlockPos center, UUID owner) {
@@ -27,24 +29,30 @@ public class MellariumLogic {
             BlockPos pos = iterator.next();
             if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(this);
-                if (level.getBlockState(pos).is(BlocksRegistration.MELLARIUM_FRAME_HOUSING.get())) {
-                    frameHousingBlocks.add(pos);
+                if (!level.getBlockState(pos).is(BlocksRegistration.MELLARIUM_BASE.get())) {
+                    specialBlocks.add(pos);
                 }
             } else if (level.getBlockEntity(pos) instanceof MellariumControllerBlockEntity controller) {
                 controller.setMellariumLogic(this);
                 controller.setOwner(owner);
             } else {
-                ComplicatedBees.LOGGER.error("built a mellarium with non-mellarium block at {}", pos);
+                ComplicatedBees.LOGGER.warn("built a mellarium with non-mellarium block at {}", pos);
             }
         }
-        ComplicatedBees.LOGGER.debug("created new mellarium with center {}", center);
     }
 
-    public void deconstruct() {
+    public void deconstruct(BlockPos pos) {
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
+        while (!getController().getOutputBuffer().empty()) {
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getController().getOutputBuffer().pop());
+        }
+        IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+        for (int i = 0; i < handler.getSlots(); i++) {
+            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+        }
         while (iterator.hasNext()) {
-            BlockPos pos = iterator.next();
-            if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
+            BlockPos p = iterator.next();
+            if (level.getBlockEntity(p) instanceof MellariumAbstractBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(null);
             }
         }
@@ -70,7 +78,7 @@ public class MellariumLogic {
         return null;
     }
 
-    public List<BlockPos> getFrameHousingBlocks() {
-        return frameHousingBlocks;
+    public List<BlockPos> getSpecialBlocks() {
+        return specialBlocks;
     }
 }

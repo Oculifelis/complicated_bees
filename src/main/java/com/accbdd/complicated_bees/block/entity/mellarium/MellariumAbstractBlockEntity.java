@@ -1,8 +1,9 @@
-package com.accbdd.complicated_bees.block.entity;
+package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,8 +13,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * All mellarium blocks should extend this class
+ */
 public abstract class MellariumAbstractBlockEntity extends BlockEntity {
     private MellariumLogic logic;
+    private BlockPos center;
 
     public MellariumAbstractBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -25,6 +30,10 @@ public abstract class MellariumAbstractBlockEntity extends BlockEntity {
 
     public void setLogic(MellariumLogic logic) {
         this.logic = logic;
+        if (logic != null)
+            this.center = logic.getCenter();
+        else
+            this.center = null;
     }
 
     @Override
@@ -43,5 +52,29 @@ public abstract class MellariumAbstractBlockEntity extends BlockEntity {
         }
 
         return super.getCapability(cap, side);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        if (this.logic != null) {
+            pTag.putLong("logic_center", getLogic().getCenter().asLong());
+        }
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        if (pTag.contains("logic_center")) {
+            this.center = BlockPos.of(pTag.getLong("logic_center"));
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (this.center != null && getLevel().getBlockEntity(center) instanceof MellariumControllerBlockEntity controller) {
+            setLogic(controller.getMellariumLogic());
+        }
     }
 }

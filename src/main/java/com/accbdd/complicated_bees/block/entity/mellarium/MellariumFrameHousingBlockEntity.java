@@ -1,10 +1,12 @@
-package com.accbdd.complicated_bees.block.entity;
+package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.bees.BeeHousingModifier;
+import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,20 +20,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity {
-    public static int FRAME_SLOTS = 2;
+public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier {
+    private final ItemStackHandler frameItems;
+    private final LazyOptional<IItemHandler> frameItemHandler;
 
-    private final ItemStackHandler frameItems = new ItemStackHandler(FRAME_SLOTS) {
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() instanceof FrameItem;
-        }
-    };
-
-    private final LazyOptional<IItemHandler> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems));
-
-    public MellariumFrameHousingBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public MellariumFrameHousingBlockEntity(BlockPos pPos, BlockState pBlockState, int frameSlots) {
+        super(BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_ENTITIES.get(frameSlots-1).get(), pPos, pBlockState);
+        frameItems = new ItemStackHandler(frameSlots) {
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return stack.getItem() instanceof FrameItem;
+            }
+        };
+        frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems));
     }
 
     public LazyOptional<IItemHandler> getFrameItemHandler() {
@@ -72,5 +73,18 @@ public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEnti
             if (frameItems.getStackInSlot(i).hurt(1, getLevel().random, null))
                 frameItems.setStackInSlot(i, ItemStack.EMPTY);
         }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        pTag.put("frame_items", frameItems.serializeNBT());
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        if (pTag.contains("frame_items"))
+            frameItems.deserializeNBT(pTag.getCompound("frame_items"));
     }
 }

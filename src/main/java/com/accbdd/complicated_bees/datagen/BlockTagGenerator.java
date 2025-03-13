@@ -29,13 +29,17 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(MELLARIUM).add(
                 BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.MELLARIUM_FAN.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING.get()
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),
                 BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.MELLARIUM_FAN.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),
                 BlocksRegistration.HONEYED_SLAB.get(),

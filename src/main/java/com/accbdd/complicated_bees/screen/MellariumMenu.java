@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
@@ -11,10 +12,12 @@ import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
-import static com.accbdd.complicated_bees.block.entity.MellariumControllerBlockEntity.*;
+import static com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity.*;
 
 public class MellariumMenu extends AbstractBaseInventoryMenu {
     private final BlockPos pos;
@@ -30,7 +33,8 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
         super(MenuRegistration.MELLARIUM_MENU.get(), windowId, player, SLOT_COUNT, INV_X, INV_Y);
         this.data = data;
         this.pos = pos;
-        if (player.level().getBlockEntity(pos) instanceof MellariumControllerBlockEntity mellarium) {
+        if (player.level().getBlockEntity(pos) instanceof MellariumAbstractBlockEntity blockEntity) {
+            MellariumControllerBlockEntity mellarium = blockEntity.getLogic().getController();
             addSlot(new TagSlot(mellarium.getBeeItems(), BEE_SLOT, 29, 38, ItemTagGenerator.ROYAL));
             addSlot(new ItemSlot(mellarium.getBeeItems(), BEE_SLOT + 1, 29, 63, ItemsRegistration.DRONE.get()));
 
@@ -49,7 +53,8 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;//stillValid(ContainerLevelAccess.create(player.level(), pos), player, BlocksRegistration.MELLARIUM_CONTROLLER.get());
+        boolean b = ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
+        return b;
     }
 
     public boolean hasQueen() {
