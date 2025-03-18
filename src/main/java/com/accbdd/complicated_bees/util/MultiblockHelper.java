@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEnti
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ public class MultiblockHelper {
     }
 
     public static boolean isValidMellarium(Level level, BlockPos center) {
-        if (!(level.getBlockEntity(center) instanceof MellariumBaseBlockEntity || level.getBlockEntity(center) instanceof MellariumControllerBlockEntity))
+        if (level == null || !(level.getBlockEntity(center) instanceof MellariumBaseBlockEntity || level.getBlockEntity(center) instanceof MellariumControllerBlockEntity))
             return false;
         BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
         while (structureIterator.hasNext()) {
@@ -45,7 +46,7 @@ public class MultiblockHelper {
     }
 
     public static MellariumLogic buildMellarium(Level level, BlockPos center, UUID owner) {
-        level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState());
+        level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, true));
         return new MellariumLogic(level, center, owner);
     }
 }

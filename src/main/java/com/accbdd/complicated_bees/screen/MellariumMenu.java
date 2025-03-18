@@ -53,8 +53,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        boolean b = ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
-        return b;
+        return ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public boolean hasQueen() {

@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "assembled=false": {
       "model": "complicated_bees:block/mellarium_base"
+    },
+    "assembled=true": {
+      "model": "complicated_bees:block/mellarium_base_assembled"
     }
   }
 }

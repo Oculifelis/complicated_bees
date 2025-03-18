@@ -13,7 +13,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -21,29 +20,18 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class MellariumFrameHousingBlock extends MellariumBlock {
+public class MellariumFrameHousingBlock extends MellariumDirectionalBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
     private final int slotCount;
 
     public MellariumFrameHousingBlock(int slotCount) {
-        super(MellariumBlock.MellariumBlockType.FRAME);
+        super();
         this.slotCount = slotCount;
     }
 
     @Override
-    public void destroy(LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumFrameHousingBlockEntity frameHousingBlockEntity) {
-            IItemHandler handler = frameHousingBlockEntity.getFrameItemHandler().resolve().get();
-            for (int i = 0; i < handler.getSlots(); i++) {
-                Containers.dropItemStack(frameHousingBlockEntity.getLevel(), pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
-            }
-        }
-        super.destroy(pLevel, pPos, pState);
-    }
-
-    @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumFrameHousingBlockEntity frameHousingBlockEntity) {
+        if (!(pNewState.getBlock() instanceof MellariumFrameHousingBlock) && pLevel.getBlockEntity(pPos) instanceof MellariumFrameHousingBlockEntity frameHousingBlockEntity) {
             IItemHandler handler = frameHousingBlockEntity.getFrameItemHandler().resolve().get();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));

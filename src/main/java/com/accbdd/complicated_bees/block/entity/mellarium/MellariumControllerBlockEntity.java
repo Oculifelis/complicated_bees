@@ -172,8 +172,8 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     @Override
     public void setOwner(UUID owner) {
         super.setOwner(owner);
-        if (getMellariumLogic() != null)
-            getMellariumLogic().setOwner(owner);
+        if (mellariumLogic != null)
+            mellariumLogic.setOwner(owner);
     }
 
     @Override
