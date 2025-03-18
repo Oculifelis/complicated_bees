@@ -188,10 +188,10 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void onLoad() {
+        super.onLoad();
         if (mellariumLogic == null && MultiblockHelper.isValidMellarium(getLevel(), getBlockPos())) {
             MultiblockHelper.buildMellarium(getLevel(), getBlockPos(), getOwner());
         }
-        super.onLoad();
         getLogic().setPos(getLogic().getPos().above());
         setChanged();
     }

@@ -61,7 +61,6 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        //todo: for some reason, clientside is not getting a logic onLoad?
         if (!pLevel.isClientSide) {
             if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {

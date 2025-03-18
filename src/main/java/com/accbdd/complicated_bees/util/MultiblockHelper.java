@@ -33,7 +33,8 @@ public class MultiblockHelper {
         while (structureIterator.hasNext()) {
             BlockPos structurePos = structureIterator.next();
             if (level.getBlockEntity(structurePos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
-                if (mellariumBlock.getLogic() != null) {
+                if (mellariumBlock.getLogic() != null && !level.isClientSide()) {
+                    //todo: dear god, fix this garbage !isClientSide call
                     return false;
                 }
             } else {
