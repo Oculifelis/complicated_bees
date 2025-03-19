@@ -36,6 +36,9 @@ public class MultiblockHelper {
                 if (mellariumBlock.getLogic() != null && !level.isClientSide()) {
                     //todo: dear god, fix this garbage !isClientSide call
                     return false;
+                } else {
+                    if (!(mellariumBlock instanceof MellariumBaseBlockEntity) && structurePos.getY() > center.getY()) //only allow non-base blocks in the bottom two layers
+                        return false;
                 }
             } else {
                 if (!(level.getBlockEntity(structurePos) instanceof MellariumControllerBlockEntity) || !structurePos.equals(center)) {
@@ -47,7 +50,7 @@ public class MultiblockHelper {
     }
 
     public static MellariumLogic buildMellarium(Level level, BlockPos center, UUID owner) {
-        level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, true));
+        level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side));
         return new MellariumLogic(level, center, owner);
     }
 }

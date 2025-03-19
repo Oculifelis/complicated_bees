@@ -1,11 +1,6 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "down": "complicated_bees:block/mellarium/mellarium_base_assembled",
-    "east": "complicated_bees:block/mellarium/mellarium_base_assembled",
-    "north": "complicated_bees:block/mellarium/mellarium_frame_housing_1_assembled",
-    "south": "complicated_bees:block/mellarium/mellarium_base_assembled",
-    "up": "complicated_bees:block/mellarium/mellarium_base_assembled",
-    "west": "complicated_bees:block/mellarium/mellarium_base_assembled"
+    "all": "complicated_bees:block/mellarium/mellarium_frame_housing_1_assembled"
   }
 }

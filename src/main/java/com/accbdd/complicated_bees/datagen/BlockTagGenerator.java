@@ -31,7 +31,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_FAN.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get()
+                BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get(),
+                BlocksRegistration.MELLARIUM_CONTROLLER.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),

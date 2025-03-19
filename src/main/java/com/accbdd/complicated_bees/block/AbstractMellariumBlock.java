@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.screen.MellariumMenu;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
@@ -19,7 +20,10 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -53,7 +57,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
-            if (pNewState.is(Blocks.AIR) || !pNewState.getValue(EsotericRegistration.ASSEMBLED))
+            if (!pNewState.is(BlockTagGenerator.MELLARIUM))
                 mellariumBase.getLogic().deconstruct(pPos);
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
@@ -106,7 +110,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         return this.defaultBlockState()
-                .setValue(EsotericRegistration.ASSEMBLED, false);
+                .setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none);
     }
 
     @Override

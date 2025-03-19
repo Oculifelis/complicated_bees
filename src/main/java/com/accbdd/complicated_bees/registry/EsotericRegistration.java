@@ -10,9 +10,10 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
@@ -32,7 +33,18 @@ public class EsotericRegistration {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPE = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MODID);
 
-    public static BooleanProperty ASSEMBLED = BooleanProperty.create("assembled");
+    public static EnumProperty<AssembledStatus> ASSEMBLED = EnumProperty.create("assembled", AssembledStatus.class);
+
+    public enum AssembledStatus implements StringRepresentable {
+        none,
+        side,
+        top;
+
+        @Override
+        public String getSerializedName() {
+            return toString();
+        }
+    }
 
     public static final Supplier<SimpleParticleType> BEE_PARTICLE = PARTICLE_TYPE.register("bee",
             () -> new SimpleParticleType(true));

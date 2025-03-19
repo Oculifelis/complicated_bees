@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.block.MellariumBlock;
-import com.accbdd.complicated_bees.block.MellariumDirectionalBlock;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.core.Direction;
@@ -30,11 +29,11 @@ public class BlockStateGenerator extends BlockStateProvider {
     protected void registerStatesAndModels() {
         simpleBlock(BlocksRegistration.BEE_NEST.get(), createBeeNestModel());
         simpleBlock(BlocksRegistration.APIARY.get(), createApiaryModel());
-        mellariumBlock(BlocksRegistration.MELLARIUM_BASE, modLoc("block/mellarium/mellarium_base"), modLoc("block/mellarium/mellarium_base_assembled"));
-        mellariumDirectionalBlock(BlocksRegistration.MELLARIUM_FAN, modLoc("block/mellarium/mellarium_fan"), modLoc("block/mellarium/mellarium_base"), modLoc("block/mellarium/mellarium_fan_assembled"), modLoc("block/mellarium/mellarium_base_assembled"));
-        mellariumDirectionalBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, modLoc("block/mellarium/mellarium_frame_housing_1"), modLoc("block/mellarium/mellarium_base"), modLoc("block/mellarium/mellarium_frame_housing_1_assembled"), modLoc("block/mellarium/mellarium_base_assembled"));
-        mellariumDirectionalBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, modLoc("block/mellarium/mellarium_frame_housing_2"), modLoc("block/mellarium/mellarium_base"), modLoc("block/mellarium/mellarium_frame_housing_2_assembled"), modLoc("block/mellarium/mellarium_base_assembled"));
-        mellariumDirectionalBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, modLoc("block/mellarium/mellarium_frame_housing_3"), modLoc("block/mellarium/mellarium_base"), modLoc("block/mellarium/mellarium_frame_housing_3_assembled"), modLoc("block/mellarium/mellarium_base_assembled"));
+        baseMellariumBlock();
+        mellariumBlock(BlocksRegistration.MELLARIUM_FAN, modLoc("block/mellarium/mellarium_fan"), modLoc("block/mellarium/mellarium_fan_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, modLoc("block/mellarium/mellarium_frame_housing_1"), modLoc("block/mellarium/mellarium_frame_housing_1_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, modLoc("block/mellarium/mellarium_frame_housing_2"), modLoc("block/mellarium/mellarium_frame_housing_2_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, modLoc("block/mellarium/mellarium_frame_housing_3"), modLoc("block/mellarium/mellarium_frame_housing_3_assembled"));
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
@@ -144,29 +143,34 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void mellariumDirectionalBlock(RegistryObject<? extends MellariumDirectionalBlock> block, ResourceLocation face, ResourceLocation side, ResourceLocation faceAssembled, ResourceLocation sideAssembled) {
-        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
-        BlockModelBuilder modelUnassembled = models().cube(block.getId().getPath(), side, side, face, side, side, side);
-        BlockModelBuilder modelAssembled = models().cube(block.getId().getPath() + "_assembled", sideAssembled, sideAssembled, faceAssembled, sideAssembled, sideAssembled, sideAssembled);
-        builder.forAllStates(state -> {
-            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
-            bld.modelFile(state.getValue(EsotericRegistration.ASSEMBLED) ? modelAssembled : modelUnassembled);
-            applyRotationBld(bld, state.getValue(BlockStateProperties.FACING));
-            return bld.build();
-        });
-    }
-
-    private void mellariumDirectionalBlock(RegistryObject<? extends MellariumDirectionalBlock> block, ResourceLocation tex, ResourceLocation assembledTex) {
-        mellariumDirectionalBlock(block, tex, tex, assembledTex, assembledTex);
-    }
-
     private void mellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
         builder.forAllStates(state -> {
             ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
-            bld.modelFile(state.getValue(EsotericRegistration.ASSEMBLED) ? modelAssembled : modelUnassembled);
+            bld.modelFile(state.getValue(EsotericRegistration.ASSEMBLED).equals(EsotericRegistration.AssembledStatus.none) ? modelUnassembled : modelAssembled);
+            return bld.build();
+        });
+    }
+
+    private void baseMellariumBlock() {
+        RegistryObject<MellariumBlock> block = BlocksRegistration.MELLARIUM_BASE;
+        ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
+        ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
+        ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");
+        ResourceLocation assembledTopSide = modLoc("block/mellarium/mellarium_base_assembled_top_side");
+        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+        BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
+        builder.forAllStates(state -> {
+            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+            switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
+                case top -> bld.modelFile(modelAssembledTop);
+                case side -> bld.modelFile(modelAssembled);
+                case none -> bld.modelFile(modelUnassembled);
+            }
             return bld.build();
         });
     }

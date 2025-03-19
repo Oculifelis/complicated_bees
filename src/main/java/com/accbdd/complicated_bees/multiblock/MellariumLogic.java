@@ -59,7 +59,7 @@ public class MellariumLogic {
                 mellariumBlock.setLogic(null);
             }
         }
-        level.setBlock(center, BlocksRegistration.MELLARIUM_BASE.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, false), 3);
+        level.setBlock(center, BlocksRegistration.MELLARIUM_BASE.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
         ComplicatedBees.LOGGER.debug("deconstructed mellarium with center {}", center);
     }
 

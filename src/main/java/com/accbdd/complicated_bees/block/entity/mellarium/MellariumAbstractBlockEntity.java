@@ -34,11 +34,14 @@ public abstract class MellariumAbstractBlockEntity extends BlockEntity {
         this.logic = logic;
         if (logic != null) {
             this.center = logic.getCenter();
-            getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, true), 3);
+            if (getBlockPos().getY() > center.getY())
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top), 3);
+            else
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side), 3);
         } else {
             this.center = null;
             if (getLevel().getBlockState(getBlockPos()).getBlock() instanceof AbstractMellariumBlock) {
-                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, false), 3);
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
             }
         }
     }

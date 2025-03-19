@@ -1,50 +1,13 @@
 {
   "variants": {
-    "assembled=false,facing=down": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1",
-      "x": 90
-    },
-    "assembled=false,facing=east": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1",
-      "y": 90
-    },
-    "assembled=false,facing=north": {
+    "assembled=none": {
       "model": "complicated_bees:block/mellarium_frame_housing_1"
     },
-    "assembled=false,facing=south": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1",
-      "y": 180
-    },
-    "assembled=false,facing=up": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1",
-      "x": -90
-    },
-    "assembled=false,facing=west": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1",
-      "y": 270
-    },
-    "assembled=true,facing=down": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled",
-      "x": 90
-    },
-    "assembled=true,facing=east": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled",
-      "y": 90
-    },
-    "assembled=true,facing=north": {
+    "assembled=side": {
       "model": "complicated_bees:block/mellarium_frame_housing_1_assembled"
     },
-    "assembled=true,facing=south": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled",
-      "y": 180
-    },
-    "assembled=true,facing=up": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled",
-      "x": -90
-    },
-    "assembled=true,facing=west": {
-      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled",
-      "y": 270
+    "assembled=top": {
+      "model": "complicated_bees:block/mellarium_frame_housing_1_assembled"
     }
   }
 }

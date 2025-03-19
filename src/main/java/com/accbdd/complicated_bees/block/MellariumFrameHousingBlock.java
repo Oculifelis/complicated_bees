@@ -20,7 +20,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class MellariumFrameHousingBlock extends MellariumDirectionalBlock {
+public class MellariumFrameHousingBlock extends MellariumBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
     private final int slotCount;
 
