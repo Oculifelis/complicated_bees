@@ -1,10 +1,7 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.block.entity.*;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAirConBlockEntity;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumFrameHousingBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,6 +36,9 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of((pos, state) -> new MellariumFrameHousingBlockEntity(pos, state, 2), BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing_3",
             () -> BlockEntityType.Builder.of((pos, state) -> new MellariumFrameHousingBlockEntity(pos, state, 3), BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumRainShieldBlockEntity>> MELLARIUM_RAIN_SHIELD_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_rain_shield",
+            () -> BlockEntityType.Builder.of(MellariumRainShieldBlockEntity::new, BlocksRegistration.MELLARIUM_RAIN_SHIELD.get()).build(null));
+
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);
 }

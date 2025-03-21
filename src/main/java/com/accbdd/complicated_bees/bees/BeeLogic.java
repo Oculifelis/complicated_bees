@@ -100,7 +100,7 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
-        if (checkRain() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
+        if (!checkRainOverride() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
             return;
@@ -145,14 +145,14 @@ public class BeeLogic {
         checkQueenEcstatic();
     }
 
-    private boolean checkRain() {
-        boolean rain = getLevel().isRainingAt(getPos().above());
-        if (rain) {
+    private boolean checkRainOverride() {
+        boolean clear = !getLevel().isRainingAt(getPos().above());
+        if (clear) {
             return true;
         } else {
             for (BeeHousingModifier mod : housing.getHousingModifiers()) {
                 if (mod.getRainOverride())
-                    return false;
+                    return true;
             }
         }
         return false;
