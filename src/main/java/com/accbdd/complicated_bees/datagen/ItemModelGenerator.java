@@ -27,7 +27,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.GENERATOR.getId().getPath(), modLoc("block/generator"));
         withExistingParent(BlocksRegistration.APID_LIBRARY.getId().getPath(), modLoc("block/apid_library"));
         withExistingParent(BlocksRegistration.MELLARIUM_BASE.getId().getPath(), modLoc("block/mellarium_base"));
-        withExistingParent(BlocksRegistration.MELLARIUM_FAN.getId().getPath(), modLoc("block/mellarium_fan"));
+        withExistingParent(BlocksRegistration.MELLARIUM_AIR_CON.getId().getPath(), modLoc("block/mellarium_air_con"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.getId().getPath(), modLoc("block/mellarium_frame_housing_1"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.getId().getPath(), modLoc("block/mellarium_frame_housing_2"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.getId().getPath(), modLoc("block/mellarium_frame_housing_3"));

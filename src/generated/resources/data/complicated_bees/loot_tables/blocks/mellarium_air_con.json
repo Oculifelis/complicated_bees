@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "complicated_bees:mellarium_fan"
+          "name": "complicated_bees:mellarium_air_con"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "complicated_bees:blocks/mellarium_fan"
+  "random_sequence": "complicated_bees:blocks/mellarium_air_con"
 }

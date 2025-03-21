@@ -93,7 +93,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> GENERATOR = registerSimpleBlockItem("generator", BlocksRegistration.GENERATOR);
     public static final RegistryObject<Item> MICROSCOPE = registerSimpleBlockItem("microscope", BlocksRegistration.MICROSCOPE);
     public static final RegistryObject<Item> MELLARIUM_BASE = registerSimpleBlockItem("mellarium_base", BlocksRegistration.MELLARIUM_BASE);
-    public static final RegistryObject<Item> MELLARIUM_FAN = registerSimpleBlockItem("mellarium_fan", BlocksRegistration.MELLARIUM_FAN);
+    public static final RegistryObject<Item> MELLARIUM_AIR_CON = registerSimpleBlockItem("mellarium_air_con", BlocksRegistration.MELLARIUM_AIR_CON);
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_1 = registerSimpleBlockItem("mellarium_frame_housing_1", BlocksRegistration.MELLARIUM_FRAME_HOUSING_1);
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_2 = registerSimpleBlockItem("mellarium_frame_housing_2", BlocksRegistration.MELLARIUM_FRAME_HOUSING_2);
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_3 = registerSimpleBlockItem("mellarium_frame_housing_3", BlocksRegistration.MELLARIUM_FRAME_HOUSING_3);

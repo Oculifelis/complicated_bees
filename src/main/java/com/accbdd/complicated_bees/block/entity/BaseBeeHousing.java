@@ -292,6 +292,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         ItemStack top_stack = getBeeItems().getStackInSlot(0);
         ageQueen(top_stack);
         generateProduce(top_stack);
+        damageFrames();
     }
 
     public void generateProduce(ItemStack bee) {
@@ -315,7 +316,6 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             ageFactor /= mod.getLifespanMod();
         }
         BeeItem.setAge(queen, BeeItem.getAge(queen) + ageFactor);
-        damageFrames();
         if (BeeItem.getAge(queen) >= ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value) {
             errorState = 0;
             float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);

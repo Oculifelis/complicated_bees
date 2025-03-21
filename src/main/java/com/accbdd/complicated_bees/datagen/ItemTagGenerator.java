@@ -9,6 +9,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,13 @@ public class ItemTagGenerator extends ItemTagsProvider {
     public static final TagKey<Item> FRAME = ItemTags.create(new ResourceLocation(MODID, "frame"));
     public static final TagKey<Item> ANALYZER_FUEL = ItemTags.create(new ResourceLocation(MODID, "analyzer_fuel"));
     public static final TagKey<Item> RESEARCH_MATERIAL = ItemTags.create(new ResourceLocation(MODID, "research_material"));
+    public static final TagKey<Item> AIR_CON_FUEL = ItemTags.create(new ResourceLocation(MODID, "air_con_fuel"));
+    public static final TagKey<Item> AIR_CON_COOLING_1 = ItemTags.create(new ResourceLocation(MODID, "air_con_cooling_1"));
+    public static final TagKey<Item> AIR_CON_COOLING_2 = ItemTags.create(new ResourceLocation(MODID, "air_con_cooling_2"));
+    public static final TagKey<Item> AIR_CON_COOLING_3 = ItemTags.create(new ResourceLocation(MODID, "air_con_cooling_3"));
+    public static final TagKey<Item> AIR_CON_HEATING_1 = ItemTags.create(new ResourceLocation(MODID, "air_con_heating_1"));
+    public static final TagKey<Item> AIR_CON_HEATING_2 = ItemTags.create(new ResourceLocation(MODID, "air_con_heating_2"));
+    public static final TagKey<Item> AIR_CON_HEATING_3 = ItemTags.create(new ResourceLocation(MODID, "air_con_heating_3"));
 
     public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, provider, blockTagProvider, MODID, existingFileHelper);
@@ -51,6 +59,33 @@ public class ItemTagGenerator extends ItemTagsProvider {
         );
         tag(RESEARCH_MATERIAL).add(ItemsRegistration.ROYAL_JELLY.get()).add(TagEntry.tag(BEE.location()));
         tag(ItemTags.PLANKS).add(ItemsRegistration.HONEYED_PLANKS.get());
+        tag(AIR_CON_COOLING_1).add(
+                Items.SNOWBALL,
+                Items.SNOW_BLOCK,
+                Items.POWDER_SNOW_BUCKET,
+                Items.WATER_BUCKET,
+                Items.ICE
+        );
+        tag(AIR_CON_COOLING_2).add(
+                Items.PACKED_ICE
+        );
+        tag(AIR_CON_COOLING_3).add(
+                Items.BLUE_ICE
+        );
+        tag(AIR_CON_HEATING_1).add(
+                Items.MAGMA_CREAM,
+                Items.MAGMA_BLOCK
+        );
+        tag(AIR_CON_HEATING_2).add(
+                Items.FIRE_CHARGE,
+                Items.BLAZE_POWDER,
+                Items.BLAZE_ROD
+        );
+        tag(AIR_CON_HEATING_3).add(
+                Items.LAVA_BUCKET,
+                Items.DRAGON_BREATH
+        );
+        tag(AIR_CON_FUEL).addTags(AIR_CON_COOLING_1, AIR_CON_COOLING_2, AIR_CON_COOLING_3, AIR_CON_HEATING_1, AIR_CON_HEATING_2, AIR_CON_HEATING_3);
 
     }
 }

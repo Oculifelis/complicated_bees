@@ -35,6 +35,8 @@ public class MenuRegistration {
     public static final Supplier<MenuType<MellariumFrameHousingMenu>> MELLARIUM_FRAME_MENU_3 = MENU_TYPES.register("mellarium_frame_3",
             () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumFrameHousingMenu(windowId, inv.player, data.readBlockPos(), 3)));
     public static final List<Supplier<MenuType<MellariumFrameHousingMenu>>> MELLARIUM_FRAME_MENUS = List.of(MELLARIUM_FRAME_MENU_1, MELLARIUM_FRAME_MENU_2, MELLARIUM_FRAME_MENU_3);
+    public static final Supplier<MenuType<MellariumAirConMenu>> MELLARIUM_AIR_CON_MENU = MENU_TYPES.register("mellarium_air_con",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumAirConMenu(windowId, inv.player, data.readBlockPos())));
 
 
 }

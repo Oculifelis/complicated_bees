@@ -66,6 +66,7 @@ public class BeeLogic {
     }
 
     private void checkQueenSatisfied() {
+        clearConditionCache();
         if (!(getQueen().getItem() instanceof QueenItem)) {
             queenSatisfied = false;
             return;

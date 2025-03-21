@@ -182,6 +182,16 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
+    public void beeTick() {
+        super.beeTick();
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
+                tickable.beeTick();
+            }
+        });
+    }
+
+    @Override
     public void generateProduce(ItemStack bee) {
         super.generateProduce(bee);
     }
@@ -209,11 +219,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void damageFrames() {
-        for (BlockPos pos : getMellariumLogic().getSpecialBlocks()) {
-            if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
-                frameHousing.damageFrames();
-            }
-        }
+        //no frames by default! mellarium frame logic is in IMellariumTickable
     }
 
     @Override

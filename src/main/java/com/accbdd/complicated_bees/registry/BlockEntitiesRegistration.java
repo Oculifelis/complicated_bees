@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.block.entity.*;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAirConBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumFanBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumFrameHousingBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -31,8 +31,8 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumControllerBlockEntity::new, BlocksRegistration.MELLARIUM_CONTROLLER.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumBaseBlockEntity>> MELLARIUM_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_base",
             () -> BlockEntityType.Builder.of(MellariumBaseBlockEntity::new, BlocksRegistration.MELLARIUM_BASE.get()).build(null));
-    public static final Supplier<BlockEntityType<MellariumFanBlockEntity>> MELLARIUM_FAN_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_fan",
-            () -> BlockEntityType.Builder.of(MellariumFanBlockEntity::new, BlocksRegistration.MELLARIUM_FAN.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumAirConBlockEntity>> MELLARIUM_AIR_CON_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_aircon",
+            () -> BlockEntityType.Builder.of(MellariumAirConBlockEntity::new, BlocksRegistration.MELLARIUM_AIR_CON.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing_1",
             () -> BlockEntityType.Builder.of((pos, state) -> new MellariumFrameHousingBlockEntity(pos, state, 1), BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing_2",
