@@ -9,6 +9,8 @@ public class BeeHousingModifier {
     private final float productivityMod;
     private final float territoryMod;
     private final float mutationMod;
+    private final boolean skyOverride;
+    private final boolean rainOverride;
 
     public static BeeHousingModifier of(BeeHousingModifier... modifiers) {
         EnumTolerance temperatureMod = EnumTolerance.NONE;
@@ -17,6 +19,8 @@ public class BeeHousingModifier {
         float productivityMod = 1;
         float territoryMod = 1;
         float mutationMod = 1;
+        boolean skyOverride = false;
+        boolean rainOverride = false;
         for (BeeHousingModifier modifier : modifiers) {
             temperatureMod = EnumTolerance.getFromCollapsed(temperatureMod.collapsed() + modifier.temperatureMod.collapsed());
             humidityMod = EnumTolerance.getFromCollapsed(humidityMod.collapsed() + modifier.humidityMod.collapsed());
@@ -24,27 +28,35 @@ public class BeeHousingModifier {
             productivityMod *= modifier.productivityMod;
             territoryMod *= modifier.territoryMod;
             mutationMod *= modifier.mutationMod;
+            skyOverride = skyOverride||modifier.skyOverride;
+            rainOverride = rainOverride||modifier.rainOverride;
         }
 
-        return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod);
+        return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride);
     }
 
-    public BeeHousingModifier(EnumTolerance temperatureMod, EnumTolerance humidityMod, float lifespanMod, float productivityMod, float territoryMod, float mutationMod) {
+    public BeeHousingModifier(EnumTolerance temperatureMod, EnumTolerance humidityMod, float lifespanMod, float productivityMod, float territoryMod, float mutationMod, boolean skyOverride, boolean rainOverride) {
         this.temperatureMod = temperatureMod;
         this.humidityMod = humidityMod;
         this.lifespanMod = lifespanMod;
         this.productivityMod = productivityMod;
         this.territoryMod = territoryMod;
         this.mutationMod = mutationMod;
+        this.skyOverride = skyOverride;
+        this.rainOverride = rainOverride;
     }
 
     public BeeHousingModifier() {
-        this.temperatureMod = EnumTolerance.NONE;
-        this.humidityMod = EnumTolerance.NONE;
-        this.lifespanMod = 1;
-        this.productivityMod = 1;
-        this.territoryMod = 1;
-        this.mutationMod = 1;
+        this(
+            EnumTolerance.NONE,
+            EnumTolerance.NONE,
+            1,
+            1,
+            1,
+            1,
+            false,
+            false
+        );
     }
 
     public EnumTolerance getTemperatureMod() {
@@ -71,6 +83,14 @@ public class BeeHousingModifier {
         return mutationMod;
     }
 
+    public boolean getSkyOverride() {
+        return skyOverride;
+    }
+
+    public boolean getRainOverride() {
+        return rainOverride;
+    }
+
     public static class Builder {
         private EnumTolerance temperatureMod = EnumTolerance.NONE;
         private EnumTolerance humidityMod = EnumTolerance.NONE;
@@ -78,9 +98,11 @@ public class BeeHousingModifier {
         private float productivityMod = 1;
         private float territoryMod = 1;
         private float mutationMod = 1;
+        private boolean skyOverride = false;
+        private boolean rainOverride = false;
 
         public BeeHousingModifier build() {
-            return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod);
+            return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride);
         }
 
         public Builder temperature(EnumTolerance mod) {
@@ -110,6 +132,16 @@ public class BeeHousingModifier {
 
         public Builder mutation(float mod) {
             this.mutationMod = mod;
+            return this;
+        }
+
+        public Builder skyOverride(boolean value) {
+            this.skyOverride = value;
+            return this;
+        }
+
+        public Builder rainOverride(boolean value) {
+            this.rainOverride = value;
             return this;
         }
     }
