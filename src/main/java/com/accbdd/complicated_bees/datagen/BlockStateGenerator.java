@@ -58,6 +58,8 @@ public class BlockStateGenerator extends BlockStateProvider {
         pressurePlateBlock(BlocksRegistration.HONEYED_PRESSURE_PLATE.get(), modLoc("block/honeyed_planks"));
         doorBlockWithRenderType(BlocksRegistration.HONEYED_DOOR.get(), modLoc("block/honeyed_door_bottom"), modLoc("block/honeyed_door_top"), "cutout");
         trapdoorBlockWithRenderType(BlocksRegistration.HONEYED_TRAPDOOR.get(), modLoc("block/honeyed_trapdoor"), true, "cutout");
+        signBlock(BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get(), modLoc("block/honeyed_planks"));
+        hangingSignBlock(BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), modLoc("block/honeyed_planks"));
         horizontalBlock(BlocksRegistration.MICROSCOPE.get(), models().getExistingFile(modLoc("block/microscope")), -90);
         registerCentrifuge();
         registerGenerator();
@@ -70,6 +72,16 @@ public class BlockStateGenerator extends BlockStateProvider {
                 models().slabTop(name(block) + "_top", side, end, end),
                 models().cubeColumn(name(block) + "_double", side, end)
         );
+    }
+
+    public void hangingSignBlock(Block signBlock, Block wallSignBlock, ResourceLocation texture) {
+        ModelFile sign = models().sign(name(signBlock), texture);
+        hangingSignBlock(signBlock, wallSignBlock, sign);
+    }
+
+    public void hangingSignBlock(Block signBlock, Block wallSignBlock, ModelFile sign) {
+        simpleBlock(signBlock, sign);
+        simpleBlock(wallSignBlock, sign);
     }
 
     public BlockModelBuilder createBeeNestModel() {

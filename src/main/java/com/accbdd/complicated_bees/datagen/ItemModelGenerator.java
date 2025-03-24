@@ -56,6 +56,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.HONEYED_PRESSURE_PLATE.getId().getPath(), modLoc("block/honeyed_pressure_plate"));
         basicItem(BlocksRegistration.HONEYED_DOOR.getId());
         withExistingParent(BlocksRegistration.HONEYED_TRAPDOOR.getId().getPath(), modLoc("block/honeyed_trapdoor_bottom"));
+        basicItem(ItemsRegistration.HONEYED_SIGN.getId());
+        basicItem(ItemsRegistration.HONEYED_HANGING_SIGN.getId());
 
         basicItem(ItemsRegistration.SCOOP.get());
         basicItem(ItemsRegistration.HONEY_DROPLET.get());

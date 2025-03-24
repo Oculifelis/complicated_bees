@@ -87,6 +87,11 @@ public class ItemsRegistration {
     public static final RegistryObject<ArmorItem> APIARIST_BOOTS = ITEMS.register("apiarist_boots",
             () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.BOOTS, new Item.Properties()));
 
+    public static final RegistryObject<Item> HONEYED_SIGN = ITEMS.register("honeyed_sign",
+            () -> new SignItem(new Item.Properties().stacksTo(16), BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get()));
+    public static final RegistryObject<Item> HONEYED_HANGING_SIGN = ITEMS.register("honeyed_hanging_sign",
+            () -> new HangingSignItem(BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+
     public static final RegistryObject<Item> BEE_NEST = ITEMS.register("bee_nest", () -> new BeeNestBlockItem(new Item.Properties()));
     public static final RegistryObject<Item> APIARY = registerSimpleBlockItem("apiary", BlocksRegistration.APIARY);
     public static final RegistryObject<Item> CENTRIFUGE = registerSimpleBlockItem("centrifuge", BlocksRegistration.CENTRIFUGE);
@@ -121,6 +126,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> HONEYED_PRESSURE_PLATE = registerSimpleBlockItem("honeyed_pressure_plate", BlocksRegistration.HONEYED_PRESSURE_PLATE);
     public static final RegistryObject<BlockItem> HONEYED_DOOR = ITEMS.register("honeyed_door", () -> new DoubleHighBlockItem(BlocksRegistration.HONEYED_DOOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> HONEYED_TRAPDOOR = registerSimpleBlockItem("honeyed_trapdoor", BlocksRegistration.HONEYED_TRAPDOOR);
+
 
     private static RegistryObject<Item> registerSimpleItem(String name) {
         return ITEMS.register(name, () -> new Item(new Item.Properties()));

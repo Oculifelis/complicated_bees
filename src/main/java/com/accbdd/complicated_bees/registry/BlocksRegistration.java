@@ -25,6 +25,7 @@ public class BlocksRegistration {
             .instrument(NoteBlockInstrument.BASS)
             .sound(SoundType.WOOD)
             .strength(2, 3);
+    public static final WoodType HONEYED_WOOD = new WoodType(MODID + ":honeyed", BlockSetType.OAK);
 
     public static final RegistryObject<BeeNestBlock> BEE_NEST = BLOCKS.register("bee_nest", BeeNestBlock::new);
     public static final RegistryObject<ApiaryBlock> APIARY = BLOCKS.register("apiary", ApiaryBlock::new);
@@ -65,6 +66,10 @@ public class BlocksRegistration {
     public static final RegistryObject<PressurePlateBlock> HONEYED_PRESSURE_PLATE = BLOCKS.register("honeyed_pressure_plate", () -> plate(BlockSetType.OAK, HONEYED_PLANKS.get()));
     public static final RegistryObject<DoorBlock> HONEYED_DOOR = BLOCKS.register("honeyed_door", () -> door(BlockSetType.OAK, HONEYED_PLANKS.get()));
     public static final RegistryObject<TrapDoorBlock> HONEYED_TRAPDOOR = BLOCKS.register("honeyed_trapdoor", () -> trapdoor(BlockSetType.OAK, HONEYED_PLANKS.get()));
+    public static final RegistryObject<StandingSignBlock> HONEYED_SIGN = BLOCKS.register("honeyed_sign", () -> sign(HONEYED_WOOD, HONEYED_PLANKS.get()));
+    public static final RegistryObject<WallSignBlock> HONEYED_WALL_SIGN = BLOCKS.register("honeyed_wall_sign", () -> wallSign(HONEYED_WOOD, HONEYED_PLANKS.get()));
+    public static final RegistryObject<WallHangingSignBlock> HONEYED_WALL_HANGING_SIGN = BLOCKS.register("honeyed_wall_hanging_sign", () -> wallHangingSign(HONEYED_WOOD, HONEYED_PLANKS.get()));
+    public static final RegistryObject<CeilingHangingSignBlock> HONEYED_HANGING_SIGN = BLOCKS.register("honeyed_hanging_sign", () -> hangingSign(HONEYED_WOOD, HONEYED_PLANKS.get()));
 
     private static StairBlock stair(Block base) {
         return new StairBlock(base::defaultBlockState, BlockBehaviour.Properties.copy(base));
@@ -100,5 +105,21 @@ public class BlocksRegistration {
 
     private static TrapDoorBlock trapdoor(BlockSetType type, Block base) {
         return new TrapDoorBlock(BlockBehaviour.Properties.copy(base).noOcclusion(), type);
+    }
+
+    private static StandingSignBlock sign(WoodType type, Block base) {
+        return new StandingSignBlockCB(BlockBehaviour.Properties.copy(base).noOcclusion(), type);
+    }
+
+    private static WallSignBlock wallSign(WoodType type, Block base) {
+        return new WallSignBlockCB(BlockBehaviour.Properties.copy(base).noOcclusion(), type);
+    }
+
+    private static WallHangingSignBlock wallHangingSign(WoodType type, Block base) {
+        return new WallHangingSignBlockCB(BlockBehaviour.Properties.copy(base).noOcclusion(), type);
+    }
+
+    private static CeilingHangingSignBlock hangingSign(WoodType type, Block base) {
+        return new CeilingHangingSignBlockCB(BlockBehaviour.Properties.copy(base).noOcclusion(), type);
     }
 }

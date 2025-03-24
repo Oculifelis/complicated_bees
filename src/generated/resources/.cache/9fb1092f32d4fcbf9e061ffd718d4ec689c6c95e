@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-09T00:59:25.2412329	Recipes
+// 1.20.1	2025-03-24T13:54:30.3146829	Recipes
 758d50f218e4a466d56109b8d634254cd7b4b704 data/complicated_bees/advancements/recipes/ambrosia.json
 47c99fcd8a6aeaefdfb604aea21f6235208b01b2 data/complicated_bees/advancements/recipes/bee_staff.json
 f90a6f172761e07e3e562e55a0973883aecfde98 data/complicated_bees/advancements/recipes/building_blocks/chiseled_wax.json
@@ -21,6 +21,7 @@ d45f4fc5acd77b65173f1a3bad6e3e9e41b89a0b data/complicated_bees/advancements/reci
 305f6efbcd16d9c391a2a479341cba1aaf34baca data/complicated_bees/advancements/recipes/combat/apiarist_leggings.json
 eafd116221198526f62d4c1f57ce1b850c12e6e3 data/complicated_bees/advancements/recipes/deadly_frame.json
 57c41bdbdd71725659c0d3c713a1c6f157730e63 data/complicated_bees/advancements/recipes/decorations/honeyed_fence.json
+45bd36027eea4412dda4df9f49f0e562528d5fe5 data/complicated_bees/advancements/recipes/decorations/honeyed_sign.json
 231187e052d7d0e7a3c0cd1c74e0f785f8c6eb05 data/complicated_bees/advancements/recipes/decorations/smooth_wax_wall.json
 5f0769d7d7d93f4a85a5d978c1a3488750153206 data/complicated_bees/advancements/recipes/decorations/wax_block_wall.json
 5daf449c4cd9a9db6f2eb783d7293ef041c3f423 data/complicated_bees/advancements/recipes/decorations/wax_brick_wall.json
@@ -75,6 +76,7 @@ bb083800ae4d231802c64e3df278526789922a1c data/complicated_bees/recipes/honeyed_f
 17b8b1100ab95ceff4fb291093fb4d0a0e9664b0 data/complicated_bees/recipes/honeyed_frame.json
 6d725a3327b2e9f44e67b57ac84488fbe4ffb40c data/complicated_bees/recipes/honeyed_planks.json
 ab74ef72b66e28cdb1a6a45d32527cb3d4025ea9 data/complicated_bees/recipes/honeyed_pressure_plate.json
+c32f475b72f42f229411ae714fe61ddb68c7e93f data/complicated_bees/recipes/honeyed_sign.json
 700b3f404af7849e4502d701354a67e9c617cac2 data/complicated_bees/recipes/honeyed_slab.json
 dd9656cf0ad921dcd74539121e97fa96e9970415 data/complicated_bees/recipes/honeyed_stairs.json
 99057fc91e66326db08c51d9cf1a6a539bcf5090 data/complicated_bees/recipes/honeyed_stick.json

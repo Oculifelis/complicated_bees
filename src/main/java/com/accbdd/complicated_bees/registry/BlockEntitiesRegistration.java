@@ -38,6 +38,10 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of((pos, state) -> new MellariumFrameHousingBlockEntity(pos, state, 3), BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumRainShieldBlockEntity>> MELLARIUM_RAIN_SHIELD_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_rain_shield",
             () -> BlockEntityType.Builder.of(MellariumRainShieldBlockEntity::new, BlocksRegistration.MELLARIUM_RAIN_SHIELD.get()).build(null));
+    public static final Supplier<BlockEntityType<SignBlockEntityCB>> CB_SIGN_ENTITY = BLOCK_ENTITIES.register("sign_cb",
+            () -> BlockEntityType.Builder.of(SignBlockEntityCB::new, BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get()).build(null));
+    public static final Supplier<BlockEntityType<HangingSignBlockEntityCB>> CB_HANGING_SIGN_ENTITY = BLOCK_ENTITIES.register("hanging_sign_cb",
+            () -> BlockEntityType.Builder.of(HangingSignBlockEntityCB::new, BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get()).build(null));
 
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);

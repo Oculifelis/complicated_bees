@@ -21,6 +21,7 @@ public class DataGenerators {
             .pressurePlate(BlocksRegistration.HONEYED_PRESSURE_PLATE.get())
             .door(BlocksRegistration.HONEYED_DOOR.get())
             .trapdoor(BlocksRegistration.HONEYED_TRAPDOOR.get())
+            .sign(BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_HANGING_SIGN.get())
             .getFamily();
 
     public static final BlockFamily WAX_BLOCK_FAMILY = new BlockFamily.Builder(BlocksRegistration.WAX_BLOCK.get())

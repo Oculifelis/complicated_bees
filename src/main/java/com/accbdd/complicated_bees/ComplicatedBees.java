@@ -25,6 +25,9 @@ import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.RegistryAccess;
@@ -33,6 +36,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
@@ -95,6 +99,8 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.HONEYED_PRESSURE_PLATE.get());
                 output.accept(ItemsRegistration.HONEYED_DOOR.get());
                 output.accept(ItemsRegistration.HONEYED_TRAPDOOR.get());
+                output.accept(ItemsRegistration.HONEYED_SIGN.get());
+                output.accept(ItemsRegistration.HONEYED_HANGING_SIGN.get());
                 output.accept(ItemsRegistration.APIARY.get());
                 output.accept(ItemsRegistration.CENTRIFUGE.get());
                 output.accept(ItemsRegistration.HONEY_DROPLET.get());
@@ -262,6 +268,8 @@ public class ComplicatedBees {
             EntityRenderers.register(EntitiesRegistration.BEE_STAFF_MOUNT.get(), (context) -> new ThrownItemRenderer<>(context, 1.0f, true));
 
             event.enqueueWork(() -> {
+                Sheets.addWoodType(BlocksRegistration.HONEYED_WOOD);
+                WoodType.register(BlocksRegistration.HONEYED_WOOD);
                 MenuScreens.register(MenuRegistration.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
                 MenuScreens.register(MenuRegistration.APIARY_MENU.get(), ApiaryScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_MENU.get(), MellariumScreen::new);
@@ -290,6 +298,8 @@ public class ComplicatedBees {
         @SubscribeEvent
         public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.MICROSCOPE_BLOCK_ENTITY.get(), MicroscopeBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_SIGN_ENTITY.get(), SignRenderer::new);
+            event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_HANGING_SIGN_ENTITY.get(), HangingSignRenderer::new);
         }
     }
 }

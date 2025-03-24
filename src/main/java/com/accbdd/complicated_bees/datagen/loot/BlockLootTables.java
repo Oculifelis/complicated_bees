@@ -64,6 +64,10 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.HONEYED_PRESSURE_PLATE.get());
         this.add(BlocksRegistration.HONEYED_DOOR.get(), createDoorTable(BlocksRegistration.HONEYED_DOOR.get()));
         dropSelf(BlocksRegistration.HONEYED_TRAPDOOR.get());
+        dropSelf(BlocksRegistration.HONEYED_SIGN.get());
+        dropOther(BlocksRegistration.HONEYED_WALL_SIGN.get(), ItemsRegistration.HONEYED_SIGN.get());
+        dropSelf(BlocksRegistration.HONEYED_HANGING_SIGN.get());
+        dropOther(BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), ItemsRegistration.HONEYED_HANGING_SIGN.get());
     }
 
     @Override
