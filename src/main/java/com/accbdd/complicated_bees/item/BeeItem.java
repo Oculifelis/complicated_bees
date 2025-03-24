@@ -5,12 +5,15 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.*;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -47,13 +50,15 @@ public class BeeItem extends Item {
     public @NotNull Component getName(ItemStack stack) {
         Species primary = GeneticHelper.getSpecies(stack, true);
         MutableComponent component = Component.empty();
-
         component.append(GeneticHelper.getTranslationKey(primary));
 
         if (primary == null) {
             return component;
         }
         component.append(" ").append(Component.translatable(getDescriptionId()));
+
+        if (!BreedingTracker.CLIENT_INSTANCE.isDiscovered(GeneticHelper.getSpecies(stack, true)))
+            component.withStyle(ChatFormatting.ITALIC);
 
         return component;
     }
@@ -112,5 +117,12 @@ public class BeeItem extends Item {
                     .withStyle(ChatFormatting.GRAY));
         }
         super.appendHoverText(stack, pLevel, components, isAdvanced);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
+        if (!pLevel.isClientSide() && pEntity instanceof Player player)
+            BreedingTracker.getTracker(player).discoverIndividual(pStack);
     }
 }
