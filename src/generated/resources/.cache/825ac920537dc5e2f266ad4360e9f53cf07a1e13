@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-24T15:43:57.6717245	Tags for minecraft:item mod id complicated_bees
+// 1.20.1	2025-03-24T15:50:12.0221717	Tags for minecraft:item mod id complicated_bees
 fe739a1059ba8f426e7744fd552b47fd49482f24 data/complicated_bees/tags/items/air_con_cooling_1.json
 4342dbe120758da700a1d9f914789a75c43c98e9 data/complicated_bees/tags/items/air_con_cooling_2.json
 f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/complicated_bees/tags/items/air_con_cooling_3.json
@@ -17,6 +17,8 @@ c666fb8b76cb617e45a4ba6b6d0bb820f891620f data/complicated_bees/tags/items/scoop_
 96bac161e38f957fa1d1679174526dc412a01169 data/minecraft/tags/items/hanging_signs.json
 a4fc664dceeb8fedf72ed9e91536358457a64a45 data/minecraft/tags/items/planks.json
 159ccda2e29f32827b2afbeade370058be2c7cac data/minecraft/tags/items/signs.json
+9f4b39a2abc9a5dd0f42f88deacaf1a7e96bc237 data/minecraft/tags/items/slabs.json
+c9310220a7419a75d43b75cc107a0be7081b8a71 data/minecraft/tags/items/stairs.json
 f14b55606e8b44a2f7004272e49a0484b280b8ca data/minecraft/tags/items/wooden_buttons.json
 fb62289e4e35ce8fb0858237b9baa348acbe9f5f data/minecraft/tags/items/wooden_doors.json
 9b0addf35701253c274dcb72a9c94562676ff494 data/minecraft/tags/items/wooden_fences.json

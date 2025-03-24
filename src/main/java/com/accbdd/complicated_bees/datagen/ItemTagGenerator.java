@@ -71,6 +71,16 @@ public class ItemTagGenerator extends ItemTagsProvider {
         tag(ItemTags.WOODEN_TRAPDOORS).add(ItemsRegistration.HONEYED_TRAPDOOR.get());
         tag(ItemTags.SIGNS).add(ItemsRegistration.HONEYED_SIGN.get());
         tag(ItemTags.HANGING_SIGNS).add(ItemsRegistration.HONEYED_HANGING_SIGN.get());
+        tag(ItemTags.STAIRS).add(
+                ItemsRegistration.WAX_BLOCK_STAIRS.get(),
+                ItemsRegistration.SMOOTH_WAX_STAIRS.get(),
+                ItemsRegistration.WAX_BRICK_STAIRS.get()
+        );
+        tag(ItemTags.SLABS).add(
+                ItemsRegistration.WAX_BLOCK_SLAB.get(),
+                ItemsRegistration.SMOOTH_WAX_SLAB.get(),
+                ItemsRegistration.WAX_BRICK_SLAB.get()
+        );
         tag(AIR_CON_COOLING_1).add(
                 Items.SNOWBALL,
                 Items.SNOW_BLOCK,
