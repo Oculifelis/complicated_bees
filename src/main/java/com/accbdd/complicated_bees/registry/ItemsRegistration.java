@@ -56,19 +56,19 @@ public class ItemsRegistration {
     });
 
     public static final RegistryObject<FrameItem> FRAME = ITEMS.register("frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.1f).build(), Config.CONFIG.frame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.25f).build(), Config.CONFIG.frame));
     public static final RegistryObject<FrameItem> WAXED_FRAME = ITEMS.register("waxed_frame",
-            () -> new FrameItem(new Item.Properties().durability(240), new BeeHousingModifier.Builder().productivity(1.25f).build(), Config.CONFIG.waxedFrame));
+            () -> new FrameItem(new Item.Properties().durability(240), new BeeHousingModifier.Builder().productivity(1.5f).build(), Config.CONFIG.waxedFrame));
     public static final RegistryObject<FrameItem> HONEYED_FRAME = ITEMS.register("honeyed_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.35f).lifespan(0.9f).build(), Config.CONFIG.honeyFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.75f).lifespan(0.9f).build(), Config.CONFIG.honeyFrame));
     public static final RegistryObject<FrameItem> TWISTING_FRAME = ITEMS.register("twisting_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.5f).build(), Config.CONFIG.twistingFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.25f).build(), Config.CONFIG.twistingFrame));
     public static final RegistryObject<FrameItem> SOOTHING_FRAME = ITEMS.register("soothing_frame",
             () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), Config.CONFIG.soothingFrame));
     public static final RegistryObject<FrameItem> COLD_FRAME = ITEMS.register("cold_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.8f).build(), Config.CONFIG.coldFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), Config.CONFIG.coldFrame));
     public static final RegistryObject<FrameItem> HOT_FRAME = ITEMS.register("hot_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.8f).build(), Config.CONFIG.hotFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), Config.CONFIG.hotFrame));
     public static final RegistryObject<FrameItem> DRY_FRAME = ITEMS.register("dry_frame",
             () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), Config.CONFIG.dryFrame));
     public static final RegistryObject<FrameItem> WET_FRAME = ITEMS.register("wet_frame",
