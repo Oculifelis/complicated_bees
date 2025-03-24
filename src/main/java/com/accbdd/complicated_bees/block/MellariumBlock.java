@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MellariumBlock extends AbstractMellariumBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
-    private MellariumBlockType type;
+    private final MellariumBlockType type;
 
     public MellariumBlock(Properties prop, MellariumBlockType type) {
         super(prop);
