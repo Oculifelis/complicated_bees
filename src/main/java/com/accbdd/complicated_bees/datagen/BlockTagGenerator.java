@@ -93,11 +93,15 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.SMOOTH_WAX_WALL.get(),
                 BlocksRegistration.WAX_BRICK_WALL.get()
         );
-        tag(BlockTags.FENCES).add(
-                BlocksRegistration.HONEYED_FENCE.get()
+        tag(BlockTags.STAIRS).add(
+                BlocksRegistration.WAX_BLOCK_STAIRS.get(),
+                BlocksRegistration.SMOOTH_WAX_STAIRS.get(),
+                BlocksRegistration.WAX_BRICK_STAIRS.get()
         );
-        tag(BlockTags.FENCE_GATES).add(
-                BlocksRegistration.HONEYED_FENCE_GATE.get()
+        tag(BlockTags.SLABS).add(
+                BlocksRegistration.WAX_BLOCK_SLAB.get(),
+                BlocksRegistration.SMOOTH_WAX_SLAB.get(),
+                BlocksRegistration.WAX_BRICK_SLAB.get()
         );
     }
 }
