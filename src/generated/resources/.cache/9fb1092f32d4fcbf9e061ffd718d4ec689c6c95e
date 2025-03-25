@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-24T13:54:30.3146829	Recipes
+// 1.20.1	2025-03-25T11:46:25.7124453	Recipes
 758d50f218e4a466d56109b8d634254cd7b4b704 data/complicated_bees/advancements/recipes/ambrosia.json
 47c99fcd8a6aeaefdfb604aea21f6235208b01b2 data/complicated_bees/advancements/recipes/bee_staff.json
 f90a6f172761e07e3e562e55a0973883aecfde98 data/complicated_bees/advancements/recipes/building_blocks/chiseled_wax.json
@@ -86,6 +86,12 @@ d85f01fb7d898ac4f28ca13f69ae743239047ade data/complicated_bees/recipes/honey_por
 3c4a90aecff05f1d0ca0a3e2385dea2f62714507 data/complicated_bees/recipes/hot_frame.json
 5c9c48dc6ee73e2b366f53791f8decb49f6e7ab9 data/complicated_bees/recipes/meter.json
 83a058d889cedeb34500dec0192d0bfc010307da data/complicated_bees/recipes/microscope.json
+83938d5ed2cd453a03e506fef1b27b4ba83ab6a8 data/complicated_bees/recipes/mutator/ender_eye.json
+9380944834bfa1440cab18b88bc4fbc5f2bd21e1 data/complicated_bees/recipes/mutator/ender_pearl.json
+aeb3a9aecc6a2c08da6514403032f0900b9c3de0 data/complicated_bees/recipes/mutator/nether_star.json
+0633c2e6417af76d26abfffb14bcb90a1a6a197b data/complicated_bees/recipes/mutator/royal_jelly.json
+55a3f49328440c404d060d9b3820f2cd1ddb837d data/complicated_bees/recipes/mutator/soul_sand.json
+53ab78f46acfb445421bf1a5e7a17f74b5ef5eed data/complicated_bees/recipes/mutator/warped_wart_block.json
 916ff506496469ee859848c0863f89eba8bb890d data/complicated_bees/recipes/restrictive_frame.json
 9f5dd2bd7d2cdeb7869a0b5ee08e97eef844d722 data/complicated_bees/recipes/scoop.json
 b88c82363d1b259060aef0d36bb397564e4f2998 data/complicated_bees/recipes/smooth_wax.json

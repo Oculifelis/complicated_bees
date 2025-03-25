@@ -213,10 +213,21 @@ public class RecipeGenerator extends RecipeProvider {
         stonecutterFor(output, DataGenerators.WAX_BRICK_FAMILY, BlocksRegistration.WAX_BLOCK.get());
         stonecutterFor(output, DataGenerators.SMOOTH_WAX_FAMILY);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlocksRegistration.CHISELED_WAX.get(), BlocksRegistration.SMOOTH_WAX.get());
+
+        mutatorRecipe(output, Items.ENDER_EYE, 4f);
+        mutatorRecipe(output, Items.ENDER_PEARL, 2f);
+        mutatorRecipe(output, Items.SOUL_SAND, 1.5f);
+        mutatorRecipe(output, Items.NETHER_STAR, 50f);
+        mutatorRecipe(output, Items.WARPED_WART_BLOCK, 1.5f);
+        mutatorRecipe(output, ItemsRegistration.ROYAL_JELLY.get(), 3f);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {
         frameRecipe(output, result, center, outside, ItemsRegistration.APIARY.get());
+    }
+
+    protected static void mutatorRecipe(Consumer<FinishedRecipe> output, ItemLike item, float modifier) {
+        output.accept(new CBRecipeBuilder.MutatorRecipe(item.asItem(), modifier));
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {

@@ -1,0 +1,5 @@
+{
+  "type": "complicated_bees:mutator",
+  "item": "minecraft:nether_star",
+  "modifier": 50.0
+}

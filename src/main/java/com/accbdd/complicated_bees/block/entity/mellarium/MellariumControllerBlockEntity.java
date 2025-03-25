@@ -192,6 +192,16 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
+    public void produceOffspring(ItemStack queen) {
+        super.produceOffspring(queen);
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
+                tickable.onDeath();
+            }
+        });
+    }
+
+    @Override
     public void generateProduce(ItemStack bee) {
         super.generateProduce(bee);
     }

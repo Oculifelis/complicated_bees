@@ -57,7 +57,7 @@ public class BeeItem extends Item {
         }
         component.append(" ").append(Component.translatable(getDescriptionId()));
 
-        if (!BreedingTracker.CLIENT_INSTANCE.isDiscovered(GeneticHelper.getSpecies(stack, true)))
+        if (!(BreedingTracker.CLIENT_INSTANCE == null) && !BreedingTracker.CLIENT_INSTANCE.isDiscovered(GeneticHelper.getSpecies(stack, true)))
             component.withStyle(ChatFormatting.ITALIC);
 
         return component;

@@ -1,0 +1,5 @@
+{
+  "type": "complicated_bees:mutator",
+  "item": "minecraft:soul_sand",
+  "modifier": 1.5
+}

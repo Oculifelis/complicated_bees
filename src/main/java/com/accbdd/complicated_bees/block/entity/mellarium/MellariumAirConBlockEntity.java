@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
@@ -20,6 +21,7 @@ public class MellariumAirConBlockEntity extends MellariumAbstractBlockEntity imp
     private static final BeeHousingModifier HOT_1 = new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).build();
     private static final BeeHousingModifier HOT_2 = new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_2).build();
     private static final BeeHousingModifier HOT_3 = new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_3).build();
+    private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
     private final LazyOptional<IItemHandler> itemHandler;
 
@@ -32,6 +34,19 @@ public class MellariumAirConBlockEntity extends MellariumAbstractBlockEntity imp
             }
         };
         itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        pTag.put(ITEMS_TAG, items.serializeNBT());
+    }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        if (pTag.contains(ITEMS_TAG))
+            items.deserializeNBT(pTag.getCompound(ITEMS_TAG));
     }
 
     @Override

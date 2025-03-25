@@ -1,0 +1,5 @@
+{
+  "type": "complicated_bees:mutator",
+  "item": "complicated_bees:royal_jelly",
+  "modifier": 3.0
+}

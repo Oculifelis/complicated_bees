@@ -4,5 +4,13 @@ package com.accbdd.complicated_bees.block.entity.mellarium;
  * Interface for mellarium blocks that do something every bee tick
  */
 public interface IMellariumTickable {
-    void beeTick();
+    /**
+     * Called every bee tick by the controller
+     */
+    default void beeTick() {};
+
+    /**
+     * Called when the queen dies by the controller
+     */
+    default void onDeath() {};
 }

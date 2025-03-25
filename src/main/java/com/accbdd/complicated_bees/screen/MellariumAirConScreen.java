@@ -18,7 +18,7 @@ public class MellariumAirConScreen extends AbstractContainerScreen<MellariumAirC
         this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_air_con.png");
         this.imageHeight = 143;
         this.imageWidth = 176;
-        this.inventoryLabelY = this.imageHeight - 10000;
+        this.inventoryLabelY = imageHeight - 93;
     }
 
     @Override

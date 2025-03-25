@@ -78,6 +78,7 @@
   "block.complicated_bees.mellarium_frame_housing_2": "Mellarium Frame Housing",
   "block.complicated_bees.mellarium_frame_housing_3": "Large Mellarium Frame Housing",
   "block.complicated_bees.mellarium_rain_shield": "Mellarium Rain Shield",
+  "block.complicated_bees.mellarium_mutator": "Mellarium Mutator",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
@@ -565,6 +566,7 @@
   "flower.complicated_bees.complicated_bees:skulls": "Skulls",
   "flower.complicated_bees.complicated_bees:chorus": "Chorus",
   "flower.complicated_bees.complicated_bees:diorite": "Diorite",
+  "flower.complicated_bees.complicated_bees:granite": "Granite",
   "flower.complicated_bees.complicated_bees:calcite": "Calcite",
   "flower.complicated_bees.complicated_bees:deepslate": "Deepslate",
   "flower.complicated_bees.complicated_bees:tuff": "Tuff",
