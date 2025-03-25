@@ -7,6 +7,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -56,7 +58,7 @@ public class CentrifugeRecipe implements Recipe<Container> {
             if (json.has("outputs")) {
                 JsonArray outputsJson = json.getAsJsonArray("outputs");
                 for (JsonElement element : outputsJson.asList()) {
-                    var result = Product.CODEC.decode(JsonOps.INSTANCE, element);
+                    DataResult<Pair<Product, JsonElement>> result = Product.CODEC.decode(JsonOps.INSTANCE, element);
                     outputs.add(result.result().get().getFirst());
                 }
             }

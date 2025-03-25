@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.recipe.MutatorRecipe;
+import com.accbdd.complicated_bees.recipe.TempUnitRecipe;
 import com.accbdd.complicated_bees.worldgen.ComplicatedBeenestDecorator;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeature;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeatureConfiguration;
@@ -65,9 +66,13 @@ public class EsotericRegistration {
             () -> RecipeType.simple(new ResourceLocation(MODID, "centrifuge")));
     public static final RegistryObject<RecipeType<MutatorRecipe>> MUTATOR_RECIPE = RECIPE_TYPE_REGISTER.register("mutator",
             () -> RecipeType.simple(new ResourceLocation(MODID, "mutator")));
+    public static final RegistryObject<RecipeType<TempUnitRecipe>> TEMP_UNIT_RECIPE = RECIPE_TYPE_REGISTER.register("temp_unit",
+            () -> RecipeType.simple(new ResourceLocation(MODID, "temp_unit")));
 
     public static final RegistryObject<RecipeSerializer<CentrifugeRecipe>> CENTRIFUGE_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("centrifuge",
             () -> CentrifugeRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<MutatorRecipe>> MUTATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("mutator",
             () -> MutatorRecipe.SERIALIZER);
+    public static final RegistryObject<RecipeSerializer<TempUnitRecipe>> TEMP_UNIT_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("temp_unit",
+            () -> TempUnitRecipe.SERIALIZER);
 }

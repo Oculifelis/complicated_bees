@@ -33,8 +33,8 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumControllerBlockEntity::new, BlocksRegistration.MELLARIUM_CONTROLLER.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumBaseBlockEntity>> MELLARIUM_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_base",
             () -> BlockEntityType.Builder.of(MellariumBaseBlockEntity::new, BlocksRegistration.MELLARIUM_BASE.get()).build(null));
-    public static final Supplier<BlockEntityType<MellariumAirConBlockEntity>> MELLARIUM_AIR_CON_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_aircon",
-            () -> BlockEntityType.Builder.of(MellariumAirConBlockEntity::new, BlocksRegistration.MELLARIUM_AIR_CON.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumTempUnitBlockEntity>> MELLARIUM_TEMP_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_temp_unit",
+            () -> BlockEntityType.Builder.of(MellariumTempUnitBlockEntity::new, BlocksRegistration.MELLARIUM_TEMP_UNIT.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing_1",
             () -> BlockEntityType.Builder.of((pos, state) -> new MellariumFrameHousingBlockEntity(pos, state, 1), BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>> MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_frame_housing_2",

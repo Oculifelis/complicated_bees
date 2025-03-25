@@ -114,7 +114,7 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.GENERATOR.get());
                 output.accept(ItemsRegistration.MICROSCOPE.get());
                 output.accept(ItemsRegistration.MELLARIUM_BASE.get());
-                output.accept(ItemsRegistration.MELLARIUM_AIR_CON.get());
+                output.accept(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
                 output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_1.get());
                 output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_2.get());
                 output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_3.get());
@@ -277,7 +277,7 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.MELLARIUM_FRAME_MENUS.get(0).get(), MellariumFrameHousingScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_FRAME_MENUS.get(1).get(), MellariumFrameHousingScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_FRAME_MENUS.get(2).get(), MellariumFrameHousingScreen::new);
-                MenuScreens.register(MenuRegistration.MELLARIUM_AIR_CON_MENU.get(), MellariumAirConScreen::new);
+                MenuScreens.register(MenuRegistration.MELLARIUM_TEMP_UNIT_MENU.get(), MellariumTempUnitScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_MUTATOR_MENU.get(), MellariumMutatorScreen::new);
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);

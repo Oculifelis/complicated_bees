@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAirConBlockEntity;
-import com.accbdd.complicated_bees.screen.MellariumAirConMenu;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumTempUnitBlockEntity;
+import com.accbdd.complicated_bees.screen.MellariumTempUnitMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,16 +18,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class MellariumAirConBlock extends MellariumBlock {
+public class MellariumTempUnitBlock extends MellariumBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new MellariumAirConBlockEntity(pPos, pState);
+        return new MellariumTempUnitBlockEntity(pPos, pState);
     }
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            if (pLevel.getBlockEntity(pPos) instanceof MellariumAirConBlockEntity) {
+            if (pLevel.getBlockEntity(pPos) instanceof MellariumTempUnitBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
@@ -36,7 +36,7 @@ public class MellariumAirConBlock extends MellariumBlock {
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-                        return new MellariumAirConMenu(windowId, player, pPos);
+                        return new MellariumTempUnitMenu(windowId, player, pPos);
                     }
                 };
 

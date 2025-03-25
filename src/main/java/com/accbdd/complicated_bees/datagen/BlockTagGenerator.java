@@ -29,7 +29,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(SCOOPABLE).add(BlocksRegistration.BEE_NEST.get());
         tag(MELLARIUM).add(
                 BlocksRegistration.MELLARIUM_BASE.get(),
-                BlocksRegistration.MELLARIUM_AIR_CON.get(),
+                BlocksRegistration.MELLARIUM_TEMP_UNIT.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get(),
@@ -40,7 +40,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),
                 BlocksRegistration.MELLARIUM_BASE.get(),
-                BlocksRegistration.MELLARIUM_AIR_CON.get(),
+                BlocksRegistration.MELLARIUM_TEMP_UNIT.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get(),

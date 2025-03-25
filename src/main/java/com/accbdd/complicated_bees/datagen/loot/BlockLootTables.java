@@ -36,7 +36,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.MICROSCOPE.get());
         dropSelf(BlocksRegistration.MELLARIUM_BASE.get());
         this.add(BlocksRegistration.MELLARIUM_CONTROLLER.get(), createSingleItemTable(ItemsRegistration.MELLARIUM_BASE.get()));
-        dropSelf(BlocksRegistration.MELLARIUM_AIR_CON.get());
+        dropSelf(BlocksRegistration.MELLARIUM_TEMP_UNIT.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get());

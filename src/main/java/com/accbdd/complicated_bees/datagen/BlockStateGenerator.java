@@ -30,7 +30,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(BlocksRegistration.BEE_NEST.get(), createBeeNestModel());
         simpleBlock(BlocksRegistration.APIARY.get(), createApiaryModel());
         baseMellariumBlock();
-        mellariumBlock(BlocksRegistration.MELLARIUM_AIR_CON, modLoc("block/mellarium/mellarium_aircon"), modLoc("block/mellarium/mellarium_aircon_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, modLoc("block/mellarium/mellarium_temp_unit"), modLoc("block/mellarium/mellarium_temp_unit_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, modLoc("block/mellarium/mellarium_frame_housing_1"), modLoc("block/mellarium/mellarium_frame_housing_1_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, modLoc("block/mellarium/mellarium_frame_housing_2"), modLoc("block/mellarium/mellarium_frame_housing_2_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, modLoc("block/mellarium/mellarium_frame_housing_3"), modLoc("block/mellarium/mellarium_frame_housing_3_assembled"));

@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.datagen;
 
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -7,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,6 +19,8 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
+
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class RecipeGenerator extends RecipeProvider {
 
@@ -220,6 +224,21 @@ public class RecipeGenerator extends RecipeProvider {
         mutatorRecipe(output, Items.NETHER_STAR, 50f);
         mutatorRecipe(output, Items.WARPED_WART_BLOCK, 1.5f);
         mutatorRecipe(output, ItemsRegistration.ROYAL_JELLY.get(), 3f);
+
+        tempUnitRecipe(output, Items.SNOWBALL, EnumTolerance.DOWN_1, 0.4f);
+        tempUnitRecipe(output, Items.SNOW_BLOCK, EnumTolerance.DOWN_1, 0.2f);
+        tempUnitRecipe(output, Items.POWDER_SNOW_BUCKET, EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, Items.WATER_BUCKET, EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, Items.ICE, EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, Items.PACKED_ICE, EnumTolerance.DOWN_2, 0.05f);
+        tempUnitRecipe(output, Items.BLUE_ICE, EnumTolerance.DOWN_3, 0.05f);
+        tempUnitRecipe(output, Items.MAGMA_CREAM, EnumTolerance.UP_1, 0.25f);
+        tempUnitRecipe(output, Items.MAGMA_BLOCK, EnumTolerance.UP_1, 0.1f);
+        tempUnitRecipe(output, Items.FIRE_CHARGE, EnumTolerance.UP_2, 0.15f);
+        tempUnitRecipe(output, Items.BLAZE_POWDER, EnumTolerance.UP_2, 0.1f);
+        tempUnitRecipe(output, Items.BLAZE_ROD, EnumTolerance.UP_2, 0.05f);
+        tempUnitRecipe(output, Items.DRAGON_BREATH, EnumTolerance.UP_3, 0.01f);
+        tempUnitRecipe(output, Items.LAVA_BUCKET, EnumTolerance.UP_3, 0.01f);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {
@@ -227,11 +246,24 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static void mutatorRecipe(Consumer<FinishedRecipe> output, ItemLike item, float modifier) {
-        output.accept(new CBRecipeBuilder.MutatorRecipe(item.asItem(), modifier));
+        output.accept(new CBRecipeBuilder.MutatorRecipe(
+                new ResourceLocation(MODID, "mutator/" + ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()),
+                item.asItem(),
+                modifier)
+        );
+    }
+
+    protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, ItemLike item, EnumTolerance tempChange, float useChance) {
+        output.accept(new CBRecipeBuilder.TempUnitRecipe(
+                new ResourceLocation(MODID, "temp_unit/" + ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()),
+                item.asItem(),
+                tempChange,
+                useChance
+        ));
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {
-        var recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
+        ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
                 .pattern("OOO")
                 .pattern("OXO")
                 .pattern("OOO")
@@ -246,7 +278,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static void deadlyFrame(Consumer<FinishedRecipe> output) {
-        var recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.DEADLY_FRAME.get())
+        ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.DEADLY_FRAME.get())
                 .pattern("OCO")
                 .pattern("OXO")
                 .pattern("OOO")

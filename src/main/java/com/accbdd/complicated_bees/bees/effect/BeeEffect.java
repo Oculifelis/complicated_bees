@@ -7,6 +7,7 @@ import com.accbdd.complicated_bees.bees.gene.GeneTerritory;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -62,7 +63,7 @@ public abstract class BeeEffect implements IBeeEffect {
     }
 
     private boolean hasApiaristArmorEquipped(Player player) {
-        var inv = player.getInventory();
+        Inventory inv = player.getInventory();
         return inv.getArmor(0).is(ItemsRegistration.APIARIST_BOOTS.get()) &&
                 inv.getArmor(1).is(ItemsRegistration.APIARIST_LEGGINGS.get()) &&
                 inv.getArmor(2).is(ItemsRegistration.APIARIST_CHESTPLATE.get()) &&

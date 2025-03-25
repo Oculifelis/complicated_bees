@@ -1,0 +1,6 @@
+{
+  "type": "complicated_bees:temp_unit",
+  "item": "minecraft:ice",
+  "temp_change": "DOWN_1",
+  "use_chance": 0.05
+}

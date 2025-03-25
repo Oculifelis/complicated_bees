@@ -87,4 +87,8 @@ public class MutatorRecipe implements Recipe<Container> {
     public float getMutationChance() {
         return mutationChance;
     }
+
+    public Item getInput() {
+        return input;
+    }
 }

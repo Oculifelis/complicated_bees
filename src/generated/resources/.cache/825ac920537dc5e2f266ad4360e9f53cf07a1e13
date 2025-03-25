@@ -1,11 +1,4 @@
-// 1.20.1	2025-03-24T15:50:12.0221717	Tags for minecraft:item mod id complicated_bees
-fe739a1059ba8f426e7744fd552b47fd49482f24 data/complicated_bees/tags/items/air_con_cooling_1.json
-4342dbe120758da700a1d9f914789a75c43c98e9 data/complicated_bees/tags/items/air_con_cooling_2.json
-f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/complicated_bees/tags/items/air_con_cooling_3.json
-b218725eb7b8c30d728aa867fb1432376aaa082f data/complicated_bees/tags/items/air_con_fuel.json
-4ac7081e4fecdde4a9a1c50205b61dd0ac25d5a2 data/complicated_bees/tags/items/air_con_heating_1.json
-9aaa4ef287c2bd6f24053499421ba828d9f2fa9d data/complicated_bees/tags/items/air_con_heating_2.json
-46108390c13a357774781f7d88ddc566dbc39b87 data/complicated_bees/tags/items/air_con_heating_3.json
+// 1.20.1	2025-03-25T12:34:24.9078842	Tags for minecraft:item mod id complicated_bees
 cfacc021751613f7b1f430413c2b9161b7c443a9 data/complicated_bees/tags/items/analyzer_fuel.json
 68c58a5d6796606b3381bd0a5a35b5de94ff5f43 data/complicated_bees/tags/items/bee.json
 067a42adfee7843c5bc7bfb53ec0da0f856986a2 data/complicated_bees/tags/items/frame.json

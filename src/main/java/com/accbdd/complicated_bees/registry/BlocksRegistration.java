@@ -34,7 +34,7 @@ public class BlocksRegistration {
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
 
     public static final RegistryObject<MellariumBlock> MELLARIUM_BASE = BLOCKS.register("mellarium_base", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.BASE));
-    public static final RegistryObject<MellariumBlock> MELLARIUM_AIR_CON = BLOCKS.register("mellarium_air_con", MellariumAirConBlock::new);
+    public static final RegistryObject<MellariumBlock> MELLARIUM_TEMP_UNIT = BLOCKS.register("mellarium_temp_unit", MellariumTempUnitBlock::new);
     public static final RegistryObject<MellariumBlock> MELLARIUM_FRAME_HOUSING_1 = BLOCKS.register("mellarium_frame_housing_1", () -> new MellariumFrameHousingBlock(1));
     public static final RegistryObject<MellariumBlock> MELLARIUM_FRAME_HOUSING_2 = BLOCKS.register("mellarium_frame_housing_2", () -> new MellariumFrameHousingBlock(2));
     public static final RegistryObject<MellariumBlock> MELLARIUM_FRAME_HOUSING_3 = BLOCKS.register("mellarium_frame_housing_3", () -> new MellariumFrameHousingBlock(3));

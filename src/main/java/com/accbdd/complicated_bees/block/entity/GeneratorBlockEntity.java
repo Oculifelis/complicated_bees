@@ -134,7 +134,7 @@ public class GeneratorBlockEntity extends BlockEntity {
             if (energy.getEnergyStored() <= 0) {
                 return;
             }
-            var be = getLevel().getBlockEntity(getBlockPos().relative(direction));
+            BlockEntity be = getLevel().getBlockEntity(getBlockPos().relative(direction));
             if (be != null) {
                 IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY).orElse(null);
                 if (energy != null) {

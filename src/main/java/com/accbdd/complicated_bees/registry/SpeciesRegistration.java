@@ -4,13 +4,11 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -38,12 +36,12 @@ public class SpeciesRegistration {
         if (complexities.containsKey(species))
             return complexities.get(species);
         Set<Mutation> visited = new HashSet<>();
-        var registryAccess = GeneticHelper.getRegistryAccess();
+        RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
         return calculateComplexity(species, visited, registryAccess.registry(MutationRegistration.MUTATION_REGISTRY_KEY).get());
     }
 
     public static int calculateComplexity(ResourceLocation species, Set<Mutation> visited, Registry<Mutation> mutationRegistry) {
-        var x = mutationRegistry.stream().filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
+        List<Mutation> x = mutationRegistry.stream().filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
         if (x.isEmpty())
             return complexities.getOrDefault(species, 1);
         x.forEach(mutation -> {
