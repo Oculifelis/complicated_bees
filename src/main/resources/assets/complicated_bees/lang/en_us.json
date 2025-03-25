@@ -72,6 +72,12 @@
   "block.complicated_bees.honeyed_sign": "Honeyed Sign",
   "block.complicated_bees.honeyed_hanging_sign": "Honeyed Hanging Sign",
   "block.complicated_bees.microscope": "Microscope",
+  "block.complicated_bees.mellarium_base": "Mellarium Block",
+  "block.complicated_bees.mellarium_air_con": "Mellarium Temperature Unit",
+  "block.complicated_bees.mellarium_frame_housing_1": "Basic Mellarium Frame Housing",
+  "block.complicated_bees.mellarium_frame_housing_2": "Mellarium Frame Housing",
+  "block.complicated_bees.mellarium_frame_housing_3": "Large Mellarium Frame Housing",
+  "block.complicated_bees.mellarium_rain_shield": "Mellarium Rain Shield",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
@@ -85,6 +91,7 @@
   "gui.complicated_bees.apiary": "Apiary",
   "gui.complicated_bees.generator": "Generator",
   "gui.complicated_bees.analyzer": "Analyzer",
+  "gui.complicated_bees.mellarium": "Mellarium",
 
   "gui.complicated_bees.analyzer_line_1": "Needs honey drops to run and a bee to analyze!",
   "gui.complicated_bees.analyzer_line_2": "Once analyzed, use the scroll wheel/arrow keys to examine a bee's genes.",

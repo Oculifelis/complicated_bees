@@ -47,7 +47,7 @@ public class MellariumFrameHousingBlock extends MellariumBlock {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
-                        return Component.translatable(SCREEN_MELLARIUM);
+                        return pState.getBlock().getName();
                     }
 
                     @Override

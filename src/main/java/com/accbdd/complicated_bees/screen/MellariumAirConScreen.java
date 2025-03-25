@@ -1,10 +1,12 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -30,6 +32,19 @@ public class MellariumAirConScreen extends AbstractContainerScreen<MellariumAirC
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
+        ItemStack stack = getMenu().getItems().get(0);
+        if (stack.is(ItemTagGenerator.AIR_CON_COOLING_1))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 176, 0, 16, 16);
+        else if (stack.is(ItemTagGenerator.AIR_CON_COOLING_2))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 176, 16, 16, 16);
+        else if (stack.is(ItemTagGenerator.AIR_CON_COOLING_3))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 176, 32, 16, 16);
+        else if (stack.is(ItemTagGenerator.AIR_CON_HEATING_1))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 192, 0, 16, 16);
+        else if (stack.is(ItemTagGenerator.AIR_CON_HEATING_2))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 192, 16, 16, 16);
+        else if (stack.is(ItemTagGenerator.AIR_CON_HEATING_3))
+            graphics.blit(GUI, leftPos + 100, topPos + 24, 192, 32, 16, 16);
         renderTooltip(graphics, mouseX, mouseY);
     }
 }
