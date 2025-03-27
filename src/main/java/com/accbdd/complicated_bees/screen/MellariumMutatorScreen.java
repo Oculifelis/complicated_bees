@@ -40,7 +40,7 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().get(0);
         var recipe = recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel());
-        recipe.ifPresent(mutatorRecipe -> graphics.drawString(Minecraft.getInstance().font, String.valueOf(mutatorRecipe.getMutationChance()) + "x", leftPos + 100, topPos + 28, 0x404040, false));
+        recipe.ifPresent(mutatorRecipe -> graphics.drawString(Minecraft.getInstance().font, mutatorRecipe.getMutationModifier() + "x", leftPos + 100, topPos + 28, 0x404040, false));
         renderTooltip(graphics, mouseX, mouseY);
     }
 }

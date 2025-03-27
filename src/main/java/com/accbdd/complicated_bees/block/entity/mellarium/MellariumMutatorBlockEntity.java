@@ -59,7 +59,7 @@ public class MellariumMutatorBlockEntity extends MellariumAbstractBlockEntity im
     public BeeHousingModifier getModifier() {
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            return new BeeHousingModifier.Builder().mutation(quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getMutationChance()).build();
+            return new BeeHousingModifier.Builder().mutation(quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getMutationModifier()).build();
         }
         return new BeeHousingModifier();
     }

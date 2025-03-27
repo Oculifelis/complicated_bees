@@ -24,7 +24,7 @@ public class MutatorRecipeCategory implements IRecipeCategory<MutatorRecipe> {
     public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/mutator");
     public static final RecipeType<MutatorRecipe> TYPE = new RecipeType<>(ID, MutatorRecipe.class);
 
-    private static final Component TITLE = Component.translatable("block.complicated_bees.mellarium_mutator");
+    private static final Component TITLE = Component.translatable("jei.complicated_bees.mutator");
 
     public final IDrawable icon;
     public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
@@ -63,7 +63,7 @@ public class MutatorRecipeCategory implements IRecipeCategory<MutatorRecipe> {
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, MutatorRecipe recipe, IFocusGroup focuses) {
         IRecipeCategory.super.createRecipeExtras(builder, recipe, focuses);
-        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.getMutationChance() + "x"), 81, 14);
+        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.getMutationModifier() + "x"), 81, 14);
         widget.setPosition(59, 5, 81, 31, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget.setTextAlignment(HorizontalAlignment.CENTER);
         widget.setTextAlignment(VerticalAlignment.CENTER);

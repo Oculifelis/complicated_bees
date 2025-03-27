@@ -24,7 +24,7 @@ public class TempUnitRecipeCategory implements IRecipeCategory<TempUnitRecipe> {
     public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/temp_unit");
     public static final RecipeType<TempUnitRecipe> TYPE = new RecipeType<>(ID, TempUnitRecipe.class);
 
-    private static final Component TITLE = Component.translatable("block.complicated_bees.mellarium_temp_unit");
+    private static final Component TITLE = Component.translatable("jei.complicated_bees.temp_unit");
 
     public final IDrawable icon;
     public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);

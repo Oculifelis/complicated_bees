@@ -14,12 +14,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 
 public class MutatorRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private final Item input;
-    private final float mutationChance;
+    private final float mutationModifier;
 
     public static final RecipeSerializer<MutatorRecipe> SERIALIZER = new RecipeSerializer<>() {
         @Override
@@ -32,21 +31,21 @@ public class MutatorRecipe implements Recipe<Container> {
         }
 
         @Override
-        public @Nullable MutatorRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        public MutatorRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             return new MutatorRecipe(pRecipeId, pBuffer.readItem().getItem(), pBuffer.readFloat());
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf pBuffer, MutatorRecipe pRecipe) {
             pBuffer.writeItem(pRecipe.input.getDefaultInstance());
-            pBuffer.writeFloat(pRecipe.mutationChance);
+            pBuffer.writeFloat(pRecipe.mutationModifier);
         }
     };
 
-    public MutatorRecipe(ResourceLocation id, Item input, float mutationChance) {
+    public MutatorRecipe(ResourceLocation id, Item input, float mutationModifier) {
         this.id = id;
         this.input = input;
-        this.mutationChance = mutationChance;
+        this.mutationModifier = mutationModifier;
     }
 
     @Override
@@ -84,8 +83,8 @@ public class MutatorRecipe implements Recipe<Container> {
         return EsotericRegistration.MUTATOR_RECIPE.get();
     }
 
-    public float getMutationChance() {
-        return mutationChance;
+    public float getMutationModifier() {
+        return mutationModifier;
     }
 
     public Item getInput() {
