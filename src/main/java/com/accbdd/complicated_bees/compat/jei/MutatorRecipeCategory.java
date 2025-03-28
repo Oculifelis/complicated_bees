@@ -57,7 +57,7 @@ public class MutatorRecipeCategory implements IRecipeCategory<MutatorRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, MutatorRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 12)
                 .setSlotName("input")
-                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getInput().getDefaultInstance());
+                .addIngredients(recipe.getInput());
     }
 
     @Override

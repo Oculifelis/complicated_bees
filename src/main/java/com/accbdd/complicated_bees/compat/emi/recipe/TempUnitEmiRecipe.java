@@ -25,7 +25,7 @@ public class TempUnitEmiRecipe implements EmiRecipe {
 
     public TempUnitEmiRecipe(TempUnitRecipe recipe) {
         id = recipe.getId();
-        input = EmiStack.of(recipe.getInput());
+        input = EmiIngredient.of(recipe.getInput());
         tempModifier = recipe.getTempChange();
         consumeChance = recipe.getUseChance();
     }

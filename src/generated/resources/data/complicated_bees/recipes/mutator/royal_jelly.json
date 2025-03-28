@@ -1,5 +1,7 @@
 {
   "type": "complicated_bees:mutator",
-  "item": "complicated_bees:royal_jelly",
+  "input": {
+    "item": "complicated_bees:royal_jelly"
+  },
   "modifier": 3.0
 }

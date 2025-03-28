@@ -43,7 +43,8 @@ public class ComplicatedBeesJEI implements IModPlugin {
                 new BeeProduceRecipeCategory(),
                 new MutationRecipeCategory(),
                 new TempUnitRecipeCategory(helper),
-                new MutatorRecipeCategory(helper)
+                new MutatorRecipeCategory(helper),
+                new HydroRecipeCategory(helper)
         );
     }
 
@@ -55,6 +56,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
         registration.addRecipes(MutationRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().stream().toList());
         registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()).stream().toList());
         registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()).stream().toList());
+        registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()).stream().toList());
     }
 
     @Override

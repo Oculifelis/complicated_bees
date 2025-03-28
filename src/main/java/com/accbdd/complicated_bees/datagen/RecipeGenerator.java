@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.datagen;
 
+import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
@@ -218,46 +219,59 @@ public class RecipeGenerator extends RecipeProvider {
         stonecutterFor(output, DataGenerators.SMOOTH_WAX_FAMILY);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlocksRegistration.CHISELED_WAX.get(), BlocksRegistration.SMOOTH_WAX.get());
 
-        mutatorRecipe(output, Items.ENDER_EYE, 4f);
-        mutatorRecipe(output, Items.ENDER_PEARL, 2f);
-        mutatorRecipe(output, Items.SOUL_SAND, 1.5f);
-        mutatorRecipe(output, Items.NETHER_STAR, 50f);
-        mutatorRecipe(output, Items.WARPED_WART_BLOCK, 1.5f);
-        mutatorRecipe(output, ItemsRegistration.ROYAL_JELLY.get(), 3f);
+        mutatorRecipe(output, "ender_eye", Ingredient.of(Items.ENDER_EYE), 4f);
+        mutatorRecipe(output, "ender_pearl", Ingredient.of(Items.ENDER_PEARL), 2f);
+        mutatorRecipe(output, "soul_sand", Ingredient.of(Items.SOUL_SAND), 1.5f);
+        mutatorRecipe(output, "nether_star", Ingredient.of(Items.NETHER_STAR), 50f);
+        mutatorRecipe(output, "warped_wart_block", Ingredient.of(Items.WARPED_WART_BLOCK), 1.5f);
+        mutatorRecipe(output, "royal_jelly", Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), 3f);
 
-        tempUnitRecipe(output, Items.SNOWBALL, EnumTolerance.DOWN_1, 0.4f);
-        tempUnitRecipe(output, Items.SNOW_BLOCK, EnumTolerance.DOWN_1, 0.2f);
-        tempUnitRecipe(output, Items.POWDER_SNOW_BUCKET, EnumTolerance.DOWN_1, 0.05f);
-        tempUnitRecipe(output, Items.WATER_BUCKET, EnumTolerance.DOWN_1, 0.05f);
-        tempUnitRecipe(output, Items.ICE, EnumTolerance.DOWN_1, 0.05f);
-        tempUnitRecipe(output, Items.PACKED_ICE, EnumTolerance.DOWN_2, 0.05f);
-        tempUnitRecipe(output, Items.BLUE_ICE, EnumTolerance.DOWN_3, 0.05f);
-        tempUnitRecipe(output, Items.MAGMA_CREAM, EnumTolerance.UP_1, 0.25f);
-        tempUnitRecipe(output, Items.MAGMA_BLOCK, EnumTolerance.UP_1, 0.1f);
-        tempUnitRecipe(output, Items.FIRE_CHARGE, EnumTolerance.UP_2, 0.15f);
-        tempUnitRecipe(output, Items.BLAZE_POWDER, EnumTolerance.UP_2, 0.1f);
-        tempUnitRecipe(output, Items.BLAZE_ROD, EnumTolerance.UP_2, 0.05f);
-        tempUnitRecipe(output, Items.DRAGON_BREATH, EnumTolerance.UP_3, 0.01f);
-        tempUnitRecipe(output, Items.LAVA_BUCKET, EnumTolerance.UP_3, 0.01f);
+        tempUnitRecipe(output, "snowball", Ingredient.of(Items.SNOWBALL), EnumTolerance.DOWN_1, 0.3f);
+        tempUnitRecipe(output, "snow_block", Ingredient.of(Items.SNOW_BLOCK), EnumTolerance.DOWN_1, 0.15f);
+        tempUnitRecipe(output, "powder_snow_bucket", Ingredient.of(Items.POWDER_SNOW_BUCKET), EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, "water_bucket", Ingredient.of(Items.WATER_BUCKET), EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, "ice", Ingredient.of(Items.ICE), EnumTolerance.DOWN_1, 0.05f);
+        tempUnitRecipe(output, "packed_ice", Ingredient.of(Items.PACKED_ICE), EnumTolerance.DOWN_2, 0.05f);
+        tempUnitRecipe(output, "blue_ice", Ingredient.of(Items.BLUE_ICE), EnumTolerance.DOWN_3, 0.05f);
+        tempUnitRecipe(output, "magma_cream", Ingredient.of(Items.MAGMA_CREAM), EnumTolerance.UP_1, 0.25f);
+        tempUnitRecipe(output, "magma_block", Ingredient.of(Items.MAGMA_BLOCK), EnumTolerance.UP_1, 0.1f);
+        tempUnitRecipe(output, "fire_charge", Ingredient.of(Items.FIRE_CHARGE), EnumTolerance.UP_2, 0.15f);
+        tempUnitRecipe(output, "blaze_powder", Ingredient.of(Items.BLAZE_POWDER), EnumTolerance.UP_2, 0.1f);
+        tempUnitRecipe(output, "blaze_rod", Ingredient.of(Items.BLAZE_ROD), EnumTolerance.UP_2, 0.05f);
+        tempUnitRecipe(output, "dragon_breath", Ingredient.of(Items.DRAGON_BREATH), EnumTolerance.UP_3, 0.01f);
+        tempUnitRecipe(output, "lava_bucket", Ingredient.of(Items.LAVA_BUCKET), EnumTolerance.UP_3, 0.01f);
+
+        hydroregulatorRecipe(output, "sand", Ingredient.of(Items.SAND), new Product(Items.DIRT.getDefaultInstance(), 0.2f), EnumTolerance.DOWN_1, 0.15f);
+        hydroregulatorRecipe(output, "water_bucket", Ingredient.of(Items.WATER_BUCKET), new Product(Items.BUCKET.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {
         frameRecipe(output, result, center, outside, ItemsRegistration.APIARY.get());
     }
 
-    protected static void mutatorRecipe(Consumer<FinishedRecipe> output, ItemLike item, float modifier) {
+    protected static void mutatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, float modifier) {
         output.accept(new CBRecipeBuilder.MutatorRecipe(
-                new ResourceLocation(MODID, "mutator/" + ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()),
-                item.asItem(),
+                new ResourceLocation(MODID, "mutator/" + name),
+                input,
                 modifier)
         );
     }
 
-    protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, ItemLike item, EnumTolerance tempChange, float useChance) {
+    protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
         output.accept(new CBRecipeBuilder.TempUnitRecipe(
-                new ResourceLocation(MODID, "temp_unit/" + ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()),
-                item.asItem(),
+                new ResourceLocation(MODID, "temp_unit/" + name),
+                input,
                 tempChange,
+                useChance
+        ));
+    }
+
+    protected static void hydroregulatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
+        output.accept(new CBRecipeBuilder.HydroRecipe(
+                new ResourceLocation(MODID, "hydroregulator/" + name),
+                input,
+                recipeOutput,
+                humidityChange,
                 useChance
         ));
     }

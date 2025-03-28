@@ -32,8 +32,9 @@ public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY = new ComplicatedBeesRecipeCategory("centrifuge", CENTRIFUGE, Component.translatable("gui.complicated_bees.jei.centrifuge"));
     public static final EmiRecipeCategory BEE_PRODUCE_CATEGORY = new ComplicatedBeesRecipeCategory("bee_produce", APIARY, Component.translatable("gui.complicated_bees.jei.bee_products"));
     public static final EmiRecipeCategory MUTATION_CATEGORY = new ComplicatedBeesRecipeCategory("mutation", APIARY, Component.translatable("gui.complicated_bees.jei.mutations"));
-    public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", APIARY, Component.translatable("jei.complicated_bees.mutator"));
-    public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", APIARY, Component.translatable("jei.complicated_bees.temp_unit"));
+    public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", MUTATOR, Component.translatable("jei.complicated_bees.mutator"));
+    public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", TEMP_UNIT, Component.translatable("jei.complicated_bees.temp_unit"));
+    public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", APIARY, Component.translatable("jei.complicated_bees.hydroregulator"));
     public static final Comparison COMPARE_BEE
             = Comparison.compareData(stack -> GeneticHelper.getSpecies(stack.getItemStack(), true));
     @Override
@@ -54,6 +55,8 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addWorkstation(MUTATION_CATEGORY, MUTATOR);
         registry.addCategory(TEMP_UNIT_CATEGORY);
         registry.addWorkstation(TEMP_UNIT_CATEGORY, TEMP_UNIT);
+        registry.addCategory(HYDROREGULATOR_CATEGORY);
+        registry.addWorkstation(HYDROREGULATOR_CATEGORY, TEMP_UNIT);
 
         RecipeManager manager = registry.getRecipeManager();
         RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
@@ -71,6 +74,11 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get())
                 .stream()
                 .map(TempUnitEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get())
+                .stream()
+                .map(HydroEmiRecipe::new)
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)

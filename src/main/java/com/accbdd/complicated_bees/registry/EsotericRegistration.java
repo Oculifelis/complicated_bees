@@ -3,6 +3,7 @@ package com.accbdd.complicated_bees.registry;
 import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
+import com.accbdd.complicated_bees.recipe.HydroRecipe;
 import com.accbdd.complicated_bees.recipe.MutatorRecipe;
 import com.accbdd.complicated_bees.recipe.TempUnitRecipe;
 import com.accbdd.complicated_bees.worldgen.ComplicatedBeenestDecorator;
@@ -68,6 +69,8 @@ public class EsotericRegistration {
             () -> RecipeType.simple(new ResourceLocation(MODID, "mutator")));
     public static final RegistryObject<RecipeType<TempUnitRecipe>> TEMP_UNIT_RECIPE = RECIPE_TYPE_REGISTER.register("temp_unit",
             () -> RecipeType.simple(new ResourceLocation(MODID, "temp_unit")));
+    public static final RegistryObject<RecipeType<HydroRecipe>> HYDROREGULATOR_RECIPE = RECIPE_TYPE_REGISTER.register("hydroregulator",
+            () -> RecipeType.simple(new ResourceLocation(MODID, "hydroregulator")));
 
     public static final RegistryObject<RecipeSerializer<CentrifugeRecipe>> CENTRIFUGE_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("centrifuge",
             () -> CentrifugeRecipe.SERIALIZER);
@@ -75,4 +78,6 @@ public class EsotericRegistration {
             () -> MutatorRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<TempUnitRecipe>> TEMP_UNIT_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("temp_unit",
             () -> TempUnitRecipe.SERIALIZER);
+    public static final RegistryObject<RecipeSerializer<HydroRecipe>> HYDROREGULATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("hydroregulator",
+            () -> HydroRecipe.SERIALIZER);
 }

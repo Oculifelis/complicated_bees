@@ -1,6 +1,8 @@
 {
   "type": "complicated_bees:temp_unit",
-  "item": "minecraft:snowball",
+  "input": {
+    "item": "minecraft:snowball"
+  },
   "temp_change": "DOWN_1",
-  "use_chance": 0.4
+  "use_chance": 0.3
 }

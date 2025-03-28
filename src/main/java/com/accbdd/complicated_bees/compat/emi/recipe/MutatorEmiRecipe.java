@@ -23,7 +23,7 @@ public class MutatorEmiRecipe implements EmiRecipe {
 
     public MutatorEmiRecipe(MutatorRecipe recipe) {
         id = recipe.getId();
-        input = EmiStack.of(recipe.getInput());
+        input = EmiIngredient.of(recipe.getInput());
         mutationModifier = recipe.getMutationModifier();
     }
 

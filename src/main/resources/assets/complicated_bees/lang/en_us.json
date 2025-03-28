@@ -241,6 +241,7 @@
   "jei.complicated_bees.consumption_chance": "Consume: %s",
   "jei.complicated_bees.mutator": "Mutation Catalyst",
   "jei.complicated_bees.temp_unit": "Temperature Modifier",
+  "jei.complicated_bees.hydroregulator": "Humidity Modifier",
 
   "comb.complicated_bees.invalid": "Any",
   "comb.complicated_bees.complicated_bees:honey": "Honey",
