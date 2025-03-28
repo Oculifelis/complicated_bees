@@ -62,8 +62,8 @@ public class TempUnitEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 0, 0);
-        widgets.addSlot(input, 12, 12);
+        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addSlot(input, 11, 11);
 
         var widget = widgets.addText(Component.translatable("jei.complicated_bees.modifier", tempModifier.getTranslationKey()), 99, 12, 0xFFFFFF, true);
         widget.horizontalAlign(TextWidget.Alignment.CENTER);
