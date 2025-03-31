@@ -30,7 +30,7 @@ public class HydroRecipeCategory implements IRecipeCategory<HydroRecipe> {
     public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 143, 40);
 
     public HydroRecipeCategory(IGuiHelper helper) {
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.MELLARIUM_TEMP_UNIT.get()));
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get()));
     }
 
     @Override

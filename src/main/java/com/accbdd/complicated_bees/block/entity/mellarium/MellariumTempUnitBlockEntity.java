@@ -87,7 +87,7 @@ public class MellariumTempUnitBlockEntity extends MellariumAbstractBlockEntity i
     }
 
     @Override
-    public void beeTick() {
+    public void onBeeTick() {
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
             if (level.getRandom().nextFloat() < quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getUseChance()) {

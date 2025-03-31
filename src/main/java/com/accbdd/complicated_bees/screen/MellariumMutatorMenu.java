@@ -9,13 +9,13 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class MellariumMutatorMenu extends AbstractBaseInventoryMenu {
     private static final int INV_X = 8;
-    private static final int INV_Y = 61;
+    private static final int INV_Y = 79;
     private final Level level;
 
     public MellariumMutatorMenu(int windowId, Player player, BlockPos pos) {
         super(MenuRegistration.MELLARIUM_MUTATOR_MENU.get(), windowId, player, 1, INV_X, INV_Y);
         if (player.level().getBlockEntity(pos) instanceof MellariumMutatorBlockEntity mutator) {
-            addSlot(new SlotItemHandler(mutator.getItemHandler().resolve().get(), 0, 80, 24));
+            addSlot(new SlotItemHandler(mutator.getItemHandler().resolve().get(), 0, 80, 40));
         }
         layoutPlayerInventorySlots(player.getInventory());
         level = player.level();

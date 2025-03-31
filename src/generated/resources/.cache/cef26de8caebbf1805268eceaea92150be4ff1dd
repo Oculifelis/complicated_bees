@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-25T11:54:48.2116456	Item Models: complicated_bees
+// 1.20.1	2025-03-31T14:02:42.2542766	Item Models: complicated_bees
 eed162555c50979ffb14f7ef23c98ac3ac9929cd assets/complicated_bees/models/item/ambrosia.json
 913c48d698d66de7b3f67c088df650fa2d538c3f assets/complicated_bees/models/item/analyzer.json
 78dc08d43023162f54b70bdb3abb1770f12e72fe assets/complicated_bees/models/item/apiarist_boots.json
@@ -41,6 +41,7 @@ f9cd668a0476991cb01fd083136c9560af37b4e1 assets/complicated_bees/models/item/hon
 9f7e6083bb610ff310f2f55ca76e72fc91eee2af assets/complicated_bees/models/item/mellarium_frame_housing_1.json
 9d78f3258689b5ca41fed2eb9a172037c1e398a6 assets/complicated_bees/models/item/mellarium_frame_housing_2.json
 e260c70093db794ad9ff020e5ff8b2712e91cbf5 assets/complicated_bees/models/item/mellarium_frame_housing_3.json
+0fd54230c61a1c1d4fc603a665d2469d91e3b92b assets/complicated_bees/models/item/mellarium_hydroregulator.json
 39829e90b64fc19dba4d98a7616c16c4f9417a47 assets/complicated_bees/models/item/mellarium_mutator.json
 a66240011da0d2972f72a131865b8e232e55b187 assets/complicated_bees/models/item/mellarium_rain_shield.json
 39e9bdd65d5d8764b14d45effcf204e84e32b497 assets/complicated_bees/models/item/mellarium_temp_unit.json

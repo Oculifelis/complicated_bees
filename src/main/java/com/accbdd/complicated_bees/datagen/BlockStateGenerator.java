@@ -36,6 +36,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, modLoc("block/mellarium/mellarium_frame_housing_3"), modLoc("block/mellarium/mellarium_frame_housing_3_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, modLoc("block/mellarium/mellarium_rain_shield"), modLoc("block/mellarium/mellarium_rain_shield_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, modLoc("block/mellarium/mellarium_mutator"), modLoc("block/mellarium/mellarium_mutator_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, modLoc("block/mellarium/mellarium_hydroregulator"), modLoc("block/mellarium/mellarium_hydroregulator_assembled"));
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));

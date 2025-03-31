@@ -186,7 +186,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         super.beeTick();
         getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
             if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
-                tickable.beeTick();
+                tickable.onBeeTick();
             }
         });
     }

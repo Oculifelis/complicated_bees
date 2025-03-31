@@ -2,7 +2,6 @@ package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.recipe.MutatorRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -21,8 +20,8 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
 
     public MellariumMutatorScreen(MellariumMutatorMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_single_slot.png");
-        this.imageHeight = 143;
+        this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_mutator.png");
+        this.imageHeight = 161;
         this.imageWidth = 176;
         this.inventoryLabelY = imageHeight - 93;
     }
@@ -36,11 +35,24 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
     }
 
     @Override
+    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        pGuiGraphics.drawString(this.font, this.title, this.imageWidth/2 - this.font.width(this.title)/2, this.titleLabelY, 4210752, false);
+        pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+    }
+
+    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().get(0);
-        var recipe = recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel());
-        recipe.ifPresent(mutatorRecipe -> graphics.drawString(Minecraft.getInstance().font, mutatorRecipe.getMutationModifier() + "x", leftPos + 100, topPos + 28, 0x404040, false));
+        recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
+            graphics.blit(GUI, leftPos+84, topPos+26, 176, 0, 8, 8);
+            if (mouseX > leftPos+83 && mouseX < leftPos+83+10 && mouseY > topPos+25 && mouseY < topPos+25+10) {
+                graphics.renderTooltip(this.font,
+                        Component.translatable("jei.complicated_bees.modifier", recipe.getMutationModifier() + "x"),
+                        mouseX,
+                        mouseY);
+            }
+        });
         renderTooltip(graphics, mouseX, mouseY);
     }
 }

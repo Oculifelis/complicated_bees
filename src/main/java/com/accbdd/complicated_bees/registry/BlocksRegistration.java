@@ -40,6 +40,7 @@ public class BlocksRegistration {
     public static final RegistryObject<MellariumBlock> MELLARIUM_FRAME_HOUSING_3 = BLOCKS.register("mellarium_frame_housing_3", () -> new MellariumFrameHousingBlock(3));
     public static final RegistryObject<MellariumBlock> MELLARIUM_RAIN_SHIELD = BLOCKS.register("mellarium_rain_shield", MellariumRainShieldBlock::new);
     public static final RegistryObject<MellariumBlock> MELLARIUM_MUTATOR = BLOCKS.register("mellarium_mutator", MellariumMutatorBlock::new);
+    public static final RegistryObject<MellariumBlock> MELLARIUM_HYDROREGULATOR = BLOCKS.register("mellarium_hydroregulator", MellariumHydroregulatorBlock::new);
     public static final RegistryObject<MellariumBlock> MELLARIUM_CONTROLLER = BLOCKS.register("mellarium_controller", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.CONTROLLER));
 
     public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);

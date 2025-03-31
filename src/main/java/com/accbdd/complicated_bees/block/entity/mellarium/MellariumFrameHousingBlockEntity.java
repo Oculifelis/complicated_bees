@@ -69,7 +69,7 @@ public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEnti
     }
 
     @Override
-    public void beeTick() {
+    public void onBeeTick() {
         damageFrames();
     }
 

@@ -120,6 +120,7 @@ public class ComplicatedBees {
                 output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_3.get());
                 output.accept(ItemsRegistration.MELLARIUM_RAIN_SHIELD.get());
                 output.accept(ItemsRegistration.MELLARIUM_MUTATOR.get());
+                output.accept(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
                 output.accept(ItemsRegistration.APID_LIBRARY.get());
                 output.accept(ItemsRegistration.FRAME.get());
                 output.accept(ItemsRegistration.WAXED_FRAME.get());
@@ -279,6 +280,7 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.MELLARIUM_FRAME_MENUS.get(2).get(), MellariumFrameHousingScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_TEMP_UNIT_MENU.get(), MellariumTempUnitScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_MUTATOR_MENU.get(), MellariumMutatorScreen::new);
+                MenuScreens.register(MenuRegistration.MELLARIUM_HYDROREGULATOR_MENU.get(), MellariumHydroregulatorScreen::new);
                 MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
                 MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);

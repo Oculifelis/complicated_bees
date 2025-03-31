@@ -104,6 +104,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_2 = registerSimpleBlockItem("mellarium_frame_housing_2", BlocksRegistration.MELLARIUM_FRAME_HOUSING_2);
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_3 = registerSimpleBlockItem("mellarium_frame_housing_3", BlocksRegistration.MELLARIUM_FRAME_HOUSING_3);
     public static final RegistryObject<Item> MELLARIUM_MUTATOR = registerSimpleBlockItem("mellarium_mutator", BlocksRegistration.MELLARIUM_MUTATOR);
+    public static final RegistryObject<Item> MELLARIUM_HYDROREGULATOR = registerSimpleBlockItem("mellarium_hydroregulator", BlocksRegistration.MELLARIUM_HYDROREGULATOR);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
     public static final RegistryObject<Item> WAX_BLOCK = registerSimpleBlockItem("wax_block", BlocksRegistration.WAX_BLOCK);
     public static final RegistryObject<Item> WAX_BLOCK_STAIRS = registerSimpleBlockItem("wax_block_stairs", BlocksRegistration.WAX_BLOCK_STAIRS);

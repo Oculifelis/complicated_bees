@@ -45,6 +45,8 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumRainShieldBlockEntity::new, BlocksRegistration.MELLARIUM_RAIN_SHIELD.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumMutatorBlockEntity>> MELLARIUM_MUTATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_mutator",
             () -> BlockEntityType.Builder.of(MellariumMutatorBlockEntity::new, BlocksRegistration.MELLARIUM_MUTATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumHydroregulatorBlockEntity>> MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_hydroregulator",
+            () -> BlockEntityType.Builder.of(MellariumHydroregulatorBlockEntity::new, BlocksRegistration.MELLARIUM_HYDROREGULATOR.get()).build(null));
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);
 }

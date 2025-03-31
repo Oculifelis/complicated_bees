@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-28T16:24:02.0340965	Recipes
+// 1.20.1	2025-03-31T14:55:16.4595688	Recipes
 758d50f218e4a466d56109b8d634254cd7b4b704 data/complicated_bees/advancements/recipes/ambrosia.json
 47c99fcd8a6aeaefdfb604aea21f6235208b01b2 data/complicated_bees/advancements/recipes/bee_staff.json
 f90a6f172761e07e3e562e55a0973883aecfde98 data/complicated_bees/advancements/recipes/building_blocks/chiseled_wax.json
@@ -84,8 +84,10 @@ dd9656cf0ad921dcd74539121e97fa96e9970415 data/complicated_bees/recipes/honeyed_s
 e955200600984b4ebe38610b8a6a436d9d6e2c0b data/complicated_bees/recipes/honey_bread.json
 d85f01fb7d898ac4f28ca13f69ae743239047ade data/complicated_bees/recipes/honey_porkchop.json
 3c4a90aecff05f1d0ca0a3e2385dea2f62714507 data/complicated_bees/recipes/hot_frame.json
-1e8f49bbe46aa3f896e61bfb80a5a5424a6fddeb data/complicated_bees/recipes/hydroregulator/sand.json
+abf477a839b886243fc26821b1b68f45f5e2468d data/complicated_bees/recipes/hydroregulator/sand.json
+6c525dd2e9526ef2bbc4ff8b6c1a52cb80e369d8 data/complicated_bees/recipes/hydroregulator/sponge.json
 56b0673b76ed265db9c26604bd4217d784591538 data/complicated_bees/recipes/hydroregulator/water_bucket.json
+d105cf56634e2d11ad8d9a13ede8a03b74158319 data/complicated_bees/recipes/hydroregulator/wet_sponge.json
 5c9c48dc6ee73e2b366f53791f8decb49f6e7ab9 data/complicated_bees/recipes/meter.json
 83a058d889cedeb34500dec0192d0bfc010307da data/complicated_bees/recipes/microscope.json
 6bfd92fff2bae8ee4d60b50d4306485194154552 data/complicated_bees/recipes/mutator/ender_eye.json

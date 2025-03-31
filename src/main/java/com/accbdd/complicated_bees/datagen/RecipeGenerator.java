@@ -241,8 +241,10 @@ public class RecipeGenerator extends RecipeProvider {
         tempUnitRecipe(output, "dragon_breath", Ingredient.of(Items.DRAGON_BREATH), EnumTolerance.UP_3, 0.01f);
         tempUnitRecipe(output, "lava_bucket", Ingredient.of(Items.LAVA_BUCKET), EnumTolerance.UP_3, 0.01f);
 
-        hydroregulatorRecipe(output, "sand", Ingredient.of(Items.SAND), new Product(Items.DIRT.getDefaultInstance(), 0.2f), EnumTolerance.DOWN_1, 0.15f);
+        hydroregulatorRecipe(output, "sand", Ingredient.of(ItemTags.SAND), new Product(Items.DIRT.getDefaultInstance(), 0.75f), EnumTolerance.DOWN_1, 0.15f);
         hydroregulatorRecipe(output, "water_bucket", Ingredient.of(Items.WATER_BUCKET), new Product(Items.BUCKET.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
+        hydroregulatorRecipe(output, "sponge", Ingredient.of(Items.SPONGE), new Product(Items.WET_SPONGE.getDefaultInstance(), 1), EnumTolerance.DOWN_1, 0.05f);
+        hydroregulatorRecipe(output, "wet_sponge", Ingredient.of(Items.WET_SPONGE), new Product(Items.SPONGE.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {

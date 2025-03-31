@@ -29,12 +29,13 @@ public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiStack APIARY = EmiStack.of(ItemsRegistration.APIARY.get());
     public static final EmiStack MUTATOR = EmiStack.of(ItemsRegistration.MELLARIUM_MUTATOR.get());
     public static final EmiStack TEMP_UNIT = EmiStack.of(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
+    public static final EmiStack HYDROREGULATOR = EmiStack.of(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY = new ComplicatedBeesRecipeCategory("centrifuge", CENTRIFUGE, Component.translatable("gui.complicated_bees.jei.centrifuge"));
     public static final EmiRecipeCategory BEE_PRODUCE_CATEGORY = new ComplicatedBeesRecipeCategory("bee_produce", APIARY, Component.translatable("gui.complicated_bees.jei.bee_products"));
     public static final EmiRecipeCategory MUTATION_CATEGORY = new ComplicatedBeesRecipeCategory("mutation", APIARY, Component.translatable("gui.complicated_bees.jei.mutations"));
     public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", MUTATOR, Component.translatable("jei.complicated_bees.mutator"));
     public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", TEMP_UNIT, Component.translatable("jei.complicated_bees.temp_unit"));
-    public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", APIARY, Component.translatable("jei.complicated_bees.hydroregulator"));
+    public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", HYDROREGULATOR, Component.translatable("jei.complicated_bees.hydroregulator"));
     public static final Comparison COMPARE_BEE
             = Comparison.compareData(stack -> GeneticHelper.getSpecies(stack.getItemStack(), true));
     @Override
@@ -52,11 +53,11 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addCategory(MUTATION_CATEGORY);
         registry.addWorkstation(MUTATION_CATEGORY, APIARY);
         registry.addCategory(MUTATOR_CATEGORY);
-        registry.addWorkstation(MUTATION_CATEGORY, MUTATOR);
+        registry.addWorkstation(MUTATOR_CATEGORY, MUTATOR);
         registry.addCategory(TEMP_UNIT_CATEGORY);
         registry.addWorkstation(TEMP_UNIT_CATEGORY, TEMP_UNIT);
         registry.addCategory(HYDROREGULATOR_CATEGORY);
-        registry.addWorkstation(HYDROREGULATOR_CATEGORY, TEMP_UNIT);
+        registry.addWorkstation(HYDROREGULATOR_CATEGORY, HYDROREGULATOR);
 
         RecipeManager manager = registry.getRecipeManager();
         RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
