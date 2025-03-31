@@ -42,6 +42,7 @@ public abstract class AbstractBaseInventoryMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
+        //todo: quick moving stuff makes it duplicate on load....
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
