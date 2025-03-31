@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Product {
@@ -21,7 +22,8 @@ public class Product {
                     Codec.FLOAT.optionalFieldOf("chance", 1f).forGetter(Product::getChance)
             ).apply(instance, (item, ct, nbt, chance) -> {
                 ItemStack stack = new ItemStack(item, ct);
-                stack.setTag(nbt);
+                if (!Objects.equals(nbt, new CompoundTag()))
+                    stack.setTag(nbt);
                 return new Product(stack, chance);
             })
     );
