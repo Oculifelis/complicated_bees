@@ -9,6 +9,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -39,6 +41,7 @@ public record MicroscopeGameServerbound(byte[] guesses) implements IModPacket {
                     PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sender), new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.WON));
                     microscopeMenu.setState(MicroscopeGameClientbound.GameState.WON);
                     level.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX(), pos.getY(), pos.getZ(), 10, 1, 1, 1, 1);
+                    level.playSound(sender, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS);
                     microscopeMenu.research();
                 } else {
                     if (packet.guesses.length != researchCode.length) {
