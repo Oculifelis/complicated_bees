@@ -1,8 +1,11 @@
 package com.accbdd.complicated_bees.datagen.condition;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -64,8 +67,8 @@ public class ItemEnabledCondition implements ICondition {
 
         @Override
         public ItemEnabledCondition read(JsonObject json) {
-            var result = CODEC.decode(JsonOps.INSTANCE, json);
-            var completedResult = result.getOrThrow(false, (string) -> {
+            DataResult<Pair<ItemEnabledCondition, JsonElement>> result = CODEC.decode(JsonOps.INSTANCE, json);
+            Pair<ItemEnabledCondition, JsonElement> completedResult = result.getOrThrow(false, (string) -> {
                 throw new RuntimeException("error reading ItemEnabledCondition: " + string);
             });
             return completedResult.getFirst();

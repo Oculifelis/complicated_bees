@@ -172,13 +172,33 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     @Override
     public void setOwner(UUID owner) {
         super.setOwner(owner);
-        if (getMellariumLogic() != null)
-            getMellariumLogic().setOwner(owner);
+        if (mellariumLogic != null)
+            mellariumLogic.setOwner(owner);
     }
 
     @Override
     public void tickServer() {
         super.tickServer();
+    }
+
+    @Override
+    public void beeTick() {
+        super.beeTick();
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
+                tickable.onBeeTick();
+            }
+        });
+    }
+
+    @Override
+    public void produceOffspring(ItemStack queen) {
+        super.produceOffspring(queen);
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
+                tickable.onDeath();
+            }
+        });
     }
 
     @Override
@@ -188,10 +208,10 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void onLoad() {
+        super.onLoad();
         if (mellariumLogic == null && MultiblockHelper.isValidMellarium(getLevel(), getBlockPos())) {
             MultiblockHelper.buildMellarium(getLevel(), getBlockPos(), getOwner());
         }
-        super.onLoad();
         getLogic().setPos(getLogic().getPos().above());
         setChanged();
     }
@@ -209,11 +229,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void damageFrames() {
-        for (BlockPos pos : getMellariumLogic().getSpecialBlocks()) {
-            if (getLevel().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity frameHousing) {
-                frameHousing.damageFrames();
-            }
-        }
+        //no frames by default! mellarium frame logic is in IMellariumTickable
     }
 
     @Override

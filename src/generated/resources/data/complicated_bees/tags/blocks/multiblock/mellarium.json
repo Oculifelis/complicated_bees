@@ -1,9 +1,13 @@
 {
   "values": [
     "complicated_bees:mellarium_base",
-    "complicated_bees:mellarium_fan",
+    "complicated_bees:mellarium_temp_unit",
     "complicated_bees:mellarium_frame_housing_1",
     "complicated_bees:mellarium_frame_housing_2",
-    "complicated_bees:mellarium_frame_housing_3"
+    "complicated_bees:mellarium_frame_housing_3",
+    "complicated_bees:mellarium_controller",
+    "complicated_bees:mellarium_rain_shield",
+    "complicated_bees:mellarium_mutator",
+    "complicated_bees:mellarium_hydroregulator"
   ]
 }

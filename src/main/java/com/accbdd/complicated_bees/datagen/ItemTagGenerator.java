@@ -10,6 +10,7 @@ import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +52,26 @@ public class ItemTagGenerator extends ItemTagsProvider {
         );
         tag(RESEARCH_MATERIAL).add(ItemsRegistration.ROYAL_JELLY.get()).add(TagEntry.tag(BEE.location()));
         tag(ItemTags.PLANKS).add(ItemsRegistration.HONEYED_PLANKS.get());
-
+        tag(ItemTags.WOODEN_STAIRS).add(ItemsRegistration.HONEYED_STAIRS.get());
+        tag(ItemTags.WOODEN_SLABS).add(ItemsRegistration.HONEYED_SLAB.get());
+        tag(ItemTags.WOODEN_FENCES).add(ItemsRegistration.HONEYED_FENCE.get());
+        tag(ItemTags.FENCE_GATES).add(ItemsRegistration.HONEYED_FENCE_GATE.get());
+        tag(Tags.Items.FENCE_GATES_WOODEN).add(ItemsRegistration.HONEYED_FENCE_GATE.get());
+        tag(ItemTags.WOODEN_BUTTONS).add(ItemsRegistration.HONEYED_BUTTON.get());
+        tag(ItemTags.WOODEN_PRESSURE_PLATES).add(ItemsRegistration.HONEYED_PRESSURE_PLATE.get());
+        tag(ItemTags.WOODEN_DOORS).add(ItemsRegistration.HONEYED_DOOR.get());
+        tag(ItemTags.WOODEN_TRAPDOORS).add(ItemsRegistration.HONEYED_TRAPDOOR.get());
+        tag(ItemTags.SIGNS).add(ItemsRegistration.HONEYED_SIGN.get());
+        tag(ItemTags.HANGING_SIGNS).add(ItemsRegistration.HONEYED_HANGING_SIGN.get());
+        tag(ItemTags.STAIRS).add(
+                ItemsRegistration.WAX_BLOCK_STAIRS.get(),
+                ItemsRegistration.SMOOTH_WAX_STAIRS.get(),
+                ItemsRegistration.WAX_BRICK_STAIRS.get()
+        );
+        tag(ItemTags.SLABS).add(
+                ItemsRegistration.WAX_BLOCK_SLAB.get(),
+                ItemsRegistration.SMOOTH_WAX_SLAB.get(),
+                ItemsRegistration.WAX_BRICK_SLAB.get()
+        );
     }
 }

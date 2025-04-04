@@ -66,6 +66,7 @@ public class BeeLogic {
     }
 
     private void checkQueenSatisfied() {
+        clearConditionCache();
         if (!(getQueen().getItem() instanceof QueenItem)) {
             queenSatisfied = false;
             return;
@@ -99,14 +100,14 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
-        if (level.isRaining() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
+        if (!checkRainOverride() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
             return;
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
-        if (!getLevel().canSeeSky(pos.above())
+        if (!checkSky()
                 && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;
@@ -142,6 +143,32 @@ public class BeeLogic {
         checkFlowerCache();
         checkQueenSatisfied();
         checkQueenEcstatic();
+    }
+
+    private boolean checkRainOverride() {
+        boolean clear = !getLevel().isRainingAt(getPos().above());
+        if (clear) {
+            return true;
+        } else {
+            for (BeeHousingModifier mod : housing.getHousingModifiers()) {
+                if (mod.getRainOverride())
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkSky() {
+        boolean sky = getLevel().canSeeSky(pos.above());
+        if (sky) {
+            return true;
+        } else {
+            for (BeeHousingModifier mod : housing.getHousingModifiers()) {
+                if (mod.getSkyOverride())
+                    return true;
+            }
+        }
+        return false;
     }
 
     public boolean isQueenSatisfied() {

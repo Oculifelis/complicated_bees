@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.block.entity.mellarium;
 
+import com.accbdd.complicated_bees.block.AbstractMellariumBlock;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -30,10 +32,18 @@ public abstract class MellariumAbstractBlockEntity extends BlockEntity {
 
     public void setLogic(MellariumLogic logic) {
         this.logic = logic;
-        if (logic != null)
+        if (logic != null) {
             this.center = logic.getCenter();
-        else
+            if (getBlockPos().getY() > center.getY())
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top), 3);
+            else
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side), 3);
+        } else {
             this.center = null;
+            if (getLevel().getBlockState(getBlockPos()).getBlock() instanceof AbstractMellariumBlock) {
+                getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
+            }
+        }
     }
 
     @Override

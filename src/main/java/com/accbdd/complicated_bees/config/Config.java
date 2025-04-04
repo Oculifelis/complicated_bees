@@ -22,7 +22,7 @@ public class Config {
         researchBonus = builder.comment("The percentage bonus researching a mutation in the microscope should grant to that mutation's chances.").define("researchBonus", 0.2f);
         builder.push("rf");
         centrifugeEnergy = builder.comment("How much rf/tick a centrifuge should use while processing a recipe.").define("centrifugeEnergy", 20);
-        generatorEnergy = builder.comment("How much rf/tick a centrifuge should produce while burning a fuel.").define("generatorEnergy", 20);
+        generatorEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorEnergy", 20);
         builder.pop();
         builder.push("items");
         builder.push("frames");

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "assembled=none": {
+      "model": "complicated_bees:block/mellarium_hydroregulator"
+    },
+    "assembled=side": {
+      "model": "complicated_bees:block/mellarium_hydroregulator_assembled"
+    },
+    "assembled=top": {
+      "model": "complicated_bees:block/mellarium_hydroregulator_assembled"
+    }
+  }
+}

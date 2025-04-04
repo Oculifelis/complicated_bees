@@ -36,7 +36,7 @@ public class AnalyzerMenu extends AbstractBaseInventoryMenu {
                         }
                     }
                 }
-                var tracker = BreedingTracker.getTracker(player);
+                BreedingTracker tracker = BreedingTracker.getTracker(player);
                 tracker.discoverIndividual(bee);
                 player.getInventory().getItem(bagSlot).getOrCreateTag().put(INVENTORY_TAG, this.serializeNBT());
             }

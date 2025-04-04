@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
+    "assembled=none": {
       "model": "complicated_bees:block/mellarium_frame_housing_3"
+    },
+    "assembled=side": {
+      "model": "complicated_bees:block/mellarium_frame_housing_3_assembled"
+    },
+    "assembled=top": {
+      "model": "complicated_bees:block/mellarium_frame_housing_3_assembled"
     }
   }
 }

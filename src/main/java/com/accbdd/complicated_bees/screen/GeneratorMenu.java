@@ -18,8 +18,8 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
     private int power;
     private int burnTime;
     private int maxBurnTime;
-    private static int INV_X = 8;
-    private static int INV_Y = 61;
+    private static final int INV_X = 8;
+    private static final int INV_Y = 61;
 
     public GeneratorMenu(int windowId, Player player, BlockPos pos) {
         super(MenuRegistration.GENERATOR_MENU.get(), windowId, player, SLOT_COUNT, INV_X, INV_Y);

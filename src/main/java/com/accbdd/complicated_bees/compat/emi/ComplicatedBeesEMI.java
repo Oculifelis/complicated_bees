@@ -1,9 +1,7 @@
 package com.accbdd.complicated_bees.compat.emi;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.compat.emi.recipe.BeeProduceEmiRecipe;
-import com.accbdd.complicated_bees.compat.emi.recipe.CentrifugeEmiRecipe;
-import com.accbdd.complicated_bees.compat.emi.recipe.MutationEmiRecipe;
+import com.accbdd.complicated_bees.compat.emi.recipe.*;
 import com.accbdd.complicated_bees.item.BeeNestBlockItem;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -29,9 +27,15 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiStack CENTRIFUGE = EmiStack.of(ItemsRegistration.CENTRIFUGE.get());
     public static final EmiStack APIARY = EmiStack.of(ItemsRegistration.APIARY.get());
+    public static final EmiStack MUTATOR = EmiStack.of(ItemsRegistration.MELLARIUM_MUTATOR.get());
+    public static final EmiStack TEMP_UNIT = EmiStack.of(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
+    public static final EmiStack HYDROREGULATOR = EmiStack.of(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY = new ComplicatedBeesRecipeCategory("centrifuge", CENTRIFUGE, Component.translatable("gui.complicated_bees.jei.centrifuge"));
     public static final EmiRecipeCategory BEE_PRODUCE_CATEGORY = new ComplicatedBeesRecipeCategory("bee_produce", APIARY, Component.translatable("gui.complicated_bees.jei.bee_products"));
     public static final EmiRecipeCategory MUTATION_CATEGORY = new ComplicatedBeesRecipeCategory("mutation", APIARY, Component.translatable("gui.complicated_bees.jei.mutations"));
+    public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", MUTATOR, Component.translatable("jei.complicated_bees.mutator"));
+    public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", TEMP_UNIT, Component.translatable("jei.complicated_bees.temp_unit"));
+    public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", HYDROREGULATOR, Component.translatable("jei.complicated_bees.hydroregulator"));
     public static final Comparison COMPARE_BEE
             = Comparison.compareData(stack -> GeneticHelper.getSpecies(stack.getItemStack(), true));
     @Override
@@ -48,6 +52,12 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addWorkstation(BEE_PRODUCE_CATEGORY, APIARY);
         registry.addCategory(MUTATION_CATEGORY);
         registry.addWorkstation(MUTATION_CATEGORY, APIARY);
+        registry.addCategory(MUTATOR_CATEGORY);
+        registry.addWorkstation(MUTATOR_CATEGORY, MUTATOR);
+        registry.addCategory(TEMP_UNIT_CATEGORY);
+        registry.addWorkstation(TEMP_UNIT_CATEGORY, TEMP_UNIT);
+        registry.addCategory(HYDROREGULATOR_CATEGORY);
+        registry.addWorkstation(HYDROREGULATOR_CATEGORY, HYDROREGULATOR);
 
         RecipeManager manager = registry.getRecipeManager();
         RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
@@ -55,6 +65,21 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get())
                 .stream()
                 .map(CentrifugeEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get())
+                .stream()
+                .map(MutatorEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get())
+                .stream()
+                .map(TempUnitEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get())
+                .stream()
+                .map(HydroEmiRecipe::new)
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)

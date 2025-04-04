@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "assembled=none": {
+      "model": "complicated_bees:block/mellarium_rain_shield"
+    },
+    "assembled=side": {
+      "model": "complicated_bees:block/mellarium_rain_shield_assembled"
+    },
+    "assembled=top": {
+      "model": "complicated_bees:block/mellarium_rain_shield_assembled"
+    }
+  }
+}

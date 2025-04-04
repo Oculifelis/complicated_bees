@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
 public class MicroscopeMenu extends AbstractBaseInventoryMenu {
     public static int SLOT_COUNT = 6;
     public static Random rand = new Random();
-    private static int INV_X = 36;
-    private static int INV_Y = 134;
+    private static final int INV_X = 36;
+    private static final int INV_Y = 134;
 
     private final BlockPos pos;
     private final Player player;

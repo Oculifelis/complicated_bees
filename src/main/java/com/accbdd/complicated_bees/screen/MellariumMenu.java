@@ -8,6 +8,7 @@ import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.ItemSlot;
 import com.accbdd.complicated_bees.screen.slot.OutputSlot;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
+import com.accbdd.complicated_bees.util.MultiblockHelper;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +35,12 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
         this.data = data;
         this.pos = pos;
         if (player.level().getBlockEntity(pos) instanceof MellariumAbstractBlockEntity blockEntity) {
-            MellariumControllerBlockEntity mellarium = blockEntity.getLogic().getController();
+            MellariumControllerBlockEntity mellarium;
+            if (blockEntity.getLogic() != null) {
+                mellarium = blockEntity.getLogic().getController();
+            } else {
+                mellarium = MultiblockHelper.tryBuildMellarium(player.level(), pos, player.getUUID()).getController();
+            }
             addSlot(new TagSlot(mellarium.getBeeItems(), BEE_SLOT, 29, 38, ItemTagGenerator.ROYAL));
             addSlot(new ItemSlot(mellarium.getBeeItems(), BEE_SLOT + 1, 29, 63, ItemsRegistration.DRONE.get()));
 
@@ -53,8 +59,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        boolean b = ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
-        return b;
+        return ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public boolean hasQueen() {

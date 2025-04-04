@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
@@ -43,12 +44,14 @@ public class MellariumLogic {
 
     public void deconstruct(BlockPos pos) {
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
-        while (!getController().getOutputBuffer().empty()) {
-            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getController().getOutputBuffer().pop());
-        }
-        IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
-        for (int i = 0; i < handler.getSlots(); i++) {
-            Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+        if (getController() != null) {
+            while (getController() != null && !getController().getOutputBuffer().empty()) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getController().getOutputBuffer().pop());
+            }
+            IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            for (int i = 0; i < handler.getSlots(); i++) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+            }
         }
         while (iterator.hasNext()) {
             BlockPos p = iterator.next();
@@ -56,7 +59,7 @@ public class MellariumLogic {
                 mellariumBlock.setLogic(null);
             }
         }
-        level.setBlock(center, BlocksRegistration.MELLARIUM_BASE.get().defaultBlockState(), 3);
+        level.setBlock(center, BlocksRegistration.MELLARIUM_BASE.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
         ComplicatedBees.LOGGER.debug("deconstructed mellarium with center {}", center);
     }
 

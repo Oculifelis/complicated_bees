@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.*;
 import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.*;
@@ -292,12 +291,12 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         ItemStack top_stack = getBeeItems().getStackInSlot(0);
         ageQueen(top_stack);
         generateProduce(top_stack);
+        damageFrames();
     }
 
     public void generateProduce(ItemStack bee) {
         Species species = (Species) GeneticHelper.getGeneValue(bee, GeneSpecies.ID, true);
         float housingModifiers = getHousingModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
-        ComplicatedBees.LOGGER.debug("current production modifier: {}", housingModifiers);
         for (Product product : species.getProducts()) {
             getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
         }
@@ -315,17 +314,20 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             ageFactor /= mod.getLifespanMod();
         }
         BeeItem.setAge(queen, BeeItem.getAge(queen) + ageFactor);
-        damageFrames();
         if (BeeItem.getAge(queen) >= ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value) {
-            errorState = 0;
-            float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
-            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), getBlockPos(), mutationMod));
-            for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
-                getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), getBlockPos(), mutationMod));
-            }
-            getBeeItems().extractItem(BEE_SLOT, 1, false);
-            setChanged();
+            produceOffspring(queen);
         }
+    }
+
+    public void produceOffspring(ItemStack queen) {
+        errorState = 0;
+        float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
+        getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), getBlockPos(), mutationMod));
+        for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
+            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), getBlockPos(), mutationMod));
+        }
+        getBeeItems().extractItem(BEE_SLOT, 1, false);
+        setChanged();
     }
 
     public List<BeeHousingModifier> getHousingModifiers() {

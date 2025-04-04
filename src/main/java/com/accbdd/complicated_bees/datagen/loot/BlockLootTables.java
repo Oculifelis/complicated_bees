@@ -36,10 +36,13 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.MICROSCOPE.get());
         dropSelf(BlocksRegistration.MELLARIUM_BASE.get());
         this.add(BlocksRegistration.MELLARIUM_CONTROLLER.get(), createSingleItemTable(ItemsRegistration.MELLARIUM_BASE.get()));
-        dropSelf(BlocksRegistration.MELLARIUM_FAN.get());
+        dropSelf(BlocksRegistration.MELLARIUM_TEMP_UNIT.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get());
         dropSelf(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get());
+        dropSelf(BlocksRegistration.MELLARIUM_RAIN_SHIELD.get());
+        dropSelf(BlocksRegistration.MELLARIUM_MUTATOR.get());
+        dropSelf(BlocksRegistration.MELLARIUM_HYDROREGULATOR.get());
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));
         dropSelf(BlocksRegistration.WAX_BLOCK.get());
         dropSelf(BlocksRegistration.WAX_BLOCK_STAIRS.get());
@@ -63,6 +66,10 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.HONEYED_PRESSURE_PLATE.get());
         this.add(BlocksRegistration.HONEYED_DOOR.get(), createDoorTable(BlocksRegistration.HONEYED_DOOR.get()));
         dropSelf(BlocksRegistration.HONEYED_TRAPDOOR.get());
+        dropSelf(BlocksRegistration.HONEYED_SIGN.get());
+        dropOther(BlocksRegistration.HONEYED_WALL_SIGN.get(), ItemsRegistration.HONEYED_SIGN.get());
+        dropSelf(BlocksRegistration.HONEYED_HANGING_SIGN.get());
+        dropOther(BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), ItemsRegistration.HONEYED_HANGING_SIGN.get());
     }
 
     @Override

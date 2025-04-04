@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutator",
+  "input": {
+    "item": "minecraft:ender_eye"
+  },
+  "modifier": 4.0
+}

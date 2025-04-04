@@ -56,7 +56,7 @@
       "dominant": true
     },
     "complicated_bees:weatherproof": {
-      "data": true,
+      "data": false,
       "dominant": true
     }
   }

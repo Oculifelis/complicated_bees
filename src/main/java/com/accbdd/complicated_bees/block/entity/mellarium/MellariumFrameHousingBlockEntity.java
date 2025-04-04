@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier {
+public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier, IMellariumTickable {
     private final ItemStackHandler frameItems;
     private final LazyOptional<IItemHandler> frameItemHandler;
 
@@ -66,6 +66,11 @@ public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEnti
             }
         }
         return BeeHousingModifier.of(modifiers.toArray(new BeeHousingModifier[0]));
+    }
+
+    @Override
+    public void onBeeTick() {
+        damageFrames();
     }
 
     public void damageFrames() {

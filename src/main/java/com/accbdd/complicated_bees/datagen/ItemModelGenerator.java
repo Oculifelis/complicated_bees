@@ -27,10 +27,13 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.GENERATOR.getId().getPath(), modLoc("block/generator"));
         withExistingParent(BlocksRegistration.APID_LIBRARY.getId().getPath(), modLoc("block/apid_library"));
         withExistingParent(BlocksRegistration.MELLARIUM_BASE.getId().getPath(), modLoc("block/mellarium_base"));
-        withExistingParent(BlocksRegistration.MELLARIUM_FAN.getId().getPath(), modLoc("block/mellarium_fan"));
+        withExistingParent(BlocksRegistration.MELLARIUM_TEMP_UNIT.getId().getPath(), modLoc("block/mellarium_temp_unit"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.getId().getPath(), modLoc("block/mellarium_frame_housing_1"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.getId().getPath(), modLoc("block/mellarium_frame_housing_2"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.getId().getPath(), modLoc("block/mellarium_frame_housing_3"));
+        withExistingParent(BlocksRegistration.MELLARIUM_RAIN_SHIELD.getId().getPath(), modLoc("block/mellarium_rain_shield"));
+        withExistingParent(BlocksRegistration.MELLARIUM_MUTATOR.getId().getPath(), modLoc("block/mellarium_mutator"));
+        withExistingParent(BlocksRegistration.MELLARIUM_HYDROREGULATOR.getId().getPath(), modLoc("block/mellarium_hydroregulator"));
         microscopeModel();
         withExistingParent(BlocksRegistration.WAX_BLOCK.getId().getPath(), modLoc("block/wax_block"));
         withExistingParent(BlocksRegistration.WAX_BLOCK_STAIRS.getId().getPath(), modLoc("block/wax_block_stairs"));
@@ -55,6 +58,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.HONEYED_PRESSURE_PLATE.getId().getPath(), modLoc("block/honeyed_pressure_plate"));
         basicItem(BlocksRegistration.HONEYED_DOOR.getId());
         withExistingParent(BlocksRegistration.HONEYED_TRAPDOOR.getId().getPath(), modLoc("block/honeyed_trapdoor_bottom"));
+        basicItem(ItemsRegistration.HONEYED_SIGN.getId());
+        basicItem(ItemsRegistration.HONEYED_HANGING_SIGN.getId());
 
         basicItem(ItemsRegistration.SCOOP.get());
         basicItem(ItemsRegistration.HONEY_DROPLET.get());
@@ -89,6 +94,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ItemsRegistration.HONEY_PORKCHOP.get());
         basicItem(ItemsRegistration.AMBROSIA.get());
         basicItem(ItemsRegistration.BEE_STAFF.get());
+        basicItem(ItemsRegistration.MELLARIUM_PANEL.get());
 
 //        createBeeModel(ItemsRegistration.DRONE.getId());
 //        createBeeModel(ItemsRegistration.PRINCESS.getId()).texture("layer2", modLoc("item/princess_crown"));

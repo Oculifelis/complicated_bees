@@ -43,6 +43,12 @@ public class MellariumScreen extends AbstractContainerScreen<MellariumMenu> {
         renderTooltip(graphics, mouseX, mouseY);
     }
 
+    @Override
+    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        pGuiGraphics.drawString(this.font, this.title, this.imageWidth/2 - this.font.width(this.title)/2, this.titleLabelY, 4210752, false);
+        pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+    }
+
     public void renderStatusBar(GuiGraphics graphics, int x, int y) {
         if (menu.hasQueen()) {
             ItemStack queen = menu.getQueen();
