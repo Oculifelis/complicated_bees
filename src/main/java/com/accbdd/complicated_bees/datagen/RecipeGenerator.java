@@ -161,6 +161,23 @@ public class RecipeGenerator extends RecipeProvider {
                 .pattern("M M")
                 .define('M', ItemsRegistration.WOVEN_MESH.get())
                 .unlockedBy(getHasName(ItemsRegistration.SILK_WISP.get()), has(ItemsRegistration.SILK_WISP.get())).save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.MELLARIUM_PANEL.get(), 4)
+                .pattern("RW#")
+                .pattern("W#W")
+                .pattern("#WP")
+                .define('#', ItemsRegistration.HONEYED_PLANKS.get())
+                .define('P', ItemsRegistration.POLLEN.get())
+                .define('R', ItemsRegistration.ROYAL_JELLY.get())
+                .define('W', ItemsRegistration.BEESWAX.get())
+                .unlockedBy(getHasName(ItemsRegistration.BEESWAX.get()), has(ItemsRegistration.BEESWAX.get())).save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.MELLARIUM_BASE.get())
+                .pattern("###")
+                .pattern("#A#")
+                .pattern("###")
+                .define('#', ItemsRegistration.MELLARIUM_PANEL.get())
+                .define('A', ItemTags.LOGS)
+                .unlockedBy(getHasName(ItemsRegistration.MELLARIUM_PANEL.get()), has(ItemsRegistration.MELLARIUM_PANEL.get())).save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ItemsRegistration.APIARIST_BOOTS.get())
                 .pattern("M M")
                 .pattern("M M")
@@ -174,7 +191,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('I', Items.IRON_INGOT)
                 .define('B', Items.IRON_BLOCK)
                 .define('G', Items.GLASS_PANE)
-                .unlockedBy(getHasName(Items.AMETHYST_SHARD), has(Items.AMETHYST_SHARD)).save(output);
+                .unlockedBy(getHasName(ItemsRegistration.CENTRIFUGE.get()), has(ItemsRegistration.CENTRIFUGE.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.APID_LIBRARY.get(), 1)
                 .pattern("IGI")
                 .pattern("PWP")
@@ -183,7 +200,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('I', Items.IRON_INGOT)
                 .define('P', ItemsRegistration.PROPOLIS.get())
                 .define('G', Items.GLASS_PANE)
-                .unlockedBy(getHasName(Items.AMETHYST_SHARD), has(Items.AMETHYST_SHARD)).save(output);
+                .unlockedBy(getHasName(ItemsRegistration.CENTRIFUGE.get()), has(ItemsRegistration.CENTRIFUGE.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ItemsRegistration.HONEYED_PLANKS.get(), 8)
                 .pattern("SSS")
                 .pattern("SBS")
