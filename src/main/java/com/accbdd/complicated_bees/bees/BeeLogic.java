@@ -145,8 +145,22 @@ public class BeeLogic {
         checkQueenEcstatic();
     }
 
+
+    /**
+     * @return true if it is NOT raining anywhere inside the housing's territory
+     */
     private boolean checkRainOverride() {
-        boolean clear = !getLevel().isRainingAt(getPos().above());
+        if (getLevel().isRaining())
+            return true;
+        boolean clear = !(getLevel().isRainingAt(getPos().above()));
+        for (BlockPosBoxIterator it = getTerritoryIterator(); it.hasNext(); ) {
+            BlockPos checkPos = it.next();
+            if (getLevel().isLoaded(checkPos) && getLevel().isRainingAt(checkPos.above())) {
+                clear = false;
+                break;
+            }
+        }
+
         if (clear) {
             return true;
         } else {
@@ -243,12 +257,7 @@ public class BeeLogic {
             flowerCache.add(getPos());
             return;
         }
-        float rangeModifier = 1f;
-        for (BeeHousingModifier modifier : housing.getHousingModifiers()) {
-            rangeModifier *= modifier.getTerritoryMod();
-        }
-        int[] searchRadii = (int[]) GeneticHelper.getGeneValue(getQueen(), GeneTerritory.ID, true);
-        BlockPosBoxIterator it = new BlockPosBoxIterator(getPos(), Math.round(searchRadii[0] * rangeModifier), Math.round(searchRadii[1] * rangeModifier));
+        BlockPosBoxIterator it = getTerritoryIterator();
         while (it.hasNext() && getQueen().is(ItemsRegistration.QUEEN.get())) {
             BlockPos pos = it.next();
             if (flower.isAcceptable(getLevel().getBlockState(pos))) {
@@ -259,6 +268,15 @@ public class BeeLogic {
 
     public void clearFlowerCache() {
         flowerCache.clear();
+    }
+
+    BlockPosBoxIterator getTerritoryIterator() {
+        float rangeModifier = 1f;
+        for (BeeHousingModifier modifier : housing.getHousingModifiers()) {
+            rangeModifier *= modifier.getTerritoryMod();
+        }
+        int[] searchRadii = (int[]) GeneticHelper.getGeneValue(getQueen(), GeneTerritory.ID, true);
+        return new BlockPosBoxIterator(getPos(), Math.round(searchRadii[0] * rangeModifier), Math.round(searchRadii[1] * rangeModifier));
     }
 
     private void addError(EnumErrorCodes... error) {
