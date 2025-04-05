@@ -81,81 +81,12 @@ public class ComplicatedBees {
                 for (RegistryObject<?> item : ItemsRegistration.CREATIVE_TAB_ITEMS) {
                     output.accept((Item) item.get());
                 }
-//                output.accept(ItemsRegistration.WAX_BLOCK.get());
-//                output.accept(ItemsRegistration.WAX_BLOCK_STAIRS.get());
-//                output.accept(ItemsRegistration.WAX_BLOCK_SLAB.get());
-//                output.accept(ItemsRegistration.WAX_BLOCK_WALL.get());
-//                output.accept(ItemsRegistration.SMOOTH_WAX.get());
-//                output.accept(ItemsRegistration.SMOOTH_WAX_STAIRS.get());
-//                output.accept(ItemsRegistration.SMOOTH_WAX_SLAB.get());
-//                output.accept(ItemsRegistration.SMOOTH_WAX_WALL.get());
-//                output.accept(ItemsRegistration.WAX_BRICKS.get());
-//                output.accept(ItemsRegistration.WAX_BRICK_STAIRS.get());
-//                output.accept(ItemsRegistration.WAX_BRICK_SLAB.get());
-//                output.accept(ItemsRegistration.WAX_BRICK_WALL.get());
-//                output.accept(ItemsRegistration.CHISELED_WAX.get());
-//                output.accept(ItemsRegistration.HONEYED_PLANKS.get());
-//                output.accept(ItemsRegistration.HONEYED_STAIRS.get());
-//                output.accept(ItemsRegistration.HONEYED_SLAB.get());
-//                output.accept(ItemsRegistration.HONEYED_FENCE.get());
-//                output.accept(ItemsRegistration.HONEYED_FENCE_GATE.get());
-//                output.accept(ItemsRegistration.HONEYED_BUTTON.get());
-//                output.accept(ItemsRegistration.HONEYED_PRESSURE_PLATE.get());
-//                output.accept(ItemsRegistration.HONEYED_DOOR.get());
-//                output.accept(ItemsRegistration.HONEYED_TRAPDOOR.get());
-//                output.accept(ItemsRegistration.HONEYED_SIGN.get());
-//                output.accept(ItemsRegistration.HONEYED_HANGING_SIGN.get());
-//                output.accept(ItemsRegistration.APIARY.get());
-//                output.accept(ItemsRegistration.CENTRIFUGE.get());
-//                output.accept(ItemsRegistration.HONEY_DROPLET.get());
-//                output.accept(ItemsRegistration.BEESWAX.get());
-//                output.accept(ItemsRegistration.PROPOLIS.get());
-//                output.accept(ItemsRegistration.ROYAL_JELLY.get());
-//                output.accept(ItemsRegistration.POLLEN.get());
-//                output.accept(ItemsRegistration.SCOOP.get());
-//                output.accept(ItemsRegistration.METER.get());
-//                output.accept(ItemsRegistration.ANALYZER.get());
-//                output.accept(ItemsRegistration.GENERATOR.get());
-//                output.accept(ItemsRegistration.MICROSCOPE.get());
-//                output.accept(ItemsRegistration.MELLARIUM_BASE.get());
-//                output.accept(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
-//                output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_1.get());
-//                output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_2.get());
-//                output.accept(ItemsRegistration.MELLARIUM_FRAME_HOUSING_3.get());
-//                output.accept(ItemsRegistration.MELLARIUM_RAIN_SHIELD.get());
-//                output.accept(ItemsRegistration.MELLARIUM_MUTATOR.get());
-//                output.accept(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
-//                output.accept(ItemsRegistration.APID_LIBRARY.get());
-//                output.accept(ItemsRegistration.FRAME.get());
-//                output.accept(ItemsRegistration.WAXED_FRAME.get());
-//                output.accept(ItemsRegistration.HONEYED_FRAME.get());
-//                output.accept(ItemsRegistration.TWISTING_FRAME.get());
-//                output.accept(ItemsRegistration.SOOTHING_FRAME.get());
-//                output.accept(ItemsRegistration.HOT_FRAME.get());
-//                output.accept(ItemsRegistration.COLD_FRAME.get());
-//                output.accept(ItemsRegistration.DRY_FRAME.get());
-//                output.accept(ItemsRegistration.WET_FRAME.get());
-//                output.accept(ItemsRegistration.DEADLY_FRAME.get());
-//                output.accept(ItemsRegistration.RESTRICTIVE_FRAME.get());
-//                output.accept(ItemsRegistration.PEARL_SHARD.get());
-//                output.accept(ItemsRegistration.WAXED_STICK.get());
-//                output.accept(ItemsRegistration.HONEYED_STICK.get());
-//                output.accept(ItemsRegistration.EXP_DROP.get());
-//                output.accept(ItemsRegistration.SILK_WISP.get());
-//                output.accept(ItemsRegistration.WOVEN_MESH.get());
-//                output.accept(ItemsRegistration.APIARIST_HELMET.get());
-//                output.accept(ItemsRegistration.APIARIST_CHESTPLATE.get());
-//                output.accept(ItemsRegistration.APIARIST_LEGGINGS.get());
-//                output.accept(ItemsRegistration.APIARIST_BOOTS.get());
-//                output.accept(ItemsRegistration.BEE_STAFF.get());
-//                output.accept(ItemsRegistration.HONEY_BREAD.get());
-//                output.accept(ItemsRegistration.HONEY_PORKCHOP.get());
-//                output.accept(ItemsRegistration.AMBROSIA.get());
                 RegistryAccess access = GeneticHelper.getRegistryAccess();
                 if (access != null) {
                     Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
-                        output.acceptAll(entry.getValue().toMembers());
+                        if (entry.getValue().getColor() != -1)
+                            output.acceptAll(entry.getValue().toMembers());
                     }
                     for (ResourceLocation id : access.registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
                         output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
