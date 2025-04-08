@@ -3,6 +3,12 @@
   "config.jade.plugin_complicated_bees.apiary_errors": "Apiary Errors",
   "config.jade.plugin_complicated_bees.show_errors": "Show Apiary Errors",
   "config.jade.plugin_complicated_bees.show_cycle_ticks": "Show Ticks in Apiary Cycle",
+  "config.jade.plugin_complicated_bees.bee_nest_type": "Bee Nest",
+
+  "advancements.complicated_bees.root.title": "Complicated Bees",
+  "advancements.complicated_bees.root.description": "Acquire a scoop, necessary for breaking Complicated Bees' nests",
+  "advancements.complicated_bees.first_bee.title": "Not So Complicated",
+  "advancements.complicated_bees.first_bee.description": "Break a bee nest with a scoop to safely extract its princess",
 
   "item.complicated_bees.drone": "Drone",
   "item.complicated_bees.princess": "Princess",
@@ -237,6 +243,7 @@
   "gui.complicated_bees.library.info": "Info",
   "gui.complicated_bees.library.detail": "Select a mutation on the left to view detailed information.",
   "gui.complicated_bees.library.tutorial": "Place a bee in the top right slot to see its mutations.",
+  "gui.complicated_bees.library.empty": "This species cannot mutate further.",
 
   "jei.complicated_bees.chance": "Chance",
   "jei.complicated_bees.modifier": "Mod: %s",
