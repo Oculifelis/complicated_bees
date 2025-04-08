@@ -649,5 +649,10 @@
   "command.complicated_bees.discover.research.clear": "Cleared mutation researches from %s players",
   "command.complicated_bees.discover.research": "Researched %s for %s players",
   "command.complicated_bees.discover.research.no_change": "Mutation already researched!",
-  "command.complicated_bees.no_players": "0 players found"
+  "command.complicated_bees.no_players": "0 players found",
+  "command.complicated_bees.not_bee": "Not holding a bee!",
+  "command.complicated_bees.set_gene.corrupt_tag": "Bee tag is corrupted!",
+  "command.complicated_bees.set_gene.invalid_gene": "Invalid gene name!",
+  "command.complicated_bees.set_gene.invalid_data": "Invalid gene data!",
+  "command.complicated_bees.set_gene.success": "Successfully set bee gene"
 }
