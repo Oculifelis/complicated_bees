@@ -59,5 +59,6 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput));
         generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput));
+        generator.addProvider(event.includeServer() , new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
     }
 }

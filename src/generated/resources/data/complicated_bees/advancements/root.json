@@ -1,0 +1,37 @@
+{
+  "criteria": {
+    "has_scoop": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "complicated_bees:scoop_tool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "complicated_bees:textures/gui/advancement/background.png",
+    "description": {
+      "translate": "advancements.complicated_bees.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "complicated_bees:scoop",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.complicated_bees.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_scoop"
+    ]
+  ],
+  "sends_telemetry_event": false
+}
