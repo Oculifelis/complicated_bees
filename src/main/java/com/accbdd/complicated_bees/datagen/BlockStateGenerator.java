@@ -30,6 +30,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(BlocksRegistration.BEE_NEST.get(), createBeeNestModel());
         simpleBlock(BlocksRegistration.APIARY.get(), createApiaryModel());
         baseMellariumBlock();
+        mellariumController();
         mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, modLoc("block/mellarium/mellarium_temp_unit"), modLoc("block/mellarium/mellarium_temp_unit_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, modLoc("block/mellarium/mellarium_frame_housing_1"), modLoc("block/mellarium/mellarium_frame_housing_1_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, modLoc("block/mellarium/mellarium_frame_housing_2"), modLoc("block/mellarium/mellarium_frame_housing_2_assembled"));
@@ -171,6 +172,27 @@ public class BlockStateGenerator extends BlockStateProvider {
 
     private void baseMellariumBlock() {
         RegistryObject<MellariumBlock> block = BlocksRegistration.MELLARIUM_BASE;
+        ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
+        ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
+        ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");
+        ResourceLocation assembledTopSide = modLoc("block/mellarium/mellarium_base_assembled_top_side");
+        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+        BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
+        builder.forAllStates(state -> {
+            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+            switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
+                case top -> bld.modelFile(modelAssembledTop);
+                case side -> bld.modelFile(modelAssembled);
+                case none -> bld.modelFile(modelUnassembled);
+            }
+            return bld.build();
+        });
+    }
+
+    private void mellariumController() {
+        RegistryObject<MellariumBlock> block = BlocksRegistration.MELLARIUM_CONTROLLER;
         ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
         ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
         ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");

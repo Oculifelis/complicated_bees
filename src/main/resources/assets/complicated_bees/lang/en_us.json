@@ -145,6 +145,7 @@
   "gui.complicated_bees.boolean.true": "Yes",
   "gui.complicated_bees.generations": "Generation %s in captivity",
   "gui.complicated_bees.jade.cycle_ticks": "Ticks left in cycle: %s",
+  "gui.complicated_bees.invalid_mellarium": "Not a valid mellarium!",
 
   "gui.complicated_bees.error.no_flower": "No flowers!",
   "gui.complicated_bees.error.wrong_temp": "Wrong temperature!",
