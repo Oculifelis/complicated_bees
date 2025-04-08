@@ -48,6 +48,16 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
             innerHeight = getHeight() - 8;
         } else if (mutationWidget.selected != -1 && mutationWidget.selected < mutationWidget.possibleMutations.size()) {
             renderMutationInfo(pGuiGraphics, mutationWidget.possibleMutations.get(mutationWidget.selected));
+        } else if (mutationWidget.possibleMutations.isEmpty()) {
+            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
+                    infoPanelX,
+                    infoPanelY,
+                    0xFFFFFF,
+                    12,
+                    98,
+                    3,
+                    Component.translatable("gui.complicated_bees.library.empty"));
+            innerHeight = getHeight() - 8;
         } else {
             GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
                     infoPanelX,
