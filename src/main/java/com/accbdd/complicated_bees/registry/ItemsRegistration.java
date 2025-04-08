@@ -75,13 +75,13 @@ public class ItemsRegistration {
     public static final RegistryObject<FrameItem> SOOTHING_FRAME = register("soothing_frame",
             () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), Config.CONFIG.soothingFrame));
     public static final RegistryObject<FrameItem> COLD_FRAME = register("cold_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), Config.CONFIG.coldFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), Config.CONFIG.coldFrame));
     public static final RegistryObject<FrameItem> HOT_FRAME = register("hot_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), Config.CONFIG.hotFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), Config.CONFIG.hotFrame));
     public static final RegistryObject<FrameItem> DRY_FRAME = register("dry_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), Config.CONFIG.dryFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), Config.CONFIG.dryFrame));
     public static final RegistryObject<FrameItem> WET_FRAME = register("wet_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), Config.CONFIG.wetFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), Config.CONFIG.wetFrame));
     public static final RegistryObject<FrameItem> DEADLY_FRAME = register("deadly_frame",
             () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().lifespan(0.1f).build(), Config.CONFIG.deadlyFrame));
     public static final RegistryObject<FrameItem> RESTRICTIVE_FRAME = register("restrictive_frame",

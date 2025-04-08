@@ -1,0 +1,53 @@
+{
+  "parent": "complicated_bees:apiary",
+  "criteria": {
+    "centrifuge": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:centrifuge"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "generator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:generator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.complicated_bees.processing.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "complicated_bees:centrifuge"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.complicated_bees.processing.title"
+    }
+  },
+  "requirements": [
+    [
+      "generator"
+    ],
+    [
+      "centrifuge"
+    ]
+  ],
+  "sends_telemetry_event": false
+}
