@@ -1,8 +1,10 @@
 package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.bees.Comb;
+import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.CombRegistration;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.BlockFamily;
@@ -72,7 +74,16 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(
                 CombRegistration.COMB_REGISTRY_KEY,
                 bootstrap -> {
-                    for (Map.Entry<ResourceKey<Comb>, Comb> entry : Combs.COMBS.entrySet())
+                    for (Map.Entry<ResourceKey<Comb>, Comb> entry : BuiltIn.COMBS.entrySet())
+                        bootstrap.register(
+                                entry.getKey(),
+                                entry.getValue()
+                        );
+                }
+        ).add(
+                FlowerRegistration.FLOWER_REGISTRY_KEY,
+                bootstrap -> {
+                    for (Map.Entry<ResourceKey<Flower>, Flower> entry : BuiltIn.FLOWERS.entrySet())
                         bootstrap.register(
                                 entry.getKey(),
                                 entry.getValue()
