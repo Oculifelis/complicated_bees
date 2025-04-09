@@ -1,15 +1,24 @@
 package com.accbdd.complicated_bees.datagen;
 
+import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.CombRegistration;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceKey;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class DataGenerators {
     public static final BlockFamily HONEYED_PLANK_FAMILY = new BlockFamily.Builder(BlocksRegistration.HONEYED_PLANKS.get())
@@ -60,5 +69,15 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput));
         generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput));
         generator.addProvider(event.includeServer() , new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(
+                CombRegistration.COMB_REGISTRY_KEY,
+                bootstrap -> {
+                    for (Map.Entry<ResourceKey<Comb>, Comb> entry : Combs.COMBS.entrySet())
+                        bootstrap.register(
+                                entry.getKey(),
+                                entry.getValue()
+                        );
+                }
+        ), Set.of(MODID)));
     }
 }
