@@ -16,5 +16,4 @@ Planned:
 
 Planned version support:
 * 1.20.1
-* 1.20.4
 * 1.21
