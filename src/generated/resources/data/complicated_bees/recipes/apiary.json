@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "C": {
-      "item": "complicated_bees:comb"
+      "tag": "complicated_bees:comb"
     },
     "I": {
       "item": "minecraft:iron_ingot"

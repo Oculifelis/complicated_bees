@@ -108,7 +108,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .pattern("PPP")
                 .define('P', ItemTags.PLANKS)
                 .define('I', Items.IRON_INGOT)
-                .define('C', ItemsRegistration.COMB.get())
+                .define('C', ItemTagGenerator.COMB)
                 .unlockedBy("has_bee", has(ItemsRegistration.PRINCESS.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.CENTRIFUGE.get())
                 .pattern("III")

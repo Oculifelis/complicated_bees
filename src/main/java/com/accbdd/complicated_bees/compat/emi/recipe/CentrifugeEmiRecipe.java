@@ -2,8 +2,10 @@ package com.accbdd.complicated_bees.compat.emi.recipe;
 
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
+import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
@@ -22,7 +24,11 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
     public CentrifugeEmiRecipe(CentrifugeRecipe recipe) {
         this.id = recipe.getId();
 
-        this.input = EmiStack.of(recipe.getInput());
+        if (recipe.getInput().is(ItemsRegistration.COMB.get()))
+            this.input = EmiStack.of(recipe.getInput()).comparison(Comparison.compareNbt());
+        else
+            this.input = EmiStack.of(recipe.getInput());
+
         this.outputs = recipe.getOutputs()
                 .stream()
                 .map(p -> EmiStack.of(p.getStack()).setChance(p.getChance()))
