@@ -10,11 +10,11 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneRegistration {
-    public static final ResourceLocation GENE_REGISTRY_KEY = new ResourceLocation(MODID, "gene");
-    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = RegistryBuilder.of(GENE_REGISTRY_KEY);
+    public static final ResourceLocation GENE_REGISTRY_LOCATION = new ResourceLocation(MODID, "gene");
+    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = RegistryBuilder.of(GENE_REGISTRY_LOCATION);
 
     //every registered gene should be registered as a 'default' value
-    public static final DeferredRegister<IGene<?>> GENES = DeferredRegister.create(GENE_REGISTRY_KEY, MODID);
+    public static final DeferredRegister<IGene<?>> GENES = DeferredRegister.create(GENE_REGISTRY_LOCATION, MODID);
     public static final Supplier<GeneSpecies> SPECIES = GENES.register(GeneSpecies.TAG, GeneSpecies::new);
     public static final Supplier<GeneLifespan> LIFESPAN = GENES.register(GeneLifespan.TAG, GeneLifespan::new);
     public static final Supplier<GeneTemperature> TEMPERATURE = GENES.register(GeneTemperature.TAG, GeneTemperature::new);

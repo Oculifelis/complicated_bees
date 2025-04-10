@@ -37,18 +37,16 @@ public class Species {
     }};
     public static final Species INVALID = new Species();
 
-    public static final Codec<Species> SPECIES_CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    Codec.BOOL.optionalFieldOf("dominant", true).forGetter(Species::isDominant),
-                    Codec.BOOL.optionalFieldOf("foil", false).forGetter(Species::isFoil),
-                    ResourceLocation.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
-                    HEX_STRING_CODEC.fieldOf("color").forGetter(Species::getColor),
-                    HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
-                    Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
-                    Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
-                    CompoundTag.CODEC.optionalFieldOf("default_chromosome", new Chromosome().serialize()).forGetter(species -> species.getDefaultChromosome().serialize())
-            ).apply(instance, Species::new)
-    );
+    public static final Codec<Species> SPECIES_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.BOOL.optionalFieldOf("dominant", true).forGetter(Species::isDominant),
+            Codec.BOOL.optionalFieldOf("foil", false).forGetter(Species::isFoil),
+            ResourceLocation.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
+            HEX_STRING_CODEC.optionalFieldOf("color", -1).forGetter(Species::getColor),
+            HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
+            Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
+            Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
+            CompoundTag.CODEC.optionalFieldOf("default_chromosome", new Chromosome().serialize()).forGetter(species -> species.getDefaultChromosome().serialize())
+    ).apply(instance, Species::new));
 
     public Species() {
         this(false, false, new ArrayList<>(), 0xFFFFFF, 0xFFFFFF, new ArrayList<>(), new ArrayList<>(), new Chromosome());

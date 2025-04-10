@@ -7,6 +7,7 @@ import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
@@ -33,8 +34,18 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
 
         this.beeInput = EmiStack.of(species.toStack(ItemsRegistration.QUEEN.get()));
 
-        this.products = species.getProducts().stream().map(p -> EmiStack.of(p.getStack()).setChance(p.getChance())).toList();
-        this.specialtyProducts = species.getSpecialtyProducts().stream().map(p -> EmiStack.of(p.getStack()).setChance(p.getChance())).toList();
+        this.products = species.getProducts().stream().map(p -> {
+            EmiStack test = EmiStack.of(p.getStack()).setChance(p.getChance());
+            if (p.getStack().is(ItemsRegistration.COMB.get()))
+                return test.comparison(Comparison.compareNbt());
+            return test;
+        }).toList();
+        this.specialtyProducts = species.getSpecialtyProducts().stream().map(p -> {
+            EmiStack test = EmiStack.of(p.getStack()).setChance(p.getChance());
+            if (p.getStack().is(ItemsRegistration.COMB.get()))
+                return test.comparison(Comparison.compareNbt());
+            return test;
+        }).toList();
         catalysts = new ArrayList<>(List.of(ComplicatedBeesEMI.APIARY));
         catalysts.addAll(species.toMembers().stream().map(EmiStack::of).toList());
     }

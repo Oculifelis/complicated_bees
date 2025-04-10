@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.compat.emi;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
 import com.accbdd.complicated_bees.item.BeeNestBlockItem;
-import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -43,7 +42,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.DRONE.get(), COMPARE_BEE);
         registry.setDefaultComparison(ItemsRegistration.PRINCESS.get(), COMPARE_BEE);
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
-        registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
+        //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
         registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> BeeNestBlockItem.getBlockEntityData(s.getItemStack()).getString("species")));
 
         registry.addCategory(CENTRIFUGE_CATEGORY);

@@ -236,11 +236,13 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     public List<BeeHousingModifier> getHousingModifiers() {
         if (getMellariumLogic() == null)
             return List.of();
-        return getMellariumLogic().getSpecialBlocks().stream().map(pos -> {
+        List<BeeHousingModifier> list = getMellariumLogic().getSpecialBlocks().stream().map(pos -> {
             if (getLevel().getBlockEntity(pos) instanceof IMellariumModifier modifier) {
                 return modifier.getModifier();
             }
             return new BeeHousingModifier();
         }).toList();
+        list.add(new BeeHousingModifier.Builder().productivity(1.25f).build());
+        return list;
     }
 }

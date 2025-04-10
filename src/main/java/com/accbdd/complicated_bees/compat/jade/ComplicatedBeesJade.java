@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.compat.jade;
 
 import com.accbdd.complicated_bees.block.ApiaryBlock;
+import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.IWailaClientRegistration;
@@ -24,6 +25,7 @@ public class ComplicatedBeesJade implements IWailaPlugin {
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerBlockComponent(ApiaryComponentProvider.INSTANCE, ApiaryBlock.class);
+        registration.registerBlockComponent(BeeNestComponentProvider.INSTANCE, BeeNestBlock.class);
         registration.addConfig(ERRORS_CONFIG, true);
         registration.addConfig(CYCLE_CONFIG, false);
     }

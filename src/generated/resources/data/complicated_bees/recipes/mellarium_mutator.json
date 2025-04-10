@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "complicated_bees:mellarium_base"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "pattern": [
+    "#E#",
+    "#A#"
+  ],
+  "result": {
+    "item": "complicated_bees:mellarium_mutator"
+  },
+  "show_notification": true
+}

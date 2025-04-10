@@ -108,7 +108,7 @@ public class BlockLootTables extends BlockLootSubProvider {
                         ))
                 .withPool(LootPool.lootPool()
                         .when(HAS_NO_SILK_TOUCH)
-                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.35f))
+                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.65f))
                         .add(
                                 LootItem.lootTableItem(ItemsRegistration.COMB.get())
                                         .apply(InheritHiveCombFunction.set())

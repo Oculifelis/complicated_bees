@@ -68,7 +68,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
         if (!pLevel.isClientSide) {
             if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {
-                    pPlayer.displayClientMessage(Component.literal("not a valid mellarium!"), true);
+                    pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_mellarium"), true);
                     return InteractionResult.CONSUME;
                 }
 

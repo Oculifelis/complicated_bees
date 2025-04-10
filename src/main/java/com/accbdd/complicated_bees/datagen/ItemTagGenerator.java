@@ -26,6 +26,7 @@ public class ItemTagGenerator extends ItemTagsProvider {
     public static final TagKey<Item> FRAME = ItemTags.create(new ResourceLocation(MODID, "frame"));
     public static final TagKey<Item> ANALYZER_FUEL = ItemTags.create(new ResourceLocation(MODID, "analyzer_fuel"));
     public static final TagKey<Item> RESEARCH_MATERIAL = ItemTags.create(new ResourceLocation(MODID, "research_material"));
+    public static final TagKey<Item> COMB = ItemTags.create(new ResourceLocation(MODID, "comb"));
 
     public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, provider, blockTagProvider, MODID, existingFileHelper);
@@ -37,6 +38,7 @@ public class ItemTagGenerator extends ItemTagsProvider {
         tag(ROYAL).add(ItemsRegistration.PRINCESS.get(), ItemsRegistration.QUEEN.get());
         tag(BEE).add(ItemsRegistration.PRINCESS.get(), ItemsRegistration.QUEEN.get(), ItemsRegistration.DRONE.get());
         tag(ANALYZER_FUEL).add(ItemsRegistration.HONEY_DROPLET.get(), ItemsRegistration.ROYAL_JELLY.get());
+        tag(COMB).add(ItemsRegistration.COMB.get());
         tag(FRAME).add(
                 ItemsRegistration.FRAME.get(),
                 ItemsRegistration.DEADLY_FRAME.get(),
