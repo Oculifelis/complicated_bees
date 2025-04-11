@@ -23,6 +23,11 @@ public interface IGene<T> {
     boolean isDominant();
 
     /**
+     * set this gene to dominant or not
+     */
+    IGene<T> setDominant(boolean value);
+
+    /**
      * Serializes this gene into an NBT tag.
      *
      * @return a serialized version of this gene

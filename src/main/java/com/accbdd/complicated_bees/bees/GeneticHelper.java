@@ -77,6 +77,8 @@ public class GeneticHelper {
 
     public static RegistryAccess getRegistryAccess() {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
+            if (Minecraft.getInstance() == null) //datagen
+                return null;
             if (Minecraft.getInstance().getConnection() == null) {
                 return null;
             } else {
@@ -152,7 +154,8 @@ public class GeneticHelper {
     }
 
     public static Species getSpecies(ItemStack stack, boolean primary) {
-        return (Species) getGene(stack, GeneSpecies.ID, primary).get();
+        Species species = (Species) getGene(stack, GeneSpecies.ID, primary).get();
+        return species == null ? Species.INVALID : species;
     }
 
     public static Object getGeneValue(ItemStack stack, ResourceLocation id, boolean primary) {

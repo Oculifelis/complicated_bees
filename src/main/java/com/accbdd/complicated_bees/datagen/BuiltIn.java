@@ -2,8 +2,10 @@ package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.Flower;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +23,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class BuiltIn {
     public static final Map<ResourceKey<Comb>, Comb> COMBS = new HashMap<>();
     public static final Map<ResourceKey<Flower>, Flower> FLOWERS = new HashMap<>();
+    public static final Map<ResourceKey<Species>, Species> SPECIES = new HashMap<>();
 
     public static final Comb AMETHYST = comb("amethyst", 0xafad9c, 0xa86df9);
     public static final Comb COAL = comb("coal", 0xafad9c, 0x3f3f3f);
@@ -61,6 +64,8 @@ public class BuiltIn {
     public static final Flower SKULLS = flower("skulls", List.of(Blocks.ZOMBIE_HEAD, Blocks.ZOMBIE_WALL_HEAD, Blocks.CREEPER_HEAD, Blocks.CREEPER_WALL_HEAD, Blocks.PIGLIN_HEAD, Blocks.PIGLIN_WALL_HEAD, Blocks.DRAGON_HEAD, Blocks.DRAGON_WALL_HEAD, Blocks.SKELETON_SKULL, Blocks.SKELETON_WALL_SKULL, Blocks.WITHER_SKELETON_SKULL, Blocks.WITHER_SKELETON_WALL_SKULL), List.of());
     public static final Flower TUFF = flower("tuff", List.of(Blocks.TUFF), List.of());
 
+    public static final Species TEST = species(new Species.Builder(loc("debug/real_test")).colors(0x0000FF, 0x0000FF));
+
     private static Comb comb(String path, int outer, int inner) {
         Comb comb = new Comb(outer, inner);
         COMBS.put(ResourceKey.create(CombRegistration.COMB_REGISTRY_KEY, new ResourceLocation(MODID, path)), comb);
@@ -74,4 +79,13 @@ public class BuiltIn {
         return flower;
     }
 
+    private static Species species(Species.Builder builder) {
+        Species species = builder.build();
+        SPECIES.put(ResourceKey.create(SpeciesRegistration.SPECIES_REGISTRY_KEY, species.builderOverride), species);
+        return species;
+    }
+
+    private static ResourceLocation loc(String path) {
+        return new ResourceLocation(MODID, path);
+    }
 }

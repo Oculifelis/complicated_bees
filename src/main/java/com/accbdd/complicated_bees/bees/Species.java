@@ -1,7 +1,9 @@
 package com.accbdd.complicated_bees.bees;
 
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
+import com.accbdd.complicated_bees.bees.gene.IGene;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
@@ -29,6 +31,8 @@ public class Species {
     private final Chromosome default_chromosome;
     private final boolean dominant;
     private final boolean foil;
+
+    public ResourceLocation builderOverride; //used in datagen, ignore otherwise
 
     public static List<ResourceLocation> DEFAULT_MODELS = new ArrayList<>() {{
         add(new ResourceLocation(MODID, "item/base_drone"));
@@ -113,5 +117,91 @@ public class Species {
         members.add(this.toStack(ItemsRegistration.PRINCESS.get()));
         members.add(this.toStack(ItemsRegistration.DRONE.get()));
         return members;
+    }
+
+    public static class Builder {
+        private boolean dominant;
+        private boolean foil;
+        private List<ResourceLocation> models;
+        private int color;
+        private int nest_color;
+        private List<Product> products;
+        private List<Product> specialty_products;
+        private CompoundTag default_chromosome;
+        private final ResourceLocation builderOverride;
+
+        public static Builder of(Species copied, ResourceLocation builderOverride) {
+            Builder builder = new Builder(builderOverride);
+            builder.dominant = copied.dominant;
+            builder.foil = copied.foil;
+            builder.models = copied.models;
+            builder.color = copied.color;
+            builder.nest_color = copied.nest_color;
+            builder.products = copied.products;
+            builder.specialty_products = copied.specialty_products;
+            builder.default_chromosome = copied.default_chromosome.serialize();
+            return builder;
+        }
+
+        public Builder(ResourceLocation builderOverride) {
+            this.dominant = true;
+            this.foil = false;
+            this.models = DEFAULT_MODELS;
+            this.color = -1;
+            this.nest_color = -1;
+            this.products = new ArrayList<>();
+            this.specialty_products = new ArrayList<>();
+            this.default_chromosome = new CompoundTag();
+            this.builderOverride = builderOverride;
+        }
+
+        public Species build() {
+            Species species = new Species(dominant, foil, models, color, nest_color, products, specialty_products, default_chromosome);
+            species.builderOverride = this.builderOverride;
+            return species;
+        }
+
+        public Builder dominant(boolean value) {
+            this.dominant = value;
+            return this;
+        }
+
+        public Builder foil(boolean value) {
+            this.foil = value;
+            return this;
+        }
+
+        public Builder models(List<ResourceLocation> models) {
+            if (models.size() != 3)
+                throw new IllegalArgumentException("models should be a list of size 3");
+            this.models = models;
+            return this;
+        }
+
+        public Builder colors(int color, int nest_color) {
+            this.color = color;
+            this.nest_color = nest_color;
+            return this;
+        }
+
+        public Builder products(List<Product> products) {
+            this.products = products;
+            return this;
+        }
+
+        public Builder specialtyProducts(List<Product> specialty_products) {
+            this.specialty_products = specialty_products;
+            return this;
+        }
+
+        public Builder defaultChromosome(Chromosome chromosome) {
+            this.default_chromosome = chromosome.serialize();
+            return this;
+        }
+
+        public <T> Builder gene(IGene<T> gene, T geneValue, boolean dominant) {
+            default_chromosome.put(ComplicatedBees.GENE_REGISTRY.get().getKey(gene).toString(), gene.set(geneValue).setDominant(dominant).serialize());
+            return this;
+        }
     }
 }

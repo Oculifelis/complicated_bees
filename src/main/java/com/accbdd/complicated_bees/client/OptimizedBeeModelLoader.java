@@ -133,6 +133,10 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
             cacheMap.computeIfAbsent(species, spec -> {
                 BeeModel[] beeModels = new BeeModel[3];
                 for (int i = 0; i < 3; i++) {
+                    if (spec == null) {
+                        beeModels[i] = new BeeModel(bakedModel, List.of());
+                        continue;
+                    }
                     ResourceLocation modelLoc = spec.getModels().get(i);
                     BakedModel bakedModelOverride = baker.bake(modelLoc, state, sprites);
                     List<BakedQuad> quads = new ArrayList<>(bakedModelOverride.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, null));

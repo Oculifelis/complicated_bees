@@ -8,7 +8,7 @@ public abstract class Gene<T> implements IGene<T> {
     public static final String DATA = "data";
     public static final String DOMINANT = "dominant";
 
-    private final boolean dominant;
+    private boolean dominant;
     public T geneData;
 
     public Gene(T geneData, boolean dominant) {
@@ -30,6 +30,12 @@ public abstract class Gene<T> implements IGene<T> {
     @Override
     public boolean isDominant() {
         return this.dominant;
+    }
+
+    @Override
+    public IGene<T> setDominant(boolean value) {
+        this.dominant = value;
+        return this;
     }
 
     @Override

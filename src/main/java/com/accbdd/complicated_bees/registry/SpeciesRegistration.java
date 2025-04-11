@@ -22,7 +22,7 @@ public class SpeciesRegistration {
     }
 
     public static ResourceLocation getResourceLocation(Species species) {
-        if (species.equals(Species.INVALID))
+        if (species == null || species.equals(Species.INVALID))
             return new ResourceLocation("complicated_bees:invalid");
         return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().getKey(species);
     }

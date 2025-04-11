@@ -2,9 +2,11 @@ package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.Flower;
+import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.BlockFamily;
@@ -84,6 +86,15 @@ public class DataGenerators {
                 FlowerRegistration.FLOWER_REGISTRY_KEY,
                 bootstrap -> {
                     for (Map.Entry<ResourceKey<Flower>, Flower> entry : BuiltIn.FLOWERS.entrySet())
+                        bootstrap.register(
+                                entry.getKey(),
+                                entry.getValue()
+                        );
+                }
+        ).add(
+                SpeciesRegistration.SPECIES_REGISTRY_KEY,
+                bootstrap -> {
+                    for (Map.Entry<ResourceKey<Species>, Species> entry : BuiltIn.SPECIES.entrySet())
                         bootstrap.register(
                                 entry.getKey(),
                                 entry.getValue()
