@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.bees.gene;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +26,11 @@ public class GeneTerritory extends Gene<int[]> {
 
     @Override
     public GeneTerritory deserialize(CompoundTag tag) {
-        return new GeneTerritory(tag.getIntArray(DATA), tag.getBoolean(DOMINANT));
+        if (tag.contains(DATA, Tag.TAG_INT_ARRAY))
+            return new GeneTerritory(tag.getIntArray(DATA), tag.getBoolean(DOMINANT));
+        else if (tag.contains(DATA, Tag.TAG_BYTE_ARRAY))
+            return new GeneTerritory(tag.getByteArray(DATA)[0], tag.getByteArray(DATA)[1], tag.getBoolean(DOMINANT));
+        else return new GeneTerritory();
     }
 
     @Override

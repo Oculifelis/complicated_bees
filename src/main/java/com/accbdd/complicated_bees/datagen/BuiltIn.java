@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -64,7 +65,9 @@ public class BuiltIn {
     public static final Flower SKULLS = flower("skulls", List.of(Blocks.ZOMBIE_HEAD, Blocks.ZOMBIE_WALL_HEAD, Blocks.CREEPER_HEAD, Blocks.CREEPER_WALL_HEAD, Blocks.PIGLIN_HEAD, Blocks.PIGLIN_WALL_HEAD, Blocks.DRAGON_HEAD, Blocks.DRAGON_WALL_HEAD, Blocks.SKELETON_SKULL, Blocks.SKELETON_WALL_SKULL, Blocks.WITHER_SKELETON_SKULL, Blocks.WITHER_SKELETON_WALL_SKULL), List.of());
     public static final Flower TUFF = flower("tuff", List.of(Blocks.TUFF), List.of());
 
-    public static final Species TEST = species(new Species.Builder(loc("debug/real_test")).colors(0x0000FF, 0x0000FF));
+    public static final Species TEST = species(new Species.Builder(loc("debug/real_test"))
+            .colors(0x0000FF, 0x0000FF)
+            .gene(GeneRegistration.TERRITORY.get(), new int[]{1, 2}, false));
 
     private static Comb comb(String path, int outer, int inner) {
         Comb comb = new Comb(outer, inner);
