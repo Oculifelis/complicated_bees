@@ -16,12 +16,16 @@ public class Mutations {
             for (int j = i+1; j < COMMON_MUTATORS.size(); j++) {
                 var first = COMMON_MUTATORS.get(i);
                 var second = COMMON_MUTATORS.get(j);
-                mutation("apis/" + first.getKey().location().getPath() + "_" + second.getKey().location().getPath() + "_common", first.getKey(), second.getKey(), BuiltInSpecies.COMMON.getKey(), 0.15f, List.of());
+                mutation("apis/" + first.getKey().location().getPath() + "_" + second.getKey().location().getPath() + "_common", first.getKey(), second.getKey(), BuiltInSpecies.COMMON.getKey(), 0.15f);
             }
         }
 
         for (Map.Entry<ResourceKey<Species>, Species> entry : CULTIVATED_MUTATORS) {
-            mutation("apis/" + entry.getKey().location().getPath() + "_cultivated", entry.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), 0.12f, List.of());
+            mutation("apis/" + entry.getKey().location().getPath() + "_cultivated", entry.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), 0.12f);
         }
+
+        mutation("noble/noble", BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.NOBLE.getKey(), 0.10f);
+        mutation("noble/majestic", BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.MAJESTIC.getKey(), 0.10f);
+        mutation("noble/imperial", BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.NOBLE.getKey(), 0.08f);
     }
 }

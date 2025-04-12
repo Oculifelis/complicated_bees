@@ -3,7 +3,7 @@
 ## Added
 
 ## Changed
-* A LOT of bees' default genes
+* A LOT of bees' default genes - generally to balance out some power spikes on the curve to a perfect bee and to encourage breeding into some of the 'specialty' branches
 
 ## Fixed
 * Territory gene wasn't correctly serializing

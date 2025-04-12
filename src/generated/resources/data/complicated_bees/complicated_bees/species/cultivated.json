@@ -58,7 +58,7 @@
   "nest_color": "4542f5",
   "products": [
     {
-      "chance": 0.5,
+      "chance": 0.4,
       "item": "complicated_bees:comb",
       "nbt": {
         "comb_type": "complicated_bees:honey"

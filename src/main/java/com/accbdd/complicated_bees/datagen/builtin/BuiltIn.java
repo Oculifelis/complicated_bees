@@ -57,6 +57,10 @@ public class BuiltIn {
         return new AbstractMap.SimpleEntry<>(key, mutation);
     }
 
+    static Map.Entry<ResourceKey<Mutation>, Mutation> mutation(String path, ResourceKey<Species> first, ResourceKey<Species> second, ResourceKey<Species> result, float chance) {
+        return mutation(path, first, second, result, chance, List.of());
+    }
+
     static ResourceLocation loc(String path) {
         return new ResourceLocation(MODID, path);
     }
