@@ -91,8 +91,6 @@ public class BuiltInSpecies {
     public static final Map.Entry<ResourceKey<Species>, Species> CULTIVATED = species(Species.Builder.of(COMMON.getValue(), loc("cultivated"))
             .colors(0x4542f5)
             .products(List.of(new Product(stack(Combs.HONEY), 0.5f)))
-            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_1, true))
-            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, true))
     );
 }
