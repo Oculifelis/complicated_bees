@@ -2,8 +2,8 @@ package com.accbdd.complicated_bees.bees;
 
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.bees.gene.Gene;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
-import com.accbdd.complicated_bees.bees.gene.IGene;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
@@ -184,6 +185,12 @@ public class Species {
             return this;
         }
 
+        public Builder colors(int color) {
+            this.color = color;
+            this.nest_color = color;
+            return this;
+        }
+
         public Builder products(List<Product> products) {
             this.products = products;
             return this;
@@ -199,8 +206,8 @@ public class Species {
             return this;
         }
 
-        public <T> Builder gene(IGene<T> gene, T geneValue, boolean dominant) {
-            default_chromosome.put(ComplicatedBees.GENE_REGISTRY.get().getKey(gene).toString(), gene.set(geneValue).setDominant(dominant).serialize());
+        public <T extends Gene<?>> Builder gene(Supplier<T> gene, T geneValue) {
+            default_chromosome.put(ComplicatedBees.GENE_REGISTRY.get().getKey(gene.get()).toString(), geneValue.serialize());
             return this;
         }
     }

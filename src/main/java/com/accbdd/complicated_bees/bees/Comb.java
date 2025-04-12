@@ -1,14 +1,10 @@
 package com.accbdd.complicated_bees.bees;
 
-import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.CombRegistration;
-import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
@@ -47,15 +43,6 @@ public class Comb {
 
     public int getInnerColor() {
         return this.innerColor;
-    }
-
-    @Deprecated
-    public static ItemStack toStack(Comb comb) {
-        ItemStack stack = new ItemStack(ItemsRegistration.COMB.get(), 1);
-        CompoundTag tag = new CompoundTag();
-        tag.putString(CombItem.COMB_TYPE_TAG, comb.getId().toString());
-        stack.setTag(tag);
-        return stack;
     }
 
     @Override

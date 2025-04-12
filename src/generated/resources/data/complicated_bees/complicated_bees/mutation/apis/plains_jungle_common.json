@@ -1,6 +1,6 @@
 {
+  "chance": 0.15,
   "first": "complicated_bees:plains",
-  "second": "complicated_bees:desert",
   "result": "complicated_bees:common",
-  "chance": 0.15
+  "second": "complicated_bees:jungle"
 }
