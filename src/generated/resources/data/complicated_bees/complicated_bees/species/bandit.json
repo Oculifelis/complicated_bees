@@ -2,7 +2,7 @@
   "color": "cd6a18",
   "default_chromosome": {
     "complicated_bees:active_time": {
-      "data": "diurnal",
+      "data": "nocturnal",
       "dominant": 1
     },
     "complicated_bees:cave_dwelling": {
