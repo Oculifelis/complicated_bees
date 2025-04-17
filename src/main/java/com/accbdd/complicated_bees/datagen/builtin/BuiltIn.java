@@ -15,10 +15,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -50,15 +47,11 @@ public class BuiltIn {
         return new AbstractMap.SimpleEntry<>(key, species);
     }
 
-    static Map.Entry<ResourceKey<Mutation>, Mutation> mutation(String path, ResourceKey<Species> first, ResourceKey<Species> second, ResourceKey<Species> result, float chance, List<IMutationCondition> conditions) {
-        Mutation mutation = new Mutation(first.location(), second.location(), result.location(), chance, conditions);
+    static Map.Entry<ResourceKey<Mutation>, Mutation> mutation(String path, ResourceKey<Species> first, ResourceKey<Species> second, ResourceKey<Species> result, float chance, IMutationCondition... conditions) {
+        Mutation mutation = new Mutation(first.location(), second.location(), result.location(), chance, Arrays.stream(conditions).toList());
         ResourceKey<Mutation> key = ResourceKey.create(MutationRegistration.MUTATION_REGISTRY_KEY, loc(path));
         MUTATIONS.put(key, mutation);
         return new AbstractMap.SimpleEntry<>(key, mutation);
-    }
-
-    static Map.Entry<ResourceKey<Mutation>, Mutation> mutation(String path, ResourceKey<Species> first, ResourceKey<Species> second, ResourceKey<Species> result, float chance) {
-        return mutation(path, first, second, result, chance, List.of());
     }
 
     static ResourceLocation loc(String path) {
