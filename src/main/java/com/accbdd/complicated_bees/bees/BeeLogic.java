@@ -150,8 +150,6 @@ public class BeeLogic {
      * @return true if it is NOT raining anywhere inside the housing's territory
      */
     private boolean checkRainOverride() {
-        if (getLevel().isRaining())
-            return true;
         boolean clear = !(getLevel().isRainingAt(getPos().above()));
         for (BlockPosBoxIterator it = getTerritoryIterator(); it.hasNext(); ) {
             BlockPos checkPos = it.next();

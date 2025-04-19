@@ -451,7 +451,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(true, true))
     );
-    public static final Map.Entry<ResourceKey<Species>, Species> MUSICAL = species(new Species.Builder(loc("jazzy"))
+    public static final Map.Entry<ResourceKey<Species>, Species> JAZZY = species(new Species.Builder(loc("jazzy"))
             .dominant(false)
             .foil(false)
             .models(JAZZY_MODELS)
@@ -465,5 +465,9 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MUSICAL.getKey().location(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.JAZZY.get(), true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> ESSAYIST = species(Species.Builder.of(JAZZY.getValue(), loc("essayist"))
+            .colors(0xFFCC00)
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.ESSAYIST.get(), true))
     );
 }
