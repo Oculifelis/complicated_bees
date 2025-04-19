@@ -36,5 +36,6 @@ public class BeeEffectRegistration {
             new PotionEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, true, true), 80));
     public static final Supplier<PotionEffect> UNHEALTHY = EFFECTS.register("unhealthy", () ->
             new PotionEffect(new MobEffectInstance(MobEffects.HUNGER, 40, 1, true, true), 80));
+    public static final Supplier<JazzyEffect> JAZZY = EFFECTS.register("jazzy", JazzyEffect::new);
 
 }

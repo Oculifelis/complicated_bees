@@ -1,6 +1,6 @@
 {
   "chance": 0.08,
-  "first": "complicated_bees:noble",
+  "first": "complicated_bees:majestic",
   "result": "complicated_bees:noble",
-  "second": "complicated_bees:majestic"
+  "second": "complicated_bees:noble"
 }

@@ -22,6 +22,7 @@ public class Flowers {
     public static final Map.Entry<ResourceKey<Flower>, Flower> GRANITE = flower("granite", List.of(Blocks.GRANITE), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> JUNGLE = flower("jungle", List.of(Blocks.VINE, Blocks.COCOA, Blocks.MELON, Blocks.BAMBOO, Blocks.BAMBOO_SAPLING), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> LUSH_CAVE = flower("lush_cave", List.of(Blocks.FLOWERING_AZALEA, Blocks.FLOWERING_AZALEA_LEAVES, Blocks.SPORE_BLOSSOM, Blocks.SMALL_DRIPLEAF), List.of(BlockTags.CAVE_VINES));
+    public static final Map.Entry<ResourceKey<Flower>, Flower> MUSICAL = flower("musical", List.of(Blocks.NOTE_BLOCK, Blocks.JUKEBOX), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> NETHER = flower("nether", List.of(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.NETHER_SPROUTS, Blocks.CRIMSON_ROOTS, Blocks.WARPED_ROOTS, Blocks.SHROOMLIGHT, Blocks.NETHER_WART), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> SKULLS = flower("skulls", List.of(Blocks.ZOMBIE_HEAD, Blocks.ZOMBIE_WALL_HEAD, Blocks.CREEPER_HEAD, Blocks.CREEPER_WALL_HEAD, Blocks.PIGLIN_HEAD, Blocks.PIGLIN_WALL_HEAD, Blocks.DRAGON_HEAD, Blocks.DRAGON_WALL_HEAD, Blocks.SKELETON_SKULL, Blocks.SKELETON_WALL_SKULL, Blocks.WITHER_SKELETON_SKULL, Blocks.WITHER_SKELETON_WALL_SKULL), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> TUFF = flower("tuff", List.of(Blocks.TUFF), List.of());

@@ -20,6 +20,7 @@ public class BuiltInSpecies {
     public static final List<ResourceLocation> RED_MODELS = List.of(loc("item/red_drone"), loc("item/red_princess"), loc("item/red_queen"));
     public static final List<ResourceLocation> GRAY_MODELS = List.of(loc("item/gray_drone"), loc("item/gray_princess"), loc("item/gray_queen"));
     public static final List<ResourceLocation> ENDER_MODELS = List.of(loc("item/ender_drone"), loc("item/ender_princess"), loc("item/ender_queen"));
+    public static final List<ResourceLocation> JAZZY_MODELS = List.of(loc("item/jazzy_drone"), loc("item/jazzy_princess"), loc("item/jazzy_queen"));
 
     public static final Map.Entry<ResourceKey<Species>, Species> FOREST = species(new Species.Builder(loc("forest"))
             .dominant(true)
@@ -449,5 +450,20 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, false))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(true, true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> MUSICAL = species(new Species.Builder(loc("jazzy"))
+            .dominant(false)
+            .foil(false)
+            .models(JAZZY_MODELS)
+            .colors(0x66a1ff)
+            .products(List.of(new Product(stack(Combs.HONEY), 0.30f)))
+            .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.SHORT, true))
+            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.COLD, EnumTolerance.UP_1, true))
+            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.WET, EnumTolerance.DOWN_1, true))
+            .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
+            .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MUSICAL.getKey().location(), true))
+            .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.JAZZY.get(), true))
     );
 }
