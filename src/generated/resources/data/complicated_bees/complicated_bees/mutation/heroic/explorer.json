@@ -1,0 +1,6 @@
+{
+  "chance": 0.12,
+  "first": "complicated_bees:jungle",
+  "result": "complicated_bees:explorer",
+  "second": "complicated_bees:robust"
+}

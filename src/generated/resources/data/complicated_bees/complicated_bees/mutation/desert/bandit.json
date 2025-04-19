@@ -1,0 +1,6 @@
+{
+  "chance": 0.08,
+  "first": "complicated_bees:outcast",
+  "result": "complicated_bees:bandit",
+  "second": "complicated_bees:desert"
+}
