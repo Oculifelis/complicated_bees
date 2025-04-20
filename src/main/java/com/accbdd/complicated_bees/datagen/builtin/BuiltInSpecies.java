@@ -21,6 +21,7 @@ public class BuiltInSpecies {
     public static final List<ResourceLocation> GRAY_MODELS = List.of(loc("item/gray_drone"), loc("item/gray_princess"), loc("item/gray_queen"));
     public static final List<ResourceLocation> ENDER_MODELS = List.of(loc("item/ender_drone"), loc("item/ender_princess"), loc("item/ender_queen"));
     public static final List<ResourceLocation> JAZZY_MODELS = List.of(loc("item/jazzy_drone"), loc("item/jazzy_princess"), loc("item/jazzy_queen"));
+    public static final List<ResourceLocation> TRICKY_MODELS = List.of(loc("item/tricky_drone"), loc("item/tricky_princess"), loc("item/tricky_queen"));
 
     public static final Map.Entry<ResourceKey<Species>, Species> FOREST = species(new Species.Builder(loc("forest"))
             .dominant(true)
@@ -63,6 +64,7 @@ public class BuiltInSpecies {
             .products(List.of(new Product(stack(Combs.SILKY), 0.45f)))
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.WARM, EnumTolerance.BOTH_1, false))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(true, true))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.POLLENIC.get(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> DESERT = species(Species.Builder.of(FOREST.getValue(), loc("desert"))
             .colors(0xffdf87)
@@ -469,5 +471,10 @@ public class BuiltInSpecies {
     public static final Map.Entry<ResourceKey<Species>, Species> ESSAYIST = species(Species.Builder.of(JAZZY.getValue(), loc("essayist"))
             .colors(0xFFCC00)
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.ESSAYIST.get(), true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> TRICKY = species(Species.Builder.of(JAZZY.getValue(), loc("tricky"))
+            .colors(0xFFFFFF)
+            .models(TRICKY_MODELS)
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TRICKY.get(), true))
     );
 }

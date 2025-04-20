@@ -10,7 +10,7 @@
       "dominant": 1
     },
     "complicated_bees:effect": {
-      "data": "complicated_bees:venomous",
+      "data": "complicated_bees:pollenic",
       "dominant": 1
     },
     "complicated_bees:fertility": {

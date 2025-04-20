@@ -598,6 +598,12 @@
   "species.complicated_bees.complicated_bees:essayist.authority": "Ayse Eigh",
   "species.complicated_bees.complicated_bees:essayist.flavor_text": "Abhors empty bookshelves, capable of creating original bestsellers.",
   "species.complicated_bees.complicated_bees:essayist.flavor_author": "Creative Pursuits",
+  "species.complicated_bees.complicated_bees:tricky": "Tricky",
+  "species.complicated_bees.complicated_bees:tricky.genus": "Musapis",
+  "species.complicated_bees.complicated_bees:tricky.species_taxonomy": "M. jokairus",
+  "species.complicated_bees.complicated_bees:tricky.authority": "Ayse Eigh",
+  "species.complicated_bees.complicated_bees:tricky.flavor_text": "These bees are noted for living in a society.",
+  "species.complicated_bees.complicated_bees:tricky.flavor_author": "Creative Pursuits",
 
   "flower.complicated_bees.complicated_bees:flower": "Flowers",
   "flower.complicated_bees.complicated_bees:desert": "Desert",
@@ -648,7 +654,9 @@
   "effect.complicated_bees.complicated_bees:jazzy": "Jazzy",
   "effect.complicated_bees.complicated_bees:jazzy.desc": "Produces occasional instrument noises.",
   "effect.complicated_bees.complicated_bees:essayist": "Essayist",
-  "effect.complicated_bees.complicated_bees:essayist.desc": "Fills nearby chiseled bookshelves with books.",
+  "effect.complicated_bees.complicated_bees:essayist.desc": "Slowly fills nearby chiseled bookshelves with books.",
+  "effect.complicated_bees.complicated_bees:tricky": "Tricky",
+  "effect.complicated_bees.complicated_bees:tricky.desc": "Occasionally makes a scary sound.",
 
   "tag.item.complicated_bees.analyzer_fuel": "Analyzer Fuels",
   "tag.item.complicated_bees.bee": "Bees",
