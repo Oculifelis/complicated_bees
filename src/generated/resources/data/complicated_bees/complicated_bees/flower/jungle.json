@@ -1,9 +1,9 @@
 {
   "blocks": [
-    "minecraft:vine",
     "minecraft:cocoa",
-    "minecraft:melon",
+    "minecraft:vine",
+    "minecraft:bamboo",
     "minecraft:bamboo_sapling",
-    "minecraft:bamboo"
+    "minecraft:melon"
   ]
 }

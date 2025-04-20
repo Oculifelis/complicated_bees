@@ -475,6 +475,8 @@ public class BuiltInSpecies {
     public static final Map.Entry<ResourceKey<Species>, Species> TRICKY = species(Species.Builder.of(JAZZY.getValue(), loc("tricky"))
             .colors(0xFFFFFF)
             .models(TRICKY_MODELS)
+            .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.FASTER, true))
+            .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NEVER_SLEEPS, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TRICKY.get(), true))
     );
 }

@@ -2,7 +2,7 @@
   "color": "ffffff",
   "default_chromosome": {
     "complicated_bees:active_time": {
-      "data": "diurnal",
+      "data": "never_sleeps",
       "dominant": 1
     },
     "complicated_bees:cave_dwelling": {
@@ -31,7 +31,7 @@
       "dominant": 1
     },
     "complicated_bees:productivity": {
-      "data": "slowest",
+      "data": "faster",
       "dominant": 1
     },
     "complicated_bees:species": {

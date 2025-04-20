@@ -80,5 +80,9 @@ public class Mutations {
 
         mutation("rocky/robust", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.ROBUST.getKey(), 0.12f);
         mutation("rocky/resilient", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.RESILIENT.getKey(), 0.08f);
+
+        mutation("creative/jazzy", BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.JAZZY.getKey(), 0.10f);
+        mutation("creative/essayist", BuiltInSpecies.JAZZY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.ESSAYIST.getKey(), 0.10f);
+        mutation("creative/tricky", BuiltInSpecies.FIENDISH.getKey(), BuiltInSpecies.ROTTEN.getKey(), BuiltInSpecies.TRICKY.getKey(), 0.10f);
     }
 }
