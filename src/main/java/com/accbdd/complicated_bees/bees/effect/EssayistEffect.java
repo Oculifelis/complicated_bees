@@ -18,7 +18,7 @@ public class EssayistEffect extends BeeEffect {
 
     @Override
     public void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress) {
-        if (cycleProgress == 0) {
+        if (cycleProgress == 0 & rand.nextFloat() < 0.05f) {
             BlockPosBoxIterator iter = getBlockIterator(apiary, queen);
             List<ChiseledBookShelfBlockEntity> shelves = new ArrayList<>();
             while (iter.hasNext()) {
@@ -41,11 +41,32 @@ public class EssayistEffect extends BeeEffect {
 
     private ItemStack generateBook() {
         ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
-        book.addTagElement("title", StringTag.valueOf("Bee Book"));
-        book.addTagElement("author", StringTag.valueOf("BEES"));
+        book.addTagElement("title", StringTag.valueOf("Book"));
+        book.addTagElement("author", StringTag.valueOf("a bee"));
         ListTag pages = new ListTag();
-        pages.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal("buzzBUZZBuzz"))));
+        pages.add(StringTag.valueOf(Component.Serializer.toJson(generatePage())));
         book.addTagElement("pages", pages);
         return book;
+    }
+
+    private static Component generatePage() {
+        StringBuilder content = new StringBuilder();
+        while (content.length() < 266) {
+            content.append(randomBuzz());
+        }
+        return Component.literal(content.substring(0, 266));
+    }
+
+    private static String randomBuzz() {
+        StringBuilder buzz = new StringBuilder();
+        buzz.append(rand.nextBoolean() ? 'B' : 'b');
+        for (int i = 1; i < rand.nextInt(4, 9); i++) {
+            if (i == 1) {
+                buzz.append('u');
+            } else {
+                buzz.append(rand.nextBoolean() ? 'z' : 'Z');
+            }
+        }
+        return buzz.toString();
     }
 }
