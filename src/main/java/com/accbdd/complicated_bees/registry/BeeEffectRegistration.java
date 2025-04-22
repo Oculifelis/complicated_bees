@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.bees.effect.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryBuilder;
 
@@ -39,5 +40,7 @@ public class BeeEffectRegistration {
     public static final Supplier<JazzyEffect> JAZZY = EFFECTS.register("jazzy", JazzyEffect::new);
     public static final Supplier<EssayistEffect> ESSAYIST = EFFECTS.register("essayist", EssayistEffect::new);
     public static final Supplier<TrickyEffect> TRICKY = EFFECTS.register("tricky", TrickyEffect::new);
+    public static final Supplier<TerraformEffect> FOREST_TERRAFORM = EFFECTS.register("forest_terraform", () -> new TerraformEffect(Biomes.FOREST));
+    public static final Supplier<TerraformEffect> PLAINS_TERRAFORM = EFFECTS.register("plains_terraform", () -> new TerraformEffect(Biomes.PLAINS));
 
 }

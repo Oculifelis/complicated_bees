@@ -479,4 +479,17 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NEVER_SLEEPS, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TRICKY.get(), true))
     );
+
+    public static final Map.Entry<ResourceKey<Species>, Species> TEST = species(new Species.Builder(loc("test"))
+            .colors(0xFFCC00)
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.FOREST_TERRAFORM.get(), true))
+            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_5, true))
+            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_5, true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> TEST2 = species(new Species.Builder(loc("test2"))
+            .colors(0xFFCC00)
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.PLAINS_TERRAFORM.get(), true))
+            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_5, true))
+            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_5, true))
+    );
 }
