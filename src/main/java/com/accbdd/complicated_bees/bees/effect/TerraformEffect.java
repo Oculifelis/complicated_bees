@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.bees.effect;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.gene.GeneTerritory;
 import com.accbdd.complicated_bees.util.BlockPosSpiralIterator;
@@ -18,8 +17,10 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import java.util.List;
+import java.util.Random;
 
 public class TerraformEffect extends BeeEffect {
+    private static Random rand = new Random();
     private ResourceKey<Biome> biome;
 
     public TerraformEffect(ResourceKey<Biome> biome) {
@@ -28,13 +29,13 @@ public class TerraformEffect extends BeeEffect {
 
     @Override
     public void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress) {
-        if (cycleProgress == 0) {
+        if (cycleProgress == 0 && rand.nextFloat() < 0.02f) {
             int[] territory = (int[]) GeneticHelper.getGeneValue(queen, GeneTerritory.ID, true);
             ServerLevel level = (ServerLevel) apiary.getLevel();
             BlockPosSpiralIterator iterator = new BlockPosSpiralIterator(apiary.getBlockPos(), territory[0], territory[1]);
             while (iterator.hasNext()) {
                 BlockPos pos = iterator.next();
-                if (!apiary.getLevel().getBiome(pos).is(biome)) {
+                if (pos.getY() - 1 > apiary.getLevel().getMinBuildHeight() & !apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
                     ChunkAccess chunkaccess = level.getChunk(pos);
                     if (chunkaccess != null) {
                         BoundingBox boundingBox = BoundingBox.fromCorners(quantize(pos.offset(-2, -2, -2)), quantize(pos.offset(2, 2, 2)));
@@ -42,8 +43,10 @@ public class TerraformEffect extends BeeEffect {
                                 boundingBox,
                                 GeneticHelper.getRegistryAccess().registry(Registries.BIOME).get().getHolder(biome).get()), level.getChunkSource().randomState().sampler());
                         chunkaccess.setUnsaved(true);
-                        level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunkaccess));
-                        break;
+                        if (apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
+                            level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunkaccess));
+                            break;
+                        }
                     }
                 }
             }
@@ -58,7 +61,6 @@ public class TerraformEffect extends BeeEffect {
             int k = QuartPos.toBlock(z);
             Holder<Biome> holder = pChunk.getNoiseBiome(x, y, z);
             if (pTargetRegion.isInside(i, j, k)) {
-                ComplicatedBees.LOGGER.debug("setting biome at position {}", new BlockPos(i, j, k));
                 return pReplacementBiome;
             } else {
                 return holder;
