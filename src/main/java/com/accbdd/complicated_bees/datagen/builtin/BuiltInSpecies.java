@@ -17,11 +17,11 @@ import java.util.Map;
 import static com.accbdd.complicated_bees.datagen.builtin.BuiltIn.*;
 
 public class BuiltInSpecies {
-    public static final List<ResourceLocation> RED_MODELS = List.of(loc("item/red_drone"), loc("item/red_princess"), loc("item/red_queen"));
-    public static final List<ResourceLocation> GRAY_MODELS = List.of(loc("item/gray_drone"), loc("item/gray_princess"), loc("item/gray_queen"));
-    public static final List<ResourceLocation> ENDER_MODELS = List.of(loc("item/ender_drone"), loc("item/ender_princess"), loc("item/ender_queen"));
-    public static final List<ResourceLocation> JAZZY_MODELS = List.of(loc("item/jazzy_drone"), loc("item/jazzy_princess"), loc("item/jazzy_queen"));
-    public static final List<ResourceLocation> TRICKY_MODELS = List.of(loc("item/tricky_drone"), loc("item/tricky_princess"), loc("item/tricky_queen"));
+    public static final List<ResourceLocation> RED_MODELS = getModelList("red");
+    public static final List<ResourceLocation> GRAY_MODELS = getModelList("gray");
+    public static final List<ResourceLocation> ENDER_MODELS = getModelList("ender");
+    public static final List<ResourceLocation> JAZZY_MODELS = getModelList("jazzy");
+    public static final List<ResourceLocation> TRICKY_MODELS = getModelList("tricky");
 
     public static final Map.Entry<ResourceKey<Species>, Species> FOREST = species(new Species.Builder(loc("forest"))
             .dominant(true)
@@ -228,6 +228,7 @@ public class BuiltInSpecies {
             .colors(0x9a1fff)
             .products(List.of(new Product(stack(Combs.MYSTERIOUS), 0.3f)))
             .specialtyProducts(List.of(new Product(ItemsRegistration.PEARL_SHARD.get().getDefaultInstance(), 0.1f)))
+            .gene(GeneRegistration.TERRITORY, new GeneTerritory(5, 3, true))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.LONGER, false))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> ENIGMATIC = species(new Species.Builder(loc("enigmatic"))
@@ -235,6 +236,7 @@ public class BuiltInSpecies {
             .products(List.of(new Product(stack(Combs.MYSTERIOUS), 0.35f)))
             .specialtyProducts(List.of(new Product(ItemsRegistration.PEARL_SHARD.get().getDefaultInstance(), 0.1f), new Product(ItemsRegistration.EXP_DROP.get().getDefaultInstance(), 0.25f)))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.LONGER, true))
+            .gene(GeneRegistration.TERRITORY, new GeneTerritory(6, 3, true))
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.ICY, EnumTolerance.UP_2, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> WARPED = species(new Species.Builder(loc("warped"))
@@ -480,16 +482,80 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TRICKY.get(), true))
     );
 
-    public static final Map.Entry<ResourceKey<Species>, Species> TEST = species(new Species.Builder(loc("test"))
-            .colors(0xFFCC00)
-            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.FOREST_TERRAFORM.get(), true))
-            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_5, true))
-            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_5, true))
+    public static final Map.Entry<ResourceKey<Species>, Species> PRIMORDIAL = species(new Species.Builder(loc("primordial"))
+            .dominant(false)
+            .foil(true)
+            .colors(0xFFFFFF)
+            .models(getModelList("primordial"))
+            .products(List.of(new Product(stack(Combs.MYSTERIOUS), 0.25f)))
+            .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.LONGEST, false))
+            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_2, false))
+            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_1, false))
+            .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
+            .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DRAGON_EGG.getKey().location(), false))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.ENDS.get(), true))
+            .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NEVER_SLEEPS, false))
+            .gene(GeneRegistration.TERRITORY, new GeneTerritory(7, 4, true))
     );
-    public static final Map.Entry<ResourceKey<Species>, Species> TEST2 = species(new Species.Builder(loc("test2"))
-            .colors(0xFFCC00)
+    public static final Map.Entry<ResourceKey<Species>, Species> CAMPUS = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("campus"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("plains_terraform"))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.PLAINS_TERRAFORM.get(), true))
-            .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.BOTH_5, true))
-            .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_5, true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
     );
+    public static final Map.Entry<ResourceKey<Species>, Species> GLADE = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("glade"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("forest_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.FOREST_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> BOREAL = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("boreal"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("taiga_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TAIGA_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> CANOPY = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("canopy"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("jungle_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.JUNGLE_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.JUNGLE.getKey().location(), true))
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> MIRE = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("mire"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("swamp_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.SWAMP_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))//todo set flower
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> POLAR = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("polar"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("snowy_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.SNOWY_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))//todo set flower
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> MYCELIC = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("mycelic"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("mushroom_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.MUSHROOM_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))//todo set flower
+    );
+    public static final Map.Entry<ResourceKey<Species>, Species> WASTELAND = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("wasteland"))
+            .dominant(true)
+            .foil(false)
+            .models(getModelList("desert_terraform"))
+            .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.DESERT_TERRAFORM.get(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DESERT.getKey().location(), true))
+    );
+
+    private static List<ResourceLocation> getModelList(String name) {
+        return List.of(loc("item/"+name+"_drone"), loc("item/"+name+"_princess"), loc("item/"+name+"_queen"));
+    }
 }

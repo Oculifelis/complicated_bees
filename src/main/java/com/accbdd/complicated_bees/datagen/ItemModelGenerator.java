@@ -104,7 +104,15 @@ public class ItemModelGenerator extends ItemModelProvider {
         beeModel("jazzy", "jazzy_bee_base", "jazzy_bee_outline");
         beeModel("red", "red_bee_base");
         beeModel("tricky", "tricky_bee_base");
+        beeModel("primordial", "primordial_bee_base", "primordial_bee_outline");
         beeModel("plains_terraform", "plains_terraform_bee_base");
+        beeModel("forest_terraform", "forest_terraform_bee_base");
+        beeModel("taiga_terraform", "taiga_terraform_bee_base");
+        beeModel("desert_terraform", "desert_terraform_bee_base");
+        beeModel("mushroom_terraform", "mushroom_terraform_bee_base");
+        beeModel("snowy_terraform", "snowy_terraform_bee_base");
+        beeModel("jungle_terraform", "jungle_terraform_bee_base");
+        beeModel("swamp_terraform", "swamp_terraform_bee_base");
 
         //patchouli book model
         getBuilder("complicated_bees:apiarist_guide")

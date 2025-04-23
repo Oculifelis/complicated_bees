@@ -17,6 +17,7 @@ public class Flowers {
     public static final Map.Entry<ResourceKey<Flower>, Flower> DEEPSLATE = flower("deepslate", List.of(Blocks.DEEPSLATE), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> DESERT = flower("desert", List.of(Blocks.CACTUS, Blocks.DEAD_BUSH), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> DIORITE = flower("diorite", List.of(Blocks.DIORITE), List.of());
+    public static final Map.Entry<ResourceKey<Flower>, Flower> DRAGON_EGG = flower("dragon_egg", List.of(Blocks.DRAGON_EGG), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> DRIPSTONE = flower("dripstone", List.of(Blocks.DRIPSTONE_BLOCK, Blocks.POINTED_DRIPSTONE), List.of());
     public static final Map.Entry<ResourceKey<Flower>, Flower> FLOWER = flower("flower", List.of(), List.of(BlockTags.FLOWERS));
     public static final Map.Entry<ResourceKey<Flower>, Flower> GRANITE = flower("granite", List.of(Blocks.GRANITE), List.of());

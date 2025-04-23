@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:item/generated",
+  "forge_data": {
+    "layers": {}
+  },
+  "loader": "forge:item_layers",
+  "render_types": {},
+  "textures": {
+    "layer0": "complicated_bees:item/primordial_bee_base",
+    "layer1": "complicated_bees:item/primordial_bee_outline",
+    "layer2": "complicated_bees:item/princess_crown"
+  }
+}

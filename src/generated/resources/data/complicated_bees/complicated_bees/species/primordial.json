@@ -1,34 +1,34 @@
 {
-  "color": "ffcc00",
+  "color": "ffffff",
   "default_chromosome": {
     "complicated_bees:active_time": {
-      "data": "diurnal",
-      "dominant": 1
+      "data": "never_sleeps",
+      "dominant": 0
     },
     "complicated_bees:cave_dwelling": {
       "data": 0,
       "dominant": 1
     },
     "complicated_bees:effect": {
-      "data": "complicated_bees:plains_terraform",
+      "data": "complicated_bees:ends",
       "dominant": 1
     },
     "complicated_bees:fertility": {
       "data": 2,
-      "dominant": 1
+      "dominant": 0
     },
     "complicated_bees:flower": {
-      "data": "complicated_bees:invalid",
-      "dominant": 1
+      "data": "complicated_bees:dragon_egg",
+      "dominant": 0
     },
     "complicated_bees:humidity": {
       "data": "normal",
-      "dominant": 1,
-      "tolerance": "BOTH_5"
+      "dominant": 0,
+      "tolerance": "BOTH_1"
     },
     "complicated_bees:lifespan": {
-      "data": "shortest",
-      "dominant": 1
+      "data": "longest",
+      "dominant": 0
     },
     "complicated_bees:productivity": {
       "data": "slowest",
@@ -40,13 +40,13 @@
     },
     "complicated_bees:temperature": {
       "data": "normal",
-      "dominant": 1,
-      "tolerance": "BOTH_5"
+      "dominant": 0,
+      "tolerance": "BOTH_2"
     },
     "complicated_bees:territory": {
       "data": [
-        4,
-        2
+        7,
+        4
       ],
       "dominant": 1
     },
@@ -55,5 +55,21 @@
       "dominant": 1
     }
   },
-  "nest_color": "ffcc00"
+  "dominant": false,
+  "foil": true,
+  "models": [
+    "complicated_bees:item/primordial_drone",
+    "complicated_bees:item/primordial_princess",
+    "complicated_bees:item/primordial_queen"
+  ],
+  "nest_color": "ffffff",
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "complicated_bees:comb",
+      "nbt": {
+        "comb_type": "complicated_bees:mysterious"
+      }
+    }
+  ]
 }
