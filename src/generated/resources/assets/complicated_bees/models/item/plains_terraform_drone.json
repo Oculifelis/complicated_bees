@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:item/generated",
-  "loader": "forge:item_layers",
   "forge_data": {
     "layers": {}
   },
+  "loader": "forge:item_layers",
   "render_types": {},
   "textures": {
-    "layer0": "complicated_bees:item/gray_bee_base",
+    "layer0": "complicated_bees:item/plains_terraform_bee_base",
     "layer1": "complicated_bees:item/bee_outline"
   }
 }

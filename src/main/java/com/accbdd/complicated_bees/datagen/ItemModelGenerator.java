@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -96,10 +97,14 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ItemsRegistration.BEE_STAFF.get());
         basicItem(ItemsRegistration.MELLARIUM_PANEL.get());
 
-//        createBeeModel(ItemsRegistration.DRONE.getId());
-//        createBeeModel(ItemsRegistration.PRINCESS.getId()).texture("layer2", modLoc("item/princess_crown"));
-//        createBeeModel(ItemsRegistration.QUEEN.getId()).texture("layer2", modLoc("item/queen_crown"));
         createCombModel();
+        beeModel("base", "bee_base");
+        beeModel("ender", "ender_bee_base");
+        beeModel("gray", "gray_bee_base");
+        beeModel("jazzy", "jazzy_bee_base", "jazzy_bee_outline");
+        beeModel("red", "red_bee_base");
+        beeModel("tricky", "tricky_bee_base");
+        beeModel("plains_terraform", "plains_terraform_bee_base");
 
         //patchouli book model
         getBuilder("complicated_bees:apiarist_guide")
@@ -147,5 +152,26 @@ public class ItemModelGenerator extends ItemModelProvider {
                     .end()
                 .end().guiLight(BlockModel.GuiLight.SIDE);
 
+    }
+
+    private void beeModel(String name, String beeBase, String beeOutline) {
+        getBuilder(modLoc("item/"+name+"_drone").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .customLoader(ItemLayerModelBuilder::begin).end()
+                .texture("layer0", modLoc("item/"+beeBase))
+                .texture("layer1", modLoc("item/"+beeOutline));
+        getBuilder(modLoc("item/"+name+"_princess").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .customLoader(ItemLayerModelBuilder::begin).end()
+                .texture("layer0", modLoc("item/"+beeBase))
+                .texture("layer1", modLoc("item/"+beeOutline))
+                .texture("layer2", modLoc("item/princess_crown"));
+        getBuilder(modLoc("item/"+name+"_queen").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .customLoader(ItemLayerModelBuilder::begin).end()
+                .texture("layer0", modLoc("item/"+beeBase))
+                .texture("layer1", modLoc("item/"+beeOutline))
+                .texture("layer2", modLoc("item/queen_crown"));
+    }
+
+    private void beeModel(String name, String beeBase) {
+        beeModel(name, beeBase, "bee_outline");
     }
 }
