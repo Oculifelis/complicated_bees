@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-22T18:01:22.5579687	Item Models: complicated_bees
+// 1.20.1	2025-04-23T13:49:27.5710636	Item Models: complicated_bees
 eed162555c50979ffb14f7ef23c98ac3ac9929cd assets/complicated_bees/models/item/ambrosia.json
 913c48d698d66de7b3f67c088df650fa2d538c3f assets/complicated_bees/models/item/analyzer.json
 78dc08d43023162f54b70bdb3abb1770f12e72fe assets/complicated_bees/models/item/apiarist_boots.json
@@ -13,6 +13,7 @@ ac7d88c17be98b59f3059b34cba1d97ec945131d assets/complicated_bees/models/item/bas
 c5acca6d6b99cce5bea6d05f294a220a8590b5f5 assets/complicated_bees/models/item/base_queen.json
 f2842120833073b82c83a81f23130c1a5f9ca947 assets/complicated_bees/models/item/beeswax.json
 c8862de88ab41c41168edc5e0186979a36e70d47 assets/complicated_bees/models/item/bee_nest.json
+524d11b10d6b8754dcb23a3aadf34e6ddc52037e assets/complicated_bees/models/item/bee_sorter.json
 704320f137c3d2ffdd00e57df9ecc8ef9f9ced7f assets/complicated_bees/models/item/bee_staff.json
 ddd308a0febba5cb812ba9322e3f33922eb2cb7b assets/complicated_bees/models/item/centrifuge.json
 79c3f3cf40458784687c982be1bb0dd86865245d assets/complicated_bees/models/item/chiseled_wax.json

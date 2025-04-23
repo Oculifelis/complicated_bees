@@ -1,7 +1,8 @@
-// 1.20.1	2025-04-08T12:17:58.3907419	Loot Tables
+// 1.20.1	2025-04-23T13:49:27.5720638	Loot Tables
 5dae4e0b0ceed05cb4b581710a7dae801d6fe69f data/complicated_bees/loot_tables/blocks/apiary.json
 7ccda92858bf0d6ed5d88301d4c4f40c249bdb7a data/complicated_bees/loot_tables/blocks/apid_library.json
 e5afd2ae17d38d135332e881eb606ac55439bd17 data/complicated_bees/loot_tables/blocks/bee_nest.json
+842a702cb5111fe07089250862341c65c49eb9ad data/complicated_bees/loot_tables/blocks/bee_sorter.json
 de7ba93aaaddb74775b0ddf9d87ef6aeb1f33222 data/complicated_bees/loot_tables/blocks/centrifuge.json
 3c29e9bfcd1e71f759ec20adc834debc6717a980 data/complicated_bees/loot_tables/blocks/chiseled_wax.json
 22400e190f8ff5fd8a7818af1a2a142ba17a9ed0 data/complicated_bees/loot_tables/blocks/generator.json
