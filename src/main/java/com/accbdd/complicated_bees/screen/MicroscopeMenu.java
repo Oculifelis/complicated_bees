@@ -195,7 +195,11 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
         ).toList();
         List<Mutation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
+                location -> {
+                    if (mutationRegistry.get(location) == null)
+                        return false;
+                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
+                }
         ).map(mutationRegistry::get).toList();
 
         possibleMutations = mutations;
@@ -212,7 +216,11 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
+                location -> {
+                    if (mutationRegistry.get(location) == null)
+                        return false;
+                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
+                }
         ).collect(Collectors.toSet());
         List<Mutation> mutationsToDiscover = mutationRegistry.stream().filter(
                 mutation -> (!researched.contains(mutationRegistry.getKey(mutation)) && ((mutation.getFirst().equals(species) || mutation.getSecond().equals(species))))

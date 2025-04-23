@@ -1,5 +1,5 @@
 {
-  "color": "ffffff",
+  "color": "3fce8",
   "default_chromosome": {
     "complicated_bees:active_time": {
       "data": "never_sleeps",
@@ -45,8 +45,8 @@
     },
     "complicated_bees:territory": {
       "data": [
-        7,
-        4
+        9,
+        5
       ],
       "dominant": 1
     },
@@ -60,7 +60,7 @@
     "complicated_bees:item/forest_terraform_princess",
     "complicated_bees:item/forest_terraform_queen"
   ],
-  "nest_color": "ffffff",
+  "nest_color": "3fce8",
   "products": [
     {
       "chance": 0.25,

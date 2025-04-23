@@ -2,13 +2,12 @@ package com.accbdd.complicated_bees.datagen.builtin;
 
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
-import com.accbdd.complicated_bees.bees.mutation.condition.BlockUnderCondition;
-import com.accbdd.complicated_bees.bees.mutation.condition.DimensionCondition;
-import com.accbdd.complicated_bees.bees.mutation.condition.NighttimeCondition;
-import com.accbdd.complicated_bees.bees.mutation.condition.TemperatureCondition;
+import com.accbdd.complicated_bees.bees.mutation.condition.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 
 import java.util.List;
 import java.util.Map;
@@ -84,5 +83,15 @@ public class Mutations {
         mutation("creative/jazzy", BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.JAZZY.getKey(), 0.10f);
         mutation("creative/essayist", BuiltInSpecies.JAZZY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.ESSAYIST.getKey(), 0.10f);
         mutation("creative/tricky", BuiltInSpecies.FIENDISH.getKey(), BuiltInSpecies.ROTTEN.getKey(), BuiltInSpecies.TRICKY.getKey(), 0.10f);
+
+        mutation("terraforming/primordial", BuiltInSpecies.ENIGMATIC.getKey(), BuiltInSpecies.NECROMANTIC.getKey(), BuiltInSpecies.PRIMORDIAL.getKey(), 0.08f, new BiomeCondition(BiomeTags.IS_END));
+        mutation("terraforming/campestral", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.PLAINS.getKey(), BuiltInSpecies.CAMPESTRAL.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_PLAINS));
+        mutation("terraforming/sylvan", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.FOREST.getKey(), BuiltInSpecies.SYLVAN.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_FOREST));
+        mutation("terraforming/boreal", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.BOREAL.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_TAIGA));
+        mutation("terraforming/tropic", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.TROPIC.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_JUNGLE));
+        mutation("terraforming/paludal", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.DECAYING.getKey(), BuiltInSpecies.PALUDAL.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_SWAMP));
+        mutation("terraforming/gelid", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.NECROMANTIC.getKey(), BuiltInSpecies.GELID.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_SNOWY));
+        mutation("terraforming/mycelic", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.MYCELIC.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_MUSHROOM));
+        mutation("terraforming/xeric", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.XERIC.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_DESERT));
     }
 }

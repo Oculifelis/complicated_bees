@@ -7,6 +7,7 @@ import com.accbdd.complicated_bees.item.QueenItem;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
+import com.accbdd.complicated_bees.util.Util;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -171,7 +172,7 @@ public class BeeLogic {
     }
 
     private boolean checkSky() {
-        boolean sky = getLevel().canSeeSky(pos.above());
+        boolean sky = Util.canSeeSky(getLevel(), getPos().above());
         if (sky) {
             return true;
         } else {

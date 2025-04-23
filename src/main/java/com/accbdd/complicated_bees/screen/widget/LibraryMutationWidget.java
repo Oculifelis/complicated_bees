@@ -165,7 +165,11 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
         ).toList();
         List<Mutation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species)
+                location -> {
+                    if (mutationRegistry.get(location) == null)
+                        return false;
+                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
+                }
         ).map(mutationRegistry::get).toList();
 
         possibleMutations = mutations;

@@ -1,0 +1,11 @@
+{
+  "chance": 0.08,
+  "conditions": {
+    "complicated_bees:biome": {
+      "biome": "#minecraft:is_end"
+    }
+  },
+  "first": "complicated_bees:enigmatic",
+  "result": "complicated_bees:primordial",
+  "second": "complicated_bees:necromantic"
+}

@@ -1,0 +1,11 @@
+{
+  "chance": 0.12,
+  "conditions": {
+    "complicated_bees:biome": {
+      "biome": "#forge:is_desert"
+    }
+  },
+  "first": "complicated_bees:primordial",
+  "result": "complicated_bees:xeric",
+  "second": "complicated_bees:desert"
+}

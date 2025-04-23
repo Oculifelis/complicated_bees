@@ -29,7 +29,7 @@ public class TerraformEffect extends BeeEffect {
 
     @Override
     public void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress) {
-        if (cycleProgress == 0 && rand.nextFloat() < 0.02f) {
+        if (cycleProgress == 0 && rand.nextFloat() < 20.02f) {
             int[] territory = (int[]) GeneticHelper.getGeneValue(queen, GeneTerritory.ID, true);
             ServerLevel level = (ServerLevel) apiary.getLevel();
             BlockPosSpiralIterator iterator = new BlockPosSpiralIterator(apiary.getBlockPos(), territory[0], territory[1]);
