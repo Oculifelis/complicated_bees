@@ -41,6 +41,8 @@ public class MenuRegistration {
             () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumMutatorMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<MellariumHydroregulatorMenu>> MELLARIUM_HYDROREGULATOR_MENU = MENU_TYPES.register("mellarium_hydroregulator",
             () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumHydroregulatorMenu(windowId, inv.player, data.readBlockPos())));
+    public static final Supplier<MenuType<BeeSorterMenu>> BEE_SORTER_MENU = MENU_TYPES.register("bee_sorter",
+            () -> IForgeMenuType.create(((windowId, inv, data) -> new BeeSorterMenu(windowId, inv.player, data.readBlockPos()))));
 
 
 }

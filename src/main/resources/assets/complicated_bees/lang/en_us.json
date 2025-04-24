@@ -101,6 +101,7 @@
   "block.complicated_bees.mellarium_rain_shield": "Mellarium Rain Shield",
   "block.complicated_bees.mellarium_mutator": "Mellarium Mutator",
   "block.complicated_bees.mellarium_hydroregulator": "Mellarium Hydroregulator",
+  "block.complicated_bees.bee_sorter": "Bee Sorter",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
@@ -261,6 +262,8 @@
   "gui.complicated_bees.library.detail": "Select a mutation on the left to view detailed information.",
   "gui.complicated_bees.library.tutorial": "Place a bee in the top right slot to see its mutations.",
   "gui.complicated_bees.library.empty": "This species cannot mutate further.",
+
+  "gui.complicated_bees.bee_sorter": "Bee Sorter",
 
   "jei.complicated_bees.chance": "Chance",
   "jei.complicated_bees.modifier": "Mod: %s",
