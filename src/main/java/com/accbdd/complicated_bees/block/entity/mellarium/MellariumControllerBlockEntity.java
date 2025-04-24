@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class MellariumControllerBlockEntity extends BaseBeeHousing {
     public static final int BEE_SLOT = 0;
@@ -241,7 +242,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
                 return modifier.getModifier();
             }
             return new BeeHousingModifier();
-        }).toList();
+        }).collect(Collectors.toList());
         list.add(new BeeHousingModifier.Builder().productivity(1.25f).build());
         return list;
     }
