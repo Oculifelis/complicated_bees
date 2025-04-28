@@ -44,4 +44,8 @@ public class BeeSorterMenu extends AbstractBaseInventoryMenu {
     public ContainerData getData() {
         return data;
     }
+
+    public BlockPos getPos() {
+        return pos;
+    }
 }
