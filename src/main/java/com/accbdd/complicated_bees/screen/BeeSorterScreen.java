@@ -25,7 +25,7 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
     protected void init() {
         super.init();
         for (int i = 0; i < 6; i++) {
-            beeTypes[i] = (byte)menu.getData().get(i);
+            beeTypes[i] = menu.getFilters()[i];
             int finalI = i;
             addRenderableWidget(new BeeTypeWidget(leftPos + 9, topPos + 19 + i*18, 16, 16, beeTypes[i], state -> beeTypes[finalI] = (byte) state.ordinal()));
         }

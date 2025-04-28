@@ -1,39 +1,24 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.BeeSorterBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 
 public class BeeSorterMenu extends AbstractBaseInventoryMenu {
     private final BlockPos pos;
-    private ContainerData data;
+    private final byte[] filters;
 
-    public BeeSorterMenu(int windowId, Player player, BlockPos pos) {
-        super(MenuRegistration.BEE_SORTER_MENU.get(), windowId, player, 0, 8, 150);
+    public BeeSorterMenu(int windowId, Inventory inv, BlockPos pos) {
+        this(windowId, inv, pos, new byte[6]);
+    }
+
+    public BeeSorterMenu(int windowId, Inventory inv, BlockPos pos, byte[] initialFilters) {
+        super(MenuRegistration.BEE_SORTER_MENU.get(), windowId, inv.player, 0, 8, 150);
         this.pos = pos;
-        if (player.level().getBlockEntity(pos) instanceof BeeSorterBlockEntity sorter) {
-            this.data = new ContainerData() {
-                @Override
-                public int get(int pIndex) {
-                    return sorter.getTypeFilters()[pIndex];
-                }
-
-                @Override
-                public void set(int pIndex, int pValue) {
-                    sorter.setTypeFilters(pIndex, (byte)pValue);
-                }
-
-                @Override
-                public int getCount() {
-                    return 6;
-                }
-            };
-            addDataSlots(data);
-        }
+        this.filters = initialFilters;
     }
 
     @Override
@@ -41,11 +26,11 @@ public class BeeSorterMenu extends AbstractBaseInventoryMenu {
         return stillValid(ContainerLevelAccess.create(pPlayer.level(), pos), pPlayer, BlocksRegistration.BEE_SORTER.get());
     }
 
-    public ContainerData getData() {
-        return data;
-    }
-
     public BlockPos getPos() {
         return pos;
+    }
+
+    public byte[] getFilters() {
+        return filters;
     }
 }
