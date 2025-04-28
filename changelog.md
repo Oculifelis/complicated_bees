@@ -15,3 +15,4 @@
 * Surreal and Enigmatic bees had no flower type
 * Rare issue where several things related to the discovery/research tracker would crash or break on removal/addition of a species
 * Occasional clientside error spam when opening a mellarium
+* Clientside crash when discovering bees - #41
