@@ -28,7 +28,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
 
     public BeeSorterBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.BEE_SORTER_BLOCK_ENTITY.get(), pPos, pBlockState);
-        typeFilters = new byte[]{4,4,4,4,4,4};
+        typeFilters = new byte[6];
         item = new ItemStackHandler(1);
         handlers = new ArrayList<>();
         for (int i = 0; i < typeFilters.length; i++) {
@@ -75,11 +75,12 @@ public class BeeSorterBlockEntity extends BlockEntity {
 
     private boolean testFilter(int index, ItemStack stack) {
         return switch (typeFilters[index]) {
-            case 0 -> stack.is(ItemsRegistration.DRONE.get());
-            case 1 -> stack.is(ItemsRegistration.PRINCESS.get());
-            case 2 -> stack.is(ItemsRegistration.QUEEN.get());
-            case 3 -> stack.is(ItemTagGenerator.BEE);
-            default -> !stack.is(ItemTagGenerator.BEE);
+            case 1 -> stack.is(ItemsRegistration.DRONE.get());
+            case 2 -> stack.is(ItemsRegistration.PRINCESS.get());
+            case 3 -> stack.is(ItemsRegistration.QUEEN.get());
+            case 4 -> stack.is(ItemTagGenerator.BEE);
+            case 5 -> !stack.is(ItemTagGenerator.BEE);
+            default -> false;
         };
     }
 

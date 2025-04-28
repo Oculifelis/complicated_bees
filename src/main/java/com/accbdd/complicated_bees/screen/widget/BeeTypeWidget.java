@@ -38,10 +38,11 @@ public class BeeTypeWidget extends AbstractButton {
     }
 
     public enum BeeTypeState {
+        NONE,
         DRONE,
         PRINCESS,
         QUEEN,
-        ANY,
-        NONE;
+        ANY_BEE,
+        NOT_BEE
     }
 }
