@@ -47,6 +47,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.putByteArray(TYPES, typeFilters);
+        pTag.put("item", item.serializeNBT());
     }
 
     @Override
@@ -54,6 +55,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
         super.load(pTag);
         if (pTag.contains(TYPES))
             typeFilters = pTag.getByteArray(TYPES);
+        if (pTag.contains("item"))
+            item.deserializeNBT(pTag.getCompound("item"));
     }
 
     public void setTypeFilters(byte[] typeFilters) {
