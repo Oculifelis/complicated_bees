@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen.widget;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -23,8 +24,25 @@ public class BeeTypeWidget extends AbstractButton {
 
     @Override
     public void onPress() {
-        state = BeeTypeState.values()[(state.ordinal() + 1) % BeeTypeState.values().length];
-        stateConsumer.accept(state);
+
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (this.active && this.visible) {
+            if (pButton < 2) {
+                boolean flag = this.clicked(pMouseX, pMouseY);
+                if (flag) {
+                    this.playDownSound(Minecraft.getInstance().getSoundManager());
+                    state = BeeTypeState.values()[(state.ordinal() + (pButton == 0 ? 1 : BeeTypeState.values().length - 1)) % BeeTypeState.values().length];
+                    stateConsumer.accept(state);
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     @Override

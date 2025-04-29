@@ -151,6 +151,22 @@ public class GeneticHelper {
         stack.getOrCreateTag().putString(SPECIES, SpeciesRegistration.getResourceLocation(species).toString());
     }
 
+    /**
+     * @param stack the stack to test
+     * @param id id of the gene
+     * @param primary whether to get the primary chromosome or not
+     * @return raw data in a gene
+     */
+    public static CompoundTag getRaw(ItemStack stack, ResourceLocation id, boolean primary) {
+        if (stack.hasTag() & stack.getTag() != null) {
+            CompoundTag chromosomeTag = stack.getTag().getCompound(primary ? CHROMOSOME_A : CHROMOSOME_B);
+            if (chromosomeTag.contains(id.toString())) {
+                return chromosomeTag.getCompound(id.toString());
+            }
+        }
+        return new CompoundTag();
+    }
+
     public static IGene<?> getGene(ItemStack stack, ResourceLocation id, boolean primary) {
         return getChromosome(stack, primary).getGene(id);
     }
