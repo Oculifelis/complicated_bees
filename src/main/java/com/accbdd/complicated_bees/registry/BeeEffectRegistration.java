@@ -42,5 +42,11 @@ public class BeeEffectRegistration {
     public static final Supplier<TrickyEffect> TRICKY = EFFECTS.register("tricky", TrickyEffect::new);
     public static final Supplier<TerraformEffect> FOREST_TERRAFORM = EFFECTS.register("forest_terraform", () -> new TerraformEffect(Biomes.FOREST));
     public static final Supplier<TerraformEffect> PLAINS_TERRAFORM = EFFECTS.register("plains_terraform", () -> new TerraformEffect(Biomes.PLAINS));
+    public static final Supplier<TerraformEffect> TAIGA_TERRAFORM = EFFECTS.register("taiga_terraform", () -> new TerraformEffect(Biomes.TAIGA));
+    public static final Supplier<TerraformEffect> DESERT_TERRAFORM = EFFECTS.register("desert_terraform", () -> new TerraformEffect(Biomes.DESERT));
+    public static final Supplier<TerraformEffect> MUSHROOM_TERRAFORM = EFFECTS.register("mushroom_terraform", () -> new TerraformEffect(Biomes.MUSHROOM_FIELDS));
+    public static final Supplier<TerraformEffect> SNOWY_TERRAFORM = EFFECTS.register("snowy_terraform", () -> new TerraformEffect(Biomes.SNOWY_SLOPES));
+    public static final Supplier<TerraformEffect> JUNGLE_TERRAFORM = EFFECTS.register("jungle_terraform", () -> new TerraformEffect(Biomes.JUNGLE));
+    public static final Supplier<TerraformEffect> SWAMP_TERRAFORM = EFFECTS.register("swamp_terraform", () -> new TerraformEffect(Biomes.SWAMP));
 
 }

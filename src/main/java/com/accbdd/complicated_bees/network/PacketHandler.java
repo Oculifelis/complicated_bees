@@ -32,6 +32,7 @@ public class PacketHandler {
         registry.register(MicroscopeHintClientbound.class, MicroscopeHintClientbound::decode, MicroscopeHintClientbound::handle);
         registry.register(TrackerSyncClientbound.class, TrackerSyncClientbound::decode, TrackerSyncClientbound::handle);
         registry.register(TrackerUpdateClientbound.class, TrackerUpdateClientbound::decode, TrackerUpdateClientbound::handle);
+        registry.register(UpdateSorterServerbound.class, UpdateSorterServerbound::decode, UpdateSorterServerbound::handle);
     }
 
     private static final class PacketRegistry {

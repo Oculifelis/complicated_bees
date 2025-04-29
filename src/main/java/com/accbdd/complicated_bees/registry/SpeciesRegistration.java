@@ -7,6 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -17,7 +18,8 @@ public class SpeciesRegistration {
     public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MODID, "species"));
     private static final Map<ResourceLocation, Integer> complexities = new HashMap<>();
 
-    public static Species getFromResourceLocation(ResourceLocation resourceLocation) {
+    @Nullable
+    public static Species getFromResourceLocation(@Nullable ResourceLocation resourceLocation) {
         return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().get(resourceLocation);
     }
 

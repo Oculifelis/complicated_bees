@@ -8,6 +8,7 @@ import com.accbdd.complicated_bees.bees.mutation.condition.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -32,6 +33,7 @@ public class MutationRegistration {
     public static final Supplier<IMutationCondition> HUMIDITY = MUTATION_CONDITIONS.register(HumidityCondition.ID, () -> new HumidityCondition(EnumHumidity.NORMAL, EnumHumidity.NORMAL));
     public static final Supplier<IMutationCondition> TEMPERATURE = MUTATION_CONDITIONS.register(TemperatureCondition.ID, () -> new TemperatureCondition(EnumTemperature.NORMAL, EnumTemperature.NORMAL));
     public static final Supplier<IMutationCondition> DIMENSION = MUTATION_CONDITIONS.register(DimensionCondition.ID, () -> new DimensionCondition(new ResourceLocation("minecraft:overworld")));
+    public static final Supplier<IMutationCondition> BIOME = MUTATION_CONDITIONS.register(BiomeCondition.ID, () -> new BiomeCondition(Biomes.PLAINS));
 
     public static ResourceLocation getResourceLocation(Mutation mutation) {
         return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().getKey(mutation);

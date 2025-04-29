@@ -1,16 +1,16 @@
 {
   "blocks": [
-    "minecraft:dragon_wall_head",
-    "minecraft:zombie_wall_head",
-    "minecraft:zombie_head",
-    "minecraft:creeper_head",
     "minecraft:piglin_head",
-    "minecraft:wither_skeleton_wall_skull",
-    "minecraft:skeleton_skull",
-    "minecraft:dragon_head",
+    "minecraft:skeleton_wall_skull",
     "minecraft:wither_skeleton_skull",
     "minecraft:creeper_wall_head",
+    "minecraft:creeper_head",
+    "minecraft:dragon_head",
+    "minecraft:dragon_wall_head",
+    "minecraft:zombie_head",
+    "minecraft:skeleton_skull",
+    "minecraft:zombie_wall_head",
     "minecraft:piglin_wall_head",
-    "minecraft:skeleton_wall_skull"
+    "minecraft:wither_skeleton_wall_skull"
   ]
 }

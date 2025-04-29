@@ -1,0 +1,11 @@
+{
+  "chance": 0.12,
+  "conditions": {
+    "complicated_bees:biome": {
+      "biome": "#minecraft:is_forest"
+    }
+  },
+  "first": "complicated_bees:primordial",
+  "result": "complicated_bees:sylvan",
+  "second": "complicated_bees:forest"
+}

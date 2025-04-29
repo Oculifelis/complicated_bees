@@ -209,7 +209,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
 
     public static BreedingTracker getTracker(UUID uuid) {
         if (ServerLifecycleHooks.getCurrentServer() == null)
-            return null;
+            return CLIENT_INSTANCE;
         DimensionDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
         return storage.computeIfAbsent(BreedingTracker::load, () -> new BreedingTracker(uuid), "complicated_bees." + uuid.toString());
     }

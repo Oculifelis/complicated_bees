@@ -14,10 +14,7 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
-import mezz.jei.api.registration.ISubtypeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -92,6 +89,11 @@ public class ComplicatedBeesJEI implements IModPlugin {
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_MUTATOR.get().getDefaultInstance(), MutatorRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_TEMP_UNIT.get().getDefaultInstance(), TempUnitRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get().getDefaultInstance(), HydroRecipeCategory.TYPE);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        IModPlugin.super.registerGuiHandlers(registration);
     }
 
     public static IDrawable createDrawable(ResourceLocation location, int uOffset, int vOffset, int width, int height, int textureWidth, int textureHeight) {
