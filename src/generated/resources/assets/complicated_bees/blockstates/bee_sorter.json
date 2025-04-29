@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "enabled=false": {
+      "model": "complicated_bees:block/bee_sorter"
+    },
+    "enabled=true": {
       "model": "complicated_bees:block/bee_sorter"
     }
   }

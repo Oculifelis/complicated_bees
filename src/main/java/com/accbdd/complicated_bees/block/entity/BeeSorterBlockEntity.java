@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -62,7 +63,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
         pTag.put("item", item.serializeNBT());
         CompoundTag filterTag = new CompoundTag();
         for (int i = 0; i < 36; i++) {
-            if (speciesFilters != null)
+            if (speciesFilters[i] != null)
                 filterTag.putString(String.valueOf(i), speciesFilters[i]);
         }
         pTag.put("filters", filterTag);
@@ -89,7 +90,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     }
 
     public void serverTick() {
-        if (!item.getStackInSlot(0).isEmpty())
+        if (!item.getStackInSlot(0).isEmpty() & getBlockState().getValue(BlockStateProperties.ENABLED))
             transferCooldown--;
         if (transferCooldown <= 0) {
             transferCooldown = TRANSFER_TICKS;

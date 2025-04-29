@@ -4,6 +4,7 @@
 * Creative branch of bees - generate music, books, and spooks!
 * Terraforming branch of bees - change biomes!
 * Biome mutation condition, check the wiki for more info on how to use it
+* The bee sorter - sort bees based on their species and type!
 * A lot of datagen stuff internally
 
 ## Changed
@@ -16,3 +17,4 @@
 * Rare issue where several things related to the discovery/research tracker would crash or break on removal/addition of a species
 * Occasional clientside error spam when opening a mellarium
 * Clientside crash when discovering bees - #41
+* Mellarium patchouli entry had no icon

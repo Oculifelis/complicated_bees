@@ -256,6 +256,16 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('P', ItemsRegistration.PROPOLIS.get())
                 .define('G', Items.GLASS_PANE)
                 .unlockedBy(getHasName(ItemsRegistration.CENTRIFUGE.get()), has(ItemsRegistration.CENTRIFUGE.get())).save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.BEE_SORTER.get(), 1)
+                .pattern("WIW")
+                .pattern("PCP")
+                .pattern("WDW")
+                .define('W', ItemsRegistration.HONEYED_PLANKS.get())
+                .define('I', Items.HOPPER)
+                .define('C', Items.COMPARATOR)
+                .define('P', ItemsRegistration.PROPOLIS.get())
+                .define('D', Items.DIAMOND)
+                .unlockedBy(getHasName(ItemsRegistration.APIARY.get()), has(ItemsRegistration.APIARY.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ItemsRegistration.HONEYED_PLANKS.get(), 8)
                 .pattern("SSS")
                 .pattern("SBS")

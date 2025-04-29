@@ -29,13 +29,13 @@ public class BlockStateGenerator extends BlockStateProvider {
     protected void registerStatesAndModels() {
         simpleBlock(BlocksRegistration.BEE_NEST.get(), createBeeNestModel());
         simpleBlock(BlocksRegistration.APIARY.get(), createApiaryModel());
-        simpleBlock(BlocksRegistration.BEE_SORTER.get(), models().cube("bee_sorter",
+        getVariantBuilder(BlocksRegistration.BEE_SORTER.get()).forAllStates(state -> ConfiguredModel.builder().modelFile(models().cube("bee_sorter",
                 modLoc("block/bee_sorter_down"),
                 modLoc("block/bee_sorter_up"),
                 modLoc("block/bee_sorter_north"),
                 modLoc("block/bee_sorter_south"),
                 modLoc("block/bee_sorter_east"),
-                modLoc("block/bee_sorter_west")).texture("particle", modLoc("block/bee_sorter_up")));
+                modLoc("block/bee_sorter_west")).texture("particle", modLoc("block/bee_sorter_up"))).build());
         baseMellariumBlock();
         mellariumController();
         mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, modLoc("block/mellarium/mellarium_temp_unit"), modLoc("block/mellarium/mellarium_temp_unit_assembled"));
