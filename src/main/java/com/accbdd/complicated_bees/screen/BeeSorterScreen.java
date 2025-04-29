@@ -1,13 +1,19 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.UpdateSorterServerbound;
+import com.accbdd.complicated_bees.screen.slot.FakeSpeciesSlot;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -48,6 +54,36 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
     @Override
     public void onClose() {
         super.onClose();
-        PacketHandler.CHANNEL.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes));
+        List<String> speciesSlots = new ArrayList<>();
+        for (int i = 0; i < BeeSorterMenu.SLOT_COUNT; i++) {
+            if (!menu.getSlot(i).hasItem())
+                speciesSlots.add("");
+            else
+                speciesSlots.add(menu.getSlot(i).getItem().getTag().getString(GeneticHelper.SPECIES));
+        }
+        PacketHandler.CHANNEL.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
+    }
+
+    @Override
+    protected List<Component> getTooltipFromContainerItem(ItemStack pStack) {
+        if (hoveredSlot instanceof FakeSpeciesSlot)
+            return List.of(GeneticHelper.getTranslationKey(GeneticHelper.getSpecies(pStack, true)));
+        return super.getTooltipFromContainerItem(pStack);
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (hoveredSlot instanceof FakeSpeciesSlot fakeSlot) {
+            fakeSlot.set(menu.getCarried(), pButton == 0);
+            return true;
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        if (hoveredSlot instanceof FakeSpeciesSlot)
+            return mouseClicked(pMouseX, pMouseY, pButton);
+        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }
 }

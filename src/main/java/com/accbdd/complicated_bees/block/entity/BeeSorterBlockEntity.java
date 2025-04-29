@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -23,6 +24,7 @@ import java.util.List;
 public class BeeSorterBlockEntity extends BlockEntity {
     public static final String TYPES = "types";
     private byte[] typeFilters; //down, up, north, south, east, west
+    private String[] speciesFilters;
     private final ItemStackHandler item;
     private final List<LazyOptional<IItemHandler>> handlers;
 
@@ -34,6 +36,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
         for (int i = 0; i < typeFilters.length; i++) {
             handlers.add(createFilterHandler(i));
         }
+        speciesFilters = new String[36];
     }
 
     @Override
@@ -48,15 +51,32 @@ public class BeeSorterBlockEntity extends BlockEntity {
         super.saveAdditional(pTag);
         pTag.putByteArray(TYPES, typeFilters);
         pTag.put("item", item.serializeNBT());
+        CompoundTag filterTag = new CompoundTag();
+        for (int i = 0; i < 36; i++) {
+            if (speciesFilters != null)
+                filterTag.putString(String.valueOf(i), speciesFilters[i]);
+        }
+        pTag.put("filters", filterTag);
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        if (pTag.contains(TYPES))
+        if (pTag.contains(TYPES) && pTag.getByteArray(TYPES).length == 6)
             typeFilters = pTag.getByteArray(TYPES);
         if (pTag.contains("item"))
             item.deserializeNBT(pTag.getCompound("item"));
+        if (pTag.contains("filters")) {
+            CompoundTag filterTag = pTag.getCompound("filters");
+            for (String key : filterTag.getAllKeys()) {
+                try {
+                    speciesFilters[Integer.parseInt(key)] = filterTag.getString(key);
+                } catch (NumberFormatException e) {
+                    ComplicatedBees.LOGGER.error("tried to load bee sorter with illegal filter key at position {}", getBlockPos());
+                    break;
+                }
+            }
+        }
     }
 
     public void setTypeFilters(byte[] typeFilters) {
@@ -71,6 +91,15 @@ public class BeeSorterBlockEntity extends BlockEntity {
 
     public byte[] getTypeFilters() {
         return typeFilters;
+    }
+
+    public void setSpeciesFilters(String[] speciesFilters) {
+        this.speciesFilters = speciesFilters;
+        setChanged();
+    }
+
+    public String[] getSpeciesFilters() {
+        return speciesFilters;
     }
 
     private boolean testFilter(int index, ItemStack stack) {
