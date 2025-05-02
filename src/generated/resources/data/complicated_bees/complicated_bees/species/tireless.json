@@ -70,6 +70,10 @@
       "nbt": {
         "comb_type": "complicated_bees:honey"
       }
+    },
+    {
+      "chance": 0.05,
+      "item": "complicated_bees:pollen"
     }
   ]
 }

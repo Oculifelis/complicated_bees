@@ -1,8 +1,8 @@
 {
   "blocks": [
+    "minecraft:spore_blossom",
     "minecraft:flowering_azalea_leaves",
     "minecraft:flowering_azalea",
-    "minecraft:spore_blossom",
     "minecraft:small_dripleaf"
   ],
   "tags": [

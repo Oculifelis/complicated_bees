@@ -171,14 +171,14 @@ public class BuiltInSpecies {
     );
     public static final Map.Entry<ResourceKey<Species>, Species> TIRELESS = species(Species.Builder.of(DILIGENT.getValue(), loc("tireless"))
             .colors(0x4dfe88)
-            .products(List.of(new Product(stack(Combs.STRINGY), 0.4f), new Product(stack(Combs.HONEY), 0.1f)))
+            .products(List.of(new Product(stack(Combs.STRINGY), 0.4f), new Product(stack(Combs.HONEY), 0.1f), new Product(ItemsRegistration.POLLEN.get().getDefaultInstance(), 0.05f)))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, false))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> INDUSTRIOUS = species(Species.Builder.of(DILIGENT.getValue(), loc("industrious"))
             .colors(0xecfafe)
             .foil(true)
-            .products(List.of(new Product(stack(Combs.STRINGY), 0.4f), new Product(stack(Combs.HONEY), 0.1f)))
-            .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, true))
+            .products(List.of(new Product(stack(Combs.STRINGY), 0.4f), new Product(stack(Combs.HONEY), 0.1f), new Product(ItemsRegistration.POLLEN.get().getDefaultInstance(), 0.1f)))
+            .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.FAST, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> EXPLORER = species(new Species.Builder(loc("explorer"))
             .colors(0x6eb800)
