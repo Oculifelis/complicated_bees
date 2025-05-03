@@ -7,6 +7,7 @@ import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -57,6 +58,8 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addWorkstation(TEMP_UNIT_CATEGORY, TEMP_UNIT);
         registry.addCategory(HYDROREGULATOR_CATEGORY);
         registry.addWorkstation(HYDROREGULATOR_CATEGORY, HYDROREGULATOR);
+
+        registry.addDragDropHandler(BeeSorterScreen.class, new BeeSorterDragDropEMI());
 
         RecipeManager manager = registry.getRecipeManager();
         RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();

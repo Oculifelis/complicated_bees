@@ -31,7 +31,7 @@
       "dominant": 0
     },
     "complicated_bees:productivity": {
-      "data": "average",
+      "data": "fast",
       "dominant": 1
     },
     "complicated_bees:species": {
@@ -71,6 +71,10 @@
       "nbt": {
         "comb_type": "complicated_bees:honey"
       }
+    },
+    {
+      "chance": 0.1,
+      "item": "complicated_bees:pollen"
     }
   ]
 }

@@ -32,7 +32,7 @@ public class Mutations {
 
         mutation("noble/noble", BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.NOBLE.getKey(), 0.10f);
         mutation("noble/majestic", BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.MAJESTIC.getKey(), 0.10f);
-        mutation("noble/imperial", BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.NOBLE.getKey(), 0.08f);
+        mutation("noble/imperial", BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.IMPERIAL.getKey(), 0.08f);
 
         mutation("desert/outcast", BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.OUTCAST.getKey(), 0.10f);
         mutation("desert/bandit", BuiltInSpecies.OUTCAST.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.BANDIT.getKey(), 0.08f);

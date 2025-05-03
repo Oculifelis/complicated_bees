@@ -1,7 +1,7 @@
 {
   "blocks": [
-    "minecraft:vine",
     "minecraft:red_mushroom",
+    "minecraft:vine",
     "minecraft:lily_pad",
     "minecraft:brown_mushroom"
   ]

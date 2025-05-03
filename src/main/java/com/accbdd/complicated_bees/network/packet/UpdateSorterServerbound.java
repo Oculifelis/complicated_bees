@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.network.packet;
 
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.BeeSorterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +26,6 @@ public record UpdateSorterServerbound(BlockPos pos, byte[] newFilters, List<Stri
     public static void handle(UpdateSorterServerbound packet, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             ServerPlayer sender = context.get().getSender();
-            ComplicatedBees.LOGGER.debug("handling sorter update packet: {}, {}", packet.newFilters, packet.speciesFilters);
             if (sender.level().getBlockEntity(packet.pos) instanceof BeeSorterBlockEntity sorter) {
                 sorter.setTypeFilters(packet.newFilters);
                 sorter.setSpeciesFilters(packet.speciesFilters.toArray(String[]::new));

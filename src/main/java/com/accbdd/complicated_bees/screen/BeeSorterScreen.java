@@ -79,11 +79,4 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
-
-    @Override
-    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-        if (hoveredSlot instanceof FakeSpeciesSlot)
-            return mouseClicked(pMouseX, pMouseY, pButton);
-        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-    }
 }

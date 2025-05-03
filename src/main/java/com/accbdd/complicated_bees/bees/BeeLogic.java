@@ -141,9 +141,11 @@ public class BeeLogic {
     }
 
     public void checkConditions() {
-        checkFlowerCache();
-        checkQueenSatisfied();
-        checkQueenEcstatic();
+        if (!getLevel().isClientSide) {
+            checkFlowerCache();
+            checkQueenSatisfied();
+            checkQueenEcstatic();
+        }
     }
 
 

@@ -103,7 +103,6 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             ResourceLocation loc = SpeciesRegistration.getResourceLocation(species);
             discoveredSpecies.add(loc);
             setDirty();
-            sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.SPECIES, loc);
         }
     }
 
@@ -151,8 +150,8 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
-        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())),
-                new TrackerUpdateClientbound(type, loc));
+        if (ServerLifecycleHooks.getCurrentServer() != null)
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())), new TrackerUpdateClientbound(type, loc));
     }
 
     @Override
