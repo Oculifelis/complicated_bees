@@ -1,5 +1,5 @@
-# Complicated Bees 2.1.3
+# Complicated Bees 2.1.4
 
-## Fixed
+## Added
 
-* Make pollen actually gettable, whoops
+* More zh_cn translations - thank you ChuijkYahus!
