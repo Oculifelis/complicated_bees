@@ -234,7 +234,7 @@ public class CentrifugeBlockEntity extends BlockEntity {
             tryEmptyBuffer();
         }
 
-        if (hasRecipe(stack) && energy.getEnergyStored() > 0 && outputBuffer.empty()) {
+        if (hasRecipe(stack) && energy.getEnergyStored() > USAGE && outputBuffer.empty()) {
             if (!getBlockState().getValue(BlockStateProperties.POWERED)) {
                 level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockStateProperties.POWERED, true));
             }

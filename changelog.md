@@ -1,5 +1,5 @@
-# Complicated Bees 2.1.4
+# Complicated Bees 2.1.5
 
-## Added
+## Fixed
 
-* More zh_cn translations - thank you ChuijkYahus!
+* Generator could run perfectly fine on trickle power
