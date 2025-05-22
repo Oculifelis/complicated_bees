@@ -103,6 +103,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             ResourceLocation loc = SpeciesRegistration.getResourceLocation(species);
             discoveredSpecies.add(loc);
             setDirty();
+            sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.SPECIES, loc);
         }
     }
 

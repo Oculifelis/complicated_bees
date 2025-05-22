@@ -1,5 +1,5 @@
-# Complicated Bees 2.1.5
+# Complicated Bees 2.1.6
 
 ## Fixed
 
-* Generator could run perfectly fine on trickle power
+* Tracking not syncing until rejoin on species discovery
