@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "complicated_bees:basic_upgrade"
+    },
+    "P": {
+      "item": "complicated_bees:propolis"
+    },
+    "R": {
+      "item": "complicated_bees:woven_mesh"
+    }
+  },
+  "pattern": [
+    "PRP",
+    "RBR",
+    "PRP"
+  ],
+  "result": {
+    "item": "complicated_bees:silky_upgrade"
+  },
+  "show_notification": true
+}

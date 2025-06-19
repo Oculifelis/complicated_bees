@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "complicated_bees:basic_upgrade"
+    },
+    "L": {
+      "item": "minecraft:shroomlight"
+    },
+    "P": {
+      "item": "complicated_bees:propolis"
+    },
+    "S": {
+      "tag": "minecraft:soul_fire_base_blocks"
+    }
+  },
+  "pattern": [
+    "PLP",
+    "SBS",
+    "PSP"
+  ],
+  "result": {
+    "item": "complicated_bees:twisted_upgrade"
+  },
+  "show_notification": true
+}

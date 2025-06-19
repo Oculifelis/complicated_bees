@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "P": {
+      "item": "complicated_bees:pollen"
+    },
+    "R": {
+      "item": "complicated_bees:royal_upgrade"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "ISI",
+    "PRP",
+    "INI"
+  ],
+  "result": {
+    "count": 2,
+    "item": "complicated_bees:withered_upgrade"
+  },
+  "show_notification": true
+}
