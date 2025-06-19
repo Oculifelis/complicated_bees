@@ -4,7 +4,7 @@ import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
@@ -103,7 +103,7 @@ public class MutationEmiRecipe implements EmiRecipe {
 
         float chance = mutation.getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
-            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation)) ? Config.CONFIG.researchBonus.get() * 100 : 0;
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }
 
         String chanceString = mutation.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);

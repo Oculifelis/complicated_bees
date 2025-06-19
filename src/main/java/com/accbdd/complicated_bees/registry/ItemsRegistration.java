@@ -2,7 +2,7 @@ package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.CommonConfig;
 import com.accbdd.complicated_bees.item.ArmorMaterials;
 import com.accbdd.complicated_bees.item.*;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -53,9 +53,9 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), 2f, 0.85f));
     public static final RegistryObject<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), 0.85f, 2f));
     public static final RegistryObject<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.5f, 1.5f));
-    public static final RegistryObject<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), Config.CONFIG.beeStaff));
-    public static final RegistryObject<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).build()), Config.CONFIG.honeyBread));
-    public static final RegistryObject<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationMod(0.5f).build()), Config.CONFIG.honeyPorkchop));
+    public static final RegistryObject<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), CommonConfig.COMMON_CONFIG.beeStaff));
+    public static final RegistryObject<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).build()), CommonConfig.COMMON_CONFIG.honeyBread));
+    public static final RegistryObject<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationMod(0.5f).build()), CommonConfig.COMMON_CONFIG.honeyPorkchop));
     public static final RegistryObject<Item> AMBROSIA = register("ambrosia", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder()
             .nutrition(6)
             .saturationMod(1.2F)
@@ -63,7 +63,7 @@ public class ItemsRegistration {
             .effect(() -> new MobEffectInstance(MobEffects.JUMP, 1200, 2), 1.0F)
             .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 2400, 1), 1.0F)
             .alwaysEat()
-            .build()).rarity(Rarity.RARE), Config.CONFIG.ambrosia) {
+            .build()).rarity(Rarity.RARE), CommonConfig.COMMON_CONFIG.ambrosia) {
         @Override
         public boolean isFoil(ItemStack pStack) {
             return true;
@@ -71,27 +71,27 @@ public class ItemsRegistration {
     });
 
     public static final RegistryObject<FrameItem> FRAME = register("frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.25f).build(), Config.CONFIG.frame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.25f).build(), CommonConfig.COMMON_CONFIG.frame));
     public static final RegistryObject<FrameItem> WAXED_FRAME = register("waxed_frame",
-            () -> new FrameItem(new Item.Properties().durability(240), new BeeHousingModifier.Builder().productivity(1.5f).build(), Config.CONFIG.waxedFrame));
+            () -> new FrameItem(new Item.Properties().durability(240), new BeeHousingModifier.Builder().productivity(1.5f).build(), CommonConfig.COMMON_CONFIG.waxedFrame));
     public static final RegistryObject<FrameItem> HONEYED_FRAME = register("honeyed_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.75f).lifespan(0.9f).build(), Config.CONFIG.honeyFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.75f).lifespan(0.9f).build(), CommonConfig.COMMON_CONFIG.honeyFrame));
     public static final RegistryObject<FrameItem> TWISTING_FRAME = register("twisting_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.25f).build(), Config.CONFIG.twistingFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.25f).build(), CommonConfig.COMMON_CONFIG.twistingFrame));
     public static final RegistryObject<FrameItem> SOOTHING_FRAME = register("soothing_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), Config.CONFIG.soothingFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), CommonConfig.COMMON_CONFIG.soothingFrame));
     public static final RegistryObject<FrameItem> COLD_FRAME = register("cold_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), Config.CONFIG.coldFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.coldFrame));
     public static final RegistryObject<FrameItem> HOT_FRAME = register("hot_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), Config.CONFIG.hotFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.hotFrame));
     public static final RegistryObject<FrameItem> DRY_FRAME = register("dry_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), Config.CONFIG.dryFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.dryFrame));
     public static final RegistryObject<FrameItem> WET_FRAME = register("wet_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), Config.CONFIG.wetFrame));
+            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.wetFrame));
     public static final RegistryObject<FrameItem> DEADLY_FRAME = register("deadly_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().lifespan(0.1f).build(), Config.CONFIG.deadlyFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().lifespan(0.1f).build(), CommonConfig.COMMON_CONFIG.deadlyFrame));
     public static final RegistryObject<FrameItem> RESTRICTIVE_FRAME = register("restrictive_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().territory(0.5f).lifespan(0.75f).productivity(0.75f).build(), Config.CONFIG.restrictiveFrame));
+            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().territory(0.5f).lifespan(0.75f).productivity(0.75f).build(), CommonConfig.COMMON_CONFIG.restrictiveFrame));
 
     public static final RegistryObject<ArmorItem> APIARIST_HELMET = register("apiarist_helmet",
             () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.HELMET, new Item.Properties()));

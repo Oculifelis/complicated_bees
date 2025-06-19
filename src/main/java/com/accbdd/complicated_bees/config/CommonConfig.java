@@ -3,29 +3,15 @@ package com.accbdd.complicated_bees.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class Config {
+public class CommonConfig {
     public static ForgeConfigSpec CONFIG_SPEC;
-    public static Config CONFIG;
+    public static CommonConfig COMMON_CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeBaseSpeed, centrifugeBaseEnergy, generatorEnergy;
-    public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
     public final ForgeConfigSpec.ConfigValue<Boolean> frame, waxedFrame, honeyFrame, twistingFrame, soothingFrame, coldFrame, hotFrame, dryFrame, wetFrame, deadlyFrame, restrictiveFrame;
     public final ForgeConfigSpec.ConfigValue<Boolean> honeyBread, honeyPorkchop, ambrosia;
     public final ForgeConfigSpec.ConfigValue<Boolean> beeStaff;
 
-    Config(ForgeConfigSpec.Builder builder) {
-        builder.push("cycle_length");
-        productionCycleLength = builder.comment("How long (in ticks) one bee cycle should take.").define("productionCycleLength", 200);
-        enviroCycleLength = builder.comment("How long (in ticks) an apiary should wait between re-scanning the environment for appropriate conditions.").define("enviroCycleLength", 200);
-        builder.pop();
-        builder.push("research");
-        researchBonus = builder.comment("The percentage bonus researching a mutation in the microscope should grant to that mutation's chances.").define("researchBonus", 0.2f);
-        builder.pop();
-        builder.push("rf");
-        centrifugeBaseSpeed = builder.comment("How many ticks an unupgraded centrifuge should take to process a comb").define("centrifugeBaseSpeed", 200);
-        centrifugeBaseEnergy = builder.comment("How much rf/tick an unupgraded centrifuge should use while processing a recipe.").define("centrifugeBaseEnergy", 20);
-        generatorEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorEnergy", 20);
-        builder.pop();
+    CommonConfig(ForgeConfigSpec.Builder builder) {
         builder.push("items");
         builder.push("frames");
         frame = builder.comment("Enable the basic frame").define("frameEnabled", true);
@@ -53,9 +39,9 @@ public class Config {
     }
 
     static {
-        Pair<Config, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(Config::new);
+        Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
 
         CONFIG_SPEC = pair.getRight();
-        CONFIG = pair.getLeft();
+        COMMON_CONFIG = pair.getLeft();
     }
 }

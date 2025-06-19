@@ -5,7 +5,7 @@ import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.*;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumLifespan;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumProductivity;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
@@ -47,9 +47,9 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public static final int SLOT_COUNT = BEE_SLOT_COUNT + OUTPUT_SLOT_COUNT + FRAME_SLOT_COUNT;
     public static final String OUTPUT_BUFFER_TAG = "output_buffer";
 
-    public static final int CYCLE_LENGTH = Config.CONFIG.productionCycleLength.get();
+    public static final int CYCLE_LENGTH = ServerConfig.SERVER_CONFIG.productionCycleLength.get();
     public static final String CYCLE_TAG = "cycle";
-    public static final int SATISFY_CYCLE_LENGTH = Config.CONFIG.enviroCycleLength.get();
+    public static final int SATISFY_CYCLE_LENGTH = ServerConfig.SERVER_CONFIG.enviroCycleLength.get();
 
     public static final String OWNER_TAG = "owner";
     private UUID owner = null;

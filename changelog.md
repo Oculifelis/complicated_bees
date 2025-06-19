@@ -7,6 +7,8 @@ This update introduces upgrades! Now you can make your machines faster and more 
 
 ## Changed
 * Centrifuge can now input and output from any side
+* Split common and server-side config up
+  * The mod is inspired by old Forestry, but that doesn't mean I need to follow manual client/server config sync... 
 
 ## Fixed
 * Centrifuge was ten times faster than it should have been

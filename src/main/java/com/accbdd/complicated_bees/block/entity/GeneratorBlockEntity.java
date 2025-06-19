@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +28,7 @@ public class GeneratorBlockEntity extends BlockEntity {
     public static final String ENERGY_TAG = "energy";
     public static final String BURN_TIME_TAG = "burn_time";
 
-    public static final int GENERATE = Config.CONFIG.generatorEnergy.get();
+    public static final int GENERATE = ServerConfig.SERVER_CONFIG.generatorEnergy.get();
     public static final int MAXTRANSFER = 1000;
     public static final int CAPACITY = 100000;
 

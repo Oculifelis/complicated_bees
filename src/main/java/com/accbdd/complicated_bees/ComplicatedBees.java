@@ -13,7 +13,8 @@ import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRe
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.command.ModCommands;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.CommonConfig;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.event.ComplicatedBeesEvents;
@@ -128,7 +129,8 @@ public class ComplicatedBees {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(ComplicatedBeesEvents::onItemPickup);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG_SPEC);
 
         CREATIVE_MODE_TABS.register(modEventBus);
     }

@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.compat.jei;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -48,7 +48,7 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         float chance = recipe.getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
-            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(recipe)) ? Config.CONFIG.researchBonus.get() * 100 : 0;
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(recipe)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }
         chance = Math.min(100, chance);
         String chanceString = recipe.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);

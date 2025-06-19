@@ -7,7 +7,7 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
@@ -215,7 +215,7 @@ public class GeneticHelper {
                         if (canMutate) {
                             float mod = 0;
                             if (tracker != null && tracker.isResearched(mutation))
-                                mod = Config.CONFIG.researchBonus.get();
+                                mod = ServerConfig.SERVER_CONFIG.researchBonus.get();
                             if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
                                 possibleMutations.add(mutation);
                         }

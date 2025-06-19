@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.bees.Product;
-import com.accbdd.complicated_bees.config.Config;
+import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
@@ -58,8 +58,8 @@ public class CentrifugeBlockEntity extends BlockEntity {
     public static final String ENERGY_TAG = "energy";
     public static final int CAPACITY = 100000;
     public static final int MAXTRANSFER = 5000;
-    public static final int BASE_USAGE = Config.CONFIG.centrifugeBaseEnergy.get();
-    public static final int BASE_MAX_PROGRESS = Config.CONFIG.centrifugeBaseSpeed.get();
+    public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.centrifugeBaseEnergy.get();
+    public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.centrifugeBaseSpeed.get();
 
     private final ContainerData data;
     private int progress = 0;
