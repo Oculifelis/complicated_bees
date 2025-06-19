@@ -201,6 +201,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
             burnTime = tag.getInt(BURN_TIME_TAG);
             maxBurnTime = burnTime;
         }
+        calculateUpgradeStats();
     }
 
     @Nonnull

@@ -280,6 +280,7 @@ public class CentrifugeBlockEntity extends BlockEntity {
         if (tag.contains(ENERGY_TAG)) {
             energy.deserializeNBT(tag.get(ENERGY_TAG));
         }
+        calculateUpgradeStats();
     }
 
     public void tickServer() {
