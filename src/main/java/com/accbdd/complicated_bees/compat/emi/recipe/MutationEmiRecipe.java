@@ -36,11 +36,11 @@ public class MutationEmiRecipe implements EmiRecipe {
 
         id = new ResourceLocation(MODID,
                 "/mutation/first/" +
-                mutation.getFirst().toString().replace(":", "/") +
-                "/second/" +
-                mutation.getSecond().toString().replace(":", "/") +
-                "/result/" +
-                mutation.getResult().toString().replace(":", "/")
+                        mutation.getFirst().toString().replace(":", "/") +
+                        "/second/" +
+                        mutation.getSecond().toString().replace(":", "/") +
+                        "/result/" +
+                        mutation.getResult().toString().replace(":", "/")
         );
         first = EmiStack.of(mutation.getFirstSpecies().toStack(ItemsRegistration.QUEEN.get()));
         second = EmiStack.of(mutation.getSecondSpecies().toStack(ItemsRegistration.QUEEN.get()));
@@ -116,7 +116,7 @@ public class MutationEmiRecipe implements EmiRecipe {
             for (IMutationCondition condition : mutation.getConditions()) {
                 tips.add(condition.getDescription());
             }
-            widgets.addTooltipText(tips, 81, 1, 106-81, 10-1);
+            widgets.addTooltipText(tips, 81, 1, 106 - 81, 10 - 1);
         }
     }
 }

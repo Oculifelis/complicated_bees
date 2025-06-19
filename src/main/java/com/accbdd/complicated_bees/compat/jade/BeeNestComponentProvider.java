@@ -13,6 +13,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeNestComponentProvider implements IBlockComponentProvider {
     public static BeeNestComponentProvider INSTANCE = new BeeNestComponentProvider();
+
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
         iTooltip.add(blockAccessor.getBlockEntity() instanceof BeeNestBlockEntity nest ? GeneticHelper.getTranslationKey(nest.getSpecies()) : Component.literal("INVALID SPECIES"));

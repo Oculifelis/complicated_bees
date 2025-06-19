@@ -40,6 +40,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiRecipeCategory HONEY_GENERATOR_CATEGORY = new ComplicatedBeesRecipeCategory("honey_generator", HONEY_GENERATOR, Component.translatable("jei.complicated_bees.honey_generator"));
     public static final Comparison COMPARE_BEE
             = Comparison.compareData(stack -> GeneticHelper.getSpecies(stack.getItemStack(), true));
+
     @Override
     public void register(EmiRegistry registry) {
         registry.setDefaultComparison(ItemsRegistration.DRONE.get(), COMPARE_BEE);

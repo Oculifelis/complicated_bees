@@ -29,7 +29,7 @@ public class BeeSorterDragDropEMI implements EmiDragDropHandler<BeeSorterScreen>
     public void render(BeeSorterScreen screen, EmiIngredient dragged, GuiGraphics draw, int mouseX, int mouseY, float delta) {
         for (int i = 0; i < 36; i++) {
             Slot slot = screen.getMenu().getSlot(i);
-            draw.fill(screen.getGuiLeft() + slot.x, screen.getGuiTop() + slot.y, screen.getGuiLeft()+ slot.x + 16, screen.getGuiTop() + slot.y + 16, 0x8822BB33);
+            draw.fill(screen.getGuiLeft() + slot.x, screen.getGuiTop() + slot.y, screen.getGuiLeft() + slot.x + 16, screen.getGuiTop() + slot.y + 16, 0x8822BB33);
         }
     }
 }
