@@ -66,7 +66,7 @@
   "block.complicated_bees.bee_nest": "蜂巢",
   "block.complicated_bees.apiary": "蜂房",
   "block.complicated_bees.centrifuge": "离心机",
-  "block.complicated_bees.generator": "发电机",
+  "block.complicated_bees.furnace_generator": "发电机",
   "block.complicated_bees.apid_library": "蜜蜂文库",
   "block.complicated_bees.wax_block": "蜡块",
   "block.complicated_bees.wax_block_stairs": "蜡楼梯",
@@ -113,7 +113,7 @@
 
   "gui.complicated_bees.centrifuge": "离心机",
   "gui.complicated_bees.apiary": "蜂房",
-  "gui.complicated_bees.generator": "发电机",
+  "gui.complicated_bees.furnace_generator": "发电机",
   "gui.complicated_bees.analyzer": "分析仪",
   "gui.complicated_bees.mellarium": "蜂房组",
 

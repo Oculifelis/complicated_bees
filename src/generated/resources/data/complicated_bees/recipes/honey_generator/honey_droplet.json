@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:honey_generator",
+  "burn_time": 400,
+  "input": {
+    "item": "complicated_bees:honey_droplet"
+  }
+}

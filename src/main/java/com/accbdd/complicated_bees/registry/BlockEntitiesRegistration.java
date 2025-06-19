@@ -25,8 +25,10 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(CentrifugeBlockEntity::new, BlocksRegistration.CENTRIFUGE.get()).build(null));
     public static final Supplier<BlockEntityType<BeeNestBlockEntity>> BEE_NEST_ENTITY = BLOCK_ENTITIES.register("bee_nest",
             () -> BlockEntityType.Builder.of(BeeNestBlockEntity::new, BlocksRegistration.BEE_NEST.get()).build(null));
-    public static final Supplier<BlockEntityType<GeneratorBlockEntity>> GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("generator",
-            () -> BlockEntityType.Builder.of(GeneratorBlockEntity::new, BlocksRegistration.GENERATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<FurnaceGeneratorBlockEntity>> FURNACE_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("furnace_generator",
+            () -> BlockEntityType.Builder.of(FurnaceGeneratorBlockEntity::new, BlocksRegistration.FURNACE_GENERATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<HoneyGeneratorBlockEntity>> HONEY_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("honey_generator",
+            () -> BlockEntityType.Builder.of(HoneyGeneratorBlockEntity::new, BlocksRegistration.HONEY_GENERATOR.get()).build(null));
     public static final Supplier<BlockEntityType<MicroscopeBlockEntity>> MICROSCOPE_BLOCK_ENTITY = BLOCK_ENTITIES.register("microscope",
             () -> BlockEntityType.Builder.of(MicroscopeBlockEntity::new, BlocksRegistration.MICROSCOPE.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumControllerBlockEntity>> MELLARIUM_CONTROLLER_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_controller",

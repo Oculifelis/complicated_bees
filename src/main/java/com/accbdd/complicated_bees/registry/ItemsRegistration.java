@@ -53,6 +53,8 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), 2f, 0.85f));
     public static final RegistryObject<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), 0.85f, 2f));
     public static final RegistryObject<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.5f, 1.5f));
+    public static final RegistryObject<Item> ENDENIC_UPGRADE = register("endenic_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 0.5f, 4f));
+    public static final RegistryObject<Item> WITHERED_UPGRADE = register("withered_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 4f, 0.5f));
     public static final RegistryObject<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), CommonConfig.COMMON_CONFIG.beeStaff));
     public static final RegistryObject<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).build()), CommonConfig.COMMON_CONFIG.honeyBread));
     public static final RegistryObject<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationMod(0.5f).build()), CommonConfig.COMMON_CONFIG.honeyPorkchop));
@@ -104,7 +106,8 @@ public class ItemsRegistration {
 
     public static final RegistryObject<Item> APIARY = registerSimpleBlockItem("apiary", BlocksRegistration.APIARY);
     public static final RegistryObject<Item> CENTRIFUGE = registerSimpleBlockItem("centrifuge", BlocksRegistration.CENTRIFUGE);
-    public static final RegistryObject<Item> GENERATOR = registerSimpleBlockItem("generator", BlocksRegistration.GENERATOR);
+    public static final RegistryObject<Item> FURNACE_GENERATOR = registerSimpleBlockItem("furnace_generator", BlocksRegistration.FURNACE_GENERATOR);
+    public static final RegistryObject<Item> HONEY_GENERATOR = registerSimpleBlockItem("honey_generator", BlocksRegistration.HONEY_GENERATOR);
     public static final RegistryObject<Item> MICROSCOPE = registerSimpleBlockItem("microscope", BlocksRegistration.MICROSCOPE);
     public static final RegistryObject<Item> BEE_SORTER = registerSimpleBlockItem("bee_sorter", BlocksRegistration.BEE_SORTER);
     public static final RegistryObject<Item> MELLARIUM_BASE = registerSimpleBlockItem("mellarium_base", BlocksRegistration.MELLARIUM_BASE);

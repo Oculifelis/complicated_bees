@@ -7,7 +7,16 @@ public class ServerConfig {
     public static ForgeConfigSpec CONFIG_SPEC;
     public static ServerConfig SERVER_CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeBaseSpeed, centrifugeBaseEnergy, generatorBaseEnergy, generatorBaseTransfer, generatorBaseStorage;
+    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength;
+    public final ForgeConfigSpec.ConfigValue<Integer> enviroCycleLength;
+    public final ForgeConfigSpec.ConfigValue<Integer> centrifugeBaseSpeed;
+    public final ForgeConfigSpec.ConfigValue<Integer> centrifugeBaseEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseTransfer;
+    public final ForgeConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseStorage;
+    public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseTransfer;
+    public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseStorage;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
@@ -21,9 +30,12 @@ public class ServerConfig {
         builder.push("rf");
         centrifugeBaseSpeed = builder.comment("How many ticks an unupgraded centrifuge should take to process a comb").define("centrifugeBaseSpeed", 200);
         centrifugeBaseEnergy = builder.comment("How much rf/tick an unupgraded centrifuge should use while processing a recipe.").define("centrifugeBaseEnergy", 20);
-        generatorBaseEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorBaseEnergy", 20);
-        generatorBaseTransfer = builder.comment("How much rf/tick a generator should be able to transfer out of itself.").define("generatorBaseTransfer", 1000);
-        generatorBaseStorage = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorBaseStorage", 100000);
+        furnaceGeneratorBaseEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("furnaceGeneratorBaseEnergy", 20);
+        furnaceGeneratorBaseTransfer = builder.comment("How much rf/tick a generator should be able to transfer out of itself.").define("furnaceGeneratorBaseTransfer", 1000);
+        furnaceGeneratorBaseStorage = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("furnaceGeneratorBaseStorage", 100000);
+        honeyGeneratorBaseEnergy = builder.comment("How much rf/tick a honey generator should produce while burning a fuel.").define("honeyGeneratorBaseEnergy", 40);
+        honeyGeneratorBaseTransfer = builder.comment("How much rf/tick a honey generator should be able to transfer out of itself.").define("honeyGeneratorBaseTransfer", 2000);
+        honeyGeneratorBaseStorage = builder.comment("How much rf/tick a honey generator should produce while burning a fuel.").define("honeyGeneratorBaseStorage", 200000);
         builder.pop();
     }
 

@@ -119,7 +119,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('S', Items.SMOOTH_STONE)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(ItemsRegistration.COMB.get()), has(ItemsRegistration.COMB.get())).save(output);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.GENERATOR.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.FURNACE_GENERATOR.get())
                 .pattern("CIC")
                 .pattern("IBI")
                 .pattern("SRS")
@@ -327,6 +327,8 @@ public class RecipeGenerator extends RecipeProvider {
         hydroregulatorRecipe(output, "water_bucket", Ingredient.of(Items.WATER_BUCKET), new Product(Items.BUCKET.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
         hydroregulatorRecipe(output, "sponge", Ingredient.of(Items.SPONGE), new Product(Items.WET_SPONGE.getDefaultInstance(), 1), EnumTolerance.DOWN_1, 0.05f);
         hydroregulatorRecipe(output, "wet_sponge", Ingredient.of(Items.WET_SPONGE), new Product(Items.SPONGE.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
+
+        honeyGeneratorRecipe(output, "honey_droplet", Ingredient.of(ItemsRegistration.HONEY_DROPLET.get()), 400);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {
@@ -357,6 +359,14 @@ public class RecipeGenerator extends RecipeProvider {
                 recipeOutput,
                 humidityChange,
                 useChance
+        ));
+    }
+
+    protected static void honeyGeneratorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, int burnTime) {
+        output.accept(new CBRecipeBuilder.HoneyGeneratorRecipe(
+                new ResourceLocation(MODID, "honey_generator/" + name),
+                input,
+                burnTime
         ));
     }
 

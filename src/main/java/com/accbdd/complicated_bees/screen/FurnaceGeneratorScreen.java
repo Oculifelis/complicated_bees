@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity;
+import com.accbdd.complicated_bees.block.entity.FurnaceGeneratorBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -9,17 +9,17 @@ import net.minecraft.world.entity.player.Inventory;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
+public class FurnaceGeneratorScreen extends AbstractContainerScreen<AbstractGeneratorMenu> {
     private final int ENERGY_LEFT = 163;
     private final int ENERGY_TOP = 8;
     private final int ENERGY_WIDTH = 5;
-    private final int ENERGY_HEIGHT = 46;
+    private final int ENERGY_HEIGHT = 61;
     private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/generator.png");
 
-    public GeneratorScreen(GeneratorMenu container, Inventory inventory, Component title) {
+    public FurnaceGeneratorScreen(AbstractGeneratorMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 143;
+        this.imageHeight = 158;
         this.inventoryLabelY = this.imageHeight - 96;
     }
 
@@ -41,7 +41,7 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
     }
 
     public void renderPowerBar(GuiGraphics graphics, int x, int y) {
-        int powerScaled = getScaled(menu.getPower(), GeneratorBlockEntity.BASE_STORAGE, ENERGY_HEIGHT);
+        int powerScaled = getScaled(menu.getPower(), FurnaceGeneratorBlockEntity.BASE_STORAGE, ENERGY_HEIGHT);
         graphics.blit(GUI,
                 x + ENERGY_LEFT,
                 y + ENERGY_TOP + (ENERGY_HEIGHT - powerScaled),
@@ -55,7 +55,7 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
         int burnScaled = getScaled(menu.getBurnTime(), menu.getMaxBurnTime(), 14);
         graphics.blit(GUI,
                 x + 81,
-                y + 15 + (14 - burnScaled),
+                y + 24 + (14 - burnScaled),
                 176,
                 14 - burnScaled,
                 14,

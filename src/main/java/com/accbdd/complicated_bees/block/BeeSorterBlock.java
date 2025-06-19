@@ -71,8 +71,8 @@ public class BeeSorterBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-        if (blockentity instanceof BeeSorterBlockEntity generator && !pNewState.is(this)) {
-            IItemHandler handler = generator.getItem();
+        if (blockentity instanceof BeeSorterBlockEntity sorter && !pNewState.is(this)) {
+            IItemHandler handler = sorter.getItem();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
@@ -101,7 +101,7 @@ public class BeeSorterBlock extends BaseEntityBlock {
     private void checkPoweredState(Level pLevel, BlockPos pPos, BlockState pState, int pFlags) {
         boolean flag = !pLevel.hasNeighborSignal(pPos);
         if (flag != pState.getValue(ENABLED)) {
-            pLevel.setBlock(pPos, pState.setValue(ENABLED, Boolean.valueOf(flag)), pFlags);
+            pLevel.setBlock(pPos, pState.setValue(ENABLED, flag), pFlags);
         }
     }
 

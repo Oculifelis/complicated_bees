@@ -98,8 +98,8 @@ public class ComplicatedBees {
                 }
             }).build());
 
-    public ComplicatedBees() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public ComplicatedBees(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::registerSerializers);
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
@@ -218,7 +218,8 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.MELLARIUM_TEMP_UNIT_MENU.get(), MellariumTempUnitScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_MUTATOR_MENU.get(), MellariumMutatorScreen::new);
                 MenuScreens.register(MenuRegistration.MELLARIUM_HYDROREGULATOR_MENU.get(), MellariumHydroregulatorScreen::new);
-                MenuScreens.register(MenuRegistration.GENERATOR_MENU.get(), GeneratorScreen::new);
+                MenuScreens.register(MenuRegistration.FURNACE_GENERATOR_MENU.get(), FurnaceGeneratorScreen::new);
+                MenuScreens.register(MenuRegistration.HONEY_GENERATOR_MENU.get(), HoneyGeneratorScreen::new);
                 MenuScreens.register(MenuRegistration.ANALYZER_MENU.get(), AnalyzerScreen::new);
                 MenuScreens.register(MenuRegistration.MICROSCOPE_MENU.get(), MicroscopeScreen::new);
                 MenuScreens.register(MenuRegistration.LIBRARY_MENU.get(), LibraryScreen::new);

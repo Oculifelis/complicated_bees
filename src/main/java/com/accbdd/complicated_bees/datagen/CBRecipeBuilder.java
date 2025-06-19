@@ -140,4 +140,44 @@ public class CBRecipeBuilder {
             return null;
         }
     }
+
+    public static class HoneyGeneratorRecipe implements FinishedRecipe {
+        private final ResourceLocation id;
+        private final Ingredient input;
+        private final int burnTime;
+
+        public HoneyGeneratorRecipe(ResourceLocation id, Ingredient input, int burnTime) {
+            this.id = id;
+            this.input = input;
+            this.burnTime = burnTime;
+        }
+
+        @Override
+        public void serializeRecipeData(JsonObject pJson) {
+            pJson.add("input", input.toJson());
+            pJson.addProperty("burn_time", burnTime);
+        }
+
+        @Override
+        public ResourceLocation getId() {
+            return id;
+        }
+
+        @Override
+        public RecipeSerializer<?> getType() {
+            return EsotericRegistration.HONEY_GENERATOR_RECIPE_SERIALIZER.get();
+        }
+
+        @Nullable
+        @Override
+        public JsonObject serializeAdvancement() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public ResourceLocation getAdvancementId() {
+            return null;
+        }
+    }
 }

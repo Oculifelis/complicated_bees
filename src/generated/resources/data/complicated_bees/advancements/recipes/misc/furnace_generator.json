@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "complicated_bees:generator"
+        "recipe": "complicated_bees:furnace_generator"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "complicated_bees:generator"
+      "complicated_bees:furnace_generator"
     ]
   },
   "sends_telemetry_event": false

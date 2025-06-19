@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "complicated_bees:block/honey_generator_bottom",
+    "east": "complicated_bees:block/honey_generator_side",
+    "north": "complicated_bees:block/honey_generator_front_on",
+    "particle": "complicated_bees:block/honey_generator_side",
+    "south": "complicated_bees:block/honey_generator_back",
+    "up": "complicated_bees:block/honey_generator_top",
+    "west": "complicated_bees:block/honey_generator_side"
+  }
+}

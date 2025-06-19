@@ -30,7 +30,8 @@ public class BlocksRegistration {
     public static final RegistryObject<BeeNestBlock> BEE_NEST = BLOCKS.register("bee_nest", BeeNestBlock::new);
     public static final RegistryObject<ApiaryBlock> APIARY = BLOCKS.register("apiary", ApiaryBlock::new);
     public static final RegistryObject<CentrifugeBlock> CENTRIFUGE = BLOCKS.register("centrifuge", CentrifugeBlock::new);
-    public static final RegistryObject<GeneratorBlock> GENERATOR = BLOCKS.register("generator", GeneratorBlock::new);
+    public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = BLOCKS.register("furnace_generator", FurnaceGeneratorBlock::new);
+    public static final RegistryObject<HoneyGeneratorBlock> HONEY_GENERATOR = BLOCKS.register("honey_generator", HoneyGeneratorBlock::new);
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
     public static final RegistryObject<BeeSorterBlock> BEE_SORTER = BLOCKS.register("bee_sorter", BeeSorterBlock::new);
 

@@ -25,7 +25,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.BEE_NEST.getId().getPath(), modLoc("block/bee_nest"));
         withExistingParent(BlocksRegistration.APIARY.getId().getPath(), modLoc("block/apiary"));
         withExistingParent(BlocksRegistration.CENTRIFUGE.getId().getPath(), modLoc("block/centrifuge"));
-        withExistingParent(BlocksRegistration.GENERATOR.getId().getPath(), modLoc("block/generator"));
+        withExistingParent(BlocksRegistration.FURNACE_GENERATOR.getId().getPath(), modLoc("block/furnace_generator"));
+        withExistingParent(BlocksRegistration.HONEY_GENERATOR.getId().getPath(), modLoc("block/honey_generator"));
         withExistingParent(BlocksRegistration.APID_LIBRARY.getId().getPath(), modLoc("block/apid_library"));
         withExistingParent(BlocksRegistration.BEE_SORTER.getId().getPath(), modLoc("block/bee_sorter"));
         withExistingParent(BlocksRegistration.MELLARIUM_BASE.getId().getPath(), modLoc("block/mellarium_base"));
@@ -103,6 +104,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ItemsRegistration.TWISTED_UPGRADE.get());
         basicItem(ItemsRegistration.SILKY_UPGRADE.get());
         basicItem(ItemsRegistration.ROYAL_UPGRADE.get());
+        basicItem(ItemsRegistration.ENDENIC_UPGRADE.get());
+        basicItem(ItemsRegistration.WITHERED_UPGRADE.get());
 
         createCombModel();
         beeModel("base", "bee_base");

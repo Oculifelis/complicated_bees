@@ -72,7 +72,8 @@ public class BlockStateGenerator extends BlockStateProvider {
         hangingSignBlock(BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), modLoc("block/honeyed_planks"));
         horizontalBlock(BlocksRegistration.MICROSCOPE.get(), models().getExistingFile(modLoc("block/microscope")), -90);
         registerCentrifuge();
-        registerGenerator();
+        registerFurnaceGenerator();
+        registerHoneyGenerator();
     }
 
     public void slabBlock(SlabBlock block, ResourceLocation side, ResourceLocation end) {
@@ -144,16 +145,28 @@ public class BlockStateGenerator extends BlockStateProvider {
         directionBlock(BlocksRegistration.CENTRIFUGE.get(), (state, builder) -> builder.modelFile(state.getValue(BlockStateProperties.POWERED) ? modelOn : modelOff));
     }
 
-    public void registerGenerator() {
+    public void registerFurnaceGenerator() {
         ResourceLocation BOTTOM = modLoc("block/generator_bottom");
         ResourceLocation SIDE = modLoc("block/generator_side");
         ResourceLocation TOP = modLoc("block/generator_top");
         ResourceLocation BACK = modLoc("block/generator_back");
         ResourceLocation FRONT = modLoc("block/generator_front");
         ResourceLocation FRONT_ON = modLoc("block/generator_front_on");
-        BlockModelBuilder modelOn = models().cube(BlocksRegistration.GENERATOR.getId().getPath() + "_on", BOTTOM, TOP, FRONT_ON, BACK, SIDE, SIDE).texture("particle", SIDE);
-        BlockModelBuilder modelOff = models().cube(BlocksRegistration.GENERATOR.getId().getPath(), BOTTOM, TOP, FRONT, BACK, SIDE, SIDE).texture("particle", SIDE);
-        directionBlock(BlocksRegistration.GENERATOR.get(), (state, builder) -> builder.modelFile(state.getValue(BlockStateProperties.POWERED) ? modelOn : modelOff));
+        BlockModelBuilder modelOn = models().cube(BlocksRegistration.FURNACE_GENERATOR.getId().getPath() + "_on", BOTTOM, TOP, FRONT_ON, BACK, SIDE, SIDE).texture("particle", SIDE);
+        BlockModelBuilder modelOff = models().cube(BlocksRegistration.FURNACE_GENERATOR.getId().getPath(), BOTTOM, TOP, FRONT, BACK, SIDE, SIDE).texture("particle", SIDE);
+        directionBlock(BlocksRegistration.FURNACE_GENERATOR.get(), (state, builder) -> builder.modelFile(state.getValue(BlockStateProperties.POWERED) ? modelOn : modelOff));
+    }
+
+    public void registerHoneyGenerator() {
+        ResourceLocation BOTTOM = modLoc("block/honey_generator_bottom");
+        ResourceLocation SIDE = modLoc("block/honey_generator_side");
+        ResourceLocation TOP = modLoc("block/honey_generator_top");
+        ResourceLocation BACK = modLoc("block/honey_generator_back");
+        ResourceLocation FRONT = modLoc("block/honey_generator_front");
+        ResourceLocation FRONT_ON = modLoc("block/honey_generator_front_on");
+        BlockModelBuilder modelOn = models().cube(BlocksRegistration.HONEY_GENERATOR.getId().getPath() + "_on", BOTTOM, TOP, FRONT_ON, BACK, SIDE, SIDE).texture("particle", SIDE);
+        BlockModelBuilder modelOff = models().cube(BlocksRegistration.HONEY_GENERATOR.getId().getPath(), BOTTOM, TOP, FRONT, BACK, SIDE, SIDE).texture("particle", SIDE);
+        directionBlock(BlocksRegistration.HONEY_GENERATOR.get(), (state, builder) -> builder.modelFile(state.getValue(BlockStateProperties.POWERED) ? modelOn : modelOff));
     }
 
     private void directionBlock(Block block, BiConsumer<BlockState, ConfiguredModel.Builder<?>> model) {

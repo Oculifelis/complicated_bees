@@ -1,35 +1,37 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity;
-import com.accbdd.complicated_bees.registry.BlocksRegistration;
-import com.accbdd.complicated_bees.registry.MenuRegistration;
+import com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.items.SlotItemHandler;
 
-import static com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity.SLOT;
-import static com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity.SLOT_COUNT;
+import static com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity.SLOT;
+import static com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity.SLOT_COUNT;
 
-public class GeneratorMenu extends AbstractBaseInventoryMenu {
+public abstract class AbstractGeneratorMenu extends AbstractBaseInventoryMenu {
 
     private final BlockPos pos;
+    private final Block block;
     private int power;
     private int burnTime;
     private int maxBurnTime;
     private static final int INV_X = 8;
-    private static final int INV_Y = 61;
+    private static final int INV_Y = 76;
 
-    public GeneratorMenu(int windowId, Player player, BlockPos pos) {
-        super(MenuRegistration.GENERATOR_MENU.get(), windowId, player, SLOT_COUNT, INV_X, INV_Y);
+    public AbstractGeneratorMenu(MenuType<?> type, int windowId, Player player, BlockPos pos, Block block) {
+        super(type, windowId, player, SLOT_COUNT, INV_X, INV_Y);
         this.pos = pos;
-        if (player.level().getBlockEntity(pos) instanceof GeneratorBlockEntity generator) {
-            addSlot(new SlotItemHandler(generator.getItems(), SLOT, 80, 31));
+        this.block = block;
+        if (player.level().getBlockEntity(pos) instanceof BaseGeneratorBlockEntity generator) {
+            addSlot(new SlotItemHandler(generator.getItems(), SLOT, 80, 40));
             for (int i = 0; i < 3; i++) {
                 addSlot(new SlotItemHandler(generator.getUpgradeItemHandler().resolve().get(), i,
-                        109 + i * 18,
-                        8));
+                        145,
+                        8 + i * 18));
             }
 
             addDataSlot(new DataSlot() {
@@ -40,7 +42,7 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
 
                 @Override
                 public void set(int pValue) {
-                    GeneratorMenu.this.power = (GeneratorMenu.this.power & 0xffff0000) | (pValue & 0xffff);
+                    AbstractGeneratorMenu.this.power = (AbstractGeneratorMenu.this.power & 0xffff0000) | (pValue & 0xffff);
                 }
             });
             addDataSlot(new DataSlot() {
@@ -51,18 +53,18 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
 
                 @Override
                 public void set(int pValue) {
-                    GeneratorMenu.this.power = (GeneratorMenu.this.power & 0xffff) | ((pValue & 0xffff) << 16);
+                    AbstractGeneratorMenu.this.power = (AbstractGeneratorMenu.this.power & 0xffff) | ((pValue & 0xffff) << 16);
                 }
             });
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return generator.getBurnTime();
+                    return generator.getCurrentBurnTime();
                 }
 
                 @Override
                 public void set(int pValue) {
-                    GeneratorMenu.this.burnTime = pValue;
+                    AbstractGeneratorMenu.this.burnTime = pValue;
                 }
             });
             addDataSlot(new DataSlot() {
@@ -73,7 +75,7 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
 
                 @Override
                 public void set(int pValue) {
-                    GeneratorMenu.this.maxBurnTime = pValue;
+                    AbstractGeneratorMenu.this.maxBurnTime = pValue;
                 }
             });
         }
@@ -94,6 +96,6 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(player.level(), pos), player, BlocksRegistration.GENERATOR.get());
+        return stillValid(ContainerLevelAccess.create(player.level(), pos), player, block);
     }
 }

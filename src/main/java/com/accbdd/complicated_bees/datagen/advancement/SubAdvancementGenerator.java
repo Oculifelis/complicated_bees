@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class SubAdvancementGenerator implements ForgeAdvancementProvider.AdvancementGenerator {
-    private static Advancement ROOT = advancement()
+    private static final Advancement ROOT = advancement()
             .display(ItemsRegistration.SCOOP.get(),
                     Component.translatable("advancements.complicated_bees.root.title"),
                     Component.translatable("advancements.complicated_bees.root.description"),
@@ -55,7 +55,7 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
 
         Advancement processing = advancement(ItemsRegistration.CENTRIFUGE.get(), "processing")
                 .parent(apiary)
-                .addCriterion("generator", hasItem(ItemsRegistration.GENERATOR.get()))
+                .addCriterion("furnace_generator", hasItem(ItemsRegistration.FURNACE_GENERATOR.get()))
                 .addCriterion("centrifuge", hasItem(ItemsRegistration.CENTRIFUGE.get()))
                 .save(saver, loc("processing"), existingFileHelper);
 

@@ -24,7 +24,7 @@
     "SRS"
   ],
   "result": {
-    "item": "complicated_bees:generator"
+    "item": "complicated_bees:furnace_generator"
   },
   "show_notification": true
 }

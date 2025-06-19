@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "complicated_bees:generator"
+          "name": "complicated_bees:furnace_generator"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "complicated_bees:blocks/generator"
+  "random_sequence": "complicated_bees:blocks/furnace_generator"
 }

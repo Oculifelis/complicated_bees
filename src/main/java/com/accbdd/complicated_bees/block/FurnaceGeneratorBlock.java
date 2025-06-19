@@ -1,7 +1,8 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.GeneratorBlockEntity;
-import com.accbdd.complicated_bees.screen.GeneratorMenu;
+import com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity;
+import com.accbdd.complicated_bees.block.entity.FurnaceGeneratorBlockEntity;
+import com.accbdd.complicated_bees.screen.FurnaceGeneratorMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -35,11 +36,11 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class GeneratorBlock extends BaseEntityBlock {
+public class FurnaceGeneratorBlock extends BaseEntityBlock {
 
-    public static final String SCREEN_GENERATOR = "gui.complicated_bees.generator";
+    public static final String SCREEN_GENERATOR = "gui.complicated_bees.furnace_generator";
 
-    public GeneratorBlock() {
+    public FurnaceGeneratorBlock() {
         super(BlockBehaviour.Properties.of()
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
@@ -49,7 +50,7 @@ public class GeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new GeneratorBlockEntity(pPos, pState);
+        return new FurnaceGeneratorBlockEntity(pPos, pState);
     }
 
     @Nullable
@@ -59,7 +60,7 @@ public class GeneratorBlock extends BaseEntityBlock {
             return null;
         } else {
             return (lvl, pos, st, be) -> {
-                if (be instanceof GeneratorBlockEntity generator) {
+                if (be instanceof BaseGeneratorBlockEntity generator) {
                     generator.tickServer();
                 }
             };
@@ -70,7 +71,7 @@ public class GeneratorBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof GeneratorBlockEntity) {
+            if (be instanceof FurnaceGeneratorBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
@@ -79,7 +80,7 @@ public class GeneratorBlock extends BaseEntityBlock {
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
-                        return new GeneratorMenu(windowId, playerEntity, pos);
+                        return new FurnaceGeneratorMenu(windowId, playerEntity, pos);
                     }
                 };
                 NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
@@ -121,7 +122,6 @@ public class GeneratorBlock extends BaseEntityBlock {
 
             Direction direction = pState.getValue(BlockStateProperties.FACING);
             Direction.Axis direction$axis = direction.getAxis();
-            double d3 = 0.52;
             double d4 = pRandom.nextDouble() * 0.6 - 0.3;
             double d5 = direction$axis == Direction.Axis.X ? (double) direction.getStepX() * 0.52 : d4;
             double d6 = pRandom.nextDouble() * 6.0 / 16.0;
@@ -134,7 +134,7 @@ public class GeneratorBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-        if (blockentity instanceof GeneratorBlockEntity generator && !pNewState.is(this)) {
+        if (blockentity instanceof FurnaceGeneratorBlockEntity generator && !pNewState.is(this)) {
             IItemHandler handler = generator.getItems();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));

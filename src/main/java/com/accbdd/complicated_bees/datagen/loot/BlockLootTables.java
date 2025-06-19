@@ -31,7 +31,8 @@ public class BlockLootTables extends BlockLootSubProvider {
     protected void generate() {
         dropSelf(BlocksRegistration.APIARY.get());
         dropSelf(BlocksRegistration.CENTRIFUGE.get());
-        dropSelf(BlocksRegistration.GENERATOR.get());
+        dropSelf(BlocksRegistration.FURNACE_GENERATOR.get());
+        dropSelf(BlocksRegistration.HONEY_GENERATOR.get());
         dropSelf(BlocksRegistration.APID_LIBRARY.get());
         dropSelf(BlocksRegistration.MICROSCOPE.get());
         dropSelf(BlocksRegistration.BEE_SORTER.get());

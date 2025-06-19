@@ -20,8 +20,10 @@ public class MenuRegistration {
             () -> IForgeMenuType.create((windowId, inv, data) -> new ApiaryMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<MellariumMenu>> MELLARIUM_MENU = MENU_TYPES.register("mellarium",
             () -> IForgeMenuType.create((windowId, inv, data) -> new MellariumMenu(windowId, inv.player, data.readBlockPos())));
-    public static final Supplier<MenuType<GeneratorMenu>> GENERATOR_MENU = MENU_TYPES.register("generator",
-            () -> IForgeMenuType.create(((windowId, inv, data) -> new GeneratorMenu(windowId, inv.player, data.readBlockPos()))));
+    public static final Supplier<MenuType<AbstractGeneratorMenu>> FURNACE_GENERATOR_MENU = MENU_TYPES.register("furnace_generator",
+            () -> IForgeMenuType.create(((windowId, inv, data) -> new FurnaceGeneratorMenu(windowId, inv.player, data.readBlockPos()))));
+    public static final Supplier<MenuType<AbstractGeneratorMenu>> HONEY_GENERATOR_MENU = MENU_TYPES.register("honey_generator",
+            () -> IForgeMenuType.create(((windowId, inv, data) -> new HoneyGeneratorMenu(windowId, inv.player, data.readBlockPos()))));
     public static final Supplier<MenuType<MicroscopeMenu>> MICROSCOPE_MENU = MENU_TYPES.register("microscope",
             () -> IForgeMenuType.create((windowId, inv, data) -> new MicroscopeMenu(windowId, inv.player, data.readBlockPos())));
     public static final Supplier<MenuType<AnalyzerMenu>> ANALYZER_MENU = MENU_TYPES.register("analyzer",

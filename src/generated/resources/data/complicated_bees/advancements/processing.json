@@ -13,12 +13,12 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "generator": {
+    "furnace_generator": {
       "conditions": {
         "items": [
           {
             "items": [
-              "complicated_bees:generator"
+              "complicated_bees:furnace_generator"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   },
   "requirements": [
     [
-      "generator"
+      "furnace_generator"
     ],
     [
       "centrifuge"
