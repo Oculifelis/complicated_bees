@@ -1,7 +1,9 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.config.ServerConfig;
+import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.util.UpgradeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -28,18 +30,28 @@ public class GeneratorBlockEntity extends BlockEntity {
     public static final String ENERGY_TAG = "energy";
     public static final String BURN_TIME_TAG = "burn_time";
 
-    public static final int GENERATE = ServerConfig.SERVER_CONFIG.generatorEnergy.get();
-    public static final int MAXTRANSFER = 1000;
-    public static final int CAPACITY = 100000;
+    public static final int BASE_GENERATE = ServerConfig.SERVER_CONFIG.generatorBaseEnergy.get();
+    public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.generatorBaseTransfer.get();
+    public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.generatorBaseStorage.get();
 
-    public static final int SLOT_COUNT = 1;
+    public static final int SLOT_COUNT = 4;
     public static final int SLOT = 0;
 
+    private int generate = BASE_GENERATE;
+    private float burnTimeMod = 1;
+
     private final ItemStackHandler items = createItemHandler();
+    private final ItemStackHandler upgradeItems = createUpgradeHandler(3);
     private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
+        }
+    });
+    private final LazyOptional<IItemHandler> upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return stack.getItem() instanceof UpgradeItem;
         }
     });
 
@@ -103,15 +115,15 @@ public class GeneratorBlockEntity extends BlockEntity {
                     return;
                 }
                 int burnTime = ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING);
-                maxBurnTime = burnTime;
-                setBurnTime(burnTime);
+                maxBurnTime = Math.round(burnTime * burnTimeMod);
+                setBurnTime(maxBurnTime);
                 if (burnTime <= 0) {
                     return;
                 }
                 items.extractItem(SLOT, 1, false);
             } else {
                 setBurnTime(burnTime - 1);
-                energy.receiveEnergy(GENERATE, false);
+                energy.receiveEnergy(generate, false);
             }
             setChanged();
         }
@@ -139,7 +151,7 @@ public class GeneratorBlockEntity extends BlockEntity {
                 IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY).orElse(null);
                 if (energy != null) {
                     if (energy.canReceive()) {
-                        int received = energy.receiveEnergy(Math.min(this.energy.getEnergyStored(), MAXTRANSFER), false);
+                        int received = energy.receiveEnergy(Math.min(this.energy.getEnergyStored(), BASE_TRANSFER), false);
                         this.energy.extractEnergy(received, false);
                         setChanged();
                     }
@@ -190,16 +202,41 @@ public class GeneratorBlockEntity extends BlockEntity {
             protected void onContentsChanged(int slot) {
                 setChanged();
             }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+            }
+        };
+
+    }
+
+    private ItemStackHandler createUpgradeHandler(int slots) {
+        return new ItemStackHandler(slots) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                calculateUpgradeStats();
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
         };
     }
 
     @Nonnull
     private EnergyStorage createEnergyStorage() {
-        return new EnergyStorage(CAPACITY, MAXTRANSFER, MAXTRANSFER);
+        return new EnergyStorage(BASE_STORAGE, BASE_TRANSFER, BASE_TRANSFER);
     }
 
     public LazyOptional<IItemHandler> getItemHandler() {
         return itemHandler;
+    }
+
+    public LazyOptional<IItemHandler> getUpgradeItemHandler() {
+        return upgradeItemHandler;
     }
 
     public LazyOptional<IEnergyStorage> getEnergyHandler() {
@@ -208,5 +245,11 @@ public class GeneratorBlockEntity extends BlockEntity {
 
     public int getMaxBurnTime() {
         return maxBurnTime;
+    }
+
+    public void calculateUpgradeStats() {
+        generate = Math.round(BASE_GENERATE * UpgradeHelper.getSpeedMod(upgradeItems));
+        burnTimeMod = UpgradeHelper.getEfficiencyMod(upgradeItems) / UpgradeHelper.getSpeedMod(upgradeItems);
+        setBurnTime(0);
     }
 }

@@ -48,9 +48,7 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
                 addSlot(new SlotItemHandler(centrifuge.getUpgradeItemHandler().resolve().get(),
                         i,
                         16 + (18 * i),
-                        53) {
-
-                });
+                        53));
             }
             addDataSlot(new DataSlot() {
                 @Override

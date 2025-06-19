@@ -41,7 +41,7 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
     }
 
     public void renderPowerBar(GuiGraphics graphics, int x, int y) {
-        int powerScaled = getScaled(menu.getPower(), GeneratorBlockEntity.CAPACITY, ENERGY_HEIGHT);
+        int powerScaled = getScaled(menu.getPower(), GeneratorBlockEntity.BASE_STORAGE, ENERGY_HEIGHT);
         graphics.blit(GUI,
                 x + ENERGY_LEFT,
                 y + ENERGY_TOP + (ENERGY_HEIGHT - powerScaled),

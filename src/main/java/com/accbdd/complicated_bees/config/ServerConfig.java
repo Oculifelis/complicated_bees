@@ -7,7 +7,7 @@ public class ServerConfig {
     public static ForgeConfigSpec CONFIG_SPEC;
     public static ServerConfig SERVER_CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeBaseSpeed, centrifugeBaseEnergy, generatorEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeBaseSpeed, centrifugeBaseEnergy, generatorBaseEnergy, generatorBaseTransfer, generatorBaseStorage;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
@@ -21,7 +21,9 @@ public class ServerConfig {
         builder.push("rf");
         centrifugeBaseSpeed = builder.comment("How many ticks an unupgraded centrifuge should take to process a comb").define("centrifugeBaseSpeed", 200);
         centrifugeBaseEnergy = builder.comment("How much rf/tick an unupgraded centrifuge should use while processing a recipe.").define("centrifugeBaseEnergy", 20);
-        generatorEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorEnergy", 20);
+        generatorBaseEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorBaseEnergy", 20);
+        generatorBaseTransfer = builder.comment("How much rf/tick a generator should be able to transfer out of itself.").define("generatorBaseTransfer", 1000);
+        generatorBaseStorage = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorBaseStorage", 100000);
         builder.pop();
     }
 

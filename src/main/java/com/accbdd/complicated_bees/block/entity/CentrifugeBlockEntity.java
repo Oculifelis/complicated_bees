@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.util.UpgradeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -88,11 +89,6 @@ public class CentrifugeBlockEntity extends BlockEntity {
         }
     });
     public final LazyOptional<IItemHandler> upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
-        @Override
-        public int getSlotLimit(int slot) {
-            return 1;
-        }
-
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.getItem() instanceof UpgradeItem;
@@ -389,28 +385,8 @@ public class CentrifugeBlockEntity extends BlockEntity {
         return new RecipeWrapper(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, stack)));
     }
 
-    public float getEfficiencyMod() {
-        float mod = 1f;
-        for (int i = 0; i < upgradeItems.getSlots(); i++) {
-            if (upgradeItems.getStackInSlot(i).getItem() instanceof UpgradeItem upgrade) {
-                mod *= upgrade.getEfficiencyMod();
-            }
-        }
-        return 1 / mod; //efficiency means usage is less, not more
-    }
-
-    public float getSpeedMod() {
-        float mod = 1f;
-        for (int i = 0; i < upgradeItems.getSlots(); i++) {
-            if (upgradeItems.getStackInSlot(i).getItem() instanceof UpgradeItem upgrade) {
-                mod *= upgrade.getSpeedMod();
-            }
-        }
-        return 1 / mod; //max progress is less, not more
-    }
-
     public void calculateUpgradeStats() {
-        maxProgress = Math.round(BASE_MAX_PROGRESS * getSpeedMod());
-        usage = Math.round(BASE_USAGE * getEfficiencyMod());
+        maxProgress = Math.round(BASE_MAX_PROGRESS / UpgradeHelper.getSpeedMod(upgradeItems));
+        usage = Math.round(BASE_USAGE / UpgradeHelper.getEfficiencyMod(upgradeItems));
     }
 }

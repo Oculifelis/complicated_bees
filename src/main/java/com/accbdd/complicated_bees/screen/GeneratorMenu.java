@@ -26,6 +26,12 @@ public class GeneratorMenu extends AbstractBaseInventoryMenu {
         this.pos = pos;
         if (player.level().getBlockEntity(pos) instanceof GeneratorBlockEntity generator) {
             addSlot(new SlotItemHandler(generator.getItems(), SLOT, 80, 31));
+            for (int i = 0; i < 3; i++) {
+                addSlot(new SlotItemHandler(generator.getUpgradeItemHandler().resolve().get(), i,
+                        109 + i * 18,
+                        8));
+            }
+
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
