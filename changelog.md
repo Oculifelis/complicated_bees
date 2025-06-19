@@ -10,8 +10,8 @@ how fast the Centrifuge was without upgrades, but I've included a config option 
 These upgrades make it so that you can process combs much faster, letting you keep up with the high production multiple
 Mellariums running with frames can get to. With enough power, you can process over 6 combs a second per Centrifuge!
 
-The update also adds a honey generator, for you to burn excess honey products into more power, to process more combs, to
-get more honey, and so on.
+The update also adds the Honey Generator, for you to burn excess honey products into more power, to process more combs,
+to get more honey, and so on.
 
 The factory must grow.
 
