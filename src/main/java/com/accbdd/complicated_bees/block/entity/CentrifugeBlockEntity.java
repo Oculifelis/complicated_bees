@@ -58,8 +58,8 @@ public class CentrifugeBlockEntity extends BlockEntity {
     public static final String ENERGY_TAG = "energy";
     public static final int CAPACITY = 100000;
     public static final int MAXTRANSFER = 5000;
-    public static final int BASE_USAGE = Config.CONFIG.centrifugeEnergy.get();
-    public static final int BASE_MAX_PROGRESS = 200;
+    public static final int BASE_USAGE = Config.CONFIG.centrifugeBaseEnergy.get();
+    public static final int BASE_MAX_PROGRESS = Config.CONFIG.centrifugeBaseSpeed.get();
 
     private final ContainerData data;
     private int progress = 0;

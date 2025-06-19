@@ -7,7 +7,7 @@ public class Config {
     public static ForgeConfigSpec CONFIG_SPEC;
     public static Config CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeEnergy, generatorEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength, enviroCycleLength, centrifugeBaseSpeed, centrifugeBaseEnergy, generatorEnergy;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
     public final ForgeConfigSpec.ConfigValue<Boolean> frame, waxedFrame, honeyFrame, twistingFrame, soothingFrame, coldFrame, hotFrame, dryFrame, wetFrame, deadlyFrame, restrictiveFrame;
     public final ForgeConfigSpec.ConfigValue<Boolean> honeyBread, honeyPorkchop, ambrosia;
@@ -20,8 +20,10 @@ public class Config {
         builder.pop();
         builder.push("research");
         researchBonus = builder.comment("The percentage bonus researching a mutation in the microscope should grant to that mutation's chances.").define("researchBonus", 0.2f);
+        builder.pop();
         builder.push("rf");
-        centrifugeEnergy = builder.comment("How much rf/tick a centrifuge should use while processing a recipe.").define("centrifugeEnergy", 20);
+        centrifugeBaseSpeed = builder.comment("How many ticks an unupgraded centrifuge should take to process a comb").define("centrifugeBaseSpeed", 200);
+        centrifugeBaseEnergy = builder.comment("How much rf/tick an unupgraded centrifuge should use while processing a recipe.").define("centrifugeBaseEnergy", 20);
         generatorEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("generatorEnergy", 20);
         builder.pop();
         builder.push("items");
