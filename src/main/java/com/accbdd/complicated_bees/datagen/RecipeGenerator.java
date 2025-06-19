@@ -407,6 +407,10 @@ public class RecipeGenerator extends RecipeProvider {
         hydroregulatorRecipe(output, "wet_sponge", Ingredient.of(Items.WET_SPONGE), new Product(Items.SPONGE.getDefaultInstance(), 1), EnumTolerance.UP_1, 0.05f);
 
         honeyGeneratorRecipe(output, "honey_droplet", Ingredient.of(ItemsRegistration.HONEY_DROPLET.get()), 400);
+        honeyGeneratorRecipe(output, "beeswax", Ingredient.of(ItemsRegistration.BEESWAX.get()), 150);
+        honeyGeneratorRecipe(output, "propolis", Ingredient.of(ItemsRegistration.PROPOLIS.get()), 200);
+        honeyGeneratorRecipe(output, "pollen", Ingredient.of(ItemsRegistration.POLLEN.get()), 800);
+        honeyGeneratorRecipe(output, "royal_jelly", Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), 1600);
     }
 
     protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {

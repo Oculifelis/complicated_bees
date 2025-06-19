@@ -2,8 +2,10 @@
 
 ## The Indust-bee-al Revolution
 
+**NOTE: This update will delete all generators that currently exist in worlds. Sorry!**
+
 This update introduces upgrades! Now you can make your machines faster and more efficient. It pretty heavily nerfs
-how fast the Centrifuge was without upgrades, but I've included a config option in case you want to bring it back :)
+how fast the Centrifuge was without upgrades, but I've included a config option in case you want to bring that back :)
 
 These upgrades make it so that you can process combs much faster, letting you keep up with the high production multiple
 Mellariums running with frames can get to. With enough power, you can process over 6 combs a second per Centrifuge!
@@ -25,6 +27,7 @@ The factory must grow.
 * Centrifuge can now input and output from any side
 * Split common and server-side config up
     * The mod is inspired by old Forestry, but that doesn't mean I need to follow manual client/server config sync...
+* Generator renamed to Furnace Generator, to distinguish it from the new Honey Generator
 
 ## Fixed
 

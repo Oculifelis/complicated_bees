@@ -283,6 +283,8 @@
   "jei.complicated_bees.mutator": "Mutation Catalyst",
   "jei.complicated_bees.temp_unit": "Temperature Modifier",
   "jei.complicated_bees.hydroregulator": "Humidity Modifier",
+  "jei.complicated_bees.honey_generator": "Honey Generator Fuel",
+  "jei.complicated_bees.burn_time": "Burn Time: %s",
 
   "comb.complicated_bees.invalid": "Any",
   "comb.complicated_bees.complicated_bees:honey": "Honey",

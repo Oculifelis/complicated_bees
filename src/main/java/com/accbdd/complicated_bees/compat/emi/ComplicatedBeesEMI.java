@@ -30,12 +30,14 @@ public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiStack MUTATOR = EmiStack.of(ItemsRegistration.MELLARIUM_MUTATOR.get());
     public static final EmiStack TEMP_UNIT = EmiStack.of(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
     public static final EmiStack HYDROREGULATOR = EmiStack.of(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
+    public static final EmiStack HONEY_GENERATOR = EmiStack.of(ItemsRegistration.HONEY_GENERATOR.get());
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY = new ComplicatedBeesRecipeCategory("centrifuge", CENTRIFUGE, Component.translatable("gui.complicated_bees.jei.centrifuge"));
     public static final EmiRecipeCategory BEE_PRODUCE_CATEGORY = new ComplicatedBeesRecipeCategory("bee_produce", APIARY, Component.translatable("gui.complicated_bees.jei.bee_products"));
     public static final EmiRecipeCategory MUTATION_CATEGORY = new ComplicatedBeesRecipeCategory("mutation", APIARY, Component.translatable("gui.complicated_bees.jei.mutations"));
     public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", MUTATOR, Component.translatable("jei.complicated_bees.mutator"));
     public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", TEMP_UNIT, Component.translatable("jei.complicated_bees.temp_unit"));
     public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", HYDROREGULATOR, Component.translatable("jei.complicated_bees.hydroregulator"));
+    public static final EmiRecipeCategory HONEY_GENERATOR_CATEGORY = new ComplicatedBeesRecipeCategory("honey_generator", HONEY_GENERATOR, Component.translatable("jei.complicated_bees.honey_generator"));
     public static final Comparison COMPARE_BEE
             = Comparison.compareData(stack -> GeneticHelper.getSpecies(stack.getItemStack(), true));
     @Override
@@ -58,6 +60,8 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addWorkstation(TEMP_UNIT_CATEGORY, TEMP_UNIT);
         registry.addCategory(HYDROREGULATOR_CATEGORY);
         registry.addWorkstation(HYDROREGULATOR_CATEGORY, HYDROREGULATOR);
+        registry.addCategory(HONEY_GENERATOR_CATEGORY);
+        registry.addWorkstation(HONEY_GENERATOR_CATEGORY, HONEY_GENERATOR);
 
         registry.addDragDropHandler(BeeSorterScreen.class, new BeeSorterDragDropEMI());
 
@@ -82,6 +86,11 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get())
                 .stream()
                 .map(HydroEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get())
+                .stream()
+                .map(HoneyGeneratorEmiRecipe::new)
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)

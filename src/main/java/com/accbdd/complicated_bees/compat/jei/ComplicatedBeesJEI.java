@@ -42,19 +42,21 @@ public class ComplicatedBeesJEI implements IModPlugin {
                 new MutationRecipeCategory(),
                 new TempUnitRecipeCategory(helper),
                 new MutatorRecipeCategory(helper),
-                new HydroRecipeCategory(helper)
+                new HydroRecipeCategory(helper),
+                new HoneyGeneratorRecipeCategory(helper)
         );
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().getConnection().getRecipeManager();
-        registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()).stream().toList());
+        registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()));
         registration.addRecipes(BeeProduceRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().stream().toList());
         registration.addRecipes(MutationRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().stream().toList());
-        registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()).stream().toList());
-        registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()).stream().toList());
-        registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()).stream().toList());
+        registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()));
+        registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()));
+        registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()));
+        registration.addRecipes(HoneyGeneratorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get()));
     }
 
     @Override
@@ -90,6 +92,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_MUTATOR.get().getDefaultInstance(), MutatorRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_TEMP_UNIT.get().getDefaultInstance(), TempUnitRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get().getDefaultInstance(), HydroRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.HONEY_GENERATOR.get().getDefaultInstance(), HoneyGeneratorRecipeCategory.TYPE);
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:honey_generator",
+  "burn_time": 1600,
+  "input": {
+    "item": "complicated_bees:royal_jelly"
+  }
+}
