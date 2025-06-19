@@ -12,7 +12,8 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.*;
+import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.INPUT_SLOT;
+import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.SLOT_COUNT;
 
 public class CentrifugeMenu extends AbstractBaseInventoryMenu {
     private final BlockPos pos;
@@ -34,13 +35,21 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
             addSlot(new SlotItemHandler(centrifuge.getInputItems(), INPUT_SLOT, 34, 35));
             for (int i = 0; i < 9; i++) {
                 addSlot(new SlotItemHandler(centrifuge.getOutputItems(),
-                        OUTPUT_SLOT + i,
+                        i,
                         91 + (18 * (i % 3)),
                         17 + (18 * (i / 3))) {
                     @Override
                     public boolean mayPlace(ItemStack stack) {
                         return false;
                     }
+                });
+            }
+            for (int i = 0; i < 3; i++) {
+                addSlot(new SlotItemHandler(centrifuge.getUpgradeItemHandler().resolve().get(),
+                        i,
+                        16 + (18 * i),
+                        53) {
+
                 });
             }
             addDataSlot(new DataSlot() {
@@ -84,7 +93,7 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
         int maxProgress = this.data.get(1);
         int progressArrowSize = 20;
 
-        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+        return Math.min(maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0, progressArrowSize);
     }
 
     @Override

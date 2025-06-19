@@ -47,6 +47,12 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> WAXED_STICK = registerSimpleItem("waxed_stick");
     public static final RegistryObject<Item> HONEYED_STICK = registerSimpleItem("honeyed_stick");
     public static final RegistryObject<Item> MELLARIUM_PANEL = registerSimpleItem("mellarium_panel");
+    public static final RegistryObject<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.1f, 1.1f));
+    public static final RegistryObject<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1f, 1.25f));
+    public static final RegistryObject<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.25f, 1f));
+    public static final RegistryObject<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), 2f, 0.85f));
+    public static final RegistryObject<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), 0.85f, 2f));
+    public static final RegistryObject<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.5f, 1.5f));
     public static final RegistryObject<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), Config.CONFIG.beeStaff));
     public static final RegistryObject<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).build()), Config.CONFIG.honeyBread));
     public static final RegistryObject<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationMod(0.5f).build()), Config.CONFIG.honeyPorkchop));

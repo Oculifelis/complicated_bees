@@ -97,6 +97,12 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ItemsRegistration.AMBROSIA.get());
         basicItem(ItemsRegistration.BEE_STAFF.get());
         basicItem(ItemsRegistration.MELLARIUM_PANEL.get());
+        basicItem(ItemsRegistration.BASIC_UPGRADE.get());
+        basicItem(ItemsRegistration.WAXED_UPGRADE.get());
+        basicItem(ItemsRegistration.HONEYED_UPGRADE.get());
+        basicItem(ItemsRegistration.TWISTED_UPGRADE.get());
+        basicItem(ItemsRegistration.SILKY_UPGRADE.get());
+        basicItem(ItemsRegistration.ROYAL_UPGRADE.get());
 
         createCombModel();
         beeModel("base", "bee_base");

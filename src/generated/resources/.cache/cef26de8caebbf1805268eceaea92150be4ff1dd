@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-23T13:49:27.5710636	Item Models: complicated_bees
+// 1.20.1	2025-06-18T20:07:05.9646778	Item Models: complicated_bees
 eed162555c50979ffb14f7ef23c98ac3ac9929cd assets/complicated_bees/models/item/ambrosia.json
 913c48d698d66de7b3f67c088df650fa2d538c3f assets/complicated_bees/models/item/analyzer.json
 78dc08d43023162f54b70bdb3abb1770f12e72fe assets/complicated_bees/models/item/apiarist_boots.json
@@ -11,6 +11,7 @@ eed162555c50979ffb14f7ef23c98ac3ac9929cd assets/complicated_bees/models/item/amb
 0e0c3ac5e311d14028c0b3a500748958f19764e7 assets/complicated_bees/models/item/base_drone.json
 ac7d88c17be98b59f3059b34cba1d97ec945131d assets/complicated_bees/models/item/base_princess.json
 c5acca6d6b99cce5bea6d05f294a220a8590b5f5 assets/complicated_bees/models/item/base_queen.json
+f89978bfc96d464ea7b2e12b75b525c33bc28d53 assets/complicated_bees/models/item/basic_upgrade.json
 f2842120833073b82c83a81f23130c1a5f9ca947 assets/complicated_bees/models/item/beeswax.json
 c8862de88ab41c41168edc5e0186979a36e70d47 assets/complicated_bees/models/item/bee_nest.json
 524d11b10d6b8754dcb23a3aadf34e6ddc52037e assets/complicated_bees/models/item/bee_sorter.json
@@ -49,6 +50,7 @@ ca33464a288183b61441fd528531b7204745c5e3 assets/complicated_bees/models/item/hon
 2e847fb24eb8fb98f347d3e7c3706c8cf268ce9f assets/complicated_bees/models/item/honeyed_stairs.json
 e799f6700673d9624ac78aee66e9f4ca889d59fc assets/complicated_bees/models/item/honeyed_stick.json
 1cdac17baed503b51d993113bd7ac7ebd11d5b92 assets/complicated_bees/models/item/honeyed_trapdoor.json
+7e598ad3c58189edadb6fc5416154f13a52959da assets/complicated_bees/models/item/honeyed_upgrade.json
 7f831c72192c985b1f27ed077f6f155f261c72bf assets/complicated_bees/models/item/honey_bread.json
 74ba4d426f10943607a1d0933129337c962eeb4d assets/complicated_bees/models/item/honey_droplet.json
 f9cd668a0476991cb01fd083136c9560af37b4e1 assets/complicated_bees/models/item/honey_porkchop.json
@@ -87,7 +89,9 @@ ffeff91bbc84f6485cd92d59259880b8e6d12038 assets/complicated_bees/models/item/pro
 e1840d44eb9c47a50b1a78ea735263f227e7c8df assets/complicated_bees/models/item/red_queen.json
 e184a0d9b3e84a356b0fa6a34823b6e793ce32d1 assets/complicated_bees/models/item/restrictive_frame.json
 e687e1a9d5cdfcf6b1717f540917fc409af53e57 assets/complicated_bees/models/item/royal_jelly.json
+1f0235b217a5794af4b057db0313835d3754f62a assets/complicated_bees/models/item/royal_upgrade.json
 274eeb113984d54762b8fc469fe9a8720d1fe4fd assets/complicated_bees/models/item/scoop.json
+207125ad88e3ea488a8182ed203feb624f2297b1 assets/complicated_bees/models/item/silky_upgrade.json
 54607d554b6e630792d0709bf02a8da5e8477f2c assets/complicated_bees/models/item/silk_wisp.json
 2310ff094a7f33c7359c027f053c7e701665420e assets/complicated_bees/models/item/smooth_wax.json
 2e62cf1adca50cd68c7e1a22d9ae1dc7102000b9 assets/complicated_bees/models/item/smooth_wax_slab.json
@@ -106,9 +110,11 @@ be86b057dcaa4cdcf4c3823c9bfcca944e876029 assets/complicated_bees/models/item/tai
 a9272a20153837c47c47dfbbdbd801fce5cee4d5 assets/complicated_bees/models/item/tricky_drone.json
 faa847a3f73cfae655dbeec364e47a91b42cd5ce assets/complicated_bees/models/item/tricky_princess.json
 979e75d0718f1d1fb28c7f6d6ef0d5d2d14b236c assets/complicated_bees/models/item/tricky_queen.json
+0ceb3a36a6c771d2945a94699a0e8e636a5e989f assets/complicated_bees/models/item/twisted_upgrade.json
 c024c7e7d3ee26a496eef8b7503794c6898b75fe assets/complicated_bees/models/item/twisting_frame.json
 9171194c3a54f37e3a2e4e3934276963cade785c assets/complicated_bees/models/item/waxed_frame.json
 6f195918320863ddb1310e7befe54601dd5b4a27 assets/complicated_bees/models/item/waxed_stick.json
+c81d6086d02c9a09b9fc694106f08facce152be5 assets/complicated_bees/models/item/waxed_upgrade.json
 e053793e02344fe846a69b58afe9c2ed9e653b6b assets/complicated_bees/models/item/wax_block.json
 f79c497c92578ff80084a8dc48b87b4f07ea62b5 assets/complicated_bees/models/item/wax_block_slab.json
 3e6fe83119e620548e44540506aeca264a6a9e93 assets/complicated_bees/models/item/wax_block_stairs.json
