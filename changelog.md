@@ -1,4 +1,4 @@
-# Complicated Bees 2.2.1
+# Complicated Bees 2.2.2
 
 ## Fixed
 
