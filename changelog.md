@@ -1,3 +1,5 @@
 # Complicated Bees 2.2.1
 
-* Update zh_cn for 1.20.1 by @ChuijikYahus
+## Fixed
+
+* Centrifuge recipes now use weak nbt matching - #48

@@ -3,6 +3,7 @@ package com.accbdd.complicated_bees.recipe;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -86,7 +87,7 @@ public class CentrifugeRecipe implements Recipe<Container> {
         ItemStack containerInput = pContainer.getItem(0);
         boolean itemMatch = input.is(containerInput.getItem());
         boolean countMatch = input.getCount() <= containerInput.getCount();
-        boolean nbtMatch = input.getOrCreateTag().equals(containerInput.getOrCreateTag());
+        boolean nbtMatch = Util.weakNbtMatch(containerInput.getOrCreateTag(), input.getOrCreateTag());
         return (countMatch && nbtMatch && itemMatch);
     }
 
