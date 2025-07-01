@@ -42,7 +42,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler outputItems = createOutputHandler();
     private final ItemStackHandler frameItems = new ItemStackHandler(0);
 
-    private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItems, outputItems));
     private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
@@ -67,7 +66,19 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.getItem() instanceof FrameItem;
         }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            return stack;
+        }
     });
+
+    private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItemHandler.resolve().get(), outputItemHandler.resolve().get()));
 
     public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         this(pPos, pBlockState, null);
@@ -193,10 +204,10 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    public void produceOffspring(ItemStack queen) {
-        super.produceOffspring(queen);
-        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
-            if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
+    public void produceOffspring(ItemStack queen, BlockPos pos) {
+        super.produceOffspring(queen, getBlockPos().below()); //get block pos below the center, not the center itself
+        getMellariumLogic().getSpecialBlocks().stream().forEach(specialPos -> {
+            if (getLevel().getBlockEntity(specialPos) instanceof IMellariumTickable tickable) {
                 tickable.onDeath();
             }
         });

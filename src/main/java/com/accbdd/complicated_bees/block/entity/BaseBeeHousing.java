@@ -315,16 +315,16 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         }
         BeeItem.setAge(queen, BeeItem.getAge(queen) + ageFactor);
         if (BeeItem.getAge(queen) >= ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value) {
-            produceOffspring(queen);
+            produceOffspring(queen, getBlockPos());
         }
     }
 
-    public void produceOffspring(ItemStack queen) {
+    public void produceOffspring(ItemStack queen, BlockPos pos) {
         errorState = 0;
         float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
-        getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), getBlockPos(), mutationMod));
+        getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), pos, mutationMod));
         for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
-            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), getBlockPos(), mutationMod));
+            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), pos, mutationMod));
         }
         getBeeItems().extractItem(BEE_SLOT, 1, false);
         setChanged();
