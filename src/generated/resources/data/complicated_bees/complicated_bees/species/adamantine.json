@@ -72,8 +72,11 @@
       }
     },
     {
-      "chance": 0.08,
-      "item": "minecraft:netherite_scrap"
+      "chance": 0.1,
+      "item": "complicated_bees:comb",
+      "nbt": {
+        "comb_type": "complicated_bees:netherite"
+      }
     }
   ]
 }

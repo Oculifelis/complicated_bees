@@ -444,7 +444,7 @@ public class BuiltInSpecies {
             .dominant(false)
             .foil(true)
             .models(RED_MODELS)
-            .products(List.of(new Product(stack(Combs.SIMMERING), 0.3f), new Product(Items.NETHERITE_SCRAP.getDefaultInstance(), 0.08f)))
+            .products(List.of(new Product(stack(Combs.SIMMERING), 0.3f), new Product(stack(Combs.NETHERITE), 0.10f)))
             .colors(0x4d453d)
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.AVERAGE, false))
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.HOT, EnumTolerance.UP_1, true))
