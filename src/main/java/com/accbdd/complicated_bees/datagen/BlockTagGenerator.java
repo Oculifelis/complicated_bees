@@ -62,19 +62,6 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.HONEYED_HANGING_SIGN.get(),
                 BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get()
         );
-        tag(BlockTags.PLANKS).add(BlocksRegistration.HONEYED_PLANKS.get());
-        tag(BlockTags.WOODEN_STAIRS).add(BlocksRegistration.HONEYED_STAIRS.get());
-        tag(BlockTags.WOODEN_SLABS).add(BlocksRegistration.HONEYED_SLAB.get());
-        tag(BlockTags.WOODEN_FENCES).add(BlocksRegistration.HONEYED_FENCE.get());
-        tag(Tags.Blocks.FENCE_GATES_WOODEN).add(BlocksRegistration.HONEYED_FENCE_GATE.get());
-        tag(BlockTags.WOODEN_BUTTONS).add(BlocksRegistration.HONEYED_BUTTON.get());
-        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(BlocksRegistration.HONEYED_PRESSURE_PLATE.get());
-        tag(BlockTags.WOODEN_DOORS).add(BlocksRegistration.HONEYED_DOOR.get());
-        tag(BlockTags.WOODEN_TRAPDOORS).add(BlocksRegistration.HONEYED_TRAPDOOR.get());
-        tag(BlockTags.CEILING_HANGING_SIGNS).add(BlocksRegistration.HONEYED_HANGING_SIGN.get());
-        tag(BlockTags.WALL_SIGNS).add(BlocksRegistration.HONEYED_WALL_SIGN.get());
-        tag(BlockTags.WALL_HANGING_SIGNS).add(BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get());
-        tag(BlockTags.STANDING_SIGNS).add(BlocksRegistration.HONEYED_SIGN.get());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
                 BlocksRegistration.CENTRIFUGE.get(),
                 BlocksRegistration.CHISELED_WAX.get(),
@@ -91,8 +78,23 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.WAX_BRICK_STAIRS.get(),
                 BlocksRegistration.WAX_BRICK_SLAB.get(),
                 BlocksRegistration.WAX_BRICK_WALL.get(),
-                BlocksRegistration.CHISELED_WAX.get()
+                BlocksRegistration.CHISELED_WAX.get(),
+                BlocksRegistration.FURNACE_GENERATOR.get(),
+                BlocksRegistration.HONEY_GENERATOR.get()
         );
+        tag(BlockTags.PLANKS).add(BlocksRegistration.HONEYED_PLANKS.get());
+        tag(BlockTags.WOODEN_STAIRS).add(BlocksRegistration.HONEYED_STAIRS.get());
+        tag(BlockTags.WOODEN_SLABS).add(BlocksRegistration.HONEYED_SLAB.get());
+        tag(BlockTags.WOODEN_FENCES).add(BlocksRegistration.HONEYED_FENCE.get());
+        tag(Tags.Blocks.FENCE_GATES_WOODEN).add(BlocksRegistration.HONEYED_FENCE_GATE.get());
+        tag(BlockTags.WOODEN_BUTTONS).add(BlocksRegistration.HONEYED_BUTTON.get());
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(BlocksRegistration.HONEYED_PRESSURE_PLATE.get());
+        tag(BlockTags.WOODEN_DOORS).add(BlocksRegistration.HONEYED_DOOR.get());
+        tag(BlockTags.WOODEN_TRAPDOORS).add(BlocksRegistration.HONEYED_TRAPDOOR.get());
+        tag(BlockTags.CEILING_HANGING_SIGNS).add(BlocksRegistration.HONEYED_HANGING_SIGN.get());
+        tag(BlockTags.WALL_SIGNS).add(BlocksRegistration.HONEYED_WALL_SIGN.get());
+        tag(BlockTags.WALL_HANGING_SIGNS).add(BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get());
+        tag(BlockTags.STANDING_SIGNS).add(BlocksRegistration.HONEYED_SIGN.get());
         tag(BlockTags.WALLS).add(
                 BlocksRegistration.WAX_BLOCK_WALL.get(),
                 BlocksRegistration.SMOOTH_WAX_WALL.get(),
