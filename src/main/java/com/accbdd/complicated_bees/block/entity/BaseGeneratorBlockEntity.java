@@ -38,20 +38,10 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     private int generate;
     private float burnTimeMod = 1;
 
-    private final ItemStackHandler items = createItemHandler();
-    private final ItemStackHandler upgradeItems = createUpgradeHandler(3);
-    private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items) {
-        @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-    });
-    private final LazyOptional<IItemHandler> upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() instanceof UpgradeItem;
-        }
-    });
+    private final ItemStackHandler items;
+    private final ItemStackHandler upgradeItems;
+    private final LazyOptional<IItemHandler> itemHandler;
+    private final LazyOptional<IItemHandler> upgradeItemHandler;
 
     private final EnergyStorage energy;
     private final LazyOptional<IEnergyStorage> energyHandler;
@@ -63,6 +53,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     public void invalidateCaps() {
         super.invalidateCaps();
         itemHandler.invalidate();
+        upgradeItemHandler.invalidate();
         energyHandler.invalidate();
     }
 
@@ -82,6 +73,20 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         this.baseTransfer = baseTransfer;
         this.baseStorage = baseStorage;
         this.generate = baseGenerate;
+        this.items = createItemHandler();
+        this.itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items) {
+            @Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                return ItemStack.EMPTY;
+            }
+        });
+        this.upgradeItems = createUpgradeHandler(3);
+        this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return stack.getItem() instanceof UpgradeItem;
+            }
+        });
         this.energy = createEnergyStorage();
         this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energy) {
             @Override
@@ -197,16 +202,16 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         if (tag.contains(ENERGY_TAG)) {
             energy.deserializeNBT(tag.get(ENERGY_TAG));
         }
+        calculateUpgradeStats();
         if (tag.contains(BURN_TIME_TAG)) {
             burnTime = tag.getInt(BURN_TIME_TAG);
             maxBurnTime = burnTime;
         }
-        calculateUpgradeStats();
     }
 
     @Nonnull
     private ItemStackHandler createItemHandler() {
-        return new ItemStackHandler(SLOT_COUNT) {
+        return new ItemStackHandler() {
             @Override
             protected void onContentsChanged(int slot) {
                 setChanged();
@@ -214,7 +219,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return isValidInput(stack);
+                return super.isItemValid(slot, stack) && isValidInput(stack);
             }
         };
 
