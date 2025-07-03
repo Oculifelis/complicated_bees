@@ -1,8 +1,10 @@
-# Complicated Bees 2.2.4
+# Complicated Bees 2.2.5
 
-## Fixed
+## Added 
 
-* Apiary destroyed frames when broken
-* Centrifuge, Honey Generator, and Furnace Generator destroyed upgrades when broken - #52
-* Honey Generator and Furnace Generator did not drop themselves when broken - #51
-* Honey Generator and Furnace Generator could overfill with items - #50
+* Candle recipe using beeswax
+
+## Changed
+
+* Added ticker for unlocking book entries
+* Reorganized the way certain recipes unlock
