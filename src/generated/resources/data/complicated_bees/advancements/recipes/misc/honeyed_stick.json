@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_honey_droplet": {
+    "has_frame": {
       "conditions": {
         "items": [
           {
             "items": [
-              "complicated_bees:honey_droplet"
+              "complicated_bees:frame"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_honey_droplet",
+      "has_frame",
       "has_the_recipe"
     ]
   ],
