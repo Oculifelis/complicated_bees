@@ -110,6 +110,10 @@ public class ApiaryBlock extends BaseEntityBlock {
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
+            IItemHandler frames = apiary.getFrameItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            for (int i = 0; i < frames.getSlots(); i++) {
+                Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), frames.getStackInSlot(i));
+            }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
     }
