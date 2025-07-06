@@ -15,7 +15,6 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
-import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
@@ -110,11 +109,11 @@ public class BlockLootTables extends BlockLootSubProvider {
                         ))
                 .withPool(LootPool.lootPool()
                         .when(HAS_NO_SILK_TOUCH)
-                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.65f))
+                        .setRolls(ConstantValue.exactly(1.0f))
                         .add(
                                 LootItem.lootTableItem(ItemsRegistration.COMB.get())
                                         .apply(InheritHiveCombFunction.set())
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0f)))
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
                                         .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 1))
                         )
                 );

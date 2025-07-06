@@ -12,11 +12,11 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class BlockUnderCondition extends MutationCondition {
+public class SimpleBlockUnderCondition extends MutationCondition {
     public static String ID = "block_under";
     Block block;
 
-    public BlockUnderCondition(Block block) {
+    public SimpleBlockUnderCondition(Block block) {
         this.block = block;
     }
 
@@ -44,7 +44,7 @@ public class BlockUnderCondition extends MutationCondition {
     }
 
     @Override
-    public BlockUnderCondition deserialize(CompoundTag tag) {
-        return new BlockUnderCondition(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(tag.getString("block"))));
+    public SimpleBlockUnderCondition deserialize(CompoundTag tag) {
+        return new SimpleBlockUnderCondition(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(tag.getString("block"))));
     }
 }

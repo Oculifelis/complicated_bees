@@ -25,7 +25,7 @@ public class MutationRegistration {
 
     public static final DeferredRegister<IMutationCondition> MUTATION_CONDITIONS = DeferredRegister.create(MUTATION_CONDITION_KEY, MODID);
 
-    public static final Supplier<IMutationCondition> BLOCK_UNDER = MUTATION_CONDITIONS.register(BlockUnderCondition.ID, () -> new BlockUnderCondition(Blocks.AIR));
+    public static final Supplier<IMutationCondition> BLOCK_UNDER = MUTATION_CONDITIONS.register(SimpleBlockUnderCondition.ID, () -> new SimpleBlockUnderCondition(Blocks.AIR));
     public static final Supplier<IMutationCondition> ECSTATIC = MUTATION_CONDITIONS.register(EcstaticCondition.ID, EcstaticCondition::new);
     public static final Supplier<IMutationCondition> DAYTIME = MUTATION_CONDITIONS.register(DaytimeCondition.ID, DaytimeCondition::new);
     public static final Supplier<IMutationCondition> NIGHTTIME = MUTATION_CONDITIONS.register(NighttimeCondition.ID, NighttimeCondition::new);
