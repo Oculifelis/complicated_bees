@@ -55,23 +55,23 @@ public class Mutations {
         mutation("infernal/fiendish", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.FIENDISH.getKey(), 0.10f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
         mutation("infernal/devilish", BuiltInSpecies.FIENDISH.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.DEVILISH.getKey(), 0.08f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
         mutation("infernal/infernal", BuiltInSpecies.DEVILISH.getKey(), BuiltInSpecies.BANDIT.getKey(), BuiltInSpecies.INFERNAL.getKey(), 0.08f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
-        mutation("infernal/haunted", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.HAUNTED.getKey(), 0.12f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH), new SimpleBlockUnderCondition(Blocks.SOUL_SAND));
+        mutation("infernal/haunted", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.HAUNTED.getKey(), 0.12f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH), new BlockUnderCondition(Blocks.SOUL_SAND));
         mutation("infernal/ghostly", BuiltInSpecies.HAUNTED.getKey(), BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.GHOSTLY.getKey(), 0.10f);
         mutation("infernal/spectral", BuiltInSpecies.GHOSTLY.getKey(), BuiltInSpecies.DEVILISH.getKey(), BuiltInSpecies.SPECTRAL.getKey(), 0.08f);
 
-        mutation("metallic/cuprous", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.CUPROUS.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.WAXED_COPPER_BLOCK));
-        mutation("metallic/precious", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.PRECIOUS.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.GOLD_BLOCK));
-        mutation("metallic/ferrous", BuiltInSpecies.CUPROUS.getKey(), BuiltInSpecies.PRECIOUS.getKey(), BuiltInSpecies.FERROUS.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.IRON_BLOCK));
-        mutation("metallic/adamantine", BuiltInSpecies.FERROUS.getKey(), BuiltInSpecies.LUMINOUS.getKey(), BuiltInSpecies.ADAMANTINE.getKey(), 0.06f, new SimpleBlockUnderCondition(Blocks.NETHERITE_BLOCK));
+        mutation("metallic/cuprous", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.CUPROUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.WAXED_COPPER_BLOCK));
+        mutation("metallic/precious", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.PRECIOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.GOLD_BLOCK));
+        mutation("metallic/ferrous", BuiltInSpecies.CUPROUS.getKey(), BuiltInSpecies.PRECIOUS.getKey(), BuiltInSpecies.FERROUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.IRON_BLOCK));
+        mutation("metallic/adamantine", BuiltInSpecies.FERROUS.getKey(), BuiltInSpecies.LUMINOUS.getKey(), BuiltInSpecies.ADAMANTINE.getKey(), 0.06f, new BlockUnderCondition(Blocks.NETHERITE_BLOCK));
 
-        mutation("mineral/bituminous", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.COAL_BLOCK));
-        mutation("mineral/conductive", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.REDSTONE_BLOCK));
-        mutation("mineral/lapic", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.LAPIC.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.LAPIS_BLOCK));
-        mutation("mineral/amethyst", BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.AMETHYST.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.AMETHYST_BLOCK));
-        mutation("mineral/dimantic", BuiltInSpecies.LAPIC.getKey(), BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.DIMANTIC.getKey(), 0.06f, new SimpleBlockUnderCondition(Blocks.DIAMOND_BLOCK));
-        mutation("mineral/emeradic", BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.EMERADIC.getKey(), 0.08f, new SimpleBlockUnderCondition(Blocks.EMERALD_BLOCK));
-        mutation("mineral/quartz", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.QUARTZ.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.QUARTZ_BLOCK), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
-        mutation("mineral/luminous", BuiltInSpecies.QUARTZ.getKey(), BuiltInSpecies.HAUNTED.getKey(), BuiltInSpecies.LUMINOUS.getKey(), 0.10f, new SimpleBlockUnderCondition(Blocks.GLOWSTONE), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutation("mineral/bituminous", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.COAL_BLOCK));
+        mutation("mineral/conductive", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), 0.10f, new BlockUnderCondition(Blocks.REDSTONE_BLOCK));
+        mutation("mineral/lapic", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.LAPIC.getKey(), 0.10f, new BlockUnderCondition(Blocks.LAPIS_BLOCK));
+        mutation("mineral/amethyst", BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.AMETHYST.getKey(), 0.10f, new BlockUnderCondition(Blocks.AMETHYST_BLOCK));
+        mutation("mineral/dimantic", BuiltInSpecies.LAPIC.getKey(), BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.DIMANTIC.getKey(), 0.06f, new BlockUnderCondition(Blocks.DIAMOND_BLOCK));
+        mutation("mineral/emeradic", BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.EMERADIC.getKey(), 0.08f, new BlockUnderCondition(Blocks.EMERALD_BLOCK));
+        mutation("mineral/quartz", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.QUARTZ.getKey(), 0.10f, new BlockUnderCondition(Blocks.QUARTZ_BLOCK), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutation("mineral/luminous", BuiltInSpecies.QUARTZ.getKey(), BuiltInSpecies.HAUNTED.getKey(), BuiltInSpecies.LUMINOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.GLOWSTONE), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
 
         mutation("necrotic/decaying", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.OUTCAST.getKey(), BuiltInSpecies.DECAYING.getKey(), 0.10f);
         mutation("necrotic/rotten", BuiltInSpecies.DECAYING.getKey(), BuiltInSpecies.TANGLE.getKey(), BuiltInSpecies.ROTTEN.getKey(), 0.10f);

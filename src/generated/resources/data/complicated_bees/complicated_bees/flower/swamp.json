@@ -1,8 +1,8 @@
 {
   "blocks": [
+    "minecraft:lily_pad",
     "minecraft:brown_mushroom",
     "minecraft:red_mushroom",
-    "minecraft:lily_pad",
     "minecraft:vine"
   ]
 }

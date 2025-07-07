@@ -6,18 +6,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class SimpleBlockUnderCondition extends MutationCondition {
-    public static String ID = "block_under";
-    Block block;
+public class BlockTagUnderCondition extends MutationCondition {
+    public static String ID = "block_tag_under";
+    private final TagKey<Block> blockTag;
 
-    public SimpleBlockUnderCondition(Block block) {
-        this.block = block;
+    public BlockTagUnderCondition(TagKey<Block> blockTag) {
+        this.blockTag = blockTag;
     }
 
     @Override
@@ -27,24 +28,25 @@ public class SimpleBlockUnderCondition extends MutationCondition {
 
     @Override
     public boolean check(Level level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos.below());
-        return state.is(block);
+        BlockState below = level.getBlockState(pos.below());
+        return below.is(blockTag);
     }
 
     @Override
     public Component getDescription() {
-        return Component.translatable("gui.complicated_bees.mutations.block_under", Component.translatable(block.getDescriptionId()));
+        return Component.translatable("gui.complicated_bees.mutations.block_under",
+                Component.literal("#" + blockTag.location()));
     }
 
     @Override
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
-        tag.put("block", StringTag.valueOf(BuiltInRegistries.BLOCK.getKey(this.block).toString()));
+        tag.put("tag", StringTag.valueOf(this.blockTag.location().toString()));
         return tag;
     }
 
     @Override
-    public SimpleBlockUnderCondition deserialize(CompoundTag tag) {
-        return new SimpleBlockUnderCondition(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(tag.getString("block"))));
+    public BlockTagUnderCondition deserialize(CompoundTag tag) {
+        return new BlockTagUnderCondition(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryParse(tag.getString("tag"))));
     }
 }

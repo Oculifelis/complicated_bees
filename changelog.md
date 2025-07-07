@@ -1,10 +1,9 @@
-# Complicated Bees 2.2.5
+# Complicated Bees 2.3.0
 
 ## Added 
 
-* Candle recipe using beeswax
+* `block_tag_under` mutation condition
 
 ## Changed
 
-* Added ticker for unlocking book entries
-* Reorganized the way certain recipes unlock
+* 1-3 combs are now guaranteed to drop from nests (increased by fortune)
