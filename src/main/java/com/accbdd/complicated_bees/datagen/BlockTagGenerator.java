@@ -19,6 +19,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class BlockTagGenerator extends BlockTagsProvider {
     public static final TagKey<Block> SCOOPABLE = BlockTags.create(new ResourceLocation("complicated_bees:mineable/scoop_tool"));
     public static final TagKey<Block> MELLARIUM = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/mellarium"));
+    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(new ResourceLocation("complicated_bees:flowers/desert"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MODID, existingFileHelper);
@@ -110,5 +111,16 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.SMOOTH_WAX_SLAB.get(),
                 BlocksRegistration.WAX_BRICK_SLAB.get()
         );
+        tag(DESERT_FLOWER)
+                .addOptional(loc("biomeswevegone:golden_spined_cactus"))
+                .addOptional(loc("biomeswevegone:flowering_barrel_cactus"))
+                .addOptional(loc("biomeswevegone:barrel_cactus"))
+                .addOptional(loc("biomeswevegone:prickly_pear_cactus"))
+                .addOptional(loc("biomeswevegone:mini_cactus"))
+                .addOptional(loc("biomeswevegone:aloe_vera"));
+    }
+
+    private static ResourceLocation loc(String str) {
+        return ResourceLocation.parse(str);
     }
 }

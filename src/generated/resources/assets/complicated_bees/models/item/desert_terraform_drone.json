@@ -5,6 +5,7 @@
   },
   "loader": "forge:item_layers",
   "render_types": {},
+  "render_types_fast": {},
   "textures": {
     "layer0": "complicated_bees:item/desert_terraform_bee_base",
     "layer1": "complicated_bees:item/bee_outline"

@@ -1,0 +1,14 @@
+{
+  "forge:conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomeswevegone"
+    }
+  ],
+  "type": "forge:add_features",
+  "biomes": [
+    "biomeswevegone:forgotten_forest"
+  ],
+  "features": "complicated_bees:biomeswevegone/forgotten_tree",
+  "step": "vegetal_decoration"
+}

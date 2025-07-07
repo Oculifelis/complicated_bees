@@ -1,0 +1,17 @@
+{
+  "forge:conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomeswevegone"
+    }
+  ],
+  "type": "forge:add_features",
+  "biomes": [
+    "biomeswevegone:allium_shrubland",
+    "biomeswevegone:amaranth_grassland",
+    "biomeswevegone:orchard",
+    "biomeswevegone:rose_fields"
+  ],
+  "features": "complicated_bees:biomeswevegone/plains_bee_nest",
+  "step": "vegetal_decoration"
+}
