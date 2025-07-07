@@ -37,6 +37,7 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            args '--username', 'Dev##'
             jvmArg '-XX:+AllowEnhancedClassRedefinition'
         }
 
@@ -87,6 +88,9 @@ repositories {
         url "https://maven.shedaniel.me/"
     }
     mavenLocal()
+    flatDir {
+        dir 'libs'
+    }
 }
 
 dependencies {
@@ -115,6 +119,12 @@ dependencies {
         runtimeOnly fg.deobf("curse.maven:terrablender-563928:${terrablender_id}")
     } else if (runtime_biome_test == "tl") {
         runtimeOnly fg.deobf("curse.maven:terralith-513688:${terralith_id}")
+    } else if (runtime_biome_test == "bwg") {
+        runtimeOnly fg.deobf("curse.maven:oh-the-biomes-weve-gone-1070751:${bwg_id}")
+        runtimeOnly fg.deobf("curse.maven:terrablender-563928:${terrablender_id}")
+        runtimeOnly fg.deobf("curse.maven:corgilib-693313:6616784")
+        runtimeOnly fg.deobf("curse.maven:geckolib-388172:6658942")
+        runtimeOnly fg.deobf("curse.maven:oh-the-trees-youll-grow-962544:6608610")
     }
 
     // For more info:
