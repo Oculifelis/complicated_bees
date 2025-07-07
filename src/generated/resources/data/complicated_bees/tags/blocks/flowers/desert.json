@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "biomeswevegone:golden_spined_cactus",
+      "required": false
+    },
+    {
+      "id": "biomeswevegone:flowering_barrel_cactus",
+      "required": false
+    },
+    {
+      "id": "biomeswevegone:barrel_cactus",
+      "required": false
+    },
+    {
+      "id": "biomeswevegone:prickly_pear_cactus",
+      "required": false
+    },
+    {
+      "id": "biomeswevegone:mini_cactus",
+      "required": false
+    },
+    {
+      "id": "biomeswevegone:aloe_vera",
+      "required": false
+    }
+  ]
+}
