@@ -52,13 +52,7 @@ public abstract class MellariumAbstractBlockEntity extends BlockEntity {
             return super.getCapability(cap, side);
 
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            if (side == null) {
-                return getLogic().getController().getItemHandler().cast();
-            }
-            if (side == Direction.DOWN) {
-                return getLogic().getController().getOutputItemHandler().cast();
-            }
-            return getLogic().getController().getBeeItemHandler().cast();
+            return getLogic().getController().getItemHandler().cast();
         }
 
         return super.getCapability(cap, side);

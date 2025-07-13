@@ -31,20 +31,22 @@ minecraft {
                     source sourceSets.main
                 }
             }
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--username', 'Dev##'
             jvmArg '-XX:+AllowEnhancedClassRedefinition'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
 
         server {
             workingDirectory project.file('runs_server_forge')
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
 
         gameTestServer {
@@ -54,6 +56,8 @@ minecraft {
         data {
             workingDirectory project.file('runs_data_forge')
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
     }
 }
@@ -104,6 +108,7 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:appleskin-248787:${appleskin_id}")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:${patchouli_id}")
+    runtimeOnly fg.deobf("curse.maven:pipez-443900:6368313")
     // We add the full version to localRuntime so that we do not publish a dependency on it
     if (runtime_recipe_viewer == "jei") {
         runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")

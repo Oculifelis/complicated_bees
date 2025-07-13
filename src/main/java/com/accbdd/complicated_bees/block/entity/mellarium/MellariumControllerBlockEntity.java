@@ -4,7 +4,10 @@ import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.bees.BeeLogic;
 import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.block.entity.BaseBeeHousing;
-import com.accbdd.complicated_bees.item.*;
+import com.accbdd.complicated_bees.item.BeeItem;
+import com.accbdd.complicated_bees.item.DroneItem;
+import com.accbdd.complicated_bees.item.PrincessItem;
+import com.accbdd.complicated_bees.item.QueenItem;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
@@ -61,23 +64,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         }
     });
 
-    private final LazyOptional<IItemHandlerModifiable> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() instanceof FrameItem;
-        }
-
-        @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return stack;
-        }
-    });
-
     private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItemHandler.resolve().get(), outputItemHandler.resolve().get()));
 
     public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -104,12 +90,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     private ItemStackHandler createBeeHandler() {
         return new ItemStackHandler(BEE_SLOT_COUNT) {
-            @Override
-            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                boolean itemValid = isItemValid(slot, stack);
-                return itemValid ? super.insertItem(slot, stack, simulate) : stack;
-            }
-
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 if (stack.getItem() instanceof BeeItem) {
