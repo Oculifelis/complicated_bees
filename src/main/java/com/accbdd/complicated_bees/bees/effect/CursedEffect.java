@@ -29,7 +29,7 @@ public class CursedEffect extends BeeEffect {
                 }
             }
 
-            if (level.random.nextFloat() < 0.1 || !convertables.isEmpty()) {
+            if (level.random.nextFloat() < 0.1 && !convertables.isEmpty()) {
                 BlockPos switchPos = convertables.get(level.random.nextInt(convertables.size()));
                 BlockState state = level.getBlockState(switchPos);
                 if (state.is(Blocks.SAND) || state.is(Blocks.RED_SAND)) {

@@ -135,12 +135,6 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
     private ItemStackHandler createBeeHandler() {
         return new ItemStackHandler(ApiaryBlockEntity.BEE_SLOT_COUNT) {
             @Override
-            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                boolean itemValid = isItemValid(slot, stack);
-                return itemValid ? super.insertItem(slot, stack, simulate) : stack;
-            }
-
-            @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 if (stack.getItem() instanceof BeeItem) {
                     switch (slot) {

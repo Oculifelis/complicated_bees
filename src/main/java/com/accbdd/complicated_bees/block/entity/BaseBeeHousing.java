@@ -75,13 +75,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            if (side == null) {
-                return this.getItemHandler().cast();
-            }
-            if (side == Direction.DOWN) {
-                return this.getOutputItemHandler().cast();
-            }
-            return this.getBeeItemHandler().cast();
+            return this.getItemHandler().cast();
         }
         return super.getCapability(cap, side);
     }
