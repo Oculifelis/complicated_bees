@@ -176,6 +176,12 @@ public class GeneticHelper {
         return species == null ? Species.INVALID : species;
     }
 
+    public static ResourceLocation getSpeciesLoc(ItemStack stack) {
+        if (stack.hasTag() && stack.getTag().contains("species"))
+            return ResourceLocation.tryParse(stack.getTag().getString("species"));
+        return null;
+    }
+
     public static Object getGeneValue(ItemStack stack, ResourceLocation id, boolean primary) {
         return getGene(stack, id, primary).get();
     }

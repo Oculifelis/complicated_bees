@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -21,27 +22,25 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.function.Function;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeModelLoader.BeeGeometry> {
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "optimized_bee_model");
+    public static final ResourceLocation ID = ResourceLocation.tryBuild(MODID, "optimized_bee_model");
     @Override
     public BeeGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         return new BeeGeometry(deserializationContext.deserialize(jsonObject.get("base_model"), BlockModel.class));
     }
 
-    public record Variant(BeeModel drone, BeeModel princess, BeeModel queen) {
+    public record Variant(BakedModel drone, BakedModel princess, BakedModel queen) {
     }
 
     static class BeeGeometry implements IUnbakedGeometry<BeeGeometry> {
@@ -54,7 +53,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
         @Override
         public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
             BakedModel bakedModel = model.bake(baker, spriteGetter, modelState, modelLocation);
-            return new BeeOverrideModel(bakedModel, baker, modelState, spriteGetter);
+            return new BeeOverrideModel(bakedModel);
         }
 
         @Override
@@ -67,10 +66,10 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
     {
         private final ItemOverrides overrideList;
 
-        BeeOverrideModel(BakedModel originalModel, ModelBaker baker, ModelState modelState, Function<Material, TextureAtlasSprite> sprites)
+        BeeOverrideModel(BakedModel originalModel)
         {
             super(originalModel);
-            this.overrideList = new BeeOverrideList(baker, modelState, sprites);
+            this.overrideList = new BeeOverrideList();
         }
 
         @Override
@@ -82,12 +81,12 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
 
     private static class BeeModel extends BakedModelWrapper<BakedModel>
     {
-        private final List<BakedQuad> quads;
+        private final BakedModel model;
 
-        BeeModel(BakedModel baked, List<BakedQuad> quads)
+        BeeModel(BakedModel baked)
         {
             super(baked);
-            this.quads = quads;
+            this.model = baked;
         }
 
         @Override
@@ -95,7 +94,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
         {
             if (side == null)
             {
-                return quads;
+                return model.getQuads(state, side, rand);
             }
             return List.of();
         }
@@ -115,41 +114,36 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
     }
 
     private static class BeeOverrideList extends ItemOverrides {
-        public final HashMap<Species, Variant> cacheMap = new HashMap<>();
-        private final ModelBaker baker;
-        private final ModelState state;
-        private final Function<Material, TextureAtlasSprite> sprites;
+        public static final IdentityHashMap<ResourceLocation, Variant> cacheMap = new IdentityHashMap<>();
 
-        public BeeOverrideList(ModelBaker baker, ModelState state, Function<Material, TextureAtlasSprite> sprites) {
-            this.baker = baker;
-            this.state = state;
-            this.sprites = sprites;
+        public BeeOverrideList() {
+
         }
 
         @Nullable
         @Override
         public BakedModel resolve(BakedModel bakedModel, ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
-            Species species = GeneticHelper.getSpecies(stack, true);
-            cacheMap.computeIfAbsent(species, spec -> {
-                BeeModel[] beeModels = new BeeModel[3];
+            ResourceLocation location = GeneticHelper.getSpeciesLoc(stack);
+            if (location == null)
+                return bakedModel;
+            cacheMap.computeIfAbsent(location, loc -> {
+                BakedModel[] beeModels = new BakedModel[3];
+                Species species = GeneticHelper.getSpecies(stack, true);
                 for (int i = 0; i < 3; i++) {
-                    if (spec == null) {
-                        beeModels[i] = new BeeModel(bakedModel, List.of());
+                    if (species == null) {
+                        beeModels[i] = bakedModel;
                         continue;
                     }
-                    ResourceLocation modelLoc = spec.getModels().get(i);
-                    BakedModel bakedModelOverride = baker.bake(modelLoc, state, sprites);
-                    List<BakedQuad> quads = new ArrayList<>(bakedModelOverride.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, null));
-                    beeModels[i] = new BeeModel(bakedModel, quads);
+                    beeModels[i] = new BeeModel(Minecraft.getInstance().getModelManager().getModel(species.getModels().get(i)));
                 }
                 return new Variant(beeModels[0], beeModels[1], beeModels[2]);
             });
             if (stack.is(ItemsRegistration.QUEEN.get())) {
-                return cacheMap.get(species).queen;
+                return cacheMap.get(location).queen;
             } else if (stack.is(ItemsRegistration.PRINCESS.get()))
-                return cacheMap.get(species).princess;
+                return cacheMap.get(location).princess;
             else
-                return cacheMap.get(species).drone;
+                return cacheMap.get(location).drone;
         }
     }
 }

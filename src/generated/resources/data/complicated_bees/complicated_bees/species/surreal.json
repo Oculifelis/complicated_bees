@@ -56,9 +56,9 @@
     }
   },
   "models": [
-    "complicated_bees:item/ender_drone",
-    "complicated_bees:item/ender_princess",
-    "complicated_bees:item/ender_queen"
+    "complicated_bees:bee/ender_drone",
+    "complicated_bees:bee/ender_princess",
+    "complicated_bees:bee/ender_queen"
   ],
   "nest_color": "9a1fff",
   "products": [

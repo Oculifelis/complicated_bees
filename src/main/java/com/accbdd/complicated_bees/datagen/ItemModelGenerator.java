@@ -173,16 +173,16 @@ public class ItemModelGenerator extends ItemModelProvider {
     }
 
     private void beeModel(String name, String beeBase, String beeOutline) {
-        getBuilder(modLoc("item/"+name+"_drone").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+        getBuilder(modLoc("bee/"+name+"_drone").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .customLoader(ItemLayerModelBuilder::begin).end()
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline));
-        getBuilder(modLoc("item/"+name+"_princess").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+        getBuilder(modLoc("bee/"+name+"_princess").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .customLoader(ItemLayerModelBuilder::begin).end()
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline))
                 .texture("layer2", modLoc("item/princess_crown"));
-        getBuilder(modLoc("item/"+name+"_queen").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+        getBuilder(modLoc("bee/"+name+"_queen").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .customLoader(ItemLayerModelBuilder::begin).end()
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline))
