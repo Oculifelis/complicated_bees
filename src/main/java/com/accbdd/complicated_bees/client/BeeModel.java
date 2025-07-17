@@ -16,6 +16,7 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,14 +29,13 @@ import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.IdentityHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeModel implements IUnbakedGeometry<BeeModel> {
-    public static IdentityHashMap<ResourceLocation, Variant> cacheMap = new IdentityHashMap<ResourceLocation, Variant>();
+    public static HashMap<ResourceLocation, Variant> cacheMap = new HashMap<ResourceLocation, Variant>();
 
     @Override
     public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
@@ -87,35 +87,60 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
 
         @Override
         public ItemOverrides getOverrides() {
-            return new OverrideList();
+            return OverrideList.INSTANCE;
         }
 
-        public class OverrideList extends ItemOverrides {
+        public static class OverrideList extends ItemOverrides {
+            public static OverrideList INSTANCE = new OverrideList();
+            private static final Map<Integer, BakedModel> stackCache = new LinkedHashMap<>() {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<Integer, BakedModel> eldest) {
+                    return this.size() > 2000; //how big to make this? idk :(
+                }
+            };
+
             @Nullable
             @Override
-            public BakedModel resolve(BakedModel pModel, ItemStack pstack, @Nullable ClientLevel pLevel, @Nullable LivingEntity pEntity, int pSeed) {
-                ResourceLocation speciesLoc = GeneticHelper.getSpeciesLoc(pstack);
-                if (speciesLoc == null)
-                    return pModel;
+            public BakedModel resolve(BakedModel pModel, ItemStack pStack, @Nullable ClientLevel pLevel, @Nullable LivingEntity pEntity, int pSeed) {
+                int stackHash = getStackHash(pStack);
+                BakedModel cached = stackCache.get(stackHash);
+                if (cached != null) return cached;
 
-                Variant variant = cacheMap.computeIfAbsent(speciesLoc, loc -> {
-                    BakedModel[] beeModels = new BakedModel[3];
-                    Species species = GeneticHelper.getSpecies(pstack, true);
-                    for (int i = 0; i < 3; i++) {
-                        if (species == null) {
-                            beeModels[i] = pModel;
-                            continue;
-                        }
-                        beeModels[i] = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(i));
+                ResourceLocation speciesLoc = GeneticHelper.getSpeciesLoc(pStack);
+                if (speciesLoc == null) return pModel;
+
+                Variant variant = cacheMap.get(speciesLoc);
+
+                if (variant == null) {
+                    Species species = GeneticHelper.getSpecies(pStack, true);
+                    if (species == null) {
+                        variant = new Variant(Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel());
+                    } else {
+                        BakedModel droneModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(0));
+                        BakedModel princessModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(1));
+                        BakedModel queenModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(2));
+                        variant = new Variant(droneModel, princessModel, queenModel);
                     }
-                    return new Variant(beeModels[0], beeModels[1], beeModels[2]);
-                });
-                if (pstack.is(ItemsRegistration.QUEEN.get())) {
-                    return variant.queen;
-                } else if (pstack.is(ItemsRegistration.PRINCESS.get()))
-                    return variant.princess;
+                    cacheMap.put(speciesLoc, variant);
+                }
+
+                if (pStack.is(ItemsRegistration.QUEEN.get())) {
+                    cached = variant.queen;
+                } else if (pStack.is(ItemsRegistration.PRINCESS.get()))
+                    cached = variant.princess;
                 else
-                    return variant.drone;
+                    cached = variant.drone;
+
+                stackCache.put(stackHash, cached);
+                return cached;
+            }
+
+            private int getStackHash(ItemStack stack) {
+                CompoundTag tag = stack.getTag();
+                String species = tag != null && tag.contains("species") ? tag.getString("species") : "none";
+                int type = stack.is(ItemsRegistration.QUEEN.get()) ? 2 :
+                        stack.is(ItemsRegistration.PRINCESS.get()) ? 1 : 0;
+                return Objects.hash(species, type);
             }
         }
     }
