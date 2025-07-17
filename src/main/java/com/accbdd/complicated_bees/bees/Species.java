@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
-import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
+import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING;
 
 /**
  * Defines the color and products of a bee, as well as the default genes for things like JEI display and world drops.
@@ -46,8 +46,8 @@ public class Species {
             Codec.BOOL.optionalFieldOf("dominant", true).forGetter(Species::isDominant),
             Codec.BOOL.optionalFieldOf("foil", false).forGetter(Species::isFoil),
             ResourceLocation.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
-            HEX_STRING_CODEC.optionalFieldOf("color", -1).forGetter(Species::getColor),
-            HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
+            HEX_STRING.optionalFieldOf("color", -1).forGetter(Species::getColor),
+            HEX_STRING.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
             Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
             Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
             CompoundTag.CODEC.optionalFieldOf("default_chromosome", new Chromosome().serialize()).forGetter(species -> species.getDefaultChromosome().serialize())
