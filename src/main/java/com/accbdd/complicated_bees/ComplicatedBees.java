@@ -10,6 +10,7 @@ import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
+import com.accbdd.complicated_bees.client.BeeModel;
 import com.accbdd.complicated_bees.client.ColorHandlers;
 import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.command.ModCommands;
@@ -25,6 +26,7 @@ import com.accbdd.complicated_bees.particle.BeeParticle;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.*;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
@@ -36,6 +38,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -230,6 +234,22 @@ public class ComplicatedBees {
         @SubscribeEvent
         public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
             event.register(OptimizedBeeModelLoader.ID.getPath(), new OptimizedBeeModelLoader());
+            event.register(BeeModel.Loader.ID.getPath(), new BeeModel.Loader());
+        }
+
+        @SubscribeEvent
+        public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
+            ResourceManager manager = Minecraft.getInstance().getResourceManager();
+            try {
+                for (Map.Entry<ResourceLocation, Resource> entry : manager.listResources("models/bee", res -> res.getPath().endsWith(".json")).entrySet()) {
+                    String path = entry.getKey().getPath(); // e.g. models/item/custom/fire_wand.json
+                    String modelPath = path.substring("models/".length(), path.length() - ".json".length());
+                    event.register(ResourceLocation.tryBuild(entry.getKey().getNamespace(), modelPath));
+                    ComplicatedBees.LOGGER.debug("Loaded bee model: " + entry.getKey());
+                }
+            } catch (Exception e) {
+                ComplicatedBees.LOGGER.error("Failed to read bee models: " + e);
+            }
         }
 
         @SubscribeEvent

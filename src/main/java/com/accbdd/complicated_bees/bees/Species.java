@@ -36,9 +36,9 @@ public class Species {
     public ResourceLocation builderOverride; //used in datagen, ignore otherwise
 
     public static List<ResourceLocation> DEFAULT_MODELS = new ArrayList<>() {{
-        add(new ResourceLocation(MODID, "item/base_drone"));
-        add(new ResourceLocation(MODID, "item/base_princess"));
-        add(new ResourceLocation(MODID, "item/base_queen"));
+        add(new ResourceLocation(MODID, "bee/base_drone"));
+        add(new ResourceLocation(MODID, "bee/base_princess"));
+        add(new ResourceLocation(MODID, "bee/base_queen"));
     }};
     public static final Species INVALID = new Species();
 

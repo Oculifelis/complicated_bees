@@ -56,9 +56,9 @@
     }
   },
   "models": [
-    "complicated_bees:item/swamp_terraform_drone",
-    "complicated_bees:item/swamp_terraform_princess",
-    "complicated_bees:item/swamp_terraform_queen"
+    "complicated_bees:bee/swamp_terraform_drone",
+    "complicated_bees:bee/swamp_terraform_princess",
+    "complicated_bees:bee/swamp_terraform_queen"
   ],
   "nest_color": "444724",
   "products": [

@@ -57,9 +57,9 @@
   },
   "dominant": false,
   "models": [
-    "complicated_bees:item/gray_drone",
-    "complicated_bees:item/gray_princess",
-    "complicated_bees:item/gray_queen"
+    "complicated_bees:bee/gray_drone",
+    "complicated_bees:bee/gray_princess",
+    "complicated_bees:bee/gray_queen"
   ],
   "nest_color": "fff6b",
   "products": [
