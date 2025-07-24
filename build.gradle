@@ -36,7 +36,7 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
-            args '--username', 'Dev##'
+            args '--username', 'Dev###'
             jvmArg '-XX:+AllowEnhancedClassRedefinition'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"

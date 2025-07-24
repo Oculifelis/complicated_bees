@@ -8,7 +8,8 @@ import net.minecraft.commands.Commands;
 
 public class ModCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
-        LiteralArgumentBuilder<CommandSourceStack> opRoot = Commands.literal("combees").requires(context -> context.hasPermission(2));
-        DiscoverCommands.register(opRoot, dispatcher, buildContext);
+        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("combees");
+        DiscoverCommands.register(root, dispatcher, buildContext);
+        DumpCommands.register(root, dispatcher, buildContext);
     }
 }

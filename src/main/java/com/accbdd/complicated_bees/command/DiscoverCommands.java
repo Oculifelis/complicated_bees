@@ -35,7 +35,7 @@ import static com.accbdd.complicated_bees.bees.GeneticHelper.CHROMOSOME_B;
 public class DiscoverCommands implements Command<CommandSourceStack> {
     public static void register(LiteralArgumentBuilder<CommandSourceStack> root, CommandDispatcher<CommandSourceStack> pDispatcher, CommandBuildContext buildContext) {
         pDispatcher.register(root
-                .then(Commands.literal("tracking")
+                .then(Commands.literal("tracking").requires(context -> context.hasPermission(2))
                         .then(Commands.argument("targets", EntityArgument.players())
                                 .then(Commands.literal("species")
                                         .then(Commands.literal("clear").executes(context -> clearSpecies(context.getSource(), EntityArgument.getEntities(context, "targets"))))
@@ -50,7 +50,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                                         .then(Commands.literal("grant")
                                             .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).get()))))
                 )))
-                .then(Commands.literal("setgene")
+                .then(Commands.literal("setgene").requires(context -> context.hasPermission(2))
                         .then(Commands.argument("primary", BoolArgumentType.bool())
                                 .then(Commands.argument("gene_name", ResourceLocationArgument.id())
                                         .then(Commands.argument("data", CompoundTagArgument.compoundTag()).executes(context -> setGeneData(context.getSource(), BoolArgumentType.getBool(context, "primary"), ResourceLocationArgument.getId(context, "gene_name").toString(), CompoundTagArgument.getCompoundTag(context, "data"))))))
