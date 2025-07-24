@@ -1,5 +1,4 @@
-# Complicated Bees 2.3.1
+# Complicated Bees 2.3.2
 
 ## Fixed
-* Cursed effect would crash if bees had no convertible blocks nearby - #56
-* Apiary and Mellarium still not fully interacting with automation correctly
+* Rendering optimizations for bees - #57, #60
