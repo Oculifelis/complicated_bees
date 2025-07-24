@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -173,17 +172,14 @@ public class ItemModelGenerator extends ItemModelProvider {
     }
 
     private void beeModel(String name, String beeBase, String beeOutline) {
-        getBuilder(modLoc("item/"+name+"_drone").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .customLoader(ItemLayerModelBuilder::begin).end()
+        getBuilder(modLoc("bee/"+name+"_drone").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline));
-        getBuilder(modLoc("item/"+name+"_princess").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .customLoader(ItemLayerModelBuilder::begin).end()
+        getBuilder(modLoc("bee/"+name+"_princess").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline))
                 .texture("layer2", modLoc("item/princess_crown"));
-        getBuilder(modLoc("item/"+name+"_queen").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .customLoader(ItemLayerModelBuilder::begin).end()
+        getBuilder(modLoc("bee/"+name+"_queen").toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", modLoc("item/"+beeBase))
                 .texture("layer1", modLoc("item/"+beeOutline))
                 .texture("layer2", modLoc("item/queen_crown"));

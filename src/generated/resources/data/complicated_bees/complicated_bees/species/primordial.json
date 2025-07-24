@@ -58,9 +58,9 @@
   "dominant": false,
   "foil": true,
   "models": [
-    "complicated_bees:item/primordial_drone",
-    "complicated_bees:item/primordial_princess",
-    "complicated_bees:item/primordial_queen"
+    "complicated_bees:bee/primordial_drone",
+    "complicated_bees:bee/primordial_princess",
+    "complicated_bees:bee/primordial_queen"
   ],
   "nest_color": "ffffff",
   "products": [

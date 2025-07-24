@@ -26,6 +26,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class CentrifugeRecipe implements Recipe<Container> {
     private final ItemStack input;
@@ -60,7 +61,7 @@ public class CentrifugeRecipe implements Recipe<Container> {
                 JsonArray outputsJson = json.getAsJsonArray("outputs");
                 for (JsonElement element : outputsJson.asList()) {
                     DataResult<Pair<Product, JsonElement>> result = Product.CODEC.decode(JsonOps.INSTANCE, element);
-                    outputs.add(result.getOrThrow(false, ComplicatedBees.LOGGER::error).getFirst());
+                    outputs.add(result.result().orElseThrow(() -> new NoSuchElementException("could not decode " + location)).getFirst());
                 }
             }
             return new CentrifugeRecipe(location, input, outputs);

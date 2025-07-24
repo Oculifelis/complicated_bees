@@ -572,6 +572,6 @@ public class BuiltInSpecies {
     );
 
     private static List<ResourceLocation> getModelList(String name) {
-        return List.of(loc("item/"+name+"_drone"), loc("item/"+name+"_princess"), loc("item/"+name+"_queen"));
+        return List.of(loc("bee/"+name+"_drone"), loc("bee/"+name+"_princess"), loc("bee/"+name+"_queen"));
     }
 }

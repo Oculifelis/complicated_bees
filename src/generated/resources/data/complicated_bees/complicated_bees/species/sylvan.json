@@ -56,9 +56,9 @@
     }
   },
   "models": [
-    "complicated_bees:item/forest_terraform_drone",
-    "complicated_bees:item/forest_terraform_princess",
-    "complicated_bees:item/forest_terraform_queen"
+    "complicated_bees:bee/forest_terraform_drone",
+    "complicated_bees:bee/forest_terraform_princess",
+    "complicated_bees:bee/forest_terraform_queen"
   ],
   "nest_color": "3fce8",
   "products": [

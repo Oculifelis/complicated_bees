@@ -110,7 +110,7 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:appleskin-248787:${appleskin_id}")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:${patchouli_id}")
-    runtimeOnly fg.deobf("curse.maven:pipez-443900:6368313")
+    //runtimeOnly fg.deobf("curse.maven:pipez-443900:6368313")
     // We add the full version to localRuntime so that we do not publish a dependency on it
     if (runtime_recipe_viewer == "jei") {
         runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
