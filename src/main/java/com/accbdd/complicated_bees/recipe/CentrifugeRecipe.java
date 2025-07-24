@@ -60,7 +60,7 @@ public class CentrifugeRecipe implements Recipe<Container> {
                 JsonArray outputsJson = json.getAsJsonArray("outputs");
                 for (JsonElement element : outputsJson.asList()) {
                     DataResult<Pair<Product, JsonElement>> result = Product.CODEC.decode(JsonOps.INSTANCE, element);
-                    outputs.add(result.result().get().getFirst());
+                    outputs.add(result.getOrThrow(false, ComplicatedBees.LOGGER::error).getFirst());
                 }
             }
             return new CentrifugeRecipe(location, input, outputs);

@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.bees;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -11,9 +12,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -25,12 +30,28 @@ public class Product {
     public static final List<Product> EMPTY = List.of(new Product(Items.AIR.getDefaultInstance(), 0));
     public static final Random rand = new Random();
 
-    private final ItemStack stack;
+    private final Item item;
+    private final int count;
+    private final CompoundTag nbt;
+    private final TagKey<Item> tag;
     private final float chance;
 
-    public Product(ItemStack stack, float chance) {
-        this.stack = stack;
+    private ItemStack cachedStack;
+
+    public Product(Item item, int count, @Nullable CompoundTag nbt, @Nullable TagKey<Item> tag, float chance) {
+        this.item = item;
+        this.count = count;
+        this.nbt = nbt;
+        this.tag = tag;
         this.chance = chance;
+    }
+
+    public Product(ItemStack stack, float chance) {
+        this(stack.getItem(), stack.getCount(), stack.getTag(), null, chance);
+    }
+
+    public boolean isTagProduct() {
+        return this.tag != null;
     }
 
     public float getChance() {
@@ -38,7 +59,27 @@ public class Product {
     }
 
     public ItemStack getStack() {
-        return stack.copy();
+        if (cachedStack != null) return cachedStack.copy();
+
+        Item resolvedItem;
+        if (isTagProduct()) {
+            Optional<Item> firstItem = BuiltInRegistries.ITEM.getTag(tag).flatMap(set -> set.stream()
+                    .map(Holder::value).min(Comparator.comparing(i -> BuiltInRegistries.ITEM.getKey(i).toString())));
+
+            if (firstItem.isEmpty()) {
+                ComplicatedBees.LOGGER.error("tag " + tag.location() + " is empty or invalid");
+                cachedStack = ItemStack.EMPTY;
+                return cachedStack.copy();
+            }
+            resolvedItem = firstItem.get();
+        } else {
+            resolvedItem = item;
+        }
+        ItemStack stack = new ItemStack(resolvedItem, count);
+        if (nbt != null)
+            stack.setTag(nbt.copy());
+        cachedStack = stack;
+        return cachedStack.copy();
     }
 
     public ItemStack getStackResult(float... modifiers) {
@@ -59,25 +100,51 @@ public class Product {
     }
 
     public void toNetwork(FriendlyByteBuf buf) {
+        buf.writeBoolean(isTagProduct());
+        buf.writeInt(count);
         buf.writeFloat(chance);
-        buf.writeItem(stack);
+        buf.writeNbt(nbt);
+
+        if (isTagProduct()) {
+            buf.writeResourceLocation(tag.location());
+        } else {
+            buf.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, item);
+        }
     }
 
     public static Product fromNetwork(FriendlyByteBuf buf) {
+        boolean isTag = buf.readBoolean();
+        int count = buf.readInt();
         float chance = buf.readFloat();
-        ItemStack item = buf.readItem();
-        return new Product(item, chance);
+        CompoundTag nbt = buf.readNbt();
+
+        if (isTag) {
+            ResourceLocation tagId = buf.readResourceLocation();
+            TagKey<Item> tag = TagKey.create(BuiltInRegistries.ITEM.key(), tagId);
+            return new Product(Items.AIR, count, nbt, tag, chance);
+        } else {
+            Item item = buf.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
+            ItemStack stack = new ItemStack(item, count);
+            if (nbt != null) {
+                stack.setTag(nbt);
+            }
+            return new Product(stack, chance);
+        }
     }
 
     private <T> DataResult<T> encode(DynamicOps<T> ops, T prefix) {
         RecordBuilder<T> builder = ops.mapBuilder();
 
-        builder.add("item", BuiltInRegistries.ITEM.byNameCodec().encodeStart(ops, stack.getItem()));
+        if (isTagProduct()) {
+            builder.add("tag", ResourceLocation.CODEC.encodeStart(ops, tag.location()).result().orElse(ops.empty()));
+        } else {
+            builder.add("item", BuiltInRegistries.ITEM.byNameCodec().encodeStart(ops, item));
+        }
 
-        if (stack.hasTag() && !stack.getTag().isEmpty())
-            builder.add("nbt", CompoundTag.CODEC.encodeStart(ops, stack.getTag()).result().orElseThrow());
-        if (stack.getCount() > 1)
-            builder.add("count", ops.createInt(stack.getCount()));
+        if (nbt != null && !nbt.isEmpty())
+            builder.add("nbt", CompoundTag.CODEC.encodeStart(ops, nbt).result().orElseThrow());
+        if (count > 1)
+            builder.add("count", ops.createInt(count));
         if (chance != 1.0f)
             builder.add("chance", ops.createFloat(chance));
 
@@ -107,13 +174,9 @@ public class Product {
         return ResourceLocation.CODEC.xmap(
                 loc -> TagKey.create(BuiltInRegistries.ITEM.key(), loc),
                 TagKey::location
-        ).parse(ops, tag.get()).map(tagKey -> {
-            ItemStack itemStack = BuiltInRegistries.ITEM.getTag(tagKey)
-                    .flatMap(t -> t.stream().findFirst())
-                    .map(Holder::value).map(i -> new ItemStack(i, count)).orElse(ItemStack.EMPTY);
-            if (!nbt.isEmpty())
-                itemStack.setTag(nbt);
-            return Pair.of(new Product(itemStack, chance), input);
+        ).parse(ops, tag.get()).flatMap(tagKey -> {
+            CompoundTag copyNbt = nbt.isEmpty() ? null : nbt.copy();
+            return DataResult.success(Pair.of(new Product(Items.AIR, count, copyNbt, tagKey, chance), input));
         });
     }
 }
