@@ -57,9 +57,9 @@
   },
   "dominant": false,
   "models": [
-    "complicated_bees:item/jazzy_drone",
-    "complicated_bees:item/jazzy_princess",
-    "complicated_bees:item/jazzy_queen"
+    "complicated_bees:bee/jazzy_drone",
+    "complicated_bees:bee/jazzy_princess",
+    "complicated_bees:bee/jazzy_queen"
   ],
   "nest_color": "ffcc00",
   "products": [
