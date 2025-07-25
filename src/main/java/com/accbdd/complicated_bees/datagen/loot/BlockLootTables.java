@@ -44,6 +44,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.MELLARIUM_RAIN_SHIELD.get());
         dropSelf(BlocksRegistration.MELLARIUM_MUTATOR.get());
         dropSelf(BlocksRegistration.MELLARIUM_HYDROREGULATOR.get());
+        dropSelf(BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get());
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));
         dropSelf(BlocksRegistration.WAX_BLOCK.get());
         dropSelf(BlocksRegistration.WAX_BLOCK_STAIRS.get());
