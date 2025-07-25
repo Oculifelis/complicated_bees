@@ -8,6 +8,7 @@ Added tag functionality to centrifuge outputs means MUCH easier mod compat...
   * Biome climates
   * Effect names and descriptions
   * Default bee stats
+* Mellarium Energy Acceptor
 
 ## Fixed
 * Rendering optimizations for bees - #57, #60
