@@ -118,13 +118,4 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
         super.createBlockStateDefinition(pBuilder);
         pBuilder.add(EsotericRegistration.ASSEMBLED);
     }
-
-    public enum MellariumBlockType {
-        BASE,
-        CONTROLLER,
-        FAN,
-        HEATER,
-        HYDRO,
-        FRAME
-    }
 }

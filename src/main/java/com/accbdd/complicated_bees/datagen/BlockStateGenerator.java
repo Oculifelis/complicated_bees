@@ -46,6 +46,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, modLoc("block/mellarium/mellarium_mutator"), modLoc("block/mellarium/mellarium_mutator_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, modLoc("block/mellarium/mellarium_hydroregulator"), modLoc("block/mellarium/mellarium_hydroregulator_assembled"));
         mellariumBlock(BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR, modLoc("block/mellarium/mellarium_energy_acceptor"), modLoc("block/mellarium/mellarium_energy_acceptor_assembled"));
+        poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, modLoc("block/mellarium/mellarium_skybox"), modLoc("block/mellarium/mellarium_skybox_assembled"), modLoc("block/mellarium/mellarium_skybox_powered"));
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
@@ -176,6 +177,24 @@ public class BlockStateGenerator extends BlockStateProvider {
             ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
             model.accept(state, bld);
             applyRotationBld(bld, state.getValue(BlockStateProperties.FACING));
+            return bld.build();
+        });
+    }
+
+    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
+        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+        BlockModelBuilder modelPowered = models().cubeAll(block.getId().getPath() + "_powered", poweredTex);
+        builder.forAllStates(state -> {
+            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+            if (state.getValue(EsotericRegistration.ASSEMBLED).equals(EsotericRegistration.AssembledStatus.none)) {
+                bld.modelFile(modelUnassembled);
+            } else if (state.getValue(BlockStateProperties.POWERED)) {
+                bld.modelFile(modelPowered);
+            } else  {
+                bld.modelFile(modelAssembled);
+            }
             return bld.build();
         });
     }

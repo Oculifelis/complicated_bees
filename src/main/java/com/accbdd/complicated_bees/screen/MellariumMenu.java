@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.Blocks;
 import static com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity.*;
 
 public class MellariumMenu extends AbstractBaseInventoryMenu {
+    //todo: show energy
     private final BlockPos pos;
     private final ContainerData data;
     private static final int INV_X = 8;

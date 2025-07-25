@@ -11,6 +11,7 @@ public class BeeHousingModifier {
     private final float mutationMod;
     private final boolean skyOverride;
     private final boolean rainOverride;
+    private final boolean sleepOverride;
 
     public static BeeHousingModifier of(BeeHousingModifier... modifiers) {
         EnumTolerance temperatureMod = EnumTolerance.NONE;
@@ -21,6 +22,7 @@ public class BeeHousingModifier {
         float mutationMod = 1;
         boolean skyOverride = false;
         boolean rainOverride = false;
+        boolean sleepOverride = false;
         for (BeeHousingModifier modifier : modifiers) {
             temperatureMod = EnumTolerance.getFromCollapsed(temperatureMod.collapsed() + modifier.temperatureMod.collapsed());
             humidityMod = EnumTolerance.getFromCollapsed(humidityMod.collapsed() + modifier.humidityMod.collapsed());
@@ -30,12 +32,13 @@ public class BeeHousingModifier {
             mutationMod *= modifier.mutationMod;
             skyOverride = skyOverride||modifier.skyOverride;
             rainOverride = rainOverride||modifier.rainOverride;
+            sleepOverride = sleepOverride||modifier.sleepOverride;
         }
 
-        return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride);
+        return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride, sleepOverride);
     }
 
-    public BeeHousingModifier(EnumTolerance temperatureMod, EnumTolerance humidityMod, float lifespanMod, float productivityMod, float territoryMod, float mutationMod, boolean skyOverride, boolean rainOverride) {
+    public BeeHousingModifier(EnumTolerance temperatureMod, EnumTolerance humidityMod, float lifespanMod, float productivityMod, float territoryMod, float mutationMod, boolean skyOverride, boolean rainOverride, boolean sleepOverride) {
         this.temperatureMod = temperatureMod;
         this.humidityMod = humidityMod;
         this.lifespanMod = lifespanMod;
@@ -44,6 +47,7 @@ public class BeeHousingModifier {
         this.mutationMod = mutationMod;
         this.skyOverride = skyOverride;
         this.rainOverride = rainOverride;
+        this.sleepOverride = sleepOverride;
     }
 
     public BeeHousingModifier() {
@@ -54,6 +58,7 @@ public class BeeHousingModifier {
             1,
             1,
             1,
+            false,
             false,
             false
         );
@@ -91,6 +96,10 @@ public class BeeHousingModifier {
         return rainOverride;
     }
 
+    public boolean getSleepOverride() {
+        return sleepOverride;
+    }
+
     public static class Builder {
         private EnumTolerance temperatureMod = EnumTolerance.NONE;
         private EnumTolerance humidityMod = EnumTolerance.NONE;
@@ -100,9 +109,10 @@ public class BeeHousingModifier {
         private float mutationMod = 1;
         private boolean skyOverride = false;
         private boolean rainOverride = false;
+        private boolean sleepOverride = false;
 
         public BeeHousingModifier build() {
-            return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride);
+            return new BeeHousingModifier(temperatureMod, humidityMod, lifespanMod, productivityMod, territoryMod, mutationMod, skyOverride, rainOverride, sleepOverride);
         }
 
         public Builder temperature(EnumTolerance mod) {
@@ -142,6 +152,11 @@ public class BeeHousingModifier {
 
         public Builder rainOverride(boolean value) {
             this.rainOverride = value;
+            return this;
+        }
+
+        public Builder sleepOverride(boolean value) {
+            this.sleepOverride = value;
             return this;
         }
     }

@@ -51,6 +51,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler frameItems = new ItemStackHandler(0);
     private final EnergyStorage energy = createEnergyStorage();
 
+
     private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {

@@ -9,6 +9,8 @@ Added tag functionality to centrifuge outputs means MUCH easier mod compat...
   * Effect names and descriptions
   * Default bee stats
 * Mellarium Energy Acceptor
+* Mellarium Skybox
 
 ## Fixed
 * Rendering optimizations for bees - #57, #60
+* Occasional furnace generator loading issues
