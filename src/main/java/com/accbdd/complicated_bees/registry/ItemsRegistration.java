@@ -120,6 +120,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> MELLARIUM_HYDROREGULATOR = registerSimpleBlockItem("mellarium_hydroregulator", BlocksRegistration.MELLARIUM_HYDROREGULATOR);
     public static final RegistryObject<Item> MELLARIUM_ENERGY_ACCEPTOR = registerSimpleBlockItem("mellarium_energy_acceptor", BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR);
     public static final RegistryObject<Item> MELLARIUM_SKYBOX = registerSimpleBlockItem("mellarium_skybox", BlocksRegistration.MELLARIUM_SKYBOX);
+    public static final RegistryObject<Item> MELLARIUM_TEMPORAL_SIMULATOR = registerSimpleBlockItem("mellarium_temporal_simulator", BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
     public static final RegistryObject<Item> WAX_BLOCK = registerSimpleBlockItem("wax_block", BlocksRegistration.WAX_BLOCK);
     public static final RegistryObject<Item> WAX_BLOCK_STAIRS = registerSimpleBlockItem("wax_block_stairs", BlocksRegistration.WAX_BLOCK_STAIRS);

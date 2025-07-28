@@ -39,7 +39,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_MUTATOR.get(),
                 BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
                 BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get(),
-                BlocksRegistration.MELLARIUM_SKYBOX.get()
+                BlocksRegistration.MELLARIUM_SKYBOX.get(),
+                BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),
@@ -52,6 +53,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_MUTATOR.get(),
                 BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
                 BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get(),
+                BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),
                 BlocksRegistration.HONEYED_SLAB.get(),
