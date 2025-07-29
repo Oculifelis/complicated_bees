@@ -101,7 +101,7 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
-        if (!checkRainOverride() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
+        if (!checkRain() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
             return;
@@ -116,7 +116,7 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.UNDERGROUND);
         }
-        if (!((GeneActiveTime) chromosome.getGene(new ResourceLocation(MODID, "active_time"))).isSatisfied(level)) {
+        if (!checkActiveTime((GeneActiveTime) chromosome.getGene(new ResourceLocation(MODID, "active_time")))) {
             addError(EnumErrorCodes.WRONG_TIME);
             queenSatisfied = false;
             return;
@@ -148,11 +148,23 @@ public class BeeLogic {
         }
     }
 
+    private boolean checkActiveTime(GeneActiveTime activeTime) {
+        boolean awake = activeTime.isSatisfied(level);
+        if (awake) {
+            return true;
+        } else {
+            for (BeeHousingModifier mod : housing.getHousingModifiers()) {
+                if (mod.getSleepOverride())
+                    return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * @return true if it is NOT raining anywhere inside the housing's territory
      */
-    private boolean checkRainOverride() {
+    private boolean checkRain() {
         boolean clear = !(getLevel().isRainingAt(getPos().above()));
         for (BlockPosBoxIterator it = getTerritoryIterator(); it.hasNext(); ) {
             BlockPos checkPos = it.next();

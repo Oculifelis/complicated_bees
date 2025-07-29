@@ -8,6 +8,9 @@
     "complicated_bees:mellarium_controller",
     "complicated_bees:mellarium_rain_shield",
     "complicated_bees:mellarium_mutator",
-    "complicated_bees:mellarium_hydroregulator"
+    "complicated_bees:mellarium_hydroregulator",
+    "complicated_bees:mellarium_energy_acceptor",
+    "complicated_bees:mellarium_skybox",
+    "complicated_bees:mellarium_temporal_simulator"
   ]
 }

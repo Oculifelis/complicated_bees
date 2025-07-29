@@ -3,11 +3,9 @@ package com.accbdd.complicated_bees.block.entity;
 import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.ForgeHooks;
 
 public class FurnaceGeneratorBlockEntity extends BaseGeneratorBlockEntity {
@@ -17,14 +15,6 @@ public class FurnaceGeneratorBlockEntity extends BaseGeneratorBlockEntity {
 
     public FurnaceGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistration.FURNACE_GENERATOR_BLOCK_ENTITY.get(), pos, state, BASE_GENERATE, BASE_TRANSFER, BASE_STORAGE);
-    }
-
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        if (getCurrentBurnTime() == 0) {
-            level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockStateProperties.POWERED, false));
-        }
     }
 
     @Override

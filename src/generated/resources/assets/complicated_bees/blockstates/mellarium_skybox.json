@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "assembled=none,powered=false": {
+      "model": "complicated_bees:block/mellarium_skybox"
+    },
+    "assembled=none,powered=true": {
+      "model": "complicated_bees:block/mellarium_skybox"
+    },
+    "assembled=side,powered=false": {
+      "model": "complicated_bees:block/mellarium_skybox_assembled"
+    },
+    "assembled=side,powered=true": {
+      "model": "complicated_bees:block/mellarium_skybox_powered"
+    },
+    "assembled=top,powered=false": {
+      "model": "complicated_bees:block/mellarium_skybox_assembled"
+    },
+    "assembled=top,powered=true": {
+      "model": "complicated_bees:block/mellarium_skybox_powered"
+    }
+  }
+}

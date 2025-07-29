@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "assembled=none,powered=false": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator"
+    },
+    "assembled=none,powered=true": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator"
+    },
+    "assembled=side,powered=false": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator_assembled"
+    },
+    "assembled=side,powered=true": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator_powered"
+    },
+    "assembled=top,powered=false": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator_assembled"
+    },
+    "assembled=top,powered=true": {
+      "model": "complicated_bees:block/mellarium_temporal_simulator_powered"
+    }
+  }
+}

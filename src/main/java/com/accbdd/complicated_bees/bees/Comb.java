@@ -7,13 +7,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
-import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
+import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING;
 
 public class Comb {
     public static final Codec<Comb> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    HEX_STRING_CODEC.fieldOf("outer_color").forGetter(Comb::getOuterColor),
-                    HEX_STRING_CODEC.fieldOf("inner_color").forGetter(Comb::getInnerColor)
+                    HEX_STRING.fieldOf("outer_color").forGetter(Comb::getOuterColor),
+                    HEX_STRING.fieldOf("inner_color").forGetter(Comb::getInnerColor)
             ).apply(instance, Comb::new)
     );
 

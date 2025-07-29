@@ -7,10 +7,18 @@ public interface IMellariumTickable {
     /**
      * Called every bee tick by the controller
      */
-    default void onBeeTick() {};
+    default void onBeeTick() {
+    }
 
     /**
      * Called when the queen dies by the controller
      */
-    default void onDeath() {};
+    default void onDeath() {
+    }
+
+    /**
+     * Called every server tick by the controller
+     */
+    default void onTick() {
+    }
 }

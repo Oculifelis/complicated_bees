@@ -17,6 +17,8 @@ public class ServerConfig {
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseEnergy;
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseTransfer;
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseStorage;
+    public final ForgeConfigSpec.ConfigValue<Integer> mellariumBaseTransfer;
+    public final ForgeConfigSpec.ConfigValue<Integer> mellariumBaseStorage;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
@@ -32,10 +34,12 @@ public class ServerConfig {
         centrifugeBaseEnergy = builder.comment("How much rf/tick an unupgraded centrifuge should use while processing a recipe.").define("centrifugeBaseEnergy", 20);
         furnaceGeneratorBaseEnergy = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("furnaceGeneratorBaseEnergy", 20);
         furnaceGeneratorBaseTransfer = builder.comment("How much rf/tick a generator should be able to transfer out of itself.").define("furnaceGeneratorBaseTransfer", 1000);
-        furnaceGeneratorBaseStorage = builder.comment("How much rf/tick a generator should produce while burning a fuel.").define("furnaceGeneratorBaseStorage", 100000);
+        furnaceGeneratorBaseStorage = builder.comment("How much rf a generator should be able to store.").define("furnaceGeneratorBaseStorage", 100000);
         honeyGeneratorBaseEnergy = builder.comment("How much rf/tick a honey generator should produce while burning a fuel.").define("honeyGeneratorBaseEnergy", 40);
         honeyGeneratorBaseTransfer = builder.comment("How much rf/tick a honey generator should be able to transfer out of itself.").define("honeyGeneratorBaseTransfer", 2000);
-        honeyGeneratorBaseStorage = builder.comment("How much rf/tick a honey generator should produce while burning a fuel.").define("honeyGeneratorBaseStorage", 200000);
+        honeyGeneratorBaseStorage = builder.comment("How much rf a honey generator should be able to store.").define("honeyGeneratorBaseStorage", 200000);
+        mellariumBaseTransfer = builder.comment("How much rf/tick a mellarium should be able to transfer into itself.").define("mellariumBaseTransfer", 2000);
+        mellariumBaseStorage = builder.comment("How much rf a mellarium should be able to store at base.").define("mellariumBaseStorage", 200000);
         builder.pop();
     }
 

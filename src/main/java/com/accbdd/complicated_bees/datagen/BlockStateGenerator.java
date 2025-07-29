@@ -38,13 +38,16 @@ public class BlockStateGenerator extends BlockStateProvider {
                 modLoc("block/bee_sorter_west")).texture("particle", modLoc("block/bee_sorter_up"))).build());
         baseMellariumBlock();
         mellariumController();
-        mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, modLoc("block/mellarium/mellarium_temp_unit"), modLoc("block/mellarium/mellarium_temp_unit_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, modLoc("block/mellarium/mellarium_frame_housing_1"), modLoc("block/mellarium/mellarium_frame_housing_1_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, modLoc("block/mellarium/mellarium_frame_housing_2"), modLoc("block/mellarium/mellarium_frame_housing_2_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, modLoc("block/mellarium/mellarium_frame_housing_3"), modLoc("block/mellarium/mellarium_frame_housing_3_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, modLoc("block/mellarium/mellarium_rain_shield"), modLoc("block/mellarium/mellarium_rain_shield_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, modLoc("block/mellarium/mellarium_mutator"), modLoc("block/mellarium/mellarium_mutator_assembled"));
-        mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, modLoc("block/mellarium/mellarium_hydroregulator"), modLoc("block/mellarium/mellarium_hydroregulator_assembled"));
+        mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, "block/mellarium/mellarium_temp_unit");
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, "block/mellarium/mellarium_frame_housing_1");
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, "block/mellarium/mellarium_frame_housing_2");
+        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, "block/mellarium/mellarium_frame_housing_3");
+        mellariumBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, "block/mellarium/mellarium_rain_shield");
+        mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
+        mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
+        mellariumBlock(BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR, "block/mellarium/mellarium_energy_acceptor");
+        poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
+        poweredMellariumBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
@@ -179,6 +182,28 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
+    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
+        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+        BlockModelBuilder modelPowered = models().cubeAll(block.getId().getPath() + "_powered", poweredTex);
+        builder.forAllStates(state -> {
+            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+            if (state.getValue(EsotericRegistration.ASSEMBLED).equals(EsotericRegistration.AssembledStatus.none)) {
+                bld.modelFile(modelUnassembled);
+            } else if (state.getValue(BlockStateProperties.POWERED)) {
+                bld.modelFile(modelPowered);
+            } else  {
+                bld.modelFile(modelAssembled);
+            }
+            return bld.build();
+        });
+    }
+
+    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, String path) {
+        poweredMellariumBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
+    }
+
     private void mellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
@@ -188,6 +213,10 @@ public class BlockStateGenerator extends BlockStateProvider {
             bld.modelFile(state.getValue(EsotericRegistration.ASSEMBLED).equals(EsotericRegistration.AssembledStatus.none) ? modelUnassembled : modelAssembled);
             return bld.build();
         });
+    }
+
+    private void mellariumBlock(RegistryObject<? extends MellariumBlock> block, String path) {
+        mellariumBlock(block, modLoc(path), modLoc(path + "_assembled"));
     }
 
     private void baseMellariumBlock() {

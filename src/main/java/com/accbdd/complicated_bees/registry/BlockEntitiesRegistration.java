@@ -49,6 +49,12 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumMutatorBlockEntity::new, BlocksRegistration.MELLARIUM_MUTATOR.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumHydroregulatorBlockEntity>> MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_hydroregulator",
             () -> BlockEntityType.Builder.of(MellariumHydroregulatorBlockEntity::new, BlocksRegistration.MELLARIUM_HYDROREGULATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumEnergyAcceptorBlockEntity>> MELLARIUM_ENERGY_ACCEPTOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_energy_acceptor",
+            () -> BlockEntityType.Builder.of(MellariumEnergyAcceptorBlockEntity::new, BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumSkyboxBlockEntity>> MELLARIUM_SKYBOX_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_skybox",
+            () -> BlockEntityType.Builder.of(MellariumSkyboxBlockEntity::new, BlocksRegistration.MELLARIUM_SKYBOX.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumTemporalSimulatorBlockEntity>> MELLARIUM_TEMPORAL_SIMULATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_temporal_simulator",
+            () -> BlockEntityType.Builder.of(MellariumTemporalSimulatorBlockEntity::new, BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()).build(null));
     public static final Supplier<BlockEntityType<BeeSorterBlockEntity>> BEE_SORTER_BLOCK_ENTITY = BLOCK_ENTITIES.register("bee_sorter",
             () -> BlockEntityType.Builder.of(BeeSorterBlockEntity::new, BlocksRegistration.BEE_SORTER.get()).build(null));
 
