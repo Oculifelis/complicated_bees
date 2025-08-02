@@ -7,5 +7,8 @@ Add uses for power in the Mellarium! Like the Mellarium Skybox and Temporal Simu
 * Mellarium Skybox - #64
 * Mellarium Temporal Simulator - #64
 
+## Changed
+* Bee housing now shows more descriptive errors - #65
+
 ## Fixed
 * Occasional furnace generator loading issues
