@@ -32,7 +32,7 @@ public class ApiaryComponentProvider implements IBlockComponentProvider, IServer
             List<Component> errors = new ArrayList<>();
             for (EnumErrorCodes errorCode : EnumErrorCodes.values()) {
                 if ((errorFlags & errorCode.value) != 0)
-                    errors.add(Component.translatable("gui.complicated_bees.error." + errorCode.name));
+                    errors.add(Component.translatable("gui.complicated_bees.error.jade." + errorCode.name));
             }
             tooltip.addAll(errors);
         }
