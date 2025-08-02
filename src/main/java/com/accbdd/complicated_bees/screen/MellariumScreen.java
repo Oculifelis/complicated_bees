@@ -90,14 +90,17 @@ public class MellariumScreen extends AbstractContainerScreen<MellariumMenu> {
         int errorFlags = menu.getData().get(2);
         int relMouseX = pX - (this.width - this.imageWidth) / 2;
         int relMouseY = pY - (this.height - this.imageHeight) / 2;
-        if (errorFlags > 0 && (16 < relMouseX) && (relMouseX < 22) && (34 < relMouseY) && (relMouseY < 82)) {
-            List<Component> errors = new ArrayList<>();
-            for (EnumErrorCodes errorCode : EnumErrorCodes.values()) {
-                if ((errorFlags & errorCode.value) != 0)
-                    errors.add(Component.translatable("gui.complicated_bees.error." + errorCode.name));
+        if (menu.hasQueen() && (16 < relMouseX) && (relMouseX < 22) && (34 < relMouseY) && (relMouseY < 82)) {
+            if (errorFlags > 0) {
+                List<Component> errors = new ArrayList<>();
+                for (EnumErrorCodes errorCode : EnumErrorCodes.values()) {
+                    if ((errorFlags & errorCode.value) != 0)
+                        errors.add(Component.translatable("gui.complicated_bees.error." + errorCode.name, errorCode.detailGetter.apply(menu.getQueen())));
+                }
+                pGuiGraphics.renderTooltip(this.font, errors, Optional.empty(), pX, pY);
+            } else {
+                pGuiGraphics.renderTooltip(this.font, Component.translatable("gui.complicated_bees.error.none"), pX, pY);
             }
-            pGuiGraphics.renderTooltip(this.font, errors, Optional.empty(), pX, pY);
         }
-
     }
 }
