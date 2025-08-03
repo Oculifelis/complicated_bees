@@ -39,8 +39,8 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     public static final String ENERGY_TAG = "energy";
 
-    public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.mellariumBaseStorage.get();
-    public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.mellariumBaseTransfer.get();
+    public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.mellariumCellStorage.get();
+    public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.mellariumCellTransfer.get();
 
     private MellariumLogic mellariumLogic;
     BeeLogic beeLogic;
