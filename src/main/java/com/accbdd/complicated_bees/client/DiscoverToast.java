@@ -36,6 +36,10 @@ public class DiscoverToast implements Toast {
             this.changed = false;
         }
 
+        if (species == null) {
+            return Visibility.HIDE;
+        }
+
         pGuiGraphics.blit(TEXTURE, 0, 0, 0, 0, this.width(), this.height());
         pGuiGraphics.drawString(pToastComponent.getMinecraft().font, TITLE_TEXT, 30, 7, -11534256, false);
         pGuiGraphics.drawString(pToastComponent.getMinecraft().font, descriptionText, 30, 18, -16777216, false);

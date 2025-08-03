@@ -12,3 +12,4 @@ Add uses for power in the Mellarium! Like the Mellarium Skybox and Temporal Simu
 
 ## Fixed
 * Occasional furnace generator loading issues
+* Give command crashing games - #70
