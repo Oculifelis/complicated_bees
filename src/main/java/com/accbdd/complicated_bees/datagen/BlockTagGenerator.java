@@ -38,7 +38,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_RAIN_SHIELD.get(),
                 BlocksRegistration.MELLARIUM_MUTATOR.get(),
                 BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
-                BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get(),
+                BlocksRegistration.MELLARIUM_ENERGY_CELL.get(),
                 BlocksRegistration.MELLARIUM_SKYBOX.get(),
                 BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()
         );
@@ -52,7 +52,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_RAIN_SHIELD.get(),
                 BlocksRegistration.MELLARIUM_MUTATOR.get(),
                 BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
-                BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get(),
+                BlocksRegistration.MELLARIUM_ENERGY_CELL.get(),
                 BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get(),
                 BlocksRegistration.HONEYED_PLANKS.get(),
                 BlocksRegistration.HONEYED_STAIRS.get(),

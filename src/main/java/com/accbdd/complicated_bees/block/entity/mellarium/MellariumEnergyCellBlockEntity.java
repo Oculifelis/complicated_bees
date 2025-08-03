@@ -10,9 +10,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MellariumEnergyAcceptorBlockEntity extends MellariumAbstractBlockEntity {
-    public MellariumEnergyAcceptorBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(BlockEntitiesRegistration.MELLARIUM_ENERGY_ACCEPTOR_BLOCK_ENTITY.get(), pPos, pBlockState);
+public class MellariumEnergyCellBlockEntity extends MellariumAbstractBlockEntity {
+    public MellariumEnergyCellBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
     @Override
