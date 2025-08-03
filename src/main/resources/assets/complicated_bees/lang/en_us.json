@@ -72,6 +72,7 @@
   "item.complicated_bees.withered_upgrade": "Withered Upgrade",
   "item.complicated_bees.speed_label": "Speed",
   "item.complicated_bees.efficiency_label": "Efficiency",
+  "item.complicated_bees.output_label": "Centrifuge Output",
 
   "block.complicated_bees.bee_nest": "Bee Nest",
   "block.complicated_bees.apiary": "Apiary",

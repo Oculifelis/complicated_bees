@@ -14,11 +14,13 @@ import java.util.List;
 public class UpgradeItem extends Item {
     private final float speedMod;
     private final float efficiencyMod;
+    private final float outputMod;
 
-    public UpgradeItem(Properties prop, float speedMod, float efficiencyMod) {
+    public UpgradeItem(Properties prop, float speedMod, float efficiencyMod, float outputMod) {
         super(prop);
         this.speedMod = speedMod;
         this.efficiencyMod = efficiencyMod;
+        this.outputMod = outputMod;
     }
 
     @Override
@@ -34,6 +36,11 @@ public class UpgradeItem extends Item {
                         .append(": ")
                         .append(Component.literal(this.getEfficiencyMod() + "x"))
                         .withStyle(ChatFormatting.GRAY));
+            if (this.getOutputMod() != 1)
+                components.add(Component.translatable("item.complicated_bees.output_label")
+                        .append(": ")
+                        .append(Component.literal(this.getOutputMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -43,5 +50,9 @@ public class UpgradeItem extends Item {
 
     public float getEfficiencyMod() {
         return efficiencyMod;
+    }
+
+    public float getOutputMod() {
+        return outputMod;
     }
 }
