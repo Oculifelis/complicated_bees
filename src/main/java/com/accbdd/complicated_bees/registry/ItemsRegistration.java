@@ -118,7 +118,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_3 = registerSimpleBlockItem("mellarium_frame_housing_3", BlocksRegistration.MELLARIUM_FRAME_HOUSING_3);
     public static final RegistryObject<Item> MELLARIUM_MUTATOR = registerSimpleBlockItem("mellarium_mutator", BlocksRegistration.MELLARIUM_MUTATOR);
     public static final RegistryObject<Item> MELLARIUM_HYDROREGULATOR = registerSimpleBlockItem("mellarium_hydroregulator", BlocksRegistration.MELLARIUM_HYDROREGULATOR);
-    public static final RegistryObject<Item> MELLARIUM_ENERGY_ACCEPTOR = registerSimpleBlockItem("mellarium_energy_acceptor", BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR);
+    public static final RegistryObject<Item> MELLARIUM_ENERGY_CELL = register("mellarium_energy_cell", MellariumEnergyCellBlockItem::new);
     public static final RegistryObject<Item> MELLARIUM_SKYBOX = registerSimpleBlockItem("mellarium_skybox", BlocksRegistration.MELLARIUM_SKYBOX);
     public static final RegistryObject<Item> MELLARIUM_TEMPORAL_SIMULATOR = registerSimpleBlockItem("mellarium_temporal_simulator", BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
@@ -159,7 +159,7 @@ public class ItemsRegistration {
         return register(name, () -> new Item(new Item.Properties()));
     }
 
-    private static <T extends Block>RegistryObject<Item> registerSimpleBlockItem(String name, RegistryObject<T> block) {
+    private static <T extends Block> RegistryObject<Item> registerSimpleBlockItem(String name, RegistryObject<T> block) {
         return register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 }

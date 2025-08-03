@@ -112,7 +112,7 @@
   "block.complicated_bees.mellarium_rain_shield": "Mellarium Rain Shield",
   "block.complicated_bees.mellarium_mutator": "Mellarium Mutator",
   "block.complicated_bees.mellarium_hydroregulator": "Mellarium Hydroregulator",
-  "block.complicated_bees.mellarium_energy_acceptor": "Mellarium Energy Acceptor",
+  "block.complicated_bees.mellarium_energy_cell": "Mellarium Energy Cell",
   "block.complicated_bees.mellarium_skybox": "Mellarium Skybox",
   "block.complicated_bees.mellarium_temporal_simulator": "Mellarium Temporal Simulator",
   "block.complicated_bees.bee_sorter": "Bee Sorter",
@@ -131,6 +131,8 @@
   "gui.complicated_bees.honey_generator": "Honey Generator",
   "gui.complicated_bees.analyzer": "Analyzer",
   "gui.complicated_bees.mellarium": "Mellarium",
+
+  "gui.complicated_bees.mellarium.energy_cell": "%skFE / %skFE",
 
   "gui.complicated_bees.analyzer_line_1": "Needs honey drops to run and a bee to analyze!",
   "gui.complicated_bees.analyzer_line_2": "Once analyzed, use the scroll wheel/arrow keys to examine a bee's genes.",

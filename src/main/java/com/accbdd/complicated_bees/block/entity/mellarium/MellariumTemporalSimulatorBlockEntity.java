@@ -16,7 +16,7 @@ public class MellariumTemporalSimulatorBlockEntity extends MellariumAbstractPowe
     @Override
     public void onTick() {
         if (getLogic() != null && getLogic().getController() != null) {
-            setPowered(getLogic().getController().getEnergy().extractEnergy(ENERGY_USAGE, false) >= ENERGY_USAGE);
+            setPowered(getLogic().getEnergyStorage().extractEnergy(ENERGY_USAGE, false) >= ENERGY_USAGE);
         }
     }
 

@@ -2,10 +2,8 @@ package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.bees.BeeLogic;
-import com.accbdd.complicated_bees.block.entity.AdaptedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.block.entity.BaseBeeHousing;
-import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.DroneItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
@@ -14,12 +12,9 @@ import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -37,11 +32,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     public static final int OUTPUT_SLOT_COUNT = 7;
     public static final int SLOT_COUNT = BEE_SLOT_COUNT + OUTPUT_SLOT_COUNT;
 
-    public static final String ENERGY_TAG = "energy";
-
-    public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.mellariumBaseStorage.get();
-    public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.mellariumBaseTransfer.get();
-
     private MellariumLogic mellariumLogic;
     BeeLogic beeLogic;
 
@@ -49,7 +39,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler beeItems = createBeeHandler();
     private final ItemStackHandler outputItems = createOutputHandler();
     private final ItemStackHandler frameItems = new ItemStackHandler(0);
-    private final EnergyStorage energy = createEnergyStorage();
 
 
     private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
@@ -73,8 +62,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItemHandler.resolve().get(), outputItemHandler.resolve().get()));
 
-    private final LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energy));
-
     public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         this(pPos, pBlockState, null);
     }
@@ -88,15 +75,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         this.beeLogic = new BeeLogic(getLevel(), getBlockPos(), this);
     }
 
-    private EnergyStorage createEnergyStorage() {
-        return new EnergyStorage(BASE_STORAGE, BASE_TRANSFER) {
-            @Override
-            public int receiveEnergy(int maxReceive, boolean simulate) {
-                setChanged();
-                return super.receiveEnergy(maxReceive, simulate);
-            }
-        };
-    }
+
 
     private ItemStackHandler createOutputHandler() {
         return new ItemStackHandler(OUTPUT_SLOT_COUNT) {
@@ -170,14 +149,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         return LazyOptional.empty();
     }
 
-    public EnergyStorage getEnergy() {
-        return energy;
-    }
-
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
-        return energyHandler;
-    }
-
     @Override
     public Stack<ItemStack> getOutputBuffer() {
         return outputBuffer;
@@ -196,21 +167,10 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(ENERGY_TAG, energy.serializeNBT());
-    }
-
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        if (tag.contains(ENERGY_TAG))
-            energy.deserializeNBT(tag.get(ENERGY_TAG));
-    }
-
-    @Override
     public void tickServer() {
         super.tickServer();
+        if (getMellariumLogic() == null)
+            return;
         getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
             if (getLevel().getBlockEntity(pos) instanceof IMellariumTickable tickable) {
                 tickable.onTick();

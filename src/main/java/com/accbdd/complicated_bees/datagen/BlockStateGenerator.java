@@ -45,7 +45,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         mellariumBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, "block/mellarium/mellarium_rain_shield");
         mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
         mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
-        mellariumBlock(BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR, "block/mellarium/mellarium_energy_acceptor");
+        mellariumBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
         poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
         poweredMellariumBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
