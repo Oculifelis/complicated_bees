@@ -66,6 +66,7 @@ public class CentrifugeBlockEntity extends BlockEntity {
     private int progress = 0;
     private int maxProgress = BASE_MAX_PROGRESS;
     private int usage = BASE_USAGE;
+    private float outputMod = 1;
     private final RecipeManager.CachedCheck<Container, CentrifugeRecipe> quickCheck;
 
     private final ItemStackHandler inputItems = createInputHandler(INPUT_SLOT_COUNT);
@@ -353,7 +354,7 @@ public class CentrifugeBlockEntity extends BlockEntity {
         this.inputItems.extractItem(INPUT_SLOT, 1, false);
 
         for (Product product : products) {
-            outputBuffer.push(product.getStackResult());
+            outputBuffer.push(product.getStackResult(outputMod));
         }
     }
 
@@ -389,5 +390,6 @@ public class CentrifugeBlockEntity extends BlockEntity {
     public void calculateUpgradeStats() {
         maxProgress = Math.round(BASE_MAX_PROGRESS / UpgradeHelper.getSpeedMod(upgradeItems));
         usage = Math.round(BASE_USAGE / UpgradeHelper.getEfficiencyMod(upgradeItems));
+        outputMod = UpgradeHelper.getOutputMod(upgradeItems);
     }
 }
