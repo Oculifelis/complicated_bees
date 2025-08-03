@@ -132,6 +132,8 @@
   "gui.complicated_bees.analyzer": "Analyzer",
   "gui.complicated_bees.mellarium": "Mellarium",
 
+  "gui.complicated_bees.mellarium.energy_cell": "%skFE / %skFE",
+
   "gui.complicated_bees.analyzer_line_1": "Needs honey drops to run and a bee to analyze!",
   "gui.complicated_bees.analyzer_line_2": "Once analyzed, use the scroll wheel/arrow keys to examine a bee's genes.",
   "gui.complicated_bees.analyzer_line_3": "Red values are dominant, blue values are recessive.",
