@@ -14,7 +14,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.text.DecimalFormat;
 
 public class MellariumEnergyCellBlock extends MellariumBlock {
-    private final DecimalFormat format = new DecimalFormat("0.##");
+    public static final DecimalFormat FORMAT = new DecimalFormat("0.##");
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
@@ -25,8 +25,8 @@ public class MellariumEnergyCellBlock extends MellariumBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof MellariumEnergyCellBlockEntity cell) {
             pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.mellarium.energy_cell",
-                    format.format(cell.getEnergy().getEnergyStored() / 1000D),
-                    format.format(cell.getEnergy().getMaxEnergyStored() / 1000D)), true);
+                    FORMAT.format(cell.getEnergy().getEnergyStored() / 1000D),
+                    FORMAT.format(cell.getEnergy().getMaxEnergyStored() / 1000D)), true);
             return InteractionResult.CONSUME;
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
