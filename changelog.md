@@ -1,6 +1,6 @@
 # Complicated Bees 2.5.0
  
-Add uses for power in the Mellarium! Like the Mellarium Skybox and Temporal Simulator!
+Add power to the Mellarium! Simulate skies and times - more bee productivity at the cost of energy.
 
 ## Added
 * Mellarium Energy Cell - #64
