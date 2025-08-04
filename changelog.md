@@ -6,6 +6,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Mellarium Energy Cell - #64
 * Mellarium Skybox - #64
 * Mellarium Temporal Simulator - #64
+* Output mod support to upgrades - #72
 
 ## Changed
 * Bee housing now shows more descriptive errors - #65
