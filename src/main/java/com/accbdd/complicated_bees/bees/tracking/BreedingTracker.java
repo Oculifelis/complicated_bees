@@ -151,7 +151,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
-        if (ServerLifecycleHooks.getCurrentServer() != null)
+        if (ServerLifecycleHooks.getCurrentServer() != null && ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()) != null)
             PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())), new TrackerUpdateClientbound(type, loc));
     }
 

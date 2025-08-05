@@ -13,3 +13,4 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 ## Fixed
 * Occasional furnace generator loading issues
 * Give command crashing games - #70
+* Occasional crash on servers when player is null - #74
