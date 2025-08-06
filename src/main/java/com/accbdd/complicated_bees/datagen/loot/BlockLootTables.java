@@ -1,10 +1,13 @@
 package com.accbdd.complicated_bees.datagen.loot;
 
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumEnergyCellBlockEntity;
 import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
@@ -22,8 +25,11 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.Collections;
 
 public class BlockLootTables extends BlockLootSubProvider {
+    public static final CompoundTag ENERGY_TAG_EMPTY = new CompoundTag();
+
     public BlockLootTables() {
         super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        ENERGY_TAG_EMPTY.put(MellariumEnergyCellBlockEntity.ENERGY_TAG, IntTag.valueOf(0));
     }
 
     @Override
@@ -44,7 +50,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.MELLARIUM_RAIN_SHIELD.get());
         dropSelf(BlocksRegistration.MELLARIUM_MUTATOR.get());
         dropSelf(BlocksRegistration.MELLARIUM_HYDROREGULATOR.get());
-        dropSelf(BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR.get());
+        this.add(BlocksRegistration.MELLARIUM_ENERGY_CELL.get(), energyCellBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL.get()));
         dropSelf(BlocksRegistration.MELLARIUM_SKYBOX.get());
         dropSelf(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get());
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));
@@ -118,6 +124,17 @@ public class BlockLootTables extends BlockLootSubProvider {
                                         .apply(InheritHiveCombFunction.set())
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
                                         .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 1))
+                        )
+                );
+    }
+
+    protected LootTable.Builder energyCellBlock(Block pBlock) {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0f))
+                        .add(
+                                LootItem.lootTableItem(pBlock)
+                                        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("energy", "BlockEntityTag.energy"))
                         )
                 );
     }

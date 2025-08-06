@@ -23,4 +23,14 @@ public class UpgradeHelper {
         }
         return mod;
     }
+
+    public static float getOutputMod(IItemHandler upgradeItems) {
+        float mod = 1f;
+        for (int i = 0; i < upgradeItems.getSlots(); i++) {
+            if (upgradeItems.getStackInSlot(i).getItem() instanceof UpgradeItem upgrade) {
+                mod *= upgrade.getOutputMod();
+            }
+        }
+        return mod;
+    }
 }

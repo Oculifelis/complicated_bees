@@ -83,28 +83,24 @@ public class BeeLogic {
         if (!((GeneTemperature) chromosome.getGene(GeneTemperature.ID)).withinTolerance(getTemperature())) {
             addError(EnumErrorCodes.WRONG_TEMP);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.WRONG_TEMP);
         }
         if (!((GeneHumidity) chromosome.getGene(GeneHumidity.ID)).withinTolerance(getHumidity())) {
             addError(EnumErrorCodes.WRONG_HUMIDITY);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.WRONG_HUMIDITY);
         }
         if (this.flowerCache.isEmpty()) {
             addError(EnumErrorCodes.NO_FLOWER);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
         if (!checkRain() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
@@ -112,17 +108,18 @@ public class BeeLogic {
                 && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.UNDERGROUND);
         }
         if (!checkActiveTime((GeneActiveTime) chromosome.getGene(new ResourceLocation(MODID, "active_time")))) {
             addError(EnumErrorCodes.WRONG_TIME);
             queenSatisfied = false;
-            return;
         } else {
             removeError(EnumErrorCodes.WRONG_TIME);
         }
+
+        if (housing.getErrors() > 0 && !queenEcstatic)
+            return;
 
         queenSatisfied = true;
     }

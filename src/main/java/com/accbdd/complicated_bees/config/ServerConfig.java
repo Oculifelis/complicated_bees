@@ -17,8 +17,8 @@ public class ServerConfig {
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseEnergy;
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseTransfer;
     public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseStorage;
-    public final ForgeConfigSpec.ConfigValue<Integer> mellariumBaseTransfer;
-    public final ForgeConfigSpec.ConfigValue<Integer> mellariumBaseStorage;
+    public final ForgeConfigSpec.ConfigValue<Integer> mellariumCellTransfer;
+    public final ForgeConfigSpec.ConfigValue<Integer> mellariumCellStorage;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
@@ -38,8 +38,8 @@ public class ServerConfig {
         honeyGeneratorBaseEnergy = builder.comment("How much rf/tick a honey generator should produce while burning a fuel.").define("honeyGeneratorBaseEnergy", 40);
         honeyGeneratorBaseTransfer = builder.comment("How much rf/tick a honey generator should be able to transfer out of itself.").define("honeyGeneratorBaseTransfer", 2000);
         honeyGeneratorBaseStorage = builder.comment("How much rf a honey generator should be able to store.").define("honeyGeneratorBaseStorage", 200000);
-        mellariumBaseTransfer = builder.comment("How much rf/tick a mellarium should be able to transfer into itself.").define("mellariumBaseTransfer", 2000);
-        mellariumBaseStorage = builder.comment("How much rf a mellarium should be able to store at base.").define("mellariumBaseStorage", 200000);
+        mellariumCellTransfer = builder.comment("How much rf/tick a mellarium energy cell should be able to transfer into itself.").define("mellariumCellTransfer", 2000);
+        mellariumCellStorage = builder.comment("How much rf a mellarium energy cell should be able to store at base.").define("mellariumCellStorage", 200000);
         builder.pop();
     }
 

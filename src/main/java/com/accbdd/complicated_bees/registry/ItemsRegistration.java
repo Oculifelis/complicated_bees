@@ -47,14 +47,14 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> WAXED_STICK = registerSimpleItem("waxed_stick");
     public static final RegistryObject<Item> HONEYED_STICK = registerSimpleItem("honeyed_stick");
     public static final RegistryObject<Item> MELLARIUM_PANEL = registerSimpleItem("mellarium_panel");
-    public static final RegistryObject<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.1f, 1.1f));
-    public static final RegistryObject<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1f, 1.25f));
-    public static final RegistryObject<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.25f, 1f));
-    public static final RegistryObject<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), 2f, 0.85f));
-    public static final RegistryObject<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), 0.85f, 2f));
-    public static final RegistryObject<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.5f, 1.5f));
-    public static final RegistryObject<Item> ENDENIC_UPGRADE = register("endenic_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 0.5f, 4f));
-    public static final RegistryObject<Item> WITHERED_UPGRADE = register("withered_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 4f, 0.5f));
+    public static final RegistryObject<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.1f, 1.1f, 1f));
+    public static final RegistryObject<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1f, 1.25f, 1f));
+    public static final RegistryObject<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.25f, 1f, 1f));
+    public static final RegistryObject<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), 2f, 0.85f, 1f));
+    public static final RegistryObject<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), 0.85f, 2f, 1f));
+    public static final RegistryObject<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), 1.5f, 1.5f, 1f));
+    public static final RegistryObject<Item> ENDENIC_UPGRADE = register("endenic_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 0.5f, 4f, 1f));
+    public static final RegistryObject<Item> WITHERED_UPGRADE = register("withered_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), 4f, 0.5f, 1f));
     public static final RegistryObject<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), CommonConfig.COMMON_CONFIG.beeStaff));
     public static final RegistryObject<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(0.4f).build()), CommonConfig.COMMON_CONFIG.honeyBread));
     public static final RegistryObject<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationMod(0.5f).build()), CommonConfig.COMMON_CONFIG.honeyPorkchop));
@@ -118,7 +118,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> MELLARIUM_FRAME_HOUSING_3 = registerSimpleBlockItem("mellarium_frame_housing_3", BlocksRegistration.MELLARIUM_FRAME_HOUSING_3);
     public static final RegistryObject<Item> MELLARIUM_MUTATOR = registerSimpleBlockItem("mellarium_mutator", BlocksRegistration.MELLARIUM_MUTATOR);
     public static final RegistryObject<Item> MELLARIUM_HYDROREGULATOR = registerSimpleBlockItem("mellarium_hydroregulator", BlocksRegistration.MELLARIUM_HYDROREGULATOR);
-    public static final RegistryObject<Item> MELLARIUM_ENERGY_ACCEPTOR = registerSimpleBlockItem("mellarium_energy_acceptor", BlocksRegistration.MELLARIUM_ENERGY_ACCEPTOR);
+    public static final RegistryObject<Item> MELLARIUM_ENERGY_CELL = register("mellarium_energy_cell", MellariumEnergyCellBlockItem::new);
     public static final RegistryObject<Item> MELLARIUM_SKYBOX = registerSimpleBlockItem("mellarium_skybox", BlocksRegistration.MELLARIUM_SKYBOX);
     public static final RegistryObject<Item> MELLARIUM_TEMPORAL_SIMULATOR = registerSimpleBlockItem("mellarium_temporal_simulator", BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
@@ -159,7 +159,7 @@ public class ItemsRegistration {
         return register(name, () -> new Item(new Item.Properties()));
     }
 
-    private static <T extends Block>RegistryObject<Item> registerSimpleBlockItem(String name, RegistryObject<T> block) {
+    private static <T extends Block> RegistryObject<Item> registerSimpleBlockItem(String name, RegistryObject<T> block) {
         return register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 }

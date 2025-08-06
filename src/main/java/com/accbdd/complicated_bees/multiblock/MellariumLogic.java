@@ -1,14 +1,18 @@
 package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.MellariumEnergyCellBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
@@ -18,20 +22,26 @@ import java.util.UUID;
 public class MellariumLogic {
     private final Level level;
     private final BlockPos center;
-    private final List<BlockPos> specialBlocks = new ArrayList<>();
+    private final IEnergyStorage energyStorage;
     private UUID owner;
+    private final List<BlockPos> specialBlocks = new ArrayList<>();
 
     public MellariumLogic(Level level, BlockPos center, UUID owner) {
         this.level = level;
         this.center = center;
         this.owner = owner;
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
+        List<IEnergyStorage> energyStorages = new ArrayList<>(); //blocks that store energy
         while (iterator.hasNext()) {
             BlockPos pos = iterator.next();
             if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(this);
-                if (!level.getBlockState(pos).is(BlocksRegistration.MELLARIUM_BASE.get())) {
+                BlockState blockState = level.getBlockState(pos);
+                if (!blockState.is(BlocksRegistration.MELLARIUM_BASE.get())) {
                     specialBlocks.add(pos);
+                }
+                if (mellariumBlock instanceof MellariumEnergyCellBlockEntity cell) {
+                    energyStorages.add(cell.getEnergy());
                 }
             } else if (level.getBlockEntity(pos) instanceof MellariumControllerBlockEntity controller) {
                 controller.setMellariumLogic(this);
@@ -40,6 +50,7 @@ public class MellariumLogic {
                 ComplicatedBees.LOGGER.warn("built a mellarium with non-mellarium block at {}", pos);
             }
         }
+        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(new IEnergyStorage[energyStorages.size()]));
     }
 
     public void deconstruct(BlockPos pos) {
@@ -82,5 +93,9 @@ public class MellariumLogic {
 
     public List<BlockPos> getSpecialBlocks() {
         return specialBlocks;
+    }
+
+    public IEnergyStorage getEnergyStorage() {
+        return energyStorage;
     }
 }

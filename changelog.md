@@ -1,18 +1,16 @@
-# Complicated Bees 2.4.0
-
-Added tag functionality to centrifuge outputs means MUCH easier mod compat...
-Also adding uses for power in the Mellarium! Like the Mellarium Skybox and Temporal Simulator!
+# Complicated Bees 2.5.0
+ 
+Add power to the Mellarium! Simulate skies and times - more bee productivity at the cost of energy.
 
 ## Added
-* Ability to output tags as products - #62
-* Dump command - #58
-  * Biome climates
-  * Effect names and descriptions
-  * Default bee stats
-* Mellarium Energy Acceptor
-* Mellarium Skybox
-* Mellarium Temporal Simulator
+* Mellarium Energy Cell - #64
+* Mellarium Skybox - #64
+* Mellarium Temporal Simulator - #64
+
+## Changed
+* Bee housing now shows more descriptive errors - #65
 
 ## Fixed
-* Rendering optimizations for bees - #57, #60
 * Occasional furnace generator loading issues
+* Give command crashing games - #70
+* Occasional crash on servers when player is null - #74
