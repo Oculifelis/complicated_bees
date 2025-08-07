@@ -19,6 +19,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class BlockTagGenerator extends BlockTagsProvider {
     public static final TagKey<Block> SCOOPABLE = BlockTags.create(new ResourceLocation("complicated_bees:mineable/scoop_tool"));
     public static final TagKey<Block> MELLARIUM = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/mellarium"));
+    public static final TagKey<Block> GYROFUGE = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/gyrofuge"));
     public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(new ResourceLocation("complicated_bees:flowers/desert"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
@@ -29,6 +30,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(SCOOPABLE).add(BlocksRegistration.BEE_NEST.get());
         tag(MELLARIUM).add(
+                BlocksRegistration.MELLARIUM_CONTROLLER.get(),
                 BlocksRegistration.MELLARIUM_BASE.get(),
                 BlocksRegistration.MELLARIUM_TEMP_UNIT.get(),
                 BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
@@ -41,6 +43,10 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_ENERGY_CELL.get(),
                 BlocksRegistration.MELLARIUM_SKYBOX.get(),
                 BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()
+        );
+        tag(GYROFUGE).add(
+                BlocksRegistration.GYROFUGE_CONTROLLER.get(),
+                BlocksRegistration.GYROFUGE_BASE.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 BlocksRegistration.APIARY.get(),

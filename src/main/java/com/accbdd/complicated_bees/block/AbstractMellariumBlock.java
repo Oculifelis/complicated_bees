@@ -16,14 +16,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -37,10 +35,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
 
     public AbstractMellariumBlock(Properties prop) {
-        super(Properties.of()
-                .mapColor(DyeColor.ORANGE)
-                .sound(SoundType.WOOD)
-                .strength(1));
+        super(prop);
     }
 
     @Override

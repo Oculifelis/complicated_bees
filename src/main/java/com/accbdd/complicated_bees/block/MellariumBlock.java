@@ -19,7 +19,10 @@ public class MellariumBlock extends AbstractMellariumBlock {
     }
 
     public MellariumBlock(MellariumBlockType type) {
-        this(Properties.of().mapColor(DyeColor.ORANGE).sound(SoundType.WOOD).strength(1), type);
+        this(Properties.of()
+                .mapColor(DyeColor.ORANGE)
+                .sound(SoundType.WOOD)
+                .strength(1), type);
     }
 
     public MellariumBlock() {

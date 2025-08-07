@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.block.entity.*;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -57,6 +59,10 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumTemporalSimulatorBlockEntity::new, BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()).build(null));
     public static final Supplier<BlockEntityType<BeeSorterBlockEntity>> BEE_SORTER_BLOCK_ENTITY = BLOCK_ENTITIES.register("bee_sorter",
             () -> BlockEntityType.Builder.of(BeeSorterBlockEntity::new, BlocksRegistration.BEE_SORTER.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeControllerBlockEntity>> GYROFUGE_CONTROLLER_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_controller",
+            () -> BlockEntityType.Builder.of(GyrofugeControllerBlockEntity::new, BlocksRegistration.GYROFUGE_CONTROLLER.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBaseBlockEntity>> GYROFUGE_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_base",
+            () -> BlockEntityType.Builder.of(GyrofugeBaseBlockEntity::new, BlocksRegistration.GYROFUGE_BASE.get()).build(null));
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);
 }

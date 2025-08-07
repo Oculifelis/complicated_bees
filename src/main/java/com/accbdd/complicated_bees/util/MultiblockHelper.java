@@ -1,8 +1,12 @@
 package com.accbdd.complicated_bees.util;
 
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeBaseBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
+import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -52,5 +56,46 @@ public class MultiblockHelper {
     public static MellariumLogic buildMellarium(Level level, BlockPos center, UUID owner) {
         level.setBlockAndUpdate(center, BlocksRegistration.MELLARIUM_CONTROLLER.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side));
         return new MellariumLogic(level, center, owner);
+    }
+
+    public static GyrofugeLogic tryBuildGyrofuge(Level level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof GyrofugeAbstractBlockEntity) {
+            BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
+            while (centerIterator.hasNext()) {
+                BlockPos testCenter = centerIterator.next();
+                if (isValidGyrofuge(level, testCenter)) {
+                    return buildGyrofuge(level, testCenter);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean isValidGyrofuge(Level level, BlockPos center) {
+        if (level == null || !(level.getBlockEntity(center) instanceof GyrofugeBaseBlockEntity || level.getBlockEntity(center) instanceof GyrofugeControllerBlockEntity))
+            return false;
+        BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
+        while (structureIterator.hasNext()) {
+            BlockPos structurePos = structureIterator.next();
+            if (level.getBlockEntity(structurePos) instanceof GyrofugeAbstractBlockEntity gyrofugeBlock) {
+                if (gyrofugeBlock.getLogic() != null && !level.isClientSide()) {
+                    //todo: dear god, fix this garbage !isClientSide call
+                    return false;
+                } else {
+                    if (!(gyrofugeBlock instanceof GyrofugeBaseBlockEntity) && structurePos.getY() > center.getY()) //only allow non-base blocks in the bottom two layers
+                        return false;
+                }
+            } else {
+                if (!(level.getBlockEntity(structurePos) instanceof GyrofugeControllerBlockEntity) || !structurePos.equals(center)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static GyrofugeLogic buildGyrofuge(Level level, BlockPos center) {
+        level.setBlockAndUpdate(center, BlocksRegistration.GYROFUGE_CONTROLLER.get().defaultBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side));
+        return new GyrofugeLogic(level, center);
     }
 }

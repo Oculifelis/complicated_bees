@@ -1,5 +1,6 @@
 {
   "values": [
+    "complicated_bees:mellarium_controller",
     "complicated_bees:mellarium_base",
     "complicated_bees:mellarium_temp_unit",
     "complicated_bees:mellarium_frame_housing_1",

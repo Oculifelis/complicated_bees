@@ -39,6 +39,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.MELLARIUM_ENERGY_CELL.getId().getPath(), modLoc("block/mellarium_energy_cell"));
         withExistingParent(BlocksRegistration.MELLARIUM_SKYBOX.getId().getPath(), modLoc("block/mellarium_skybox"));
         withExistingParent(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.getId().getPath(), modLoc("block/mellarium_temporal_simulator"));
+        withExistingParent(BlocksRegistration.GYROFUGE_BASE.getId().getPath(), modLoc("block/gyrofuge_base"));
         microscopeModel();
         withExistingParent(BlocksRegistration.WAX_BLOCK.getId().getPath(), modLoc("block/wax_block"));
         withExistingParent(BlocksRegistration.WAX_BLOCK_STAIRS.getId().getPath(), modLoc("block/wax_block_stairs"));

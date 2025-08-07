@@ -112,16 +112,6 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     }
 
     @Override
-    protected ItemStackHandler createOutputHandler() {
-        return new ItemStackHandler(OUTPUT_SLOT_COUNT) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                setChanged();
-            }
-        };
-    }
-
-    @Override
     protected ItemStackHandler createInputHandler() {
         return new ItemStackHandler(INPUT_SLOT_COUNT) {
             @Override
@@ -132,6 +122,16 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return getRecipe(stack) != null;
+            }
+        };
+    }
+
+    @Override
+    protected ItemStackHandler createOutputHandler() {
+        return new ItemStackHandler(OUTPUT_SLOT_COUNT) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
             }
         };
     }
