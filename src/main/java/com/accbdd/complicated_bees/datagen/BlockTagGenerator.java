@@ -46,53 +46,48 @@ public class BlockTagGenerator extends BlockTagsProvider {
         );
         tag(GYROFUGE).add(
                 BlocksRegistration.GYROFUGE_CONTROLLER.get(),
-                BlocksRegistration.GYROFUGE_BASE.get()
+                BlocksRegistration.GYROFUGE_BASE.get(),
+                BlocksRegistration.GYROFUGE_ENERGY_CELL.get()
         );
-        tag(BlockTags.MINEABLE_WITH_AXE).add(
-                BlocksRegistration.APIARY.get(),
-                BlocksRegistration.MELLARIUM_BASE.get(),
-                BlocksRegistration.MELLARIUM_TEMP_UNIT.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING_2.get(),
-                BlocksRegistration.MELLARIUM_FRAME_HOUSING_3.get(),
-                BlocksRegistration.MELLARIUM_RAIN_SHIELD.get(),
-                BlocksRegistration.MELLARIUM_MUTATOR.get(),
-                BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
-                BlocksRegistration.MELLARIUM_ENERGY_CELL.get(),
-                BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get(),
-                BlocksRegistration.HONEYED_PLANKS.get(),
-                BlocksRegistration.HONEYED_STAIRS.get(),
-                BlocksRegistration.HONEYED_SLAB.get(),
-                BlocksRegistration.HONEYED_FENCE.get(),
-                BlocksRegistration.HONEYED_FENCE_GATE.get(),
-                BlocksRegistration.HONEYED_BUTTON.get(),
-                BlocksRegistration.HONEYED_PRESSURE_PLATE.get(),
-                BlocksRegistration.HONEYED_DOOR.get(),
-                BlocksRegistration.HONEYED_TRAPDOOR.get(),
-                BlocksRegistration.HONEYED_SIGN.get(),
-                BlocksRegistration.HONEYED_WALL_SIGN.get(),
-                BlocksRegistration.HONEYED_HANGING_SIGN.get(),
-                BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get()
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(MELLARIUM)
+                .add(
+                        BlocksRegistration.APIARY.get(),
+                        BlocksRegistration.HONEYED_PLANKS.get(),
+                        BlocksRegistration.HONEYED_STAIRS.get(),
+                        BlocksRegistration.HONEYED_SLAB.get(),
+                        BlocksRegistration.HONEYED_FENCE.get(),
+                        BlocksRegistration.HONEYED_FENCE_GATE.get(),
+                        BlocksRegistration.HONEYED_BUTTON.get(),
+                        BlocksRegistration.HONEYED_PRESSURE_PLATE.get(),
+                        BlocksRegistration.HONEYED_DOOR.get(),
+                        BlocksRegistration.HONEYED_TRAPDOOR.get(),
+                        BlocksRegistration.HONEYED_SIGN.get(),
+                        BlocksRegistration.HONEYED_WALL_SIGN.get(),
+                        BlocksRegistration.HONEYED_HANGING_SIGN.get(),
+                        BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get()
         );
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                BlocksRegistration.CENTRIFUGE.get(),
-                BlocksRegistration.CHISELED_WAX.get(),
-                BlocksRegistration.APID_LIBRARY.get(),
-                BlocksRegistration.WAX_BLOCK.get(),
-                BlocksRegistration.WAX_BLOCK_STAIRS.get(),
-                BlocksRegistration.WAX_BLOCK_SLAB.get(),
-                BlocksRegistration.WAX_BLOCK_WALL.get(),
-                BlocksRegistration.SMOOTH_WAX.get(),
-                BlocksRegistration.SMOOTH_WAX_STAIRS.get(),
-                BlocksRegistration.SMOOTH_WAX_SLAB.get(),
-                BlocksRegistration.SMOOTH_WAX_WALL.get(),
-                BlocksRegistration.WAX_BRICKS.get(),
-                BlocksRegistration.WAX_BRICK_STAIRS.get(),
-                BlocksRegistration.WAX_BRICK_SLAB.get(),
-                BlocksRegistration.WAX_BRICK_WALL.get(),
-                BlocksRegistration.CHISELED_WAX.get(),
-                BlocksRegistration.FURNACE_GENERATOR.get(),
-                BlocksRegistration.HONEY_GENERATOR.get()
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(GYROFUGE)
+                .add(
+                    BlocksRegistration.CENTRIFUGE.get(),
+                    BlocksRegistration.CHISELED_WAX.get(),
+                    BlocksRegistration.APID_LIBRARY.get(),
+                    BlocksRegistration.WAX_BLOCK.get(),
+                    BlocksRegistration.WAX_BLOCK_STAIRS.get(),
+                    BlocksRegistration.WAX_BLOCK_SLAB.get(),
+                    BlocksRegistration.WAX_BLOCK_WALL.get(),
+                    BlocksRegistration.SMOOTH_WAX.get(),
+                    BlocksRegistration.SMOOTH_WAX_STAIRS.get(),
+                    BlocksRegistration.SMOOTH_WAX_SLAB.get(),
+                    BlocksRegistration.SMOOTH_WAX_WALL.get(),
+                    BlocksRegistration.WAX_BRICKS.get(),
+                    BlocksRegistration.WAX_BRICK_STAIRS.get(),
+                    BlocksRegistration.WAX_BRICK_SLAB.get(),
+                    BlocksRegistration.WAX_BRICK_WALL.get(),
+                    BlocksRegistration.CHISELED_WAX.get(),
+                    BlocksRegistration.FURNACE_GENERATOR.get(),
+                    BlocksRegistration.HONEY_GENERATOR.get()
         );
         tag(BlockTags.PLANKS).add(BlocksRegistration.HONEYED_PLANKS.get());
         tag(BlockTags.WOODEN_STAIRS).add(BlocksRegistration.HONEYED_STAIRS.get());

@@ -40,6 +40,7 @@ public class BlockStateGenerator extends BlockStateProvider {
                 modLoc("block/bee_sorter_west")).texture("particle", modLoc("block/bee_sorter_up"))).build());
         baseMellariumBlock();
         baseGyrofugeBlock();
+
         assembleableBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, "block/mellarium/mellarium_temp_unit");
         assembleableBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, "block/mellarium/mellarium_frame_housing_1");
         assembleableBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, "block/mellarium/mellarium_frame_housing_2");
@@ -50,6 +51,9 @@ public class BlockStateGenerator extends BlockStateProvider {
         assembleableBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
         poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
         poweredMellariumBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
+
+        assembleableBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL, "block/gyrofuge/gyrofuge_energy_cell");
+
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
@@ -217,7 +221,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void assembleableBlock(RegistryObject<? extends MellariumBlock> block, String path) {
+    private void assembleableBlock(RegistryObject<? extends Block> block, String path) {
         assembleableBlock(block, modLoc(path), modLoc(path + "_assembled"));
     }
 

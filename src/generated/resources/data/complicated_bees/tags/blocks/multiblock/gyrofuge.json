@@ -1,6 +1,7 @@
 {
   "values": [
     "complicated_bees:gyrofuge_controller",
-    "complicated_bees:gyrofuge_base"
+    "complicated_bees:gyrofuge_base",
+    "complicated_bees:gyrofuge_energy_cell"
   ]
 }

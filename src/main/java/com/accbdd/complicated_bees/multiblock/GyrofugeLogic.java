@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeEnergyCellBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
@@ -36,9 +37,9 @@ public class GyrofugeLogic {
 //                if (!blockState.is(BlocksRegistration.GYROFUGE_BASE.get())) {
 //                    specialBlocks.add(pos);
 //                }
-//                if (gyrofugeBlock instanceof MellariumEnergyCellBlockEntity cell) {
-//                    energyStorages.add(cell.getEnergy());
-//                }
+                if (gyrofugeBlock instanceof GyrofugeEnergyCellBlockEntity cell) {
+                    energyStorages.add(cell.getEnergy());
+                }
             } else if (level.getBlockEntity(pos) instanceof GyrofugeControllerBlockEntity controller) {
                 controller.setLogic(this);
             } else {

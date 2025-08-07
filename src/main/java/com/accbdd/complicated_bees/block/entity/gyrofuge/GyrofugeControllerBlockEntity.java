@@ -20,6 +20,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity {
@@ -30,16 +31,15 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     private GyrofugeLogic gyrofugeLogic;
 
-    public static final int CAPACITY = 100000; //todo: make more config options
-    public static final int MAXTRANSFER = 5000;
-    public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.centrifugeBaseEnergy.get();
-    public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.centrifugeBaseSpeed.get();
+    public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseEnergy.get();
+    public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.gyrofugeBaseSpeed.get();
 
     private final LazyOptional<IItemHandler> inputItemHandler;
     private final LazyOptional<IItemHandler> outputItemHandler;
     public final LazyOptional<IItemHandler> upgradeItemHandler;
     private final LazyOptional<IItemHandler> itemHandler;
     private final LazyOptional<IEnergyStorage> energyHandler;
+    private int processingCount = 3;
 
     public GyrofugeControllerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), pos, blockState);
@@ -66,28 +66,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
                 return stack.getItem() instanceof UpgradeItem;
             }
         });
-        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energyStorage) {
-            @Override
-            public int extractEnergy(int maxExtract, boolean simulate) {
-                return 0;
-            }
-
-            @Override
-            public int receiveEnergy(int maxReceive, boolean simulate) {
-                setChanged();
-                return super.receiveEnergy(maxReceive, simulate);
-            }
-
-            @Override
-            public boolean canExtract() {
-                return false;
-            }
-
-            @Override
-            public boolean canReceive() {
-                return true;
-            }
-        });
+        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(getGyrofugeLogic().getEnergyStorage()));
         this.itemHandler = LazyOptional.of(() -> new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler.resolve().get(), (IItemHandlerModifiable) inputItemHandler.resolve().get()));
     }
 
@@ -139,16 +118,30 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     @Override
     public List<ItemStack> getCurrentlyProcessing() {
-        ItemStack stack = inputItems.getStackInSlot(0);
-        if (getRecipe(stack) != null) {
-            return List.of(stack);
+        List<ItemStack> toProcess = new ArrayList<>();
+        int processed = 0;
+        for (int i = 0; i < inputItems.getSlots(); i++) {
+            ItemStack stack = inputItems.getStackInSlot(i);
+            if (getRecipe(stack) != null) {
+                int stackProcessed = 0;
+                while (processed < processingCount && stack.getCount() - stackProcessed > 0) {
+                    toProcess.add(stack);
+                    stackProcessed++;
+                    processed++;
+                }
+            }
         }
-        return List.of();
+        return toProcess;
     }
 
     @Override
     public float getOutputMod() {
         return 1.5f;
+    }
+
+    @Override
+    public int getMaxProgress() {
+        return 100;
     }
 
     @Override

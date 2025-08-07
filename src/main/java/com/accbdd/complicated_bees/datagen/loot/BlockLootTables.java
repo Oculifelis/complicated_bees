@@ -53,6 +53,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         this.add(BlocksRegistration.MELLARIUM_ENERGY_CELL.get(), energyCellBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL.get()));
         dropSelf(BlocksRegistration.MELLARIUM_SKYBOX.get());
         dropSelf(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get());
+        this.add(BlocksRegistration.GYROFUGE_ENERGY_CELL.get(), energyCellBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL.get()));
         dropSelf(BlocksRegistration.GYROFUGE_BASE.get());
         this.add(BlocksRegistration.GYROFUGE_CONTROLLER.get(), createSingleItemTable(ItemsRegistration.GYROFUGE_BASE.get()));
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));

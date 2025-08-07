@@ -20,6 +20,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -144,6 +145,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         }
 
         if (!getCurrentlyProcessing().isEmpty() && outputBuffer.empty()) {
+            IEnergyStorage energyStorage = getEnergyHandler().resolve().get();
             if (energyStorage.getEnergyStored() > getEnergyUsage()) {
                 energyStorage.extractEnergy(getEnergyUsage(), false);
                 progress++;

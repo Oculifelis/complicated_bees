@@ -20,6 +20,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
     private static final int INV_Y = 84;
 
     private int power;
+    private int maxPower;
 
     public GyrofugeMenu(int windowId, Player player, BlockPos pos) {
         this(windowId, player, pos, new SimpleContainerData(2));
@@ -68,6 +69,28 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
                     GyrofugeMenu.this.power = (GyrofugeMenu.this.power & 0xffff) | ((pValue & 0xffff) << 16);
                 }
             });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return controller.getEnergyHandler().resolve().get().getMaxEnergyStored() & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    GyrofugeMenu.this.maxPower = (GyrofugeMenu.this.maxPower & 0xffff0000) | (pValue & 0xffff);
+                }
+            });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return (controller.getEnergyHandler().resolve().get().getMaxEnergyStored() >> 16) & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    GyrofugeMenu.this.maxPower = (GyrofugeMenu.this.maxPower & 0xffff) | ((pValue & 0xffff) << 16);
+                }
+            });
         }
         layoutPlayerInventorySlots(player.getInventory());
 
@@ -80,6 +103,10 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
 
     public int getPower() {
         return power;
+    }
+
+    public int getMaxPower() {
+        return maxPower;
     }
 
     public int getScaledProgress() {

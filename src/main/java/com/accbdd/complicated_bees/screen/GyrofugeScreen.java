@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -35,7 +34,7 @@ public class GyrofugeScreen extends AbstractContainerScreen<GyrofugeMenu> {
     }
 
     private void renderPowerBar(GuiGraphics graphics, int relX, int relY) {
-        int powerScaled = getScaled(menu.getPower(), CentrifugeBlockEntity.CAPACITY, 70);
+        int powerScaled = getScaled(menu.getPower(), menu.getMaxPower(), 70);
         graphics.blit(GUI,
                 relX + 163,
                 relY + 8 + (70 - powerScaled),
