@@ -141,19 +141,17 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
     private void distributeEnergy() {
         // Check all sides of the block and send energy if that block supports the energy capability
+        if (energy.getEnergyStored() <= 0) {
+            return;
+        }
         for (Direction direction : Direction.values()) {
-            if (energy.getEnergyStored() <= 0) {
-                return;
-            }
             BlockEntity be = getLevel().getBlockEntity(getBlockPos().relative(direction));
             if (be != null) {
-                IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+                IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(null);
                 if (energy != null) {
-                    if (energy.canReceive()) {
-                        int received = energy.receiveEnergy(Math.min(this.energy.getEnergyStored(), baseTransfer), false);
-                        this.energy.extractEnergy(received, false);
-                        setChanged();
-                    }
+                    int received = energy.receiveEnergy(Math.min(this.energy.getEnergyStored(), baseTransfer), false);
+                    this.energy.extractEnergy(received, false);
+                    setChanged();
                 }
             }
         }
