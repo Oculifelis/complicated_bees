@@ -423,7 +423,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void mutatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, float modifier) {
         output.accept(new CBRecipeBuilder.MutatorRecipe(
-                new ResourceLocation(MODID, "mutator/" + name),
+                ResourceLocation.tryBuild(MODID, "mutator/" + name),
                 input,
                 modifier)
         );
@@ -431,7 +431,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
         output.accept(new CBRecipeBuilder.TempUnitRecipe(
-                new ResourceLocation(MODID, "temp_unit/" + name),
+                ResourceLocation.tryBuild(MODID, "temp_unit/" + name),
                 input,
                 tempChange,
                 useChance
@@ -440,7 +440,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void hydroregulatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
         output.accept(new CBRecipeBuilder.HydroRecipe(
-                new ResourceLocation(MODID, "hydroregulator/" + name),
+                ResourceLocation.tryBuild(MODID, "hydroregulator/" + name),
                 input,
                 recipeOutput,
                 humidityChange,
@@ -450,7 +450,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void honeyGeneratorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, int burnTime) {
         output.accept(new CBRecipeBuilder.HoneyGeneratorRecipe(
-                new ResourceLocation(MODID, "honey_generator/" + name),
+                ResourceLocation.tryBuild(MODID, "honey_generator/" + name),
                 input,
                 burnTime
         ));
