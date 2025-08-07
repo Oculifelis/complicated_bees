@@ -48,7 +48,7 @@ public class GyrofugeLogic {
                 ComplicatedBees.LOGGER.warn("built a gyrofuge with non-gyrofuge block at {}", pos);
             }
         }
-        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(new IEnergyStorage[energyStorages.size()]));
+        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(IEnergyStorage[]::new));
     }
 
     public void deconstruct(BlockPos pos) {
