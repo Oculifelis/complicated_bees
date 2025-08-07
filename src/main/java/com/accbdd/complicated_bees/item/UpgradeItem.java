@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.item;
 
+import com.accbdd.complicated_bees.bees.MachineModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -12,15 +13,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class UpgradeItem extends Item {
-    private final float speedMod;
-    private final float efficiencyMod;
-    private final float outputMod;
+    private final MachineModifier modifier;
 
-    public UpgradeItem(Properties prop, float speedMod, float efficiencyMod, float outputMod) {
+    public UpgradeItem(Properties prop, MachineModifier modifier) {
         super(prop);
-        this.speedMod = speedMod;
-        this.efficiencyMod = efficiencyMod;
-        this.outputMod = outputMod;
+        this.modifier = modifier;
     }
 
     @Override
@@ -45,14 +42,14 @@ public class UpgradeItem extends Item {
     }
 
     public float getSpeedMod() {
-        return speedMod;
+        return modifier.getSpeedMod();
     }
 
     public float getEfficiencyMod() {
-        return efficiencyMod;
+        return modifier.getEfficiencyMod();
     }
 
     public float getOutputMod() {
-        return outputMod;
+        return modifier.getOutputMod();
     }
 }

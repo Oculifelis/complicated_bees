@@ -134,6 +134,7 @@
   "gui.complicated_bees.honey_generator": "Honey Generator",
   "gui.complicated_bees.analyzer": "Analyzer",
   "gui.complicated_bees.mellarium": "Mellarium",
+  "gui.complicated_bees.gyrofuge": "Gyrofuge",
 
   "gui.complicated_bees.energy_cell": "%skFE / %skFE",
 
@@ -167,6 +168,7 @@
   "gui.complicated_bees.generations": "Generation %s in captivity",
   "gui.complicated_bees.jade.cycle_ticks": "Ticks left in cycle: %s",
   "gui.complicated_bees.invalid_mellarium": "Not a valid mellarium!",
+  "gui.complicated_bees.invalid_gyrofuge": "Not a valid gyrofuge!",
 
   "gui.complicated_bees.error.no_flower": "No flowers: needs %s",
   "gui.complicated_bees.error.wrong_temp": "Wrong temperature: needs %s",
