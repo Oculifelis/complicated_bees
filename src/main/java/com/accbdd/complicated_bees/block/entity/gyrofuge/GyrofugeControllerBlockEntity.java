@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity.gyrofuge;
 
+import com.accbdd.complicated_bees.bees.MachineModifier;
 import com.accbdd.complicated_bees.block.entity.AbstractCentrifugeBlockEntity;
 import com.accbdd.complicated_bees.block.entity.AdaptedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
@@ -30,6 +31,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     public static final int SLOT_COUNT = INPUT_SLOT_COUNT + OUTPUT_SLOT_COUNT + UPGRADE_SLOT_COUNT;
 
     private GyrofugeLogic gyrofugeLogic;
+    private MachineModifier modifier = new MachineModifier();
 
     public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseEnergy.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.gyrofugeBaseSpeed.get();
@@ -39,10 +41,10 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     public final LazyOptional<IItemHandler> upgradeItemHandler;
     private final LazyOptional<IItemHandler> itemHandler;
     private final LazyOptional<IEnergyStorage> energyHandler;
-    private int processingCount = 3;
 
     public GyrofugeControllerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), pos, blockState);
+        setEnergyUsage(BASE_USAGE);
         this.inputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(inputItems) {
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
@@ -72,6 +74,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     public void setLogic(GyrofugeLogic logic) {
         this.gyrofugeLogic = logic;
+        this.modifier = logic.getMachineModifier();
     }
 
     public GyrofugeLogic getGyrofugeLogic() {
@@ -124,7 +127,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
             ItemStack stack = inputItems.getStackInSlot(i);
             if (getRecipe(stack) != null) {
                 int stackProcessed = 0;
-                while (processed < processingCount && stack.getCount() - stackProcessed > 0) {
+                while (processed < modifier.getProcessingMod() && stack.getCount() - stackProcessed > 0) {
                     toProcess.add(stack);
                     stackProcessed++;
                     processed++;
@@ -141,7 +144,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     @Override
     public int getMaxProgress() {
-        return 100;
+        return BASE_MAX_PROGRESS;
     }
 
     @Override

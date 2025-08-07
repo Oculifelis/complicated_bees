@@ -1,10 +1,12 @@
 package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
+import com.accbdd.complicated_bees.bees.MachineModifier;
 import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeEnergyCellBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.IGyrofugeModifier;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
@@ -34,9 +36,9 @@ public class GyrofugeLogic {
             if (level.getBlockEntity(pos) instanceof GyrofugeAbstractBlockEntity gyrofugeBlock) {
                 gyrofugeBlock.setLogic(this);
                 BlockState blockState = level.getBlockState(pos);
-//                if (!blockState.is(BlocksRegistration.GYROFUGE_BASE.get())) {
-//                    specialBlocks.add(pos);
-//                }
+                if (!blockState.is(BlocksRegistration.GYROFUGE_BASE.get())) {
+                    specialBlocks.add(pos);
+                }
                 if (gyrofugeBlock instanceof GyrofugeEnergyCellBlockEntity cell) {
                     energyStorages.add(cell.getEnergy());
                 }
@@ -85,5 +87,9 @@ public class GyrofugeLogic {
 
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
+    }
+
+    public MachineModifier getMachineModifier() {
+        return MachineModifier.of(getSpecialBlocks().stream().map(level::getBlockEntity).filter(entity -> entity instanceof IGyrofugeModifier).toArray(MachineModifier[]::new));
     }
 }

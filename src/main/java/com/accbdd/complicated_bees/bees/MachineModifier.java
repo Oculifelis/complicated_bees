@@ -13,12 +13,18 @@ public class MachineModifier {
         this.processingMod = processingMod;
     }
 
+    public MachineModifier() {
+        this(1, 1, 1, 1);
+    }
+
     public static MachineModifier of(MachineModifier... modifiers) {
         float speedMod = 1;
         float efficiencyMod = 1;
         float outputMod = 1;
         int processingMod = 1;
         for (MachineModifier modifier : modifiers) {
+            if (modifier == null)
+                continue;
             speedMod *= modifier.speedMod;
             efficiencyMod *= modifier.efficiencyMod;
             outputMod *= modifier.outputMod;

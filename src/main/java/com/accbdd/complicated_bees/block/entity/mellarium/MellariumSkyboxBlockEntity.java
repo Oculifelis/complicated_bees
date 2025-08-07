@@ -14,10 +14,8 @@ public class MellariumSkyboxBlockEntity extends MellariumAbstractPoweredBlockEnt
     }
 
     @Override
-    public void onTick() {
-        if (getLogic() != null && getLogic().getController() != null) {
-            setPowered(getLogic().getEnergyStorage().extractEnergy(ENERGY_USAGE, false) >= ENERGY_USAGE);
-        }
+    int getPowerUsage() {
+        return ENERGY_USAGE;
     }
 
     @Override
