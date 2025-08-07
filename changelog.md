@@ -17,6 +17,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 
 ## Changed
 * Bee housing now shows more descriptive errors - #65
+* Nerf to frame stick crafting
 
 ## Fixed
 * Occasional furnace generator loading issues

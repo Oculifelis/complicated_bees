@@ -53,16 +53,13 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('W', ItemsRegistration.BEESWAX.get())
                 .unlockedBy(getHasName(ItemsRegistration.BEESWAX.get()), has(ItemsRegistration.BEESWAX.get()))
                 .save(output, "complicated_bees:candle");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.HONEYED_STICK.get())
-                .pattern("###")
-                .pattern("#H#")
-                .pattern("###")
-                .define('H', ItemsRegistration.HONEY_DROPLET.get())
-                .define('#', Tags.Items.RODS_WOODEN)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemsRegistration.HONEYED_STICK.get())
+                .requires(ItemsRegistration.HONEY_DROPLET.get(), 4)
+                .requires(Ingredient.of(Tags.Items.RODS_WOODEN), 1)
                 .unlockedBy(getHasName(ItemsRegistration.FRAME.get()), has(ItemsRegistration.FRAME.get()))
                 .save(output);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemsRegistration.WAXED_STICK.get())
-                .requires(ItemsRegistration.BEESWAX.get(), 1)
+                .requires(ItemsRegistration.BEESWAX.get(), 2)
                 .requires(Ingredient.of(Tags.Items.RODS_WOODEN), 1)
                 .unlockedBy(getHasName(ItemsRegistration.FRAME.get()), has(ItemsRegistration.FRAME.get()))
                 .save(output);

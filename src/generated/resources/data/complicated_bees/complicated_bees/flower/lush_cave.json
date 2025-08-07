@@ -1,7 +1,7 @@
 {
   "blocks": [
-    "minecraft:flowering_azalea",
     "minecraft:flowering_azalea_leaves",
+    "minecraft:flowering_azalea",
     "minecraft:small_dripleaf",
     "minecraft:spore_blossom"
   ],
