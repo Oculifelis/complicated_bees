@@ -49,10 +49,11 @@ public class BlockStateGenerator extends BlockStateProvider {
         assembleableBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
         assembleableBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
         assembleableBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
-        poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
-        poweredMellariumBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
+        poweredAssembledBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
+        poweredAssembledBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
 
         assembleableBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL, "block/gyrofuge/gyrofuge_energy_cell");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_processing_unit");
 
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
@@ -188,7 +189,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
+    private void poweredAssembledBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
@@ -206,8 +207,8 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, String path) {
-        poweredMellariumBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
+    private void poweredAssembledBlock(RegistryObject<? extends Block> block, String path) {
+        poweredAssembledBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
     }
 
     private void assembleableBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex) {

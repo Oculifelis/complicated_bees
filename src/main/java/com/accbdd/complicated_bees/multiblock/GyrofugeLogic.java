@@ -90,6 +90,6 @@ public class GyrofugeLogic {
     }
 
     public MachineModifier getMachineModifier() {
-        return MachineModifier.of(getSpecialBlocks().stream().map(level::getBlockEntity).filter(entity -> entity instanceof IGyrofugeModifier).toArray(MachineModifier[]::new));
+        return MachineModifier.of(getSpecialBlocks().stream().map(level::getBlockEntity).filter(entity -> entity instanceof IGyrofugeModifier).map(entity -> ((IGyrofugeModifier) entity).getMachineModifier()).toArray(MachineModifier[]::new));
     }
 }

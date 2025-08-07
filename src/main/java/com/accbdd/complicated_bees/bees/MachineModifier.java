@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.bees;
 
 public class MachineModifier {
+    public static MachineModifier BLANK = new MachineModifier();
+
     private final float speedMod; //how fast the machine goes
     private final float efficiencyMod; //how much energy the machine uses
     private final float outputMod; //bonus to products

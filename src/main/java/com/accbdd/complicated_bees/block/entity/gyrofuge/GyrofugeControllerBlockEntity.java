@@ -31,7 +31,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     public static final int SLOT_COUNT = INPUT_SLOT_COUNT + OUTPUT_SLOT_COUNT + UPGRADE_SLOT_COUNT;
 
     private GyrofugeLogic gyrofugeLogic;
-    private MachineModifier modifier = new MachineModifier();
+    private MachineModifier modifier = MachineModifier.BLANK;
 
     public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseEnergy.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.gyrofugeBaseSpeed.get();
@@ -82,6 +82,16 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
             MultiblockHelper.buildGyrofuge(getLevel(), getBlockPos());
         }
         return gyrofugeLogic;
+    }
+
+    @Override
+    public void tickServer() {
+        super.tickServer();
+        getGyrofugeLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IGyrofugeTickable tickable) {
+                tickable.onTick();
+            }
+        });
     }
 
     @Override
@@ -139,12 +149,20 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     @Override
     public float getOutputMod() {
-        return 1.5f;
+        return 1.5f * modifier.getOutputMod();
     }
 
     @Override
     public int getMaxProgress() {
-        return BASE_MAX_PROGRESS;
+        return Math.round(BASE_MAX_PROGRESS / modifier.getSpeedMod());
+    }
+
+    @Override
+    public int getEnergyUsage() {
+        if (modifier == null)
+            modifier = MachineModifier.BLANK;
+        setEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
+        return super.getEnergyUsage();
     }
 
     @Override

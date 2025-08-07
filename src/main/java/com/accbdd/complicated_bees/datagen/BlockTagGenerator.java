@@ -47,7 +47,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
         tag(GYROFUGE).add(
                 BlocksRegistration.GYROFUGE_CONTROLLER.get(),
                 BlocksRegistration.GYROFUGE_BASE.get(),
-                BlocksRegistration.GYROFUGE_ENERGY_CELL.get()
+                BlocksRegistration.GYROFUGE_ENERGY_CELL.get(),
+                BlocksRegistration.GYROFUGE_PROCESSING_UNIT.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(MELLARIUM)

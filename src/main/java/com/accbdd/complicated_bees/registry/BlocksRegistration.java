@@ -51,6 +51,7 @@ public class BlocksRegistration {
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_BASE = BLOCKS.register("gyrofuge_base", () -> new GyrofugeBlock(GyrofugeBlock.GyrofugeBlockType.BASE));
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_CONTROLLER = BLOCKS.register("gyrofuge_controller", () -> new GyrofugeBlock(GyrofugeBlock.GyrofugeBlockType.CONTROLLER));
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_ENERGY_CELL = BLOCKS.register("gyrofuge_energy_cell", GyrofugeEnergyCellBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_PROCESSING_UNIT = BLOCKS.register("gyrofuge_processing_unit", GyrofugeProcessingUnitBlock::new);
 
     public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
 
