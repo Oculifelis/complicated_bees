@@ -117,6 +117,8 @@
   "block.complicated_bees.mellarium_skybox": "Mellarium Skybox",
   "block.complicated_bees.mellarium_temporal_simulator": "Mellarium Temporal Simulator",
   "block.complicated_bees.bee_sorter": "Bee Sorter",
+  "block.complicated_bees.gyrofuge_energy_cell": "Gyrofuge Energy Cell",
+  "block.complicated_bees.gyrofuge_base": "Gyrofuge Block",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
