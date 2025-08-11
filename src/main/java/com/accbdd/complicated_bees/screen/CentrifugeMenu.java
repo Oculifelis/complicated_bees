@@ -22,7 +22,7 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
     private int power;
 
     public CentrifugeMenu(int windowId, Player player, BlockPos pos) {
-        this(windowId, player, pos, new SimpleContainerData(2));
+        this(windowId, player, pos, new SimpleContainerData(3));
     }
 
     public CentrifugeMenu(int windowId, Player player, BlockPos pos, ContainerData data) {
@@ -85,6 +85,10 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
         int progressArrowSize = 20;
 
         return Math.min(maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0, progressArrowSize);
+    }
+
+    public int getPowerUsage() {
+        return this.data.get(2);
     }
 
     @Override

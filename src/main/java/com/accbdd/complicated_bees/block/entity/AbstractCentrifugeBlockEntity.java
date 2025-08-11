@@ -40,7 +40,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     protected ItemStackHandler inputItems = createInputHandler();
     protected ItemStackHandler outputItems = createOutputHandler();
     protected ItemStackHandler upgradeItems = createUpgradeHandler();
-    protected EnergyStorage energyStorage = createEnergyStorage();
+    protected IEnergyStorage energyStorage = createEnergyStorage();
 
     public final Stack<ItemStack> outputBuffer = new Stack<>();
     public static final String OUTPUT_BUFFER_TAG = "output_buffer";
@@ -51,12 +51,16 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     private int progress;
     private int maxProgress;
-    private int usage;
+    private int activeUsage;
+    private int idleUsage;
+    private int energyUsage;
+    private boolean isCrafting;
 
     public AbstractCentrifugeBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
         super(blockEntityType, pos, blockState);
         this.quickCheck = RecipeManager.createCheck(EsotericRegistration.CENTRIFUGE_RECIPE.get());
-        this.usage = getEnergyUsage();
+        this.activeUsage = getActiveEnergyUsage();
+        this.idleUsage = getIdleEnergyUsage();
         this.maxProgress = getMaxProgress();
         this.data = new ContainerData() {
             @Override
@@ -64,6 +68,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
                 return switch (index) {
                     case 0 -> AbstractCentrifugeBlockEntity.this.progress;
                     case 1 -> getMaxProgress();
+                    case 2 -> getEnergyUsage();
                     default -> 0;
                 };
             }
@@ -73,12 +78,13 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
                 switch (index) {
                     case 0 -> AbstractCentrifugeBlockEntity.this.progress = value;
                     case 1 -> setMaxProgress(value);
+                    case 2 -> setEnergyUsage(value);
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
         };
     }
@@ -109,7 +115,6 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         tag.put(ITEMS_INPUT_TAG, inputItems.serializeNBT());
         tag.put(ITEMS_OUTPUT_TAG, outputItems.serializeNBT());
         tag.put(ITEMS_UPGRADE_TAG, upgradeItems.serializeNBT());
-        tag.put(ENERGY_TAG, energyStorage.serializeNBT());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : outputBuffer) {
             bufferTag.add(stack.save(new CompoundTag()));
@@ -134,9 +139,6 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         if (tag.contains(ITEMS_UPGRADE_TAG)) {
             upgradeItems.deserializeNBT(tag.getCompound(ITEMS_UPGRADE_TAG));
         }
-        if (tag.contains(ENERGY_TAG)) {
-            energyStorage.deserializeNBT(tag.get(ENERGY_TAG));
-        }
     }
 
     public void tickServer() {
@@ -144,10 +146,15 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
             tryEmptyBuffer();
         }
 
+        if (energyStorage == null)
+            return;
+
+        energyStorage.extractEnergy(getIdleEnergyUsage(), false);
+
         if (!getCurrentlyProcessing().isEmpty() && outputBuffer.empty()) {
-            IEnergyStorage energyStorage = getEnergyHandler().resolve().get();
-            if (energyStorage.getEnergyStored() > getEnergyUsage()) {
-                energyStorage.extractEnergy(getEnergyUsage(), false);
+            if (energyStorage.getEnergyStored() > getActiveEnergyUsage()) {
+                isCrafting = true;
+                energyStorage.extractEnergy(getActiveEnergyUsage(), false);
                 progress++;
                 setChanged();
                 if (progress >= getMaxProgress()) {
@@ -165,6 +172,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     }
 
     private void lowerProgress() {
+        isCrafting = false;
         if (progress > 0) {
             progress--;
         }
@@ -280,13 +288,38 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     }
 
     @Override
+    public int getActiveEnergyUsage() {
+        return activeUsage;
+    }
+
+    @Override
+    public int getIdleEnergyUsage() {
+        return idleUsage;
+    }
+
+    @Override
     public int getEnergyUsage() {
-        return usage;
+        return energyUsage;
+    }
+
+    @Override
+    public boolean isCrafting() {
+        return isCrafting;
+    }
+
+    @Override
+    public void setActiveEnergyUsage(int value) {
+        this.activeUsage = value;
+    }
+
+    @Override
+    public void setIdleEnergyUsage(int value) {
+        this.idleUsage = value;
     }
 
     @Override
     public void setEnergyUsage(int value) {
-        this.usage = value;
+        this.energyUsage = value;
     }
 
     public ContainerData getData() {

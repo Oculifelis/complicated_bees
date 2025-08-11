@@ -15,12 +15,12 @@ public abstract class AbstractPoweredGyrofugeBlockEntity extends AbstractGyrofug
     /**
      * @return the amount of rf this block uses every tick
      */
-    public abstract int getPowerUsage();
+    public abstract int getIdleUsage();
 
     @Override
     public void onTick() {
         if (getLogic() != null && getLogic().getController() != null) {
-            setPowered(getLogic().getEnergyStorage().extractEnergy(getPowerUsage(), false) >= getPowerUsage());
+            setPowered(getLogic().getEnergyStorage().extractEnergy(getIdleUsage(), false) >= getIdleUsage());
         }
     }
 

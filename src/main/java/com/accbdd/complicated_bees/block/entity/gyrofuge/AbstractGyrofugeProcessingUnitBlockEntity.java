@@ -14,7 +14,7 @@ public abstract class AbstractGyrofugeProcessingUnitBlockEntity extends Abstract
     }
 
     @Override
-    public int getPowerUsage() {
+    public int getIdleUsage() {
         return 50 * getMachineModifier().getProcessingMod();
     }
 

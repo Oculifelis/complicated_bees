@@ -70,9 +70,6 @@
   "item.complicated_bees.royal_upgrade": "Royal Upgrade",
   "item.complicated_bees.endenic_upgrade": "Endenic Upgrade",
   "item.complicated_bees.withered_upgrade": "Withered Upgrade",
-  "item.complicated_bees.speed_label": "Speed",
-  "item.complicated_bees.efficiency_label": "Efficiency",
-  "item.complicated_bees.output_label": "Centrifuge Output",
 
   "block.complicated_bees.bee_nest": "Bee Nest",
   "block.complicated_bees.apiary": "Apiary",
@@ -300,6 +297,15 @@
   "gui.complicated_bees.library.empty": "This species cannot mutate further.",
 
   "gui.complicated_bees.bee_sorter": "Bee Sorter",
+
+  "upgrade.complicated_bees.speed_label": "Speed",
+  "upgrade.complicated_bees.efficiency_label": "Power Efficiency",
+  "upgrade.complicated_bees.output_label": "Output Chance",
+  "upgrade.complicated_bees.processing_label": "Processing Count",
+
+  "frame.complicated_bees.overrides_sleep": "Ignores Sleep",
+  "frame.complicated_bees.overrides_sky": "Ignores Sky",
+  "frame.complicated_bees.overrides_rain": "Ignores Weather",
 
   "jei.complicated_bees.chance": "Chance",
   "jei.complicated_bees.modifier": "Mod: %s",

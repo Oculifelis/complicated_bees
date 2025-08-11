@@ -164,9 +164,19 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     }
 
     @Override
+    public int getActiveEnergyUsage() {
+        setActiveEnergyUsage(Math.round(BASE_USAGE / UpgradeHelper.getEfficiencyMod(upgradeItems)));
+        return super.getActiveEnergyUsage();
+    }
+
+    @Override
     public int getEnergyUsage() {
-        setEnergyUsage(Math.round(BASE_USAGE / UpgradeHelper.getEfficiencyMod(upgradeItems)));
-        return super.getEnergyUsage();
+        return getIdleEnergyUsage() + (isCrafting() ? getActiveEnergyUsage() : 0);
+    }
+
+    @Override
+    public void setEnergyUsage(int value) {
+        super.setEnergyUsage(getEnergyUsage());
     }
 
     @Override

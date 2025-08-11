@@ -1,15 +1,18 @@
 package com.accbdd.complicated_bees.screen;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.List;
+
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GyrofugeScreen extends AbstractContainerScreen<GyrofugeMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/gyrofuge.png");
+    private final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/gyrofuge.png");
 
     public GyrofugeScreen(GyrofugeMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -60,7 +63,13 @@ public class GyrofugeScreen extends AbstractContainerScreen<GyrofugeMenu> {
         super.renderTooltip(graphics, pX, pY);
         if (pX >= leftPos + 163 && pX < leftPos + 163 + 5 && pY >= topPos + 8 && pY < topPos + 8 + 70) {
             int power = menu.getPower();
-            graphics.renderTooltip(this.font, Component.literal(power + " RF"), pX, pY);
+            graphics.renderComponentTooltip(
+                    this.font,
+                    List.of(Component.literal(power + " RF"),
+                            Component.literal(menu.getPowerUsage() + " RF/t")
+                                    .withStyle(ChatFormatting.GRAY)),
+                    pX,
+                    pY);
         }
     }
 }

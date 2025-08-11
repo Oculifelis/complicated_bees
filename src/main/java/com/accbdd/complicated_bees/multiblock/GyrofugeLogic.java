@@ -3,10 +3,7 @@ package com.accbdd.complicated_bees.multiblock;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.MachineModifier;
 import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
-import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugeBlockEntity;
-import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
-import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeEnergyCellBlockEntity;
-import com.accbdd.complicated_bees.block.entity.gyrofuge.IGyrofugeModifier;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.*;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
@@ -25,6 +22,7 @@ public class GyrofugeLogic {
     private final BlockPos center;
     private final IEnergyStorage energyStorage;
     private final List<BlockPos> specialBlocks = new ArrayList<>();
+    private int idleUsage;
 
     public GyrofugeLogic(Level level, BlockPos center) {
         this.level = level;
@@ -42,13 +40,18 @@ public class GyrofugeLogic {
                 if (gyrofugeBlock instanceof GyrofugeEnergyCellBlockEntity cell) {
                     energyStorages.add(cell.getEnergy());
                 }
-            } else if (level.getBlockEntity(pos) instanceof GyrofugeControllerBlockEntity controller) {
-                controller.setLogic(this);
+                if (gyrofugeBlock instanceof AbstractPoweredGyrofugeBlockEntity power) {
+                    idleUsage += power.getIdleUsage();
+                }
             } else {
                 ComplicatedBees.LOGGER.warn("built a gyrofuge with non-gyrofuge block at {}", pos);
             }
         }
         energyStorage = new CombinedEnergyStorage(energyStorages.toArray(IEnergyStorage[]::new));
+
+        if (level.getBlockEntity(center) instanceof GyrofugeControllerBlockEntity controller)
+            controller.setLogic(this);
+
     }
 
     public void deconstruct(BlockPos pos) {
@@ -91,5 +94,9 @@ public class GyrofugeLogic {
 
     public MachineModifier getMachineModifier() {
         return MachineModifier.of(getSpecialBlocks().stream().map(level::getBlockEntity).filter(entity -> entity instanceof IGyrofugeModifier).map(entity -> ((IGyrofugeModifier) entity).getMachineModifier()).toArray(MachineModifier[]::new));
+    }
+
+    public int getIdleUsage() {
+        return idleUsage;
     }
 }

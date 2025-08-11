@@ -1,5 +1,12 @@
 package com.accbdd.complicated_bees.bees;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MachineModifier {
     public static MachineModifier BLANK = new MachineModifier();
 
@@ -50,6 +57,33 @@ public class MachineModifier {
 
     public int getProcessingMod() {
         return processingMod;
+    }
+
+    public List<Component> getTooltipComponents() {
+        List<Component> components = new ArrayList<>();
+        if (Minecraft.getInstance().level != null) {
+            if (this.getSpeedMod() != 1)
+                components.add(Component.translatable("upgrade.complicated_bees.speed_label")
+                        .append(": ")
+                        .append(Component.literal(this.getSpeedMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getEfficiencyMod() != 1)
+                components.add(Component.translatable("upgrade.complicated_bees.efficiency_label")
+                        .append(": ")
+                        .append(Component.literal(this.getEfficiencyMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getOutputMod() != 1)
+                components.add(Component.translatable("upgrade.complicated_bees.output_label")
+                        .append(": ")
+                        .append(Component.literal(this.getOutputMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getProcessingMod() != 1)
+                components.add(Component.translatable("upgrade.complicated_bees.processing_label")
+                        .append(": ")
+                        .append(Component.literal("+" + this.getProcessingMod()))
+                        .withStyle(ChatFormatting.GRAY));
+        }
+        return components;
     }
 
     public static class Builder {

@@ -23,7 +23,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
     private int maxPower;
 
     public GyrofugeMenu(int windowId, Player player, BlockPos pos) {
-        this(windowId, player, pos, new SimpleContainerData(2));
+        this(windowId, player, pos, new SimpleContainerData(3));
     }
 
     public GyrofugeMenu(int windowId, Player player, BlockPos pos, ContainerData data) {
@@ -110,11 +110,19 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
     }
 
     public int getScaledProgress() {
-        int progress = this.data.get(0);
+        int progress = getProgress();
         int maxProgress = this.data.get(1);
         int progressArrowSize = 20;
 
         return Math.min(maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0, progressArrowSize);
+    }
+
+    public int getProgress() {
+        return this.data.get(0);
+    }
+
+    public int getPowerUsage() {
+        return this.data.get(2);
     }
 
     @Override

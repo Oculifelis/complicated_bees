@@ -1,8 +1,6 @@
 package com.accbdd.complicated_bees.item;
 
 import com.accbdd.complicated_bees.bees.MachineModifier;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,23 +20,8 @@ public class UpgradeItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> components, TooltipFlag pIsAdvanced) {
-        if (Minecraft.getInstance().level != null) {
-            if (this.getSpeedMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.speed_label")
-                        .append(": ")
-                        .append(Component.literal(this.getSpeedMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getEfficiencyMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.efficiency_label")
-                        .append(": ")
-                        .append(Component.literal(this.getEfficiencyMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getOutputMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.output_label")
-                        .append(": ")
-                        .append(Component.literal(this.getOutputMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-        }
+        super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
+        components.addAll(modifier.getTooltipComponents());
     }
 
     public float getSpeedMod() {

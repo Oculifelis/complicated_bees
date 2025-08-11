@@ -26,7 +26,29 @@ public interface ICentrifuge {
 
     void setMaxProgress(int value);
 
+    /**
+     * @return the rf/t this centrifuge uses while active
+     */
+    int getActiveEnergyUsage();
+
+    /**
+     * @return the rf/t this centrifuge uses while idle
+     */
+    int getIdleEnergyUsage();
+
+    /**
+     * @return the rf/t this centrifuge is currently using
+     */
     int getEnergyUsage();
+
+    /**
+     * @return whether this centrifuge is crafting
+     */
+    boolean isCrafting();
+
+    void setActiveEnergyUsage(int value);
+
+    void setIdleEnergyUsage(int value);
 
     void setEnergyUsage(int value);
 }

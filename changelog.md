@@ -1,4 +1,4 @@
-# Complicated Bees 2.5.0 - the Production Engaged update
+# Complicated Bees 2.5.0 - the Engaging Production update
 
 ## The Indust-bee-al Revolution 2 - Electric Boogaloo
  
@@ -14,13 +14,16 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * The Gyrofuge multiblock - #63
   * Gyrofuge Block
   * Gyrofuge Energy Cell
+  * Gyrofuge Processing Unit (+ basic/advanced)
 
 ## Changed
 * Bee housing now shows more descriptive errors - #65
 * Nerf to frame stick crafting
+* Efficiency renamed to Power Efficiency
 
 ## Fixed
 * Occasional furnace generator loading issues
 * Give command crashing games - #70
 * Occasional crash on servers when player is null - #74
 * Generators not correctly outputting to cables - #76
+* Honeyed Stick recipe weirdness

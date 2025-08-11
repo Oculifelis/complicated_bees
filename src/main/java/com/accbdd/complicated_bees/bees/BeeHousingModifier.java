@@ -1,6 +1,12 @@
 package com.accbdd.complicated_bees.bees;
 
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeeHousingModifier {
     private final EnumTolerance temperatureMod;
@@ -98,6 +104,53 @@ public class BeeHousingModifier {
 
     public boolean getSleepOverride() {
         return sleepOverride;
+    }
+
+    public List<Component> getTooltipComponent() {
+        List<Component> components = new ArrayList<>();
+        if (Minecraft.getInstance().level != null) {
+            if (this.getLifespanMod() != 1)
+                components.add(Component.translatable("gene.complicated_bees.lifespan_label")
+                        .append(": ")
+                        .append(Component.literal(this.getLifespanMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getProductivityMod() != 1)
+                components.add(Component.translatable("gene.complicated_bees.productivity_label")
+                        .append(": ")
+                        .append(Component.literal(this.getProductivityMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (!this.getTemperatureMod().equals(EnumTolerance.NONE))
+                components.add(Component.translatable("gene.complicated_bees.temperature_label")
+                        .append(": ")
+                        .append(this.getTemperatureMod().getTranslationKey())
+                        .withStyle(ChatFormatting.GRAY));
+            if (!this.getHumidityMod().equals(EnumTolerance.NONE))
+                components.add(Component.translatable("gene.complicated_bees.humidity_label")
+                        .append(": ")
+                        .append(this.getHumidityMod().getTranslationKey())
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getTerritoryMod() != 1f)
+                components.add(Component.translatable("gene.complicated_bees.territory_label")
+                        .append(": ")
+                        .append(Component.literal(this.getTerritoryMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getMutationMod() != 1f)
+                components.add(Component.translatable("gui.complicated_bees.jei.mutations")
+                        .append(": ")
+                        .append(Component.literal(this.getMutationMod() + "x"))
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getSleepOverride())
+                components.add(Component.translatable("frame.complicated_bees.overrides_sleep")
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getSkyOverride())
+                components.add(Component.translatable("frame.complicated_bees.overrides_sky")
+                        .withStyle(ChatFormatting.GRAY));
+            if (this.getRainOverride())
+                components.add(Component.translatable("frame.complicated_bees.overrides_rain")
+                        .withStyle(ChatFormatting.GRAY));
+        }
+
+        return components;
     }
 
     public static class Builder {

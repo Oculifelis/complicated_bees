@@ -10,6 +10,7 @@ import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
@@ -44,7 +45,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     public GyrofugeControllerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), pos, blockState);
-        setEnergyUsage(BASE_USAGE);
+        setActiveEnergyUsage(BASE_USAGE);
         this.inputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(inputItems) {
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
@@ -72,9 +73,17 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
         this.itemHandler = LazyOptional.of(() -> new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler.resolve().get(), (IItemHandlerModifiable) inputItemHandler.resolve().get()));
     }
 
+    @Override
+    public ContainerData getData() {
+        return super.getData();
+    }
+
     public void setLogic(GyrofugeLogic logic) {
         this.gyrofugeLogic = logic;
         this.modifier = logic.getMachineModifier();
+        setActiveEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
+        setIdleEnergyUsage(gyrofugeLogic.getIdleUsage());
+        energyStorage = gyrofugeLogic.getEnergyStorage();
     }
 
     public GyrofugeLogic getGyrofugeLogic() {
@@ -158,11 +167,20 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     }
 
     @Override
-    public int getEnergyUsage() {
+    public int getActiveEnergyUsage() {
         if (modifier == null)
             modifier = MachineModifier.BLANK;
-        setEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
-        return super.getEnergyUsage();
+        return super.getActiveEnergyUsage();
+    }
+
+    @Override
+    public int getEnergyUsage() {
+        return getIdleEnergyUsage() + (isCrafting() ? getActiveEnergyUsage() : 0);
+    }
+
+    @Override
+    public void setEnergyUsage(int value) {
+        super.setEnergyUsage(getEnergyUsage());
     }
 
     @Override
