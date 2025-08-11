@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugeBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
@@ -30,7 +30,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
         super(MenuRegistration.GYROFUGE_MENU.get(), windowId, player, GyrofugeControllerBlockEntity.SLOT_COUNT, INV_X, INV_Y);
         this.data = data;
         this.pos = pos;
-        if (player.level().getBlockEntity(pos) instanceof GyrofugeAbstractBlockEntity blockEntity) {
+        if (player.level().getBlockEntity(pos) instanceof AbstractGyrofugeBlockEntity blockEntity) {
             GyrofugeControllerBlockEntity controller;
             if (blockEntity.getLogic() != null) {
                 controller = blockEntity.getLogic().getController();

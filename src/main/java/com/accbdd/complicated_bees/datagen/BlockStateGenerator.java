@@ -53,7 +53,9 @@ public class BlockStateGenerator extends BlockStateProvider {
         poweredAssembledBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
 
         assembleableBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL, "block/gyrofuge/gyrofuge_energy_cell");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_basic_processing_unit");
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_processing_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_advanced_processing_unit");
 
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());

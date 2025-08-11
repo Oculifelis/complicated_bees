@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -35,7 +35,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
         super(MenuRegistration.MELLARIUM_MENU.get(), windowId, player, SLOT_COUNT, INV_X, INV_Y);
         this.data = data;
         this.pos = pos;
-        if (player.level().getBlockEntity(pos) instanceof MellariumAbstractBlockEntity blockEntity) {
+        if (player.level().getBlockEntity(pos) instanceof AbstractMellariumBlockEntity blockEntity) {
             MellariumControllerBlockEntity mellarium;
             if (blockEntity.getLogic() != null) {
                 mellarium = blockEntity.getLogic().getController();

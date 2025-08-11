@@ -5,10 +5,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public abstract class GyrofugeAbstractPoweredBlockEntity extends GyrofugeAbstractBlockEntity implements IGyrofugeTickable {
+public abstract class AbstractPoweredGyrofugeBlockEntity extends AbstractGyrofugeBlockEntity implements IGyrofugeTickable {
     private boolean powered;
 
-    public GyrofugeAbstractPoweredBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public AbstractPoweredGyrofugeBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 

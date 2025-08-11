@@ -119,6 +119,9 @@
   "block.complicated_bees.bee_sorter": "Bee Sorter",
   "block.complicated_bees.gyrofuge_energy_cell": "Gyrofuge Energy Cell",
   "block.complicated_bees.gyrofuge_base": "Gyrofuge Block",
+  "block.complicated_bees.gyrofuge_basic_processing_unit": "Gyrofuge Basic Processing Unit",
+  "block.complicated_bees.gyrofuge_processing_unit": "Gyrofuge Processing Unit",
+  "block.complicated_bees.gyrofuge_advanced_processing_unit": "Gyrofuge Advanced Processing Unit",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",

@@ -14,7 +14,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GyrofugeEnergyCellBlockEntity extends GyrofugeAbstractBlockEntity {
+public class GyrofugeEnergyCellBlockEntity extends AbstractGyrofugeBlockEntity {
 
     public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.gyrofugeCellStorage.get();
     public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.gyrofugeCellStorage.get();

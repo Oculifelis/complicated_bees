@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -51,7 +51,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
+        if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
             if (!pNewState.is(BlockTagGenerator.MELLARIUM))
                 mellariumBase.getLogic().deconstruct(pPos);
         }
@@ -61,7 +61,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellarium) {
+            if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {
                     pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_mellarium"), true);
                     return InteractionResult.CONSUME;

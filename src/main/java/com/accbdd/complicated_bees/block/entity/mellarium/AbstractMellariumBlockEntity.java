@@ -1,7 +1,7 @@
-package com.accbdd.complicated_bees.block.entity.gyrofuge;
+package com.accbdd.complicated_bees.block.entity.mellarium;
 
-import com.accbdd.complicated_bees.block.AbstractGyrofugeBlock;
-import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
+import com.accbdd.complicated_bees.block.AbstractMellariumBlock;
+import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,19 +15,22 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class GyrofugeAbstractBlockEntity extends BlockEntity {
-    private GyrofugeLogic logic;
+/**
+ * All mellarium blocks should extend this class
+ */
+public abstract class AbstractMellariumBlockEntity extends BlockEntity {
+    private MellariumLogic logic;
     private BlockPos center;
 
-    public GyrofugeAbstractBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public AbstractMellariumBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 
-    public GyrofugeLogic getLogic() {
+    public MellariumLogic getLogic() {
         return logic;
     }
 
-    public void setLogic(GyrofugeLogic logic) {
+    public void setLogic(MellariumLogic logic) {
         this.logic = logic;
         if (logic != null) {
             this.center = logic.getCenter();
@@ -37,7 +40,7 @@ public abstract class GyrofugeAbstractBlockEntity extends BlockEntity {
                 getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side), 3);
         } else {
             this.center = null;
-            if (getLevel().getBlockState(getBlockPos()).getBlock() instanceof AbstractGyrofugeBlock) {
+            if (getLevel().getBlockState(getBlockPos()).getBlock() instanceof AbstractMellariumBlock) {
                 getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
             }
         }
@@ -74,8 +77,8 @@ public abstract class GyrofugeAbstractBlockEntity extends BlockEntity {
     @Override
     public void onLoad() {
         super.onLoad();
-        if (this.center != null && getLevel().getBlockEntity(center) instanceof GyrofugeControllerBlockEntity controller) {
-            setLogic(controller.getGyrofugeLogic());
+        if (this.center != null && getLevel().getBlockEntity(center) instanceof MellariumControllerBlockEntity controller) {
+            setLogic(controller.getMellariumLogic());
         }
     }
 }

@@ -124,7 +124,9 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> MELLARIUM_TEMPORAL_SIMULATOR = registerSimpleBlockItem("mellarium_temporal_simulator", BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR);
     public static final RegistryObject<Item> GYROFUGE_BASE = registerSimpleBlockItem("gyrofuge_base", BlocksRegistration.GYROFUGE_BASE);
     public static final RegistryObject<Item> GYROFUGE_ENERGY_CELL = register("gyrofuge_energy_cell", GyrofugeEnergyCellBlockItem::new);
+    public static final RegistryObject<Item> GYROFUGE_BASIC_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_basic_processing_unit", BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT);
     public static final RegistryObject<Item> GYROFUGE_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_processing_unit", BlocksRegistration.GYROFUGE_PROCESSING_UNIT);
+    public static final RegistryObject<Item> GYROFUGE_ADVANCED_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_advanced_processing_unit", BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
     public static final RegistryObject<Item> WAX_BLOCK = registerSimpleBlockItem("wax_block", BlocksRegistration.WAX_BLOCK);
     public static final RegistryObject<Item> WAX_BLOCK_STAIRS = registerSimpleBlockItem("wax_block_stairs", BlocksRegistration.WAX_BLOCK_STAIRS);

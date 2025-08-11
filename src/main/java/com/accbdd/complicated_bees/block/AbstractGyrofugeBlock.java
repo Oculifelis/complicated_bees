@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugeBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -51,7 +51,7 @@ public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if (pLevel.getBlockEntity(pPos) instanceof GyrofugeAbstractBlockEntity gyrofugeBase && gyrofugeBase.getLogic() != null) {
+        if (pLevel.getBlockEntity(pPos) instanceof AbstractGyrofugeBlockEntity gyrofugeBase && gyrofugeBase.getLogic() != null) {
             if (!pNewState.is(BlockTagGenerator.GYROFUGE))
                 gyrofugeBase.getLogic().deconstruct(pPos);
         }
@@ -61,7 +61,7 @@ public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            if (pLevel.getBlockEntity(pPos) instanceof GyrofugeAbstractBlockEntity gyrofuge) {
+            if (pLevel.getBlockEntity(pPos) instanceof AbstractGyrofugeBlockEntity gyrofuge) {
                 if (gyrofuge.getLogic() == null) {
                     pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_gyrofuge"), true);
                     return InteractionResult.CONSUME;

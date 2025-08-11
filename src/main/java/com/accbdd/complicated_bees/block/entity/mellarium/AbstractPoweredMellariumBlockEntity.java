@@ -5,10 +5,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public abstract class MellariumAbstractPoweredBlockEntity extends MellariumAbstractBlockEntity implements IMellariumTickable {
+public abstract class AbstractPoweredMellariumBlockEntity extends AbstractMellariumBlockEntity implements IMellariumTickable {
     private boolean powered;
 
-    public MellariumAbstractPoweredBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public AbstractPoweredMellariumBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 

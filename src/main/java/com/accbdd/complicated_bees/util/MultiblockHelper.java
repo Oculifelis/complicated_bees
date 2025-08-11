@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.util;
 
-import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugeBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class MultiblockHelper {
     public static MellariumLogic tryBuildMellarium(Level level, BlockPos pos, @Nullable UUID owner) {
-        if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity) {
+        if (level.getBlockEntity(pos) instanceof AbstractMellariumBlockEntity) {
             BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
             while (centerIterator.hasNext()) {
                 BlockPos testCenter = centerIterator.next();
@@ -36,7 +36,7 @@ public class MultiblockHelper {
         BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
         while (structureIterator.hasNext()) {
             BlockPos structurePos = structureIterator.next();
-            if (level.getBlockEntity(structurePos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
+            if (level.getBlockEntity(structurePos) instanceof AbstractMellariumBlockEntity mellariumBlock) {
                 if (mellariumBlock.getLogic() != null && !level.isClientSide()) {
                     //todo: dear god, fix this garbage !isClientSide call
                     return false;
@@ -59,7 +59,7 @@ public class MultiblockHelper {
     }
 
     public static GyrofugeLogic tryBuildGyrofuge(Level level, BlockPos pos) {
-        if (level.getBlockEntity(pos) instanceof GyrofugeAbstractBlockEntity) {
+        if (level.getBlockEntity(pos) instanceof AbstractGyrofugeBlockEntity) {
             BlockPosBoxIterator centerIterator = new BlockPosBoxIterator(pos, 1, 1);
             while (centerIterator.hasNext()) {
                 BlockPos testCenter = centerIterator.next();
@@ -77,7 +77,7 @@ public class MultiblockHelper {
         BlockPosBoxIterator structureIterator = new BlockPosBoxIterator(center.offset(-1, -1, -1), center.offset(1, 1, 1));
         while (structureIterator.hasNext()) {
             BlockPos structurePos = structureIterator.next();
-            if (level.getBlockEntity(structurePos) instanceof GyrofugeAbstractBlockEntity gyrofugeBlock) {
+            if (level.getBlockEntity(structurePos) instanceof AbstractGyrofugeBlockEntity gyrofugeBlock) {
                 if (gyrofugeBlock.getLogic() != null && !level.isClientSide()) {
                     //todo: dear god, fix this garbage !isClientSide call
                     return false;

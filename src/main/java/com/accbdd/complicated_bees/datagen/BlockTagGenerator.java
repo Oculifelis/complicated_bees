@@ -17,10 +17,10 @@ import java.util.concurrent.CompletableFuture;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-    public static final TagKey<Block> SCOOPABLE = BlockTags.create(new ResourceLocation("complicated_bees:mineable/scoop_tool"));
-    public static final TagKey<Block> MELLARIUM = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/mellarium"));
-    public static final TagKey<Block> GYROFUGE = BlockTags.create(new ResourceLocation("complicated_bees:multiblock/gyrofuge"));
-    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(new ResourceLocation("complicated_bees:flowers/desert"));
+    public static final TagKey<Block> SCOOPABLE = BlockTags.create(ResourceLocation.parse("complicated_bees:mineable/scoop_tool"));
+    public static final TagKey<Block> MELLARIUM = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/mellarium"));
+    public static final TagKey<Block> GYROFUGE = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/gyrofuge"));
+    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(ResourceLocation.parse("complicated_bees:flowers/desert"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MODID, existingFileHelper);
@@ -48,7 +48,9 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.GYROFUGE_CONTROLLER.get(),
                 BlocksRegistration.GYROFUGE_BASE.get(),
                 BlocksRegistration.GYROFUGE_ENERGY_CELL.get(),
-                BlocksRegistration.GYROFUGE_PROCESSING_UNIT.get()
+                BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT.get(),
+                BlocksRegistration.GYROFUGE_PROCESSING_UNIT.get(),
+                BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(MELLARIUM)

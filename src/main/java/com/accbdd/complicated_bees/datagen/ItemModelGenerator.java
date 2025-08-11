@@ -41,7 +41,10 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.getId().getPath(), modLoc("block/mellarium_temporal_simulator"));
         withExistingParent(BlocksRegistration.GYROFUGE_BASE.getId().getPath(), modLoc("block/gyrofuge_base"));
         withExistingParent(BlocksRegistration.GYROFUGE_ENERGY_CELL.getId().getPath(), modLoc("block/gyrofuge_energy_cell"));
+        withExistingParent(BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT.getId().getPath(), modLoc("block/gyrofuge_basic_processing_unit"));
         withExistingParent(BlocksRegistration.GYROFUGE_PROCESSING_UNIT.getId().getPath(), modLoc("block/gyrofuge_processing_unit"));
+        withExistingParent(BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT.getId().getPath(), modLoc("block/gyrofuge_advanced_processing_unit"));
+
         microscopeModel();
         withExistingParent(BlocksRegistration.WAX_BLOCK.getId().getPath(), modLoc("block/wax_block"));
         withExistingParent(BlocksRegistration.WAX_BLOCK_STAIRS.getId().getPath(), modLoc("block/wax_block_stairs"));
@@ -147,17 +150,17 @@ public class ItemModelGenerator extends ItemModelProvider {
 
     private void wallItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/wall_inventory"))
-                .texture("wall", new ResourceLocation(MODID, "block/" + baseBlock.getId().getPath()));
+                .texture("wall", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }
 
     private void fenceItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/fence_inventory"))
-                .texture("texture", new ResourceLocation(MODID, "block/" + baseBlock.getId().getPath()));
+                .texture("texture", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }
 
     private void buttonItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))
-                .texture("texture", new ResourceLocation(MODID, "block/" + baseBlock.getId().getPath()));
+                .texture("texture", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }
 
     private void microscopeModel() {
