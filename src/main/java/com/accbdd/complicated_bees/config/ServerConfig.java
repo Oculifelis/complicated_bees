@@ -22,7 +22,8 @@ public class ServerConfig {
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeCellTransfer;
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeCellStorage;
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseSpeed;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseEnergy;
+    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseUsage;
+    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseIdleUsage;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
@@ -46,8 +47,9 @@ public class ServerConfig {
         mellariumCellStorage = builder.comment("How much rf a mellarium energy cell should be able to store at base.").define("mellariumCellStorage", 200000);
         gyrofugeCellTransfer = builder.comment("How much rf/tick a gyrofuge energy cell should be able to transfer into itself.").define("gyrofugeCellTransfer", 2000);
         gyrofugeCellStorage = builder.comment("How much rf a gyrofuge energy cell should be able to store at base.").define("gyrofugeCellStorage", 200000);
-        gyrofugeBaseSpeed = builder.comment("How many ticks an unupgraded gyrofuge should take to process a comb").define("gyrofugeBaseSpeed", 200);
-        gyrofugeBaseEnergy = builder.comment("How much rf/tick an unupgraded gyrofuge should use while processing a recipe.").define("gyrofugeBaseEnergy", 50);
+        gyrofugeBaseSpeed = builder.comment("How many ticks an unupgraded gyrofuge should take to process a comb").define("gyrofugeBaseSpeed", 100);
+        gyrofugeBaseUsage = builder.comment("How much rf/tick an unupgraded gyrofuge should use while processing a recipe.").define("gyrofugeBaseUsage", 50);
+        gyrofugeBaseIdleUsage = builder.comment("How much rf/tick an unupgraded gyrofuge should use while idle.").define("gyrofugeBaseIdleUsage", 10);
         builder.pop();
     }
 

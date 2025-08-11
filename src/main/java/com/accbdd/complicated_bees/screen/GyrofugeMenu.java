@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.MachineModifier;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugeBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
@@ -21,6 +22,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
 
     private int power;
     private int maxPower;
+    protected MachineModifier modifier;
 
     public GyrofugeMenu(int windowId, Player player, BlockPos pos) {
         this(windowId, player, pos, new SimpleContainerData(3));
@@ -37,6 +39,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             } else {
                 controller = MultiblockHelper.tryBuildGyrofuge(player.level(), pos).getController();
             }
+            modifier = controller.getGyrofugeLogic().getMachineModifier();
             addSlot(new SlotItemHandler(controller.getInputItems(), 0, 15, 26));
             addSlot(new SlotItemHandler(controller.getInputItems(), 1, 33, 26));
             addSlot(new SlotItemHandler(controller.getInputItems(), 2, 15, 44));

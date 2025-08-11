@@ -34,7 +34,8 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     private GyrofugeLogic gyrofugeLogic;
     private MachineModifier modifier = MachineModifier.BLANK;
 
-    public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseEnergy.get();
+    public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseUsage.get();
+    public static final int BASE_IDLE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseIdleUsage.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.gyrofugeBaseSpeed.get();
 
     private final LazyOptional<IItemHandler> inputItemHandler;
@@ -82,7 +83,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
         this.gyrofugeLogic = logic;
         this.modifier = logic.getMachineModifier();
         setActiveEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
-        setIdleEnergyUsage(gyrofugeLogic.getIdleUsage());
+        setIdleEnergyUsage(BASE_IDLE_USAGE + gyrofugeLogic.getIdleUsage());
         energyStorage = gyrofugeLogic.getEnergyStorage();
     }
 

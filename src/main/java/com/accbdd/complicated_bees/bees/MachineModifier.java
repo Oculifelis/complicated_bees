@@ -65,22 +65,22 @@ public class MachineModifier {
             if (this.getSpeedMod() != 1)
                 components.add(Component.translatable("upgrade.complicated_bees.speed_label")
                         .append(": ")
-                        .append(Component.literal(this.getSpeedMod() + "x"))
+                        .append(Component.literal(String.format("%01.2fx", this.getSpeedMod())))
                         .withStyle(ChatFormatting.GRAY));
             if (this.getEfficiencyMod() != 1)
                 components.add(Component.translatable("upgrade.complicated_bees.efficiency_label")
                         .append(": ")
-                        .append(Component.literal(this.getEfficiencyMod() + "x"))
+                        .append(Component.literal(String.format("%01.2fx", this.getEfficiencyMod())))
                         .withStyle(ChatFormatting.GRAY));
             if (this.getOutputMod() != 1)
                 components.add(Component.translatable("upgrade.complicated_bees.output_label")
                         .append(": ")
-                        .append(Component.literal(this.getOutputMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
+                        .append(Component.literal(String.format("%01.2fx", this.getOutputMod()))
+                        .withStyle(ChatFormatting.GRAY)));
             if (this.getProcessingMod() != 1)
                 components.add(Component.translatable("upgrade.complicated_bees.processing_label")
                         .append(": ")
-                        .append(Component.literal("+" + this.getProcessingMod()))
+                        .append(Component.literal("+" + (this.getProcessingMod() - 1)))
                         .withStyle(ChatFormatting.GRAY));
         }
         return components;
