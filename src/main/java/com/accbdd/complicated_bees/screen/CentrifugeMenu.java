@@ -9,10 +9,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.INPUT_SLOT;
 import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.SLOT_COUNT;
 
 public class CentrifugeMenu extends AbstractBaseInventoryMenu {
@@ -24,7 +22,7 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
     private int power;
 
     public CentrifugeMenu(int windowId, Player player, BlockPos pos) {
-        this(windowId, player, pos, new SimpleContainerData(2));
+        this(windowId, player, pos, new SimpleContainerData(3));
     }
 
     public CentrifugeMenu(int windowId, Player player, BlockPos pos, ContainerData data) {
@@ -32,17 +30,12 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
         this.data = data;
         this.pos = pos;
         if (player.level().getBlockEntity(pos) instanceof CentrifugeBlockEntity centrifuge) {
-            addSlot(new SlotItemHandler(centrifuge.getInputItems(), INPUT_SLOT, 34, 35));
+            addSlot(new SlotItemHandler(centrifuge.getInputItems(), 0, 34, 35));
             for (int i = 0; i < 9; i++) {
-                addSlot(new SlotItemHandler(centrifuge.getOutputItems(),
+                addSlot(new SlotItemHandler(centrifuge.getOutputItemHandler().resolve().get(),
                         i,
                         91 + (18 * (i % 3)),
-                        17 + (18 * (i / 3))) {
-                    @Override
-                    public boolean mayPlace(ItemStack stack) {
-                        return false;
-                    }
-                });
+                        17 + (18 * (i / 3))));
             }
             for (int i = 0; i < 3; i++) {
                 addSlot(new SlotItemHandler(centrifuge.getUpgradeItemHandler().resolve().get(),
@@ -92,6 +85,10 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
         int progressArrowSize = 20;
 
         return Math.min(maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0, progressArrowSize);
+    }
+
+    public int getPowerUsage() {
+        return this.data.get(2);
     }
 
     @Override

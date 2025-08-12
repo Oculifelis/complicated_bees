@@ -14,7 +14,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MellariumEnergyCellBlockEntity extends MellariumAbstractBlockEntity {
+public class MellariumEnergyCellBlockEntity extends AbstractMellariumBlockEntity {
 
     public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.mellariumCellStorage.get();
     public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.mellariumCellTransfer.get();

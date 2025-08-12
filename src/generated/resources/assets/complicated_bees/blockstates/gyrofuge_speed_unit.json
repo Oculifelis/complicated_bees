@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "assembled=none,powered=false": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit"
+    },
+    "assembled=none,powered=true": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit"
+    },
+    "assembled=side,powered=false": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit_assembled"
+    },
+    "assembled=side,powered=true": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit_powered"
+    },
+    "assembled=top,powered=false": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit_assembled"
+    },
+    "assembled=top,powered=true": {
+      "model": "complicated_bees:block/gyrofuge_speed_unit_powered"
+    }
+  }
+}

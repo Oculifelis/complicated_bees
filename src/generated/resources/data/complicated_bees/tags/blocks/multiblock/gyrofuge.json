@@ -1,0 +1,15 @@
+{
+  "values": [
+    "complicated_bees:gyrofuge_controller",
+    "complicated_bees:gyrofuge_base",
+    "complicated_bees:gyrofuge_energy_cell",
+    "complicated_bees:gyrofuge_basic_processing_unit",
+    "complicated_bees:gyrofuge_processing_unit",
+    "complicated_bees:gyrofuge_advanced_processing_unit",
+    "complicated_bees:gyrofuge_speed_unit",
+    "complicated_bees:gyrofuge_efficiency_unit",
+    "complicated_bees:gyrofuge_extraction_unit",
+    "complicated_bees:gyrofuge_output_hatch",
+    "complicated_bees:gyrofuge_input_hatch"
+  ]
+}

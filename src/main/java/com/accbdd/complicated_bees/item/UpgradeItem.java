@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.item;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
+import com.accbdd.complicated_bees.bees.MachineModifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,47 +11,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class UpgradeItem extends Item {
-    private final float speedMod;
-    private final float efficiencyMod;
-    private final float outputMod;
+    private final MachineModifier modifier;
 
-    public UpgradeItem(Properties prop, float speedMod, float efficiencyMod, float outputMod) {
+    public UpgradeItem(Properties prop, MachineModifier modifier) {
         super(prop);
-        this.speedMod = speedMod;
-        this.efficiencyMod = efficiencyMod;
-        this.outputMod = outputMod;
+        this.modifier = modifier;
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> components, TooltipFlag pIsAdvanced) {
-        if (Minecraft.getInstance().level != null) {
-            if (this.getSpeedMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.speed_label")
-                        .append(": ")
-                        .append(Component.literal(this.getSpeedMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getEfficiencyMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.efficiency_label")
-                        .append(": ")
-                        .append(Component.literal(this.getEfficiencyMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getOutputMod() != 1)
-                components.add(Component.translatable("item.complicated_bees.output_label")
-                        .append(": ")
-                        .append(Component.literal(this.getOutputMod() + "x"))
-                        .withStyle(ChatFormatting.GRAY));
-        }
+        super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
+        components.addAll(modifier.getTooltipComponents());
     }
 
     public float getSpeedMod() {
-        return speedMod;
+        return modifier.getSpeedMod();
     }
 
     public float getEfficiencyMod() {
-        return efficiencyMod;
+        return modifier.getEfficiencyMod();
     }
 
     public float getOutputMod() {
-        return outputMod;
+        return modifier.getOutputMod();
     }
 }

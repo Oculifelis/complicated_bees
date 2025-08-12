@@ -5,7 +5,7 @@ import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MellariumTemporalSimulatorBlockEntity extends MellariumAbstractPoweredBlockEntity implements IMellariumModifier, IMellariumTickable {
+public class MellariumTemporalSimulatorBlockEntity extends AbstractPoweredMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private static final int ENERGY_USAGE = 100;
     private static final BeeHousingModifier MODIFIER = new BeeHousingModifier.Builder().sleepOverride(true).build();
 
@@ -14,10 +14,8 @@ public class MellariumTemporalSimulatorBlockEntity extends MellariumAbstractPowe
     }
 
     @Override
-    public void onTick() {
-        if (getLogic() != null && getLogic().getController() != null) {
-            setPowered(getLogic().getEnergyStorage().extractEnergy(ENERGY_USAGE, false) >= ENERGY_USAGE);
-        }
+    int getPowerUsage() {
+        return ENERGY_USAGE;
     }
 
     @Override

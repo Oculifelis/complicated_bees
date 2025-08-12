@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.block;
 
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -16,14 +16,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -37,10 +35,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
 
     public AbstractMellariumBlock(Properties prop) {
-        super(Properties.of()
-                .mapColor(DyeColor.ORANGE)
-                .sound(SoundType.WOOD)
-                .strength(1));
+        super(prop);
     }
 
     @Override
@@ -56,7 +51,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
+        if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellariumBase && mellariumBase.getLogic() != null) {
             if (!pNewState.is(BlockTagGenerator.MELLARIUM))
                 mellariumBase.getLogic().deconstruct(pPos);
         }
@@ -66,7 +61,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            if (pLevel.getBlockEntity(pPos) instanceof MellariumAbstractBlockEntity mellarium) {
+            if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {
                     pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_mellarium"), true);
                     return InteractionResult.CONSUME;

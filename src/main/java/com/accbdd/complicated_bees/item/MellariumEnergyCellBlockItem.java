@@ -24,7 +24,7 @@ public class MellariumEnergyCellBlockItem extends BlockItem {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
         CompoundTag tag = pStack.getTag();
         if (tag != null && tag.contains("BlockEntityTag")) {
-            pTooltip.add(Component.translatable("gui.complicated_bees.mellarium.energy_cell",
+            pTooltip.add(Component.translatable("gui.complicated_bees.energy_cell",
                     MellariumEnergyCellBlock.FORMAT.format(tag.getCompound("BlockEntityTag").getInt(MellariumEnergyCellBlockEntity.ENERGY_TAG) / 1000D),
                     MellariumEnergyCellBlock.FORMAT.format(MellariumEnergyCellBlockEntity.BASE_STORAGE / 1000D)).withStyle(ChatFormatting.GRAY));
         }

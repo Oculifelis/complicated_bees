@@ -48,6 +48,18 @@ public class BlocksRegistration {
     public static final RegistryObject<MellariumBlock> MELLARIUM_TEMPORAL_SIMULATOR = BLOCKS.register("mellarium_temporal_simulator", MellariumTemporalSimulatorBlock::new);
     public static final RegistryObject<MellariumBlock> MELLARIUM_CONTROLLER = BLOCKS.register("mellarium_controller", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.CONTROLLER));
 
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_BASE = BLOCKS.register("gyrofuge_base", () -> new GyrofugeBlock(GyrofugeBlock.GyrofugeBlockType.BASE));
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_CONTROLLER = BLOCKS.register("gyrofuge_controller", () -> new GyrofugeBlock(GyrofugeBlock.GyrofugeBlockType.CONTROLLER));
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_ENERGY_CELL = BLOCKS.register("gyrofuge_energy_cell", GyrofugeEnergyCellBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_BASIC_PROCESSING_UNIT = BLOCKS.register("gyrofuge_basic_processing_unit", GyrofugeBasicProcessingUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_PROCESSING_UNIT = BLOCKS.register("gyrofuge_processing_unit", GyrofugeProcessingUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_ADVANCED_PROCESSING_UNIT = BLOCKS.register("gyrofuge_advanced_processing_unit", GyrofugeAdvancedProcessingUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_SPEED_UNIT = BLOCKS.register("gyrofuge_speed_unit", GyrofugeSpeedUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_EFFICIENCY_UNIT = BLOCKS.register("gyrofuge_efficiency_unit", GyrofugeEfficiencyUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_EXTRACTION_UNIT = BLOCKS.register("gyrofuge_extraction_unit", GyrofugeExtractionUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_OUTPUT_HATCH = BLOCKS.register("gyrofuge_output_hatch", GyrofugeOutputHatchBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_INPUT_HATCH = BLOCKS.register("gyrofuge_input_hatch", GyrofugeInputHatchBlock::new);
+
     public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
 
     public static final RegistryObject<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES));

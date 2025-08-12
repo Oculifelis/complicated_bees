@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MellariumHydroregulatorBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier, IMellariumTickable {
+public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler inputItems;
     private final ItemStackHandler outputItems;

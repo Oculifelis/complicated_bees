@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class MellariumMutatorBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier, IMellariumTickable {
+public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
     private final LazyOptional<IItemHandler> itemHandler;

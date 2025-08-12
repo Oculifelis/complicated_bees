@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.datagen;
 
+import com.accbdd.complicated_bees.block.GyrofugeBlock;
 import com.accbdd.complicated_bees.block.MellariumBlock;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -15,6 +16,7 @@ import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -37,17 +39,29 @@ public class BlockStateGenerator extends BlockStateProvider {
                 modLoc("block/bee_sorter_east"),
                 modLoc("block/bee_sorter_west")).texture("particle", modLoc("block/bee_sorter_up"))).build());
         baseMellariumBlock();
-        mellariumController();
-        mellariumBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, "block/mellarium/mellarium_temp_unit");
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, "block/mellarium/mellarium_frame_housing_1");
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, "block/mellarium/mellarium_frame_housing_2");
-        mellariumBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, "block/mellarium/mellarium_frame_housing_3");
-        mellariumBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, "block/mellarium/mellarium_rain_shield");
-        mellariumBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
-        mellariumBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
-        mellariumBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
-        poweredMellariumBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
-        poweredMellariumBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
+        baseGyrofugeBlock();
+
+        assembleableBlock(BlocksRegistration.MELLARIUM_TEMP_UNIT, "block/mellarium/mellarium_temp_unit");
+        assembleableBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1, "block/mellarium/mellarium_frame_housing_1");
+        assembleableBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_2, "block/mellarium/mellarium_frame_housing_2");
+        assembleableBlock(BlocksRegistration.MELLARIUM_FRAME_HOUSING_3, "block/mellarium/mellarium_frame_housing_3");
+        assembleableBlock(BlocksRegistration.MELLARIUM_RAIN_SHIELD, "block/mellarium/mellarium_rain_shield");
+        assembleableBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
+        assembleableBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
+        assembleableBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
+        poweredAssembledBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
+        poweredAssembledBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
+
+        assembleableBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL, "block/gyrofuge/gyrofuge_energy_cell");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_basic_processing_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_processing_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_advanced_processing_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_SPEED_UNIT, "block/gyrofuge/gyrofuge_speed_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT, "block/gyrofuge/gyrofuge_efficiency_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_EXTRACTION_UNIT, "block/gyrofuge/gyrofuge_extraction_unit");
+        assembleableBlock(BlocksRegistration.GYROFUGE_OUTPUT_HATCH, "block/gyrofuge/gyrofuge_output_hatch");
+        assembleableBlock(BlocksRegistration.GYROFUGE_INPUT_HATCH, "block/gyrofuge/gyrofuge_input_hatch");
+
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());
         stairsBlock(BlocksRegistration.WAX_BLOCK_STAIRS.get(), modLoc("block/wax_block"));
@@ -182,7 +196,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
+    private void poweredAssembledBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
@@ -200,11 +214,11 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredMellariumBlock(RegistryObject<? extends MellariumBlock> block, String path) {
-        poweredMellariumBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
+    private void poweredAssembledBlock(RegistryObject<? extends Block> block, String path) {
+        poweredAssembledBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
     }
 
-    private void mellariumBlock(RegistryObject<? extends MellariumBlock> block, ResourceLocation tex, ResourceLocation assembledTex) {
+    private void assembleableBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
@@ -215,50 +229,58 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void mellariumBlock(RegistryObject<? extends MellariumBlock> block, String path) {
-        mellariumBlock(block, modLoc(path), modLoc(path + "_assembled"));
+    private void assembleableBlock(RegistryObject<? extends Block> block, String path) {
+        assembleableBlock(block, modLoc(path), modLoc(path + "_assembled"));
     }
 
     private void baseMellariumBlock() {
-        RegistryObject<MellariumBlock> block = BlocksRegistration.MELLARIUM_BASE;
+        List<RegistryObject<MellariumBlock>> blocks = List.of(BlocksRegistration.MELLARIUM_BASE, BlocksRegistration.MELLARIUM_CONTROLLER);
         ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
         ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
         ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");
         ResourceLocation assembledTopSide = modLoc("block/mellarium/mellarium_base_assembled_top_side");
-        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
-        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
-        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
-        BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
-        builder.forAllStates(state -> {
-            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
-            switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
-                case top -> bld.modelFile(modelAssembledTop);
-                case side -> bld.modelFile(modelAssembled);
-                case none -> bld.modelFile(modelUnassembled);
-            }
-            return bld.build();
-        });
+
+        for (RegistryObject<MellariumBlock> block : blocks) {
+            BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+            BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+            BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
+
+            VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+            builder.forAllStates(state -> {
+                ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+                switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
+                    case top -> bld.modelFile(modelAssembledTop);
+                    case side -> bld.modelFile(modelAssembled);
+                    case none -> bld.modelFile(modelUnassembled);
+                }
+                return bld.build();
+            });
+        }
     }
 
-    private void mellariumController() {
-        RegistryObject<MellariumBlock> block = BlocksRegistration.MELLARIUM_CONTROLLER;
-        ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
-        ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
-        ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");
-        ResourceLocation assembledTopSide = modLoc("block/mellarium/mellarium_base_assembled_top_side");
-        VariantBlockStateBuilder builder = getVariantBuilder(block.get());
-        BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
-        BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
-        BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
-        builder.forAllStates(state -> {
-            ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
-            switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
-                case top -> bld.modelFile(modelAssembledTop);
-                case side -> bld.modelFile(modelAssembled);
-                case none -> bld.modelFile(modelUnassembled);
-            }
-            return bld.build();
-        });
+    private void baseGyrofugeBlock() {
+        List<RegistryObject<GyrofugeBlock>> blocks = List.of(BlocksRegistration.GYROFUGE_BASE, BlocksRegistration.GYROFUGE_CONTROLLER);
+        ResourceLocation tex = modLoc("block/gyrofuge/gyrofuge_base");
+        ResourceLocation assembledTex = modLoc("block/gyrofuge/gyrofuge_base_assembled");
+        ResourceLocation assembledTop = modLoc("block/gyrofuge/gyrofuge_base_assembled_top");
+        ResourceLocation assembledTopSide = modLoc("block/gyrofuge/gyrofuge_base_assembled_top_side");
+
+        for (RegistryObject<GyrofugeBlock> block : blocks) {
+            BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
+            BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
+            BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
+
+            VariantBlockStateBuilder builder = getVariantBuilder(block.get());
+            builder.forAllStates(state -> {
+                ConfiguredModel.Builder<?> bld = ConfiguredModel.builder();
+                switch (state.getValue(EsotericRegistration.ASSEMBLED)) {
+                    case top -> bld.modelFile(modelAssembledTop);
+                    case side -> bld.modelFile(modelAssembled);
+                    case none -> bld.modelFile(modelUnassembled);
+                }
+                return bld.build();
+            });
+        }
     }
 
     private void applyRotationBld(ConfiguredModel.Builder<?> builder, Direction direction) {
