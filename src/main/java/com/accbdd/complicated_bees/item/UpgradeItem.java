@@ -35,4 +35,12 @@ public class UpgradeItem extends Item {
     public float getOutputMod() {
         return modifier.getOutputMod();
     }
+
+    public float getProcessingMod() {
+        return modifier.getProcessingMod();
+    }
+
+    public MachineModifier getModifier() {
+        return modifier;
+    }
 }

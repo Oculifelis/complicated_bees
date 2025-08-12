@@ -26,7 +26,6 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     public static final int SLOT_COUNT = INPUT_SLOT_COUNT + OUTPUT_SLOT_COUNT + UPGRADE_SLOT_COUNT;
 
     public static final int CAPACITY = 100000; //todo: make these config options
-    public static final int MAXTRANSFER = 5000;
     public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.centrifugeBaseEnergy.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.centrifugeBaseSpeed.get();
 
@@ -154,7 +153,7 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
 
     @Override
     protected EnergyStorage createEnergyStorage() {
-        return new EnergyStorage(CAPACITY, MAXTRANSFER, MAXTRANSFER);
+        return new EnergyStorage(CAPACITY);
     }
 
     @Override

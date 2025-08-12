@@ -16,12 +16,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class HoneyGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     public static final int BASE_GENERATE = ServerConfig.SERVER_CONFIG.honeyGeneratorBaseEnergy.get();
-    public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.honeyGeneratorBaseTransfer.get();
     public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.honeyGeneratorBaseStorage.get();
     private final RecipeManager.CachedCheck<Container, HoneyGeneratorRecipe> quickCheck;
 
     public HoneyGeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), pos, state, BASE_GENERATE, BASE_TRANSFER, BASE_STORAGE);
+        super(BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), pos, state, BASE_GENERATE, BASE_STORAGE);
         this.quickCheck = RecipeManager.createCheck(EsotericRegistration.HONEY_GENERATOR_RECIPE.get());
     }
 
