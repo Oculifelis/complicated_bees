@@ -10,7 +10,7 @@ public class GyrofugeExtractionUnitBlockEntity extends AbstractGyrofugePoweredMo
         super(BlockEntitiesRegistration.GYROFUGE_EXTRACTION_UNIT_BLOCK_ENTITY.get(),
                 pPos,
                 pBlockState,
-                new MachineModifier.Builder().output(1.5f).speed(0.9f).build(),
+                new MachineModifier.Builder().output(1.5f).speed(0.85f).build(),
                 50);
     }
 }

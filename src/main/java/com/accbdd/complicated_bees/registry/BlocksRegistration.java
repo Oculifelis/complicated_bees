@@ -57,6 +57,8 @@ public class BlocksRegistration {
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_SPEED_UNIT = BLOCKS.register("gyrofuge_speed_unit", GyrofugeSpeedUnitBlock::new);
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_EFFICIENCY_UNIT = BLOCKS.register("gyrofuge_efficiency_unit", GyrofugeEfficiencyUnitBlock::new);
     public static final RegistryObject<GyrofugeBlock> GYROFUGE_EXTRACTION_UNIT = BLOCKS.register("gyrofuge_extraction_unit", GyrofugeExtractionUnitBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_OUTPUT_HATCH = BLOCKS.register("gyrofuge_output_hatch", GyrofugeOutputHatchBlock::new);
+    public static final RegistryObject<GyrofugeBlock> GYROFUGE_INPUT_HATCH = BLOCKS.register("gyrofuge_input_hatch", GyrofugeInputHatchBlock::new);
 
     public static final RegistryObject<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
 

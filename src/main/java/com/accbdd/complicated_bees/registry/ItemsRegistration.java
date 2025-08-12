@@ -130,6 +130,8 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> GYROFUGE_SPEED_UNIT = registerSimpleBlockItem("gyrofuge_speed_unit", BlocksRegistration.GYROFUGE_SPEED_UNIT);
     public static final RegistryObject<Item> GYROFUGE_EFFICIENCY_UNIT = registerSimpleBlockItem("gyrofuge_efficiency_unit", BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT);
     public static final RegistryObject<Item> GYROFUGE_EXTRACTION_UNIT = registerSimpleBlockItem("gyrofuge_extraction_unit", BlocksRegistration.GYROFUGE_EXTRACTION_UNIT);
+    public static final RegistryObject<Item> GYROFUGE_OUTPUT_HATCH = registerSimpleBlockItem("gyrofuge_output_hatch", BlocksRegistration.GYROFUGE_OUTPUT_HATCH);
+    public static final RegistryObject<Item> GYROFUGE_INPUT_HATCH = registerSimpleBlockItem("gyrofuge_input_hatch", BlocksRegistration.GYROFUGE_INPUT_HATCH);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
     public static final RegistryObject<Item> WAX_BLOCK = registerSimpleBlockItem("wax_block", BlocksRegistration.WAX_BLOCK);
     public static final RegistryObject<Item> WAX_BLOCK_STAIRS = registerSimpleBlockItem("wax_block_stairs", BlocksRegistration.WAX_BLOCK_STAIRS);

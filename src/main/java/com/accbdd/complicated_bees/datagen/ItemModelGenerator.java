@@ -47,6 +47,8 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.GYROFUGE_SPEED_UNIT.getId().getPath(), modLoc("block/gyrofuge_speed_unit"));
         withExistingParent(BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.getId().getPath(), modLoc("block/gyrofuge_efficiency_unit"));
         withExistingParent(BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.getId().getPath(), modLoc("block/gyrofuge_extraction_unit"));
+        withExistingParent(BlocksRegistration.GYROFUGE_OUTPUT_HATCH.getId().getPath(), modLoc("block/gyrofuge_output_hatch"));
+        withExistingParent(BlocksRegistration.GYROFUGE_INPUT_HATCH.getId().getPath(), modLoc("block/gyrofuge_input_hatch"));
 
         microscopeModel();
         withExistingParent(BlocksRegistration.WAX_BLOCK.getId().getPath(), modLoc("block/wax_block"));

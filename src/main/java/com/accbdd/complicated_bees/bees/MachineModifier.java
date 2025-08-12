@@ -30,7 +30,7 @@ public class MachineModifier {
         float speedMod = 1;
         float efficiencyMod = 1;
         float outputMod = 1;
-        int processingMod = 1;
+        int processingMod = 0;
         for (MachineModifier modifier : modifiers) {
             if (modifier == null)
                 continue;
@@ -77,10 +77,10 @@ public class MachineModifier {
                         .append(": ")
                         .append(Component.literal(String.format("%01.2fx", this.getOutputMod())))
                         .withStyle(ChatFormatting.GRAY));
-            if (this.getProcessingMod() != 1)
+            if (this.getProcessingMod() != 0)
                 components.add(Component.translatable("upgrade.complicated_bees.processing_label")
                         .append(": ")
-                        .append(Component.literal("+" + (this.getProcessingMod() - 1)))
+                        .append(Component.literal("+" + (this.getProcessingMod())))
                         .withStyle(ChatFormatting.GRAY));
         }
         return components;

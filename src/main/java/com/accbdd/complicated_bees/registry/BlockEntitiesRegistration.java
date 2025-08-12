@@ -76,6 +76,10 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(GyrofugeEfficiencyUnitBlockEntity::new, BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.get()).build(null));
     public static final Supplier<BlockEntityType<GyrofugeExtractionUnitBlockEntity>> GYROFUGE_EXTRACTION_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_extraction_unit",
             () -> BlockEntityType.Builder.of(GyrofugeExtractionUnitBlockEntity::new, BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeOutputHatchBlockEntity>> GYROFUGE_OUTPUT_HATCH_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_output_hatch",
+            () -> BlockEntityType.Builder.of(GyrofugeOutputHatchBlockEntity::new, BlocksRegistration.GYROFUGE_OUTPUT_HATCH.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeInputHatchBlockEntity>> GYROFUGE_INPUT_HATCH_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_input_hatch",
+            () -> BlockEntityType.Builder.of(GyrofugeInputHatchBlockEntity::new, BlocksRegistration.GYROFUGE_INPUT_HATCH.get()).build(null));
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);
 }

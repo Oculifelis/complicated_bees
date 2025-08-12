@@ -147,7 +147,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
             ItemStack stack = inputItems.getStackInSlot(i);
             if (getRecipe(stack) != null) {
                 int stackProcessed = 0;
-                while (processed < modifier.getProcessingMod() && stack.getCount() - stackProcessed > 0) {
+                while (processed < (modifier.getProcessingMod() + 1) && stack.getCount() - stackProcessed > 0) {
                     toProcess.add(stack);
                     stackProcessed++;
                     processed++;
@@ -159,7 +159,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     @Override
     public float getOutputMod() {
-        return 1.5f * modifier.getOutputMod();
+        return modifier.getOutputMod();
     }
 
     @Override

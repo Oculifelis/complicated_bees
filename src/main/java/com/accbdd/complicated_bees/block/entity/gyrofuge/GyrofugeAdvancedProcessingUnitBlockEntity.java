@@ -10,7 +10,7 @@ public class GyrofugeAdvancedProcessingUnitBlockEntity extends AbstractGyrofugeP
         super(BlockEntitiesRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT_BLOCK_ENTITY.get(),
                 pPos,
                 pBlockState,
-                new MachineModifier.Builder().processing(4).efficiency(0.7f).build(),
+                new MachineModifier.Builder().processing(4).efficiency(0.25f).build(),
                 100);
     }
 }

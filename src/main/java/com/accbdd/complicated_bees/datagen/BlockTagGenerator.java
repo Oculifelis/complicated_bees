@@ -53,7 +53,9 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT.get(),
                 BlocksRegistration.GYROFUGE_SPEED_UNIT.get(),
                 BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.get(),
-                BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get()
+                BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get(),
+                BlocksRegistration.GYROFUGE_OUTPUT_HATCH.get(),
+                BlocksRegistration.GYROFUGE_INPUT_HATCH.get()
         );
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(MELLARIUM)

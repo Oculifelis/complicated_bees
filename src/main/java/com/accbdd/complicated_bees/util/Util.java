@@ -1,9 +1,14 @@
 package com.accbdd.complicated_bees.util;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.Objects;
 
@@ -36,5 +41,55 @@ public class Util {
                 return false;
         }
         return true;
+    }
+
+    /**
+     * Moves as many items as possible from the source to the target
+     */
+    public static void moveInventoryItems(IItemHandler sourceInventory, IItemHandler targetInventory) {
+        for (int srcIndex = 0; srcIndex < sourceInventory.getSlots(); srcIndex++) {
+            ItemStack sourceStack = sourceInventory.extractItem(srcIndex, Integer.MAX_VALUE, true);
+            if (sourceStack.isEmpty()) {
+                continue;
+            }
+            ItemStack remainder = insertItem(targetInventory, sourceStack, true);
+            int amountToInsert = sourceStack.getCount() - remainder.getCount();
+            if (amountToInsert > 0) {
+                sourceStack = sourceInventory.extractItem(srcIndex, amountToInsert, false);
+                insertItem(targetInventory, sourceStack, false);
+            }
+        }
+    }
+
+    /**
+     * Inserts items by trying to fill slots with the same item first, and then fill empty slots.
+     */
+    public static ItemStack insertItem(IItemHandler handler, ItemStack stack, boolean simulate) {
+        if (handler == null || stack.isEmpty()) {
+            return stack;
+        }
+
+        IntList emptySlots = new IntArrayList();
+        int slots = handler.getSlots();
+
+        for (int i = 0; i < slots; i++) {
+            ItemStack slotStack = handler.getStackInSlot(i);
+            if (slotStack.isEmpty()) {
+                emptySlots.add(i);
+            } else if (ItemHandlerHelper.canItemStacksStack(stack, slotStack)) {
+                stack = handler.insertItem(i, stack, simulate);
+                if (stack.isEmpty()) {
+                    return ItemStack.EMPTY;
+                }
+            }
+        }
+
+        for (int slot : emptySlots) {
+            stack = handler.insertItem(slot, stack, simulate);
+            if (stack.isEmpty()) {
+                return ItemStack.EMPTY;
+            }
+        }
+        return stack;
     }
 }

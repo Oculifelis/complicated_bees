@@ -119,6 +119,11 @@
   "block.complicated_bees.gyrofuge_basic_processing_unit": "Gyrofuge Basic Processing Unit",
   "block.complicated_bees.gyrofuge_processing_unit": "Gyrofuge Processing Unit",
   "block.complicated_bees.gyrofuge_advanced_processing_unit": "Gyrofuge Advanced Processing Unit",
+  "block.complicated_bees.gyrofuge_speed_unit": "Gyrofuge Speed Unit",
+  "block.complicated_bees.gyrofuge_efficiency_unit": "Gyrofuge Efficiency Unit",
+  "block.complicated_bees.gyrofuge_extraction_unit": "Gyrofuge Extraction Unit",
+  "block.complicated_bees.gyrofuge_input_hatch": "Gyrofuge Input Hatch",
+  "block.complicated_bees.gyrofuge_output_hatch": "Gyrofuge Output Hatch",
 
   "gui.complicated_bees.jei.centrifuge": "Centrifuging",
   "gui.complicated_bees.jei.bee_products": "Bee Products",
