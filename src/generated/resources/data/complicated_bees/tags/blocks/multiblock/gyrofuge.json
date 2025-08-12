@@ -5,6 +5,9 @@
     "complicated_bees:gyrofuge_energy_cell",
     "complicated_bees:gyrofuge_basic_processing_unit",
     "complicated_bees:gyrofuge_processing_unit",
-    "complicated_bees:gyrofuge_advanced_processing_unit"
+    "complicated_bees:gyrofuge_advanced_processing_unit",
+    "complicated_bees:gyrofuge_speed_unit",
+    "complicated_bees:gyrofuge_efficiency_unit",
+    "complicated_bees:gyrofuge_extraction_unit"
   ]
 }

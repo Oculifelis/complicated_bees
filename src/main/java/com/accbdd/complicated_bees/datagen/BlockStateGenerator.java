@@ -56,6 +56,9 @@ public class BlockStateGenerator extends BlockStateProvider {
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_basic_processing_unit");
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_processing_unit");
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT, "block/gyrofuge/gyrofuge_advanced_processing_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_SPEED_UNIT, "block/gyrofuge/gyrofuge_speed_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT, "block/gyrofuge/gyrofuge_efficiency_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_EXTRACTION_UNIT, "block/gyrofuge/gyrofuge_extraction_unit");
 
         simpleBlock(BlocksRegistration.WAX_BLOCK.get());
         horizontalBlock(BlocksRegistration.APID_LIBRARY.get(), createLibraryModel());

@@ -127,6 +127,9 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> GYROFUGE_BASIC_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_basic_processing_unit", BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT);
     public static final RegistryObject<Item> GYROFUGE_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_processing_unit", BlocksRegistration.GYROFUGE_PROCESSING_UNIT);
     public static final RegistryObject<Item> GYROFUGE_ADVANCED_PROCESSING_UNIT = registerSimpleBlockItem("gyrofuge_advanced_processing_unit", BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT);
+    public static final RegistryObject<Item> GYROFUGE_SPEED_UNIT = registerSimpleBlockItem("gyrofuge_speed_unit", BlocksRegistration.GYROFUGE_SPEED_UNIT);
+    public static final RegistryObject<Item> GYROFUGE_EFFICIENCY_UNIT = registerSimpleBlockItem("gyrofuge_efficiency_unit", BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT);
+    public static final RegistryObject<Item> GYROFUGE_EXTRACTION_UNIT = registerSimpleBlockItem("gyrofuge_extraction_unit", BlocksRegistration.GYROFUGE_EXTRACTION_UNIT);
     public static final RegistryObject<Item> APID_LIBRARY = registerSimpleBlockItem("apid_library", BlocksRegistration.APID_LIBRARY);
     public static final RegistryObject<Item> WAX_BLOCK = registerSimpleBlockItem("wax_block", BlocksRegistration.WAX_BLOCK);
     public static final RegistryObject<Item> WAX_BLOCK_STAIRS = registerSimpleBlockItem("wax_block_stairs", BlocksRegistration.WAX_BLOCK_STAIRS);
