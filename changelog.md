@@ -1,4 +1,4 @@
-# Complicated Bees 2.5.0 - the Engaging Production update
+# Complicated Bees 3.0.0 - the Engaging Production update
 
 ## The Indust-bee-al Revolution 2 - Electric Boogaloo
  
@@ -15,6 +15,11 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
   * Gyrofuge Block
   * Gyrofuge Energy Cell
   * Gyrofuge Processing Unit (+ basic/advanced)
+  * Gyrofuge Speed Unit
+  * Gyrofuge Efficiency Unit
+  * Gyrofuge Extraction Unit
+  * Gyrofuge Input Hatch
+  * Gyrofuge Output Hatch
 
 ## Changed
 * Bee housing now shows more descriptive errors - #65
