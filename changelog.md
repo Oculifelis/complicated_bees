@@ -23,6 +23,9 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 
 ## Changed
 * Bee housing now shows more descriptive errors - #65
+* Generators and centrifuges now show cumulative upgrade stats - #78
+* Generators no longer have a max transfer limit
+* Centrifuges no longer have a max transfer limit
 * Nerf to frame stick crafting
 * Efficiency renamed to Power Efficiency
 
@@ -32,3 +35,4 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Occasional crash on servers when player is null - #74
 * Generators not correctly outputting to cables - #76
 * Honeyed Stick recipe weirdness
+* Slight issue where generators would not properly throttle generation when full

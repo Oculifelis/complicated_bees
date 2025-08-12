@@ -29,7 +29,6 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     public static final String BURN_TIME_TAG = "burn_time";
 
     public final int baseGenerate;
-    public final int baseTransfer;
     public final int baseStorage;
 
     public static final int SLOT_COUNT = 4;
@@ -67,10 +66,9 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         return super.getCapability(cap, side);
     }
 
-    public BaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int baseGenerate, int baseTransfer, int baseStorage) {
+    public BaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int baseGenerate, int baseStorage) {
         super(type, pos, state);
         this.baseGenerate = baseGenerate;
-        this.baseTransfer = baseTransfer;
         this.baseStorage = baseStorage;
         this.generate = baseGenerate;
         this.items = createItemHandler();
@@ -107,7 +105,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     }
 
     private void generateEnergy() {
-        if (energy.getEnergyStored() < energy.getMaxEnergyStored()) {
+        if (energy.getEnergyStored() < energy.getMaxEnergyStored() - generate) {
             if (burnTime <= 0) {
                 ItemStack fuel = items.getStackInSlot(SLOT);
                 if (fuel.isEmpty()) {
@@ -149,7 +147,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
             if (be != null) {
                 IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(null);
                 if (energy != null) {
-                    int received = energy.receiveEnergy(Math.min(this.energy.getEnergyStored(), baseTransfer), false);
+                    int received = energy.receiveEnergy(this.energy.getEnergyStored(), false);
                     this.energy.extractEnergy(received, false);
                     setChanged();
                 }
@@ -230,7 +228,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
     @Nonnull
     private EnergyStorage createEnergyStorage() {
-        return new EnergyStorage(baseStorage, baseTransfer, baseTransfer);
+        return new EnergyStorage(baseStorage);
     }
 
     public LazyOptional<IItemHandler> getItemHandler() {
@@ -247,6 +245,10 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
     public int getMaxBurnTime() {
         return maxBurnTime;
+    }
+
+    public int getGenerate() {
+        return generate;
     }
 
     public void calculateUpgradeStats() {
