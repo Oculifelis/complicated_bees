@@ -22,9 +22,13 @@ public class ServerConfig {
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseSpeed;
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseUsage;
     public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseIdleUsage;
+    public final ForgeConfigSpec.ConfigValue<Integer> productivityCap;
     public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
 
     ServerConfig(ForgeConfigSpec.Builder builder) {
+        builder.push("production_cap");
+        productivityCap = builder.comment("The absolute maximum multiplier that bees can receive from modifiers").define("productivityCap", 50000);
+        builder.pop();
         builder.push("cycle_length");
         productionCycleLength = builder.comment("How long (in ticks) one bee cycle should take.").define("productionCycleLength", 200);
         enviroCycleLength = builder.comment("How long (in ticks) an apiary should wait between re-scanning the environment for appropriate conditions.").define("enviroCycleLength", 200);

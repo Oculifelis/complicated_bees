@@ -51,6 +51,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public static final String CYCLE_TAG = "cycle";
     public static final int SATISFY_CYCLE_LENGTH = ServerConfig.SERVER_CONFIG.enviroCycleLength.get();
 
+    public static final int MAX_MULT = ServerConfig.SERVER_CONFIG.productivityCap.get();
+
     public static final String OWNER_TAG = "owner";
     private UUID owner = null;
 
@@ -291,6 +293,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public void generateProduce(ItemStack bee) {
         Species species = (Species) GeneticHelper.getGeneValue(bee, GeneSpecies.ID, true);
         float housingModifiers = getHousingModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
+        housingModifiers = (MAX_MULT * housingModifiers) / (housingModifiers + MAX_MULT);
         for (Product product : species.getProducts()) {
             getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
         }

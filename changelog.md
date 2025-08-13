@@ -28,6 +28,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Centrifuges no longer have a max transfer limit
 * Nerf to frame stick crafting
 * Efficiency renamed to Power Efficiency
+* Mellariums are capped to 50,000x productivity (configurable) - #75
 
 ## Fixed
 * Occasional furnace generator loading issues
