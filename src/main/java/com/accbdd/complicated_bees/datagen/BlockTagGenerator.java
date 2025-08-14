@@ -42,7 +42,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.MELLARIUM_HYDROREGULATOR.get(),
                 BlocksRegistration.MELLARIUM_ENERGY_CELL.get(),
                 BlocksRegistration.MELLARIUM_SKYBOX.get(),
-                BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()
+                BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get(),
+                BlocksRegistration.MELLARIUM_OUTPUT_HATCH.get()
         );
         tag(GYROFUGE).add(
                 BlocksRegistration.GYROFUGE_CONTROLLER.get(),
@@ -54,6 +55,12 @@ public class BlockTagGenerator extends BlockTagsProvider {
                 BlocksRegistration.GYROFUGE_SPEED_UNIT.get(),
                 BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.get(),
                 BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get(),
+                BlocksRegistration.GYROFUGE_BASIC_SPEED_UNIT.get(),
+                BlocksRegistration.GYROFUGE_ADVANCED_SPEED_UNIT.get(),
+                BlocksRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT.get(),
+                BlocksRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT.get(),
+                BlocksRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT.get(),
+                BlocksRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT.get(),
                 BlocksRegistration.GYROFUGE_OUTPUT_HATCH.get(),
                 BlocksRegistration.GYROFUGE_INPUT_HATCH.get()
         );

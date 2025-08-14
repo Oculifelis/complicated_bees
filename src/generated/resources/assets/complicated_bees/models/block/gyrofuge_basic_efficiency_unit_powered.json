@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "complicated_bees:block/gyrofuge/gyrofuge_basic_efficiency_unit_powered"
+  }
+}

@@ -49,6 +49,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         assembleableBlock(BlocksRegistration.MELLARIUM_MUTATOR, "block/mellarium/mellarium_mutator");
         assembleableBlock(BlocksRegistration.MELLARIUM_HYDROREGULATOR, "block/mellarium/mellarium_hydroregulator");
         assembleableBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL, "block/mellarium/mellarium_energy_cell");
+        assembleableBlock(BlocksRegistration.MELLARIUM_OUTPUT_HATCH, "block/mellarium/mellarium_output_hatch");
         poweredAssembledBlock(BlocksRegistration.MELLARIUM_SKYBOX, "block/mellarium/mellarium_skybox");
         poweredAssembledBlock(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR, "block/mellarium/mellarium_temporal_simulator");
 
@@ -59,6 +60,12 @@ public class BlockStateGenerator extends BlockStateProvider {
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_SPEED_UNIT, "block/gyrofuge/gyrofuge_speed_unit");
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT, "block/gyrofuge/gyrofuge_efficiency_unit");
         poweredAssembledBlock(BlocksRegistration.GYROFUGE_EXTRACTION_UNIT, "block/gyrofuge/gyrofuge_extraction_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_SPEED_UNIT, "block/gyrofuge/gyrofuge_basic_speed_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_SPEED_UNIT, "block/gyrofuge/gyrofuge_advanced_speed_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT, "block/gyrofuge/gyrofuge_basic_efficiency_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT, "block/gyrofuge/gyrofuge_advanced_efficiency_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT, "block/gyrofuge/gyrofuge_basic_extraction_unit");
+        poweredAssembledBlock(BlocksRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT, "block/gyrofuge/gyrofuge_advanced_extraction_unit");
         assembleableBlock(BlocksRegistration.GYROFUGE_OUTPUT_HATCH, "block/gyrofuge/gyrofuge_output_hatch");
         assembleableBlock(BlocksRegistration.GYROFUGE_INPUT_HATCH, "block/gyrofuge/gyrofuge_input_hatch");
 
