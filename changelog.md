@@ -38,3 +38,5 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Generators not correctly outputting to cables - #76
 * Honeyed Stick recipe weirdness
 * Slight issue where generators would not properly throttle generation when full
+* Wall blocks weren't properly tagged as walls
+* Bees with invalid species now have a default model instead of being invisible
