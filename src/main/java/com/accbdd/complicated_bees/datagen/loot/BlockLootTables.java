@@ -53,6 +53,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         this.add(BlocksRegistration.MELLARIUM_ENERGY_CELL.get(), energyCellBlock(BlocksRegistration.MELLARIUM_ENERGY_CELL.get()));
         dropSelf(BlocksRegistration.MELLARIUM_SKYBOX.get());
         dropSelf(BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get());
+        dropSelf(BlocksRegistration.MELLARIUM_OUTPUT_HATCH.get());
         this.add(BlocksRegistration.GYROFUGE_ENERGY_CELL.get(), energyCellBlock(BlocksRegistration.GYROFUGE_ENERGY_CELL.get()));
         dropSelf(BlocksRegistration.GYROFUGE_BASE.get());
         this.add(BlocksRegistration.GYROFUGE_CONTROLLER.get(), createSingleItemTable(ItemsRegistration.GYROFUGE_BASE.get()));
@@ -62,6 +63,12 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(BlocksRegistration.GYROFUGE_SPEED_UNIT.get());
         dropSelf(BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.get());
         dropSelf(BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_BASIC_SPEED_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_ADVANCED_SPEED_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT.get());
+        dropSelf(BlocksRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT.get());
         dropSelf(BlocksRegistration.GYROFUGE_OUTPUT_HATCH.get());
         dropSelf(BlocksRegistration.GYROFUGE_INPUT_HATCH.get());
         this.add(BlocksRegistration.BEE_NEST.get(), nestLootTable(BlocksRegistration.BEE_NEST.get()));

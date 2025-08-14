@@ -122,6 +122,12 @@
   "block.complicated_bees.gyrofuge_speed_unit": "Gyrofuge Speed Unit",
   "block.complicated_bees.gyrofuge_efficiency_unit": "Gyrofuge Efficiency Unit",
   "block.complicated_bees.gyrofuge_extraction_unit": "Gyrofuge Extraction Unit",
+  "block.complicated_bees.gyrofuge_basic_speed_unit": "Gyrofuge Basic Speed Unit",
+  "block.complicated_bees.gyrofuge_basic_efficiency_unit": "Gyrofuge Basic Efficiency Unit",
+  "block.complicated_bees.gyrofuge_basic_extraction_unit": "Gyrofuge Basic Extraction Unit",
+  "block.complicated_bees.gyrofuge_advanced_speed_unit": "Gyrofuge Advanced Speed Unit",
+  "block.complicated_bees.gyrofuge_advanced_efficiency_unit": "Gyrofuge Advanced Efficiency Unit",
+  "block.complicated_bees.gyrofuge_advanced_extraction_unit": "Gyrofuge Advanced Extraction Unit",
   "block.complicated_bees.gyrofuge_input_hatch": "Gyrofuge Input Hatch",
   "block.complicated_bees.gyrofuge_output_hatch": "Gyrofuge Output Hatch",
 
