@@ -70,8 +70,8 @@
   "item.complicated_bees.royal_upgrade": "蜂王升级",
   "item.complicated_bees.endenic_upgrade": "终末升级",
   "item.complicated_bees.withered_upgrade": "凋零升级",
-  "item.complicated_bees.speed_label": "速度",
-  "item.complicated_bees.efficiency_label": "效率",
+  "upgrade.complicated_bees.speed_label": "速度",
+  "upgrade.complicated_bees.efficiency_label": "效率",
   "item.complicated_bees.output_label": "离心产量",
 
   "block.complicated_bees.bee_nest": "蜂巢",
