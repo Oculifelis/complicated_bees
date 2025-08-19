@@ -2,7 +2,7 @@ package com.accbdd.complicated_bees.multiblock;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
-import com.accbdd.complicated_bees.block.entity.mellarium.MellariumAbstractBlockEntity;
+import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumEnergyCellBlockEntity;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
@@ -34,7 +34,7 @@ public class MellariumLogic {
         List<IEnergyStorage> energyStorages = new ArrayList<>(); //blocks that store energy
         while (iterator.hasNext()) {
             BlockPos pos = iterator.next();
-            if (level.getBlockEntity(pos) instanceof MellariumAbstractBlockEntity mellariumBlock) {
+            if (level.getBlockEntity(pos) instanceof AbstractMellariumBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(this);
                 BlockState blockState = level.getBlockState(pos);
                 if (!blockState.is(BlocksRegistration.MELLARIUM_BASE.get())) {
@@ -66,7 +66,7 @@ public class MellariumLogic {
         }
         while (iterator.hasNext()) {
             BlockPos p = iterator.next();
-            if (level.getBlockEntity(p) instanceof MellariumAbstractBlockEntity mellariumBlock) {
+            if (level.getBlockEntity(p) instanceof AbstractMellariumBlockEntity mellariumBlock) {
                 mellariumBlock.setLogic(null);
             }
         }

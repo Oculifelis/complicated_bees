@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.datagen.advancement;
 
+import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -67,7 +68,7 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
                                         .build()
-                        ).build()),
+                        ).of(BlockTagGenerator.MELLARIUM).build()),
                         ItemPredicate.Builder.item()))
                 .display(ItemsRegistration.MELLARIUM_BASE.get(),
                         Component.translatable("advancements.complicated_bees.mellarium.title"),
@@ -101,7 +102,7 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
     }
 
     private static ResourceLocation loc(String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.tryBuild(MODID, path);
     }
 
     private static CriterionTriggerInstance hasItem(TagKey<Item> tag) {

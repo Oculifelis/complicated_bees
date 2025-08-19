@@ -1,21 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "#": {
-      "tag": "forge:rods/wooden"
-    },
-    "H": {
+  "ingredients": [
+    {
       "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "tag": "forge:rods/wooden"
     }
-  },
-  "pattern": [
-    "###",
-    "#H#",
-    "###"
   ],
   "result": {
     "item": "complicated_bees:honeyed_stick"
-  },
-  "show_notification": true
+  }
 }

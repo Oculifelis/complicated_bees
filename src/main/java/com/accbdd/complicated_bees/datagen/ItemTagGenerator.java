@@ -75,5 +75,10 @@ public class ItemTagGenerator extends ItemTagsProvider {
                 ItemsRegistration.SMOOTH_WAX_SLAB.get(),
                 ItemsRegistration.WAX_BRICK_SLAB.get()
         );
+        tag(ItemTags.WALLS).add(
+                ItemsRegistration.WAX_BLOCK_WALL.get(),
+                ItemsRegistration.SMOOTH_WAX_WALL.get(),
+                ItemsRegistration.WAX_BRICK_WALL.get()
+        );
     }
 }

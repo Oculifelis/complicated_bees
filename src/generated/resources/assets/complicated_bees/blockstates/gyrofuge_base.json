@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "assembled=none": {
+      "model": "complicated_bees:block/gyrofuge_base"
+    },
+    "assembled=side": {
+      "model": "complicated_bees:block/gyrofuge_base_assembled"
+    },
+    "assembled=top": {
+      "model": "complicated_bees:block/gyrofuge_base_assembled_top"
+    }
+  }
+}

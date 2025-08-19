@@ -10,7 +10,8 @@
               "block": {
                 "state": {
                   "assembled": "side"
-                }
+                },
+                "tag": "complicated_bees:multiblock/mellarium"
               }
             }
           },

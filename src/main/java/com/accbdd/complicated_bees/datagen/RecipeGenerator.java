@@ -53,16 +53,13 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('W', ItemsRegistration.BEESWAX.get())
                 .unlockedBy(getHasName(ItemsRegistration.BEESWAX.get()), has(ItemsRegistration.BEESWAX.get()))
                 .save(output, "complicated_bees:candle");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.HONEYED_STICK.get())
-                .pattern("###")
-                .pattern("#H#")
-                .pattern("###")
-                .define('H', ItemsRegistration.HONEY_DROPLET.get())
-                .define('#', Tags.Items.RODS_WOODEN)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemsRegistration.HONEYED_STICK.get())
+                .requires(ItemsRegistration.HONEY_DROPLET.get(), 4)
+                .requires(Ingredient.of(Tags.Items.RODS_WOODEN), 1)
                 .unlockedBy(getHasName(ItemsRegistration.FRAME.get()), has(ItemsRegistration.FRAME.get()))
                 .save(output);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemsRegistration.WAXED_STICK.get())
-                .requires(ItemsRegistration.BEESWAX.get(), 1)
+                .requires(ItemsRegistration.BEESWAX.get(), 2)
                 .requires(Ingredient.of(Tags.Items.RODS_WOODEN), 1)
                 .unlockedBy(getHasName(ItemsRegistration.FRAME.get()), has(ItemsRegistration.FRAME.get()))
                 .save(output);
@@ -426,7 +423,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void mutatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, float modifier) {
         output.accept(new CBRecipeBuilder.MutatorRecipe(
-                new ResourceLocation(MODID, "mutator/" + name),
+                ResourceLocation.tryBuild(MODID, "mutator/" + name),
                 input,
                 modifier)
         );
@@ -434,7 +431,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
         output.accept(new CBRecipeBuilder.TempUnitRecipe(
-                new ResourceLocation(MODID, "temp_unit/" + name),
+                ResourceLocation.tryBuild(MODID, "temp_unit/" + name),
                 input,
                 tempChange,
                 useChance
@@ -443,7 +440,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void hydroregulatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
         output.accept(new CBRecipeBuilder.HydroRecipe(
-                new ResourceLocation(MODID, "hydroregulator/" + name),
+                ResourceLocation.tryBuild(MODID, "hydroregulator/" + name),
                 input,
                 recipeOutput,
                 humidityChange,
@@ -453,7 +450,7 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void honeyGeneratorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, int burnTime) {
         output.accept(new CBRecipeBuilder.HoneyGeneratorRecipe(
-                new ResourceLocation(MODID, "honey_generator/" + name),
+                ResourceLocation.tryBuild(MODID, "honey_generator/" + name),
                 input,
                 burnTime
         ));

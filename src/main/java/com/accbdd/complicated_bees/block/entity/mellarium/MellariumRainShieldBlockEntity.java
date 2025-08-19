@@ -5,7 +5,7 @@ import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MellariumRainShieldBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier {
+public class MellariumRainShieldBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier {
     private static final BeeHousingModifier MODIFIER = new BeeHousingModifier.Builder().rainOverride(true).build();
 
     public MellariumRainShieldBlockEntity(BlockPos pPos, BlockState pBlockState) {

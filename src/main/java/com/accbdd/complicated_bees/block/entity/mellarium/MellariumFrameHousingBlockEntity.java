@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MellariumFrameHousingBlockEntity extends MellariumAbstractBlockEntity implements IMellariumModifier, IMellariumTickable {
+public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private final ItemStackHandler frameItems;
     private final LazyOptional<IItemHandler> frameItemHandler;
 

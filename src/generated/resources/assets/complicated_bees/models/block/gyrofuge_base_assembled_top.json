@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled",
+    "east": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled_top_side",
+    "north": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled_top_side",
+    "particle": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled",
+    "south": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled_top_side",
+    "up": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled_top",
+    "west": "complicated_bees:block/gyrofuge/gyrofuge_base_assembled_top_side"
+  }
+}

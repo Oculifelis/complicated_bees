@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.block.entity.*;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.*;
 import com.accbdd.complicated_bees.block.entity.mellarium.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -55,8 +56,44 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(MellariumSkyboxBlockEntity::new, BlocksRegistration.MELLARIUM_SKYBOX.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumTemporalSimulatorBlockEntity>> MELLARIUM_TEMPORAL_SIMULATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_temporal_simulator",
             () -> BlockEntityType.Builder.of(MellariumTemporalSimulatorBlockEntity::new, BlocksRegistration.MELLARIUM_TEMPORAL_SIMULATOR.get()).build(null));
+    public static final Supplier<BlockEntityType<MellariumOutputHatchBlockEntity>> MELLARIUM_OUTPUT_HATCH_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_output_hatch",
+            () -> BlockEntityType.Builder.of(MellariumOutputHatchBlockEntity::new, BlocksRegistration.MELLARIUM_OUTPUT_HATCH.get()).build(null));
     public static final Supplier<BlockEntityType<BeeSorterBlockEntity>> BEE_SORTER_BLOCK_ENTITY = BLOCK_ENTITIES.register("bee_sorter",
             () -> BlockEntityType.Builder.of(BeeSorterBlockEntity::new, BlocksRegistration.BEE_SORTER.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeControllerBlockEntity>> GYROFUGE_CONTROLLER_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_controller",
+            () -> BlockEntityType.Builder.of(GyrofugeControllerBlockEntity::new, BlocksRegistration.GYROFUGE_CONTROLLER.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBaseBlockEntity>> GYROFUGE_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_base",
+            () -> BlockEntityType.Builder.of(GyrofugeBaseBlockEntity::new, BlocksRegistration.GYROFUGE_BASE.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeEnergyCellBlockEntity>> GYROFUGE_ENERGY_CELL_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_energy_cell",
+            () -> BlockEntityType.Builder.of(GyrofugeEnergyCellBlockEntity::new, BlocksRegistration.GYROFUGE_ENERGY_CELL.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBasicProcessingUnitBlockEntity>> GYROFUGE_BASIC_PROCESSING_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_basic_processing_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeBasicProcessingUnitBlockEntity::new, BlocksRegistration.GYROFUGE_BASIC_PROCESSING_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeProcessingUnitBlockEntity>> GYROFUGE_PROCESSING_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_processing_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeProcessingUnitBlockEntity::new, BlocksRegistration.GYROFUGE_PROCESSING_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeAdvancedProcessingUnitBlockEntity>> GYROFUGE_ADVANCED_PROCESSING_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_advanced_processing_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeAdvancedProcessingUnitBlockEntity::new, BlocksRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBasicSpeedUnitBlockEntity>> GYROFUGE_BASIC_SPEED_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_basic_speed_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeBasicSpeedUnitBlockEntity::new, BlocksRegistration.GYROFUGE_BASIC_SPEED_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeSpeedUnitBlockEntity>> GYROFUGE_SPEED_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge__speed_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeSpeedUnitBlockEntity::new, BlocksRegistration.GYROFUGE_SPEED_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeAdvancedSpeedUnitBlockEntity>> GYROFUGE_ADVANCED_SPEED_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_advanced_speed_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeAdvancedSpeedUnitBlockEntity::new, BlocksRegistration.GYROFUGE_ADVANCED_SPEED_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBasicEfficiencyUnitBlockEntity>> GYROFUGE_BASIC_EFFICIENCY_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_basic_efficiency_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeBasicEfficiencyUnitBlockEntity::new, BlocksRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeEfficiencyUnitBlockEntity>> GYROFUGE_EFFICIENCY_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_efficiency_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeEfficiencyUnitBlockEntity::new, BlocksRegistration.GYROFUGE_EFFICIENCY_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeAdvancedEfficiencyUnitBlockEntity>> GYROFUGE_ADVANCED_EFFICIENCY_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_advanced_efficiency_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeAdvancedEfficiencyUnitBlockEntity::new, BlocksRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeBasicExtractionUnitBlockEntity>> GYROFUGE_BASIC_EXTRACTION_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_basic_extraction_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeBasicExtractionUnitBlockEntity::new, BlocksRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeExtractionUnitBlockEntity>> GYROFUGE_EXTRACTION_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_extraction_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeExtractionUnitBlockEntity::new, BlocksRegistration.GYROFUGE_EXTRACTION_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeAdvancedExtractionUnitBlockEntity>> GYROFUGE_ADVANCED_EXTRACTION_UNIT_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_advanced_extraction_unit",
+            () -> BlockEntityType.Builder.of(GyrofugeAdvancedExtractionUnitBlockEntity::new, BlocksRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeOutputHatchBlockEntity>> GYROFUGE_OUTPUT_HATCH_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_output_hatch",
+            () -> BlockEntityType.Builder.of(GyrofugeOutputHatchBlockEntity::new, BlocksRegistration.GYROFUGE_OUTPUT_HATCH.get()).build(null));
+    public static final Supplier<BlockEntityType<GyrofugeInputHatchBlockEntity>> GYROFUGE_INPUT_HATCH_BLOCK_ENTITY = BLOCK_ENTITIES.register("gyrofuge_input_hatch",
+            () -> BlockEntityType.Builder.of(GyrofugeInputHatchBlockEntity::new, BlocksRegistration.GYROFUGE_INPUT_HATCH.get()).build(null));
 
     public static final List<Supplier<BlockEntityType<MellariumFrameHousingBlockEntity>>> MELLARIUM_FRAME_HOUSING_ENTITIES = List.of(MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY, MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY);
 }

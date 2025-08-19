@@ -24,7 +24,7 @@ public class MellariumEnergyCellBlock extends MellariumBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof MellariumEnergyCellBlockEntity cell) {
-            pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.mellarium.energy_cell",
+            pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.energy_cell",
                     FORMAT.format(cell.getEnergy().getEnergyStored() / 1000D),
                     FORMAT.format(cell.getEnergy().getMaxEnergyStored() / 1000D)), true);
             return InteractionResult.CONSUME;

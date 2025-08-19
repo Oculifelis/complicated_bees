@@ -107,7 +107,9 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
                 if (cached != null) return cached;
 
                 ResourceLocation speciesLoc = GeneticHelper.getSpeciesLoc(pStack);
-                if (speciesLoc == null) return pModel;
+                if (speciesLoc == null) {
+                    Minecraft.getInstance().getModelManager().getModel(Species.DEFAULT_MODELS.get(0));
+                }
 
                 Variant variant = cacheMap.get(speciesLoc);
 
