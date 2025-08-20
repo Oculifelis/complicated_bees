@@ -1,5 +1,5 @@
 {
-  "parent": "complicated_bees:apiary",
+  "parent": "complicated_bees:advanced_products",
   "criteria": {
     "use_mellarium": {
       "conditions": {

@@ -1,0 +1,37 @@
+{
+  "criteria": {
+    "has_propolis": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:propolis"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.complicated_bees.propolis.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "complicated_bees:propolis"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.complicated_bees.propolis.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_propolis"
+    ]
+  ],
+  "sends_telemetry_event": false
+}
