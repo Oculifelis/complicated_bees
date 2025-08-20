@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:redstone_torch"
+  },
+  "base": {
+    "item": "complicated_bees:mellarium_panel"
+  },
+  "result": {
+    "item": "complicated_bees:gyrofuge_panel"
+  },
+  "template": {
+    "item": "minecraft:iron_ingot"
+  }
+}
