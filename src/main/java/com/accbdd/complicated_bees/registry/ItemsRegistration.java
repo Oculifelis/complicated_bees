@@ -48,6 +48,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> WAXED_STICK = registerSimpleItem("waxed_stick");
     public static final RegistryObject<Item> HONEYED_STICK = registerSimpleItem("honeyed_stick");
     public static final RegistryObject<Item> MELLARIUM_PANEL = registerSimpleItem("mellarium_panel");
+    public static final RegistryObject<Item> GYROFUGE_PANEL = registerSimpleItem("gyrofuge_panel");
     public static final RegistryObject<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1.1f, 1.1f, 1f, 0)));
     public static final RegistryObject<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1f, 1.25f, 1f, 0)));
     public static final RegistryObject<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1.25f, 1f, 1f, 0)));
