@@ -30,6 +30,9 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Nerf to frame stick crafting
 * Efficiency renamed to Power Efficiency
 * Mellariums are capped to 50,000x productivity (configurable) - #75
+* Advancements have been heavily reworked to provide more guidance through the mod - #90
+* The book has been reworked to make more sense with entries that unlock - #90
+* Microscope entry now says the game is random, with no pattern - #88
 
 ## Fixed
 * Occasional furnace generator loading issues

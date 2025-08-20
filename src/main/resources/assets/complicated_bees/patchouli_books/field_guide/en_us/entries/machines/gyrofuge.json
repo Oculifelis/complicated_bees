@@ -1,0 +1,43 @@
+{
+  "name": "Gyrofuge",
+  "icon": "complicated_bees:gyrofuge_base",
+  "category": "complicated_bees:machines",
+  "advancement": "complicated_bees:advanced_products",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A $(l:complicated_bees:machines/mellarium)Mellarium$() can produce thousands of combs every bee tick. You'll need something a little more powerful than a regular centrifuge (or even multiple!) to process those.$(br2)This is where the Gyrofuge comes in - a multiblock solution to your overproduction woes."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The Gyrofuge (without upgrades) processes combs in half the time and provides a baseline 1.5x multiplier to product chance. This and other aspects of the Gyrofuge can be upgraded using modules, similar to the Mellarium.$(br2)It is also important to note that $(l)non-base gyrofuge blocks can not be placed in the top layer$() of the Gyrofuge."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "pattern": [
+          ["BBB","BBB","BBB"],
+          ["###","###","###"],
+          ["###","#0#","###"]
+        ],
+        "mapping": {
+          "B": "complicated_bees:gyrofuge_base",
+          "#": "#complicated_bees:multiblock/gyrofuge",
+          "0": "#complicated_bees:multiblock/gyrofuge"
+        }
+      },
+      "text": "Try not to build these across chunk borders, or right next to each other."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "complicated_bees:mellarium_panel",
+      "recipe2": "complicated_bees:mellarium_base"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "complicated_bees:mellarium_frame_housing_1",
+      "title": "Frame Housings",
+      "text": "Frame Housings can hold frames based on their tier - the basic can hold one, the regular two, and the large three. These frames will stack multiplicatively."
+    }
+  ]
+}

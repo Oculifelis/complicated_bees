@@ -1,5 +1,5 @@
 {
-  "parent": "complicated_bees:first_bee",
+  "parent": "complicated_bees:honey_droplet",
   "criteria": {
     "has_analyzer": {
       "conditions": {
