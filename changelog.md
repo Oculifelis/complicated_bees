@@ -7,6 +7,7 @@ Multiblock centrifuge - the Gyrofuge! Process multiple combs at a time, process 
 Add power to the Mellarium! Simulate skies and times - more bee productivity at the cost of energy.
 
 ## Added
+* Autolyzer
 * Mellarium Energy Cell - #64
 * Mellarium Skybox - #64
 * Mellarium Temporal Simulator - #64
