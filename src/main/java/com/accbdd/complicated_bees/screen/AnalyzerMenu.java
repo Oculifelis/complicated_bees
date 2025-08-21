@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class AnalyzerMenu extends AbstractBaseInventoryMenu {
+public class AnalyzerMenu extends AbstractAnalyzerMenu {
     public static final int SLOT_COUNT = 2;
     private static final String INVENTORY_TAG = "contents";
     private static final int INV_X = 36;
@@ -29,7 +29,6 @@ public class AnalyzerMenu extends AbstractBaseInventoryMenu {
                 ItemStack bee = getSlot(1).getItem();
                 if (getSlot(0).hasItem()) {
                     if (!bee.isEmpty()) {
-
                         if (!isBeeAnalyzed()) {
                             bee.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
                             getSlot(0).remove(1);
@@ -57,11 +56,6 @@ public class AnalyzerMenu extends AbstractBaseInventoryMenu {
 
     public static AnalyzerMenu fromNetwork(int windowId, Inventory playerInv) {
         return new AnalyzerMenu(windowId, playerInv.player, playerInv.selected);
-    }
-
-    public boolean isBeeAnalyzed() {
-        ItemStack bee = getSlot(1).getItem();
-        return bee.is(ItemTagGenerator.BEE) && bee.getOrCreateTag().getBoolean(BeeItem.ANALYZED_TAG);
     }
 
     @Override

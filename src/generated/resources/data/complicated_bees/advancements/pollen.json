@@ -1,4 +1,5 @@
 {
+  "parent": "complicated_bees:root",
   "criteria": {
     "has_pollen": {
       "conditions": {
@@ -11,21 +12,6 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.complicated_bees.pollen.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "complicated_bees:pollen"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.complicated_bees.pollen.title"
     }
   },
   "requirements": [

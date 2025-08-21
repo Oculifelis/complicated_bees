@@ -10,11 +10,11 @@ import net.minecraft.world.item.ItemStack;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class AnalyzerScreen extends AbstractContainerScreen<AnalyzerMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/analyzer.png");
+public class AnalyzerScreen extends AbstractContainerScreen<AbstractAnalyzerMenu> {
+    private final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/analyzer.png");
     private AnalyzerScrollWidget widget;
 
-    public AnalyzerScreen(AnalyzerMenu container, Inventory inventory, Component title) {
+    public AnalyzerScreen(AbstractAnalyzerMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
         this.imageWidth = 249;
         this.imageHeight = 216;

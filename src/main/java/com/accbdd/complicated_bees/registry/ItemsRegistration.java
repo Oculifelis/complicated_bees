@@ -113,6 +113,7 @@ public class ItemsRegistration {
     public static final RegistryObject<Item> HONEY_GENERATOR = registerSimpleBlockItem("honey_generator", BlocksRegistration.HONEY_GENERATOR);
     public static final RegistryObject<Item> MICROSCOPE = registerSimpleBlockItem("microscope", BlocksRegistration.MICROSCOPE);
     public static final RegistryObject<Item> BEE_SORTER = registerSimpleBlockItem("bee_sorter", BlocksRegistration.BEE_SORTER);
+    public static final RegistryObject<Item> AUTOLYZER = registerSimpleBlockItem("autolyzer", BlocksRegistration.AUTOLYZER);
     public static final RegistryObject<Item> MELLARIUM_BASE = registerSimpleBlockItem("mellarium_base", BlocksRegistration.MELLARIUM_BASE);
     public static final RegistryObject<Item> MELLARIUM_TEMP_UNIT = registerSimpleBlockItem("mellarium_temp_unit", BlocksRegistration.MELLARIUM_TEMP_UNIT);
     public static final RegistryObject<Item> MELLARIUM_RAIN_SHIELD = registerSimpleBlockItem("mellarium_rain_shield", BlocksRegistration.MELLARIUM_RAIN_SHIELD);

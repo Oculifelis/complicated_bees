@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "complicated_bees:block/autolyzer_side",
+    "east": "complicated_bees:block/autolyzer_side",
+    "north": "complicated_bees:block/autolyzer_front",
+    "south": "complicated_bees:block/autolyzer_side",
+    "up": "complicated_bees:block/autolyzer_side",
+    "west": "complicated_bees:block/autolyzer_side"
+  }
+}

@@ -28,6 +28,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         withExistingParent(BlocksRegistration.HONEY_GENERATOR.getId().getPath(), modLoc("block/honey_generator"));
         withExistingParent(BlocksRegistration.APID_LIBRARY.getId().getPath(), modLoc("block/apid_library"));
         withExistingParent(BlocksRegistration.BEE_SORTER.getId().getPath(), modLoc("block/bee_sorter"));
+        withExistingParent(BlocksRegistration.AUTOLYZER.getId().getPath(), modLoc("block/autolyzer"));
         withExistingParent(BlocksRegistration.MELLARIUM_BASE.getId().getPath(), modLoc("block/mellarium_base"));
         withExistingParent(BlocksRegistration.MELLARIUM_TEMP_UNIT.getId().getPath(), modLoc("block/mellarium_temp_unit"));
         withExistingParent(BlocksRegistration.MELLARIUM_FRAME_HOUSING_1.getId().getPath(), modLoc("block/mellarium_frame_housing_1"));

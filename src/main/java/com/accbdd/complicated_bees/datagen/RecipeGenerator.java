@@ -143,6 +143,14 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('G', Tags.Items.GLASS)
                 .define('I', Items.IRON_INGOT)
                 .unlockedBy(getHasName(ItemsRegistration.FURNACE_GENERATOR.get()), has(ItemsRegistration.FURNACE_GENERATOR.get())).save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.AUTOLYZER.get())
+                .pattern("III")
+                .pattern("IAI")
+                .pattern("WWW")
+                .define('A', ItemsRegistration.ANALYZER.get())
+                .define('W', Items.SMOOTH_STONE)
+                .define('I', Items.IRON_INGOT)
+                .unlockedBy(getHasName(ItemsRegistration.ANALYZER.get()), has(ItemsRegistration.ANALYZER.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.BASIC_UPGRADE.get())
                 .pattern("SPS")
                 .pattern("PHP")

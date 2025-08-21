@@ -2,7 +2,7 @@
   "name": "Genetic Overview",
   "icon": "complicated_bees:drone",
   "category": "complicated_bees:genetics",
-  "advancement": "complicated_bees:recipes/misc/analyzer",
+  "advancement": "complicated_bees:apiary",
   "priority": true,
   "pages": [
     {
