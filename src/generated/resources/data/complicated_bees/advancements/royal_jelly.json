@@ -1,4 +1,5 @@
 {
+  "parent": "complicated_bees:root",
   "criteria": {
     "has_royal_jelly": {
       "conditions": {
@@ -11,21 +12,6 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.complicated_bees.royal_jelly.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "complicated_bees:royal_jelly"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.complicated_bees.royal_jelly.title"
     }
   },
   "requirements": [

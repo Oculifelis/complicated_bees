@@ -10,7 +10,7 @@ import com.accbdd.complicated_bees.bees.gene.IGene;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
-import com.accbdd.complicated_bees.screen.AnalyzerMenu;
+import com.accbdd.complicated_bees.screen.AbstractAnalyzerMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -28,21 +28,21 @@ import static com.accbdd.complicated_bees.util.GuiHelper.drawRightAlignedText;
 import static com.accbdd.complicated_bees.util.GuiHelper.drawWrappedText;
 
 public class AnalyzerScrollWidget extends AbstractScrollWidget {
-    private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/analyzer.png");
+    private static final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/analyzer.png");
     private static final int ACTIVE_COL = 84;
     private static final int INACTIVE_COL = 150;
     private static final int INDENT = 10;
     private static final int LINE_HEIGHT = 12;
     private static final int PADDING = 4;
 
-    private final AnalyzerMenu menu;
+    private final AbstractAnalyzerMenu menu;
     private int mouseX;
     private int mouseY;
     public ItemStack hoveredStack = null;
     public Component geneTooltip = null;
     private int nextLine;
 
-    public AnalyzerScrollWidget(int pX, int pY, int pWidth, int pHeight, AnalyzerMenu menu) {
+    public AnalyzerScrollWidget(int pX, int pY, int pWidth, int pHeight, AbstractAnalyzerMenu menu) {
         super(pX, pY, pWidth, pHeight, Component.empty());
         this.menu = menu;
         nextLine = 0;

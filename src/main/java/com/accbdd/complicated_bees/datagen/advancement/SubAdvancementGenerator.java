@@ -173,15 +173,9 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
     private static Advancement hiddenHas(ItemLike item, String translationId, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
         String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
         return advancement(item, id)
-                .display(new DisplayInfo(new ItemStack(item),
-                        Component.translatable("advancements.complicated_bees."+translationId+".title"),
-                        Component.translatable("advancements.complicated_bees."+translationId+".description"),
-                        null,
-                        FrameType.TASK,
-                        false,
-                        false,
-                        true)
-                ).addCriterion("has_"+id, hasItem(item))
+                .display(null)
+                .addCriterion("has_"+id, hasItem(item))
+                .parent(ROOT)
                 .save(saver, loc(id), existingFileHelper);
     }
 }

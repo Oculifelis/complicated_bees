@@ -98,6 +98,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         registerCentrifuge();
         registerFurnaceGenerator();
         registerHoneyGenerator();
+        directionBlock(BlocksRegistration.AUTOLYZER.get(), (state, builder) -> builder.modelFile(models().cube("autolyzer", modLoc("block/autolyzer_side"), modLoc("block/autolyzer_side"), modLoc("block/autolyzer_front"), modLoc("block/autolyzer_side"), modLoc("block/autolyzer_side"), modLoc("block/autolyzer_side"))));
     }
 
     public void slabBlock(SlabBlock block, ResourceLocation side, ResourceLocation end) {
