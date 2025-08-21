@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -21,11 +22,13 @@ import net.minecraft.world.level.block.Blocks;
 import static com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity.*;
 
 public class MellariumMenu extends AbstractBaseInventoryMenu {
-    //todo: show energy
     private final BlockPos pos;
     private final ContainerData data;
     private static final int INV_X = 8;
     private static final int INV_Y = 105;
+
+    private int power;
+    private int maxPower;
 
     public MellariumMenu(int windowId, Player player, BlockPos pos) {
         this(windowId, player, pos, new SimpleContainerData(3));
@@ -36,22 +39,67 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
         this.data = data;
         this.pos = pos;
         if (player.level().getBlockEntity(pos) instanceof AbstractMellariumBlockEntity blockEntity) {
-            MellariumControllerBlockEntity mellarium;
+            MellariumControllerBlockEntity controller;
             if (blockEntity.getLogic() != null) {
-                mellarium = blockEntity.getLogic().getController();
+                controller = blockEntity.getLogic().getController();
             } else {
-                mellarium = MultiblockHelper.tryBuildMellarium(player.level(), pos, player.getUUID()).getController();
+                controller = MultiblockHelper.tryBuildMellarium(player.level(), pos, player.getUUID()).getController();
             }
-            addSlot(new TagSlot(mellarium.getBeeItems(), BEE_SLOT, 29, 38, ItemTagGenerator.ROYAL));
-            addSlot(new ItemSlot(mellarium.getBeeItems(), BEE_SLOT + 1, 29, 63, ItemsRegistration.DRONE.get()));
+            addSlot(new TagSlot(controller.getBeeItems(), BEE_SLOT, 29, 38, ItemTagGenerator.ROYAL));
+            addSlot(new ItemSlot(controller.getBeeItems(), BEE_SLOT + 1, 29, 63, ItemsRegistration.DRONE.get()));
 
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT, 115, 51));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 1, 115, 26));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 2, 137, 39));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 3, 137, 64));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 4, 115, 76));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 5, 93, 64));
-            addSlot(new OutputSlot(mellarium.getOutputItems(), OUTPUT_SLOT + 6, 93, 39));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT, 115, 51));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 1, 115, 26));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 2, 137, 39));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 3, 137, 64));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 4, 115, 76));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 5, 93, 64));
+            addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 6, 93, 39));
+            
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return controller.getEnergyHandler().resolve().get().getEnergyStored() & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    MellariumMenu.this.power = (MellariumMenu.this.power & 0xffff0000) | (pValue & 0xffff);
+                }
+            });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return (controller.getEnergyHandler().resolve().get().getEnergyStored() >> 16) & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    MellariumMenu.this.power = (MellariumMenu.this.power & 0xffff) | ((pValue & 0xffff) << 16);
+                }
+            });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return controller.getEnergyHandler().resolve().get().getMaxEnergyStored() & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    MellariumMenu.this.maxPower = (MellariumMenu.this.maxPower & 0xffff0000) | (pValue & 0xffff);
+                }
+            });
+            addDataSlot(new DataSlot() {
+                @Override
+                public int get() {
+                    return (controller.getEnergyHandler().resolve().get().getMaxEnergyStored() >> 16) & 0xffff;
+                }
+
+                @Override
+                public void set(int pValue) {
+                    MellariumMenu.this.maxPower = (MellariumMenu.this.maxPower & 0xffff) | ((pValue & 0xffff) << 16);
+                }
+            });
         }
         layoutPlayerInventorySlots(player.getInventory());
 
@@ -87,5 +135,13 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     public boolean hasQueue() {
         return data.get(2) == EnumErrorCodes.OUTPUT_FULL.value;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getMaxPower() {
+        return maxPower;
     }
 }

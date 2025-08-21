@@ -52,7 +52,7 @@ public class MellariumLogic {
                 ComplicatedBees.LOGGER.warn("built a mellarium with non-mellarium block at {}", pos);
             }
         }
-        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(new IEnergyStorage[energyStorages.size()]));
+        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(IEnergyStorage[]::new));
     }
 
     public void deconstruct(BlockPos pos) {

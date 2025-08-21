@@ -19,7 +19,7 @@ import java.util.Optional;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MellariumScreen extends AbstractContainerScreen<MellariumMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/mellarium.png");
+    private final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/mellarium.png");
 
     public MellariumScreen(MellariumMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -35,6 +35,8 @@ public class MellariumScreen extends AbstractContainerScreen<MellariumMenu> {
         graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
 
         renderStatusBar(graphics, relX, relY);
+        if (menu.getMaxPower() > 0)
+            renderPowerBar(graphics, relX, relY);
     }
 
     @Override
@@ -102,5 +104,42 @@ public class MellariumScreen extends AbstractContainerScreen<MellariumMenu> {
                 pGuiGraphics.renderTooltip(this.font, Component.translatable("gui.complicated_bees.error.none"), pX, pY);
             }
         }
+        if (pX >= leftPos + 163 && pX < leftPos + 163 + 5 && pY >= topPos + 23 && pY < topPos + 23 + 70) {
+            int power = menu.getPower();
+            List<Component> powerTooltip = new ArrayList<>();
+            powerTooltip.add(Component.literal(power + " RF"));
+//            powerTooltip.add(Component.literal(menu.getPowerUsage() + " RF/t")
+//                    .withStyle(ChatFormatting.GRAY));
+//            powerTooltip.addAll(menu.modifier.getTooltipComponents());
+            pGuiGraphics.renderComponentTooltip(
+                    this.font,
+                    powerTooltip,
+                    pX,
+                    pY);
+        }
+    }
+
+
+    private void renderPowerBar(GuiGraphics graphics, int relX, int relY) {
+        int powerScaled = getScaled(menu.getPower(), menu.getMaxPower(), 70);
+        graphics.blit(GUI,
+                relX + 163,
+                relY + 23,
+                190,
+                0,
+                7,
+                72);
+        graphics.blit(GUI,
+                relX + 164,
+                relY + 24 + (70 - powerScaled),
+                185,
+                70 - powerScaled,
+                5,
+                powerScaled);
+    }
+
+    public int getScaled(int value, int max, int scaleTo) {
+        if (max == 0) return 0;
+        return (int) Math.ceil((double) (value * scaleTo) / max);
     }
 }

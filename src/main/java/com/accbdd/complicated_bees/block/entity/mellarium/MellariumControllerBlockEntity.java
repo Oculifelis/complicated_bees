@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -220,6 +221,8 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         return mellariumLogic;
     }
 
+
+
     public void setMellariumLogic(MellariumLogic logic) {
         this.mellariumLogic = logic;
     }
@@ -241,5 +244,9 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         }).collect(Collectors.toList());
         list.add(new BeeHousingModifier.Builder().productivity(1.25f).build());
         return list;
+    }
+
+    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+        return LazyOptional.of(() -> getMellariumLogic().getEnergyStorage());
     }
 }
