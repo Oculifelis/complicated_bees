@@ -41,7 +41,7 @@ public class ItemsRegistration {
 
     public static final RegistryObject<Item> HONEY_DROPLET = registerSimpleItem("honey_droplet");
     public static final RegistryObject<Item> ROYAL_JELLY = registerSimpleItem("royal_jelly");
-    public static final RegistryObject<Item> POLLEN = registerSimpleItem("pollen");
+    public static final RegistryObject<Item> POLLEN = register("pollen", () -> new BoneMealItem(new Item.Properties()));
     public static final RegistryObject<Item> PROPOLIS = registerSimpleItem("propolis");
     public static final RegistryObject<Item> SILK_WISP = registerSimpleItem("silk_wisp");
     public static final RegistryObject<Item> WOVEN_MESH = registerSimpleItem("woven_mesh");
