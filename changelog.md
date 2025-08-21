@@ -39,6 +39,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * EMI mutation view only shows drones, to lower confusion
 * EMI and JEI plugins show Mellarium and Gyrofuge when appropriate as crafting stations
 * Made it a little more clear how gene transfer works
+* Pollen works as bone meal - #91
 
 ## Fixed
 * Occasional furnace generator loading issues
