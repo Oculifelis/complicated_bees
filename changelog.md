@@ -36,6 +36,9 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Microscope entry now says the game is random, with no pattern - #88
 * Bee sorter moves its whole inventory instead of 1 item at a time
 * Made it more explicit that mutations depend on EXTERNAL temperature - #79
+* EMI mutation view only shows drones, to lower confusion
+* EMI and JEI plugins show Mellarium and Gyrofuge when appropriate as crafting stations
+* Made it a little more clear how gene transfer works
 
 ## Fixed
 * Occasional furnace generator loading issues

@@ -34,7 +34,7 @@ public class MutationEmiRecipe implements EmiRecipe {
     public MutationEmiRecipe(Mutation mutation) {
         this.mutation = mutation;
 
-        id = new ResourceLocation(MODID,
+        id = ResourceLocation.tryBuild(MODID,
                 "/mutation/first/" +
                         mutation.getFirst().toString().replace(":", "/") +
                         "/second/" +
@@ -42,13 +42,13 @@ public class MutationEmiRecipe implements EmiRecipe {
                         "/result/" +
                         mutation.getResult().toString().replace(":", "/")
         );
-        first = EmiStack.of(mutation.getFirstSpecies().toStack(ItemsRegistration.QUEEN.get()));
-        second = EmiStack.of(mutation.getSecondSpecies().toStack(ItemsRegistration.QUEEN.get()));
-        result = EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())).setChance(mutation.getChance());
+        first = EmiStack.of(mutation.getFirstSpecies().toStack(ItemsRegistration.DRONE.get()));
+        second = EmiStack.of(mutation.getSecondSpecies().toStack(ItemsRegistration.DRONE.get()));
+        result = EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.DRONE.get())).setChance(mutation.getChance());
         extraResults = new ArrayList<>(List.of(result));
         extraResults.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.PRINCESS.get())));
-        extraResults.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.DRONE.get())));
-        catalysts = new ArrayList<>(List.of(ComplicatedBeesEMI.APIARY));
+        extraResults.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())));
+        catalysts = new ArrayList<>();
         catalysts.addAll(mutation.getFirstSpecies().toMembers().stream().map(EmiStack::of).toList());
         catalysts.addAll(mutation.getSecondSpecies().toMembers().stream().map(EmiStack::of).toList());
     }
@@ -92,7 +92,7 @@ public class MutationEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addTexture(ResourceLocation.tryBuild(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
         widgets.addSlot(first, 11, 11)
                 .drawBack(false);
         widgets.addSlot(second, 58, 11)

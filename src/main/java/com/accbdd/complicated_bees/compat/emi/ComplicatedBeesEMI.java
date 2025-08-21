@@ -27,7 +27,9 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 @EmiEntrypoint
 public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiStack CENTRIFUGE = EmiStack.of(ItemsRegistration.CENTRIFUGE.get());
+    public static final EmiStack GYROFUGE = EmiStack.of(ItemsRegistration.GYROFUGE_BASE.get());
     public static final EmiStack APIARY = EmiStack.of(ItemsRegistration.APIARY.get());
+    public static final EmiStack MELLARIUM = EmiStack.of(ItemsRegistration.MELLARIUM_BASE.get());
     public static final EmiStack MUTATOR = EmiStack.of(ItemsRegistration.MELLARIUM_MUTATOR.get());
     public static final EmiStack TEMP_UNIT = EmiStack.of(ItemsRegistration.MELLARIUM_TEMP_UNIT.get());
     public static final EmiStack HYDROREGULATOR = EmiStack.of(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get());
@@ -57,10 +59,13 @@ public class ComplicatedBeesEMI implements EmiPlugin {
 
         registry.addCategory(CENTRIFUGE_CATEGORY);
         registry.addWorkstation(CENTRIFUGE_CATEGORY, CENTRIFUGE);
+        registry.addWorkstation(CENTRIFUGE_CATEGORY, GYROFUGE);
         registry.addCategory(BEE_PRODUCE_CATEGORY);
         registry.addWorkstation(BEE_PRODUCE_CATEGORY, APIARY);
+        registry.addWorkstation(BEE_PRODUCE_CATEGORY, MELLARIUM);
         registry.addCategory(MUTATION_CATEGORY);
         registry.addWorkstation(MUTATION_CATEGORY, APIARY);
+        registry.addWorkstation(MUTATION_CATEGORY, MELLARIUM);
         registry.addCategory(MUTATOR_CATEGORY);
         registry.addWorkstation(MUTATOR_CATEGORY, MUTATOR);
         registry.addCategory(TEMP_UNIT_CATEGORY);
@@ -115,7 +120,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         private final Component name;
 
         public ComplicatedBeesRecipeCategory(String path, EmiRenderable icon, Component name) {
-            super(new ResourceLocation(MODID, path), icon);
+            super(ResourceLocation.tryBuild(MODID, path), icon);
 
             this.name = name;
         }

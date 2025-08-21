@@ -30,7 +30,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class ComplicatedBeesJEI implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return new ResourceLocation(MODID, "jei_plugin");
+        return ResourceLocation.tryBuild(MODID, "jei_plugin");
     }
 
     @Override
@@ -88,7 +88,10 @@ public class ComplicatedBeesJEI implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(ItemsRegistration.APIARY.get().getDefaultInstance(), BeeProduceRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.APIARY.get().getDefaultInstance(), MutationRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_BASE.get().getDefaultInstance(), BeeProduceRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_BASE.get().getDefaultInstance(), MutationRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.CENTRIFUGE.get().getDefaultInstance(), CentrifugeRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.GYROFUGE_BASE.get().getDefaultInstance(), CentrifugeRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_MUTATOR.get().getDefaultInstance(), MutatorRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_TEMP_UNIT.get().getDefaultInstance(), TempUnitRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get().getDefaultInstance(), HydroRecipeCategory.TYPE);
