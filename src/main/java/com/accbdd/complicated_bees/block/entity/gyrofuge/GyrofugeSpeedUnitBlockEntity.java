@@ -6,11 +6,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GyrofugeSpeedUnitBlockEntity extends AbstractGyrofugePoweredModifierBlockEntity {
+
+    public static final MachineModifier MODIFIER = new MachineModifier.Builder().speed(1.5f).efficiency(0.8f).build();
+
     public GyrofugeSpeedUnitBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.GYROFUGE_SPEED_UNIT_BLOCK_ENTITY.get(),
                 pPos,
                 pBlockState,
-                new MachineModifier.Builder().speed(1.5f).efficiency(0.8f).build(),
+                MODIFIER,
                 25);
     }
 }
