@@ -17,6 +17,7 @@ import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -47,7 +48,12 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.PRINCESS.get(), COMPARE_BEE);
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
         //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
-        registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> BeeNestBlockItem.getBlockEntityData(s.getItemStack()).getString("species")));
+        registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> {
+            CompoundTag blockEntityData = BeeNestBlockItem.getBlockEntityData(s.getItemStack());
+            if (blockEntityData == null)
+                return "empty";
+            return blockEntityData.getString("species");
+        }));
 
         registry.addCategory(CENTRIFUGE_CATEGORY);
         registry.addWorkstation(CENTRIFUGE_CATEGORY, CENTRIFUGE);

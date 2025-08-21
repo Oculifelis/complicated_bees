@@ -35,9 +35,11 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * The book has been reworked to make more sense with entries that unlock - #90
 * Microscope entry now says the game is random, with no pattern - #88
 * Bee sorter moves its whole inventory instead of 1 item at a time
+* Made it more explicit that mutations depend on EXTERNAL temperature - #79
 
 ## Fixed
 * Occasional furnace generator loading issues
+* Console error on with EMI on nest comparison
 * Give command crashing games - #70
 * Occasional crash on servers when player is null - #74
 * Generators not correctly outputting to cables - #76
