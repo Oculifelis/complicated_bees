@@ -2,9 +2,9 @@
 
 ## The Indust-bee-al Revolution 2 - Electric Boogaloo
  
-Lots of new content mainly revolving around power and using them in your beekeeping efforts - the Gyrofuge, production modifier upgrades, and more!
-Multiblock centrifuge - the Gyrofuge! Process multiple combs at a time, process them faster, and process them more efficiently!
-Add power to the Mellarium! Simulate skies and times - more bee productivity at the cost of energy.
+Lots of new content mainly revolving around power and using them in your beekeeping efforts - the Gyrofuge, production modifier upgrades, and more! The Gyrofuge is a multiblock centrifuge - process multiple combs at a time, process them faster, and process them more efficiently! Add power to the Mellarium! Simulate skies and times - more bee productivity at the cost of energy. 
+
+Additionally, I've added an absolute SMORGASBOARD of quality of life features. Download the mod and check it out!
 
 ## Added
 * Autolyzer
