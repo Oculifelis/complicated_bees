@@ -13,8 +13,8 @@ import java.util.List;
 public class MellariumUpgradeBlockItem extends BlockItem {
     public final List<Component> tooltip;
 
-    public MellariumUpgradeBlockItem(Block pBlock, Properties pProperties, List<Component> tooltip) {
-        super(pBlock, pProperties);
+    public MellariumUpgradeBlockItem(Block pBlock, List<Component> tooltip) {
+        super(pBlock, new Properties());
         this.tooltip = tooltip;
     }
 
