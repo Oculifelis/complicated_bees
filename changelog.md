@@ -40,6 +40,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * EMI and JEI plugins show Mellarium and Gyrofuge when appropriate as crafting stations
 * Made it a little more clear how gene transfer works
 * Pollen works as bone meal - #91
+* Mellarium now only drops extra bees if broken, not its entire output queue - #95
 
 ## Fixed
 * Occasional furnace generator loading issues
