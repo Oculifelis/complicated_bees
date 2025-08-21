@@ -33,6 +33,7 @@ Add power to the Mellarium! Simulate skies and times - more bee productivity at 
 * Advancements have been heavily reworked to provide more guidance through the mod - #90
 * The book has been reworked to make more sense with entries that unlock - #90
 * Microscope entry now says the game is random, with no pattern - #88
+* Bee sorter moves its whole inventory instead of 1 item at a time
 
 ## Fixed
 * Occasional furnace generator loading issues
