@@ -7,6 +7,7 @@ import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
+import com.accbdd.complicated_bees.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -110,7 +111,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
             }
             if (!possibleDirections.isEmpty()) {
                 Direction dir = possibleDirections.get(getLevel().getRandom().nextInt(possibleDirections.size()));
-                ItemHandlerHelper.insertItem(getHandler(dir).get(), item.extractItem(0, 1, false), false);
+                Util.moveInventoryItems(item, getHandler(dir).get());
             }
         }
     }

@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "complicated_bees:block/autolyzer",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "complicated_bees:block/autolyzer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "complicated_bees:block/autolyzer"
+    },
+    "facing=south": {
+      "model": "complicated_bees:block/autolyzer",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "complicated_bees:block/autolyzer",
+      "x": -90
+    },
+    "facing=west": {
+      "model": "complicated_bees:block/autolyzer",
+      "y": 270
+    }
+  }
+}

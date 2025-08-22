@@ -229,6 +229,7 @@ public class ComplicatedBees {
                 MenuScreens.register(MenuRegistration.LIBRARY_MENU.get(), LibraryScreen::new);
                 MenuScreens.register(MenuRegistration.BEE_SORTER_MENU.get(), BeeSorterScreen::new);
                 MenuScreens.register(MenuRegistration.GYROFUGE_MENU.get(), GyrofugeScreen::new);
+                MenuScreens.register(MenuRegistration.AUTOLYZER_MENU.get(), AnalyzerScreen::new);
             });
         }
 

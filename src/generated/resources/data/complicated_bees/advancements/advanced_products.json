@@ -1,0 +1,53 @@
+{
+  "parent": "complicated_bees:honey_droplet",
+  "criteria": {
+    "pollen": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:pollen"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "royal_jelly": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:royal_jelly"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.complicated_bees.advanced_products.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "complicated_bees:royal_jelly"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.complicated_bees.advanced_products.title"
+    }
+  },
+  "requirements": [
+    [
+      "royal_jelly"
+    ],
+    [
+      "pollen"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,23 @@
+{
+  "parent": "complicated_bees:root",
+  "criteria": {
+    "has_beeswax": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "complicated_bees:beeswax"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_beeswax"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

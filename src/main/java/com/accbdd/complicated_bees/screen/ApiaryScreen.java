@@ -19,7 +19,7 @@ import java.util.Optional;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class ApiaryScreen extends AbstractContainerScreen<ApiaryMenu> {
-    private final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/apiary.png");
+    private final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/apiary.png");
 
     public ApiaryScreen(ApiaryMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

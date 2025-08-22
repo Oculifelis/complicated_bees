@@ -1,0 +1,48 @@
+{
+  "parent": "complicated_bees:advanced_products",
+  "criteria": {
+    "use_gyrofuge": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "state": {
+                  "assembled": "side"
+                },
+                "tag": "complicated_bees:multiblock/gyrofuge"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {}
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.complicated_bees.gyrofuge.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "complicated_bees:gyrofuge_base"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.complicated_bees.gyrofuge.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_gyrofuge"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

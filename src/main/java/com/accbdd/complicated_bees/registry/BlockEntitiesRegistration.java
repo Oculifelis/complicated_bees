@@ -32,6 +32,8 @@ public class BlockEntitiesRegistration {
             () -> BlockEntityType.Builder.of(HoneyGeneratorBlockEntity::new, BlocksRegistration.HONEY_GENERATOR.get()).build(null));
     public static final Supplier<BlockEntityType<MicroscopeBlockEntity>> MICROSCOPE_BLOCK_ENTITY = BLOCK_ENTITIES.register("microscope",
             () -> BlockEntityType.Builder.of(MicroscopeBlockEntity::new, BlocksRegistration.MICROSCOPE.get()).build(null));
+    public static final Supplier<BlockEntityType<AutolyzerBlockEntity>> AUTOLYZER_BLOCK_ENTITY = BLOCK_ENTITIES.register("autolyzer",
+            () -> BlockEntityType.Builder.of(AutolyzerBlockEntity::new, BlocksRegistration.AUTOLYZER.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumControllerBlockEntity>> MELLARIUM_CONTROLLER_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_controller",
             () -> BlockEntityType.Builder.of(MellariumControllerBlockEntity::new, BlocksRegistration.MELLARIUM_CONTROLLER.get()).build(null));
     public static final Supplier<BlockEntityType<MellariumBaseBlockEntity>> MELLARIUM_BASE_BLOCK_ENTITY = BLOCK_ENTITIES.register("mellarium_base",

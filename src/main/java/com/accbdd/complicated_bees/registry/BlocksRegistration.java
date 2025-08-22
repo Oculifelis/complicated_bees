@@ -34,6 +34,7 @@ public class BlocksRegistration {
     public static final RegistryObject<HoneyGeneratorBlock> HONEY_GENERATOR = BLOCKS.register("honey_generator", HoneyGeneratorBlock::new);
     public static final RegistryObject<MicroscopeBlock> MICROSCOPE = BLOCKS.register("microscope", MicroscopeBlock::new);
     public static final RegistryObject<BeeSorterBlock> BEE_SORTER = BLOCKS.register("bee_sorter", BeeSorterBlock::new);
+    public static final RegistryObject<AutolyzerBlock> AUTOLYZER = BLOCKS.register("autolyzer", AutolyzerBlock::new);
 
     public static final RegistryObject<MellariumBlock> MELLARIUM_BASE = BLOCKS.register("mellarium_base", () -> new MellariumBlock(MellariumBlock.MellariumBlockType.BASE));
     public static final RegistryObject<MellariumBlock> MELLARIUM_TEMP_UNIT = BLOCKS.register("mellarium_temp_unit", MellariumTempUnitBlock::new);

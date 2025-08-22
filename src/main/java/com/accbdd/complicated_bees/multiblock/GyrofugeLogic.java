@@ -44,7 +44,8 @@ public class GyrofugeLogic {
                     idleUsage += power.getIdleUsage();
                 }
             } else {
-                ComplicatedBees.LOGGER.warn("built a gyrofuge with non-gyrofuge block at {}", pos);
+                if (!(level.getBlockEntity(pos) instanceof GyrofugeControllerBlockEntity))
+                    ComplicatedBees.LOGGER.warn("built a gyrofuge with non-gyrofuge block at {}", pos);
             }
         }
         energyStorage = new CombinedEnergyStorage(energyStorages.toArray(IEnergyStorage[]::new));

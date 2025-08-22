@@ -40,28 +40,47 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .build(loc("root"));
 
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
+    public void generate(HolderLookup.Provider registries, Consumer<Advancement> saver, ExistingFileHelper ex) {
         saver.accept(ROOT);
+
+        hiddenHas(ItemsRegistration.BEESWAX.get(), "beeswax", saver, ex);
+        hiddenHas(ItemsRegistration.ROYAL_JELLY.get(), "royal_jelly", saver, ex);
+        hiddenHas(ItemsRegistration.PROPOLIS.get(), "propolis", saver, ex);
+        hiddenHas(ItemsRegistration.POLLEN.get(), "pollen", saver, ex);
+
         Advancement firstBee = advancement(ItemsRegistration.QUEEN.get(), "first_bee")
                 .parent(ROOT)
                 .addCriterion("nest_broken", hasItem(ItemTagGenerator.BEE))
-                .save(saver, loc("first_bee"), existingFileHelper);
+                .save(saver, loc("first_bee"), ex);
 
-        Advancement apiary = simpleHas(ItemsRegistration.APIARY.get(), firstBee, saver, existingFileHelper);
-        Advancement meter = simpleHas(ItemsRegistration.METER.get(), firstBee, saver, existingFileHelper);
-        Advancement analyzer = simpleHas(ItemsRegistration.ANALYZER.get(), firstBee, saver, existingFileHelper);
-
-        Advancement microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, existingFileHelper);
-        Advancement apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, existingFileHelper);
+        Advancement apiary = simpleHas(ItemsRegistration.APIARY.get(), firstBee, saver, ex);
+        Advancement meter = simpleHas(ItemsRegistration.METER.get(), firstBee, saver, ex);
 
         Advancement processing = advancement(ItemsRegistration.CENTRIFUGE.get(), "processing")
                 .parent(apiary)
                 .addCriterion("furnace_generator", hasItem(ItemsRegistration.FURNACE_GENERATOR.get()))
                 .addCriterion("centrifuge", hasItem(ItemsRegistration.CENTRIFUGE.get()))
-                .save(saver, loc("processing"), existingFileHelper);
+                .save(saver, loc("processing"), ex);
+        Advancement frame = advancement(ItemsRegistration.FRAME.get(), "frame")
+                .parent(apiary)
+                .addCriterion("has_frame", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ItemTagGenerator.FRAME).build()))
+                .save(saver, loc("frame"), ex);
+
+        Advancement honey_droplet = simpleHas(ItemsRegistration.HONEY_DROPLET.get(), processing, saver, ex);
+
+        Advancement advanced_products = advancement(ItemsRegistration.ROYAL_JELLY.get(), "advanced_products")
+                .parent(honey_droplet)
+                .addCriterion("royal_jelly", hasItem(ItemsRegistration.ROYAL_JELLY.get()))
+                .addCriterion("pollen", hasItem(ItemsRegistration.POLLEN.get()))
+                .save(saver, loc("advanced_products"), ex);
+
+        Advancement analyzer = simpleHas(ItemsRegistration.ANALYZER.get(), honey_droplet, saver, ex);
+
+        Advancement microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, ex);
+        Advancement apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, ex);
 
         Advancement mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
-                .parent(apiary)
+                .parent(advanced_products)
                 .addCriterion("use_mellarium", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
                         LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
                                 StatePropertiesPredicate.Builder.properties()
@@ -78,7 +97,27 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
                         true,
                         true,
                         false)
-                .save(saver, loc("mellarium"), existingFileHelper);
+                .save(saver, loc("mellarium"), ex);
+
+        Advancement gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
+                .parent(advanced_products)
+                .addCriterion("use_gyrofuge", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
+                                        .build()
+                        ).of(BlockTagGenerator.GYROFUGE).build()),
+                        ItemPredicate.Builder.item()))
+                .display(ItemsRegistration.GYROFUGE_BASE.get(),
+                        Component.translatable("advancements.complicated_bees.gyrofuge.title"),
+                        Component.translatable("advancements.complicated_bees.gyrofuge.description"),
+                        null,
+                        FrameType.GOAL,
+                        true,
+                        true,
+                        false)
+                .save(saver, loc("gyrofuge"), ex);
     }
 
 
@@ -128,6 +167,15 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
                 .addCriterion("use_"+id, ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
                         LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(block).build()),
                         ItemPredicate.Builder.item()))
+                .save(saver, loc(id), existingFileHelper);
+    }
+
+    private static Advancement hiddenHas(ItemLike item, String translationId, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
+        String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
+        return advancement(item, id)
+                .display(null)
+                .addCriterion("has_"+id, hasItem(item))
+                .parent(ROOT)
                 .save(saver, loc(id), existingFileHelper);
     }
 }

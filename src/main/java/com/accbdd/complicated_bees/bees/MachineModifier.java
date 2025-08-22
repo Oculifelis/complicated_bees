@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.bees;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -61,28 +60,26 @@ public class MachineModifier {
 
     public List<Component> getTooltipComponents() {
         List<Component> components = new ArrayList<>();
-        if (Minecraft.getInstance().level != null) {
-            if (this.getSpeedMod() != 1)
-                components.add(Component.translatable("upgrade.complicated_bees.speed_label")
-                        .append(": ")
-                        .append(Component.literal(String.format("%01.2fx", this.getSpeedMod())))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getEfficiencyMod() != 1)
-                components.add(Component.translatable("upgrade.complicated_bees.efficiency_label")
-                        .append(": ")
-                        .append(Component.literal(String.format("%01.2fx", this.getEfficiencyMod())))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getOutputMod() != 1)
-                components.add(Component.translatable("upgrade.complicated_bees.output_label")
-                        .append(": ")
-                        .append(Component.literal(String.format("%01.2fx", this.getOutputMod())))
-                        .withStyle(ChatFormatting.GRAY));
-            if (this.getProcessingMod() != 0)
-                components.add(Component.translatable("upgrade.complicated_bees.processing_label")
-                        .append(": ")
-                        .append(Component.literal("+" + (this.getProcessingMod())))
-                        .withStyle(ChatFormatting.GRAY));
-        }
+        if (this.getSpeedMod() != 1)
+            components.add(Component.translatable("upgrade.complicated_bees.speed_label")
+                    .append(": ")
+                    .append(Component.literal(String.format("%01.2fx", this.getSpeedMod())))
+                    .withStyle(ChatFormatting.GRAY));
+        if (this.getEfficiencyMod() != 1)
+            components.add(Component.translatable("upgrade.complicated_bees.efficiency_label")
+                    .append(": ")
+                    .append(Component.literal(String.format("%01.2fx", this.getEfficiencyMod())))
+                    .withStyle(ChatFormatting.GRAY));
+        if (this.getOutputMod() != 1)
+            components.add(Component.translatable("upgrade.complicated_bees.output_label")
+                    .append(": ")
+                    .append(Component.literal(String.format("%01.2fx", this.getOutputMod())))
+                    .withStyle(ChatFormatting.GRAY));
+        if (this.getProcessingMod() != 0)
+            components.add(Component.translatable("upgrade.complicated_bees.processing_label")
+                    .append(": ")
+                    .append(Component.literal("+" + (this.getProcessingMod())))
+                    .withStyle(ChatFormatting.GRAY));
         return components;
     }
 

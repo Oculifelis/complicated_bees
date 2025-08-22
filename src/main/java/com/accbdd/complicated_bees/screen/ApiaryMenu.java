@@ -48,6 +48,7 @@ public class ApiaryMenu extends AbstractBaseInventoryMenu {
             addSlot(new OutputSlot(apiary.getOutputItems(), OUTPUT_SLOT + 5, 93, 64));
             addSlot(new OutputSlot(apiary.getOutputItems(), OUTPUT_SLOT + 6, 93, 39));
         }
+
         layoutPlayerInventorySlots(player.getInventory());
 
         addDataSlots(data);

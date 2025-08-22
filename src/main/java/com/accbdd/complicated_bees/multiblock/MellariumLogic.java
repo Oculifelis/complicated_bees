@@ -5,11 +5,13 @@ import com.accbdd.complicated_bees.block.entity.CombinedEnergyStorage;
 import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumEnergyCellBlockEntity;
+import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -50,14 +52,16 @@ public class MellariumLogic {
                 ComplicatedBees.LOGGER.warn("built a mellarium with non-mellarium block at {}", pos);
             }
         }
-        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(new IEnergyStorage[energyStorages.size()]));
+        energyStorage = new CombinedEnergyStorage(energyStorages.toArray(IEnergyStorage[]::new));
     }
 
     public void deconstruct(BlockPos pos) {
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
         if (getController() != null) {
             while (getController() != null && !getController().getOutputBuffer().empty()) {
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getController().getOutputBuffer().pop());
+                ItemStack stack = getController().getOutputBuffer().pop();
+                if (stack.is(ItemTagGenerator.BEE))
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
             IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
             for (int i = 0; i < handler.getSlots(); i++) {
