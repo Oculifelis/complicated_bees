@@ -14,6 +14,6 @@ public class GyrofugeAdvancedSpeedUnitBlockEntity extends AbstractGyrofugePowere
                 pPos,
                 pBlockState,
                 MODIFIER,
-                10);
+                50);
     }
 }
