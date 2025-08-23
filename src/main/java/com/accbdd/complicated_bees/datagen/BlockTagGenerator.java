@@ -102,7 +102,8 @@ public class BlockTagGenerator extends BlockTagsProvider {
                     BlocksRegistration.WAX_BRICK_WALL.get(),
                     BlocksRegistration.CHISELED_WAX.get(),
                     BlocksRegistration.FURNACE_GENERATOR.get(),
-                    BlocksRegistration.HONEY_GENERATOR.get()
+                    BlocksRegistration.HONEY_GENERATOR.get(),
+                    BlocksRegistration.AUTOLYZER.get()
         );
         tag(BlockTags.PLANKS).add(BlocksRegistration.HONEYED_PLANKS.get());
         tag(BlockTags.WOODEN_STAIRS).add(BlocksRegistration.HONEYED_STAIRS.get());

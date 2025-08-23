@@ -18,6 +18,7 @@
     "complicated_bees:wax_brick_wall",
     "complicated_bees:chiseled_wax",
     "complicated_bees:furnace_generator",
-    "complicated_bees:honey_generator"
+    "complicated_bees:honey_generator",
+    "complicated_bees:autolyzer"
   ]
 }
