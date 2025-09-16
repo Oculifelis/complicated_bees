@@ -1,5 +1,8 @@
 # Complicated Bees 3.0.4
 
+## Changed
+* Bees are up to twice as common in certain biomes - this is something you can change with datapacks! - #67
+
 ## Fixed
 * Mellarium output hatch loops outputs if touching the middle - #98
 * Centrifuge loses RF on world load - #101
