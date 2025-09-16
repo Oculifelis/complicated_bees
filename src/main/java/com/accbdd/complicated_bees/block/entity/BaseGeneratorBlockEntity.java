@@ -72,12 +72,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         this.baseStorage = baseStorage;
         this.generate = baseGenerate;
         this.items = createItemHandler();
-        this.itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items) {
-            @Override
-            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                return ItemStack.EMPTY;
-            }
-        });
+        this.itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
         this.upgradeItems = createUpgradeHandler(3);
         this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
             @Override
@@ -117,7 +112,10 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
                 if (burnTime <= 0) {
                     return;
                 }
-                items.extractItem(SLOT, 1, false);
+                if (fuel.hasCraftingRemainingItem())
+                    items.setStackInSlot(SLOT, fuel.getCraftingRemainingItem());
+                else
+                    items.extractItem(SLOT, 1, false);
             } else {
                 setBurnTime(burnTime - 1);
                 energy.receiveEnergy(generate, false);
