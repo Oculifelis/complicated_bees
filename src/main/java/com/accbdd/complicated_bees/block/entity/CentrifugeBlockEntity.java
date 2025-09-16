@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.UpgradeHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
+    public static final String ENERGY_TAG = "energy";
     public static final int INPUT_SLOT_COUNT = 1;
     public static final int OUTPUT_SLOT_COUNT = 9;
     public static final int UPGRADE_SLOT_COUNT = 3;
@@ -99,6 +101,20 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
 
     public int getStoredPower() {
         return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.put(ENERGY_TAG, ((EnergyStorage)energyStorage).serializeNBT());
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        if (tag.contains(ENERGY_TAG)) {
+            ((EnergyStorage)energyStorage).deserializeNBT(tag.get(ENERGY_TAG));
+        }
     }
 
     @Override

@@ -49,7 +49,7 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
         if (mellariumOutput != null && tickCount++ % 4 == 0) {
             for (Direction dir : Direction.values()) {
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
-                if (blockEntity == null || blockEntity instanceof AbstractMellariumBlockEntity)
+                if (blockEntity == null || blockEntity instanceof AbstractMellariumBlockEntity || blockEntity instanceof MellariumControllerBlockEntity)
                     continue;
                 IItemHandler itemCap = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve().orElse(null);
                 IItemHandler output = mellariumOutput.resolve().orElse(null);
