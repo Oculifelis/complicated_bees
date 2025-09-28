@@ -1,45 +1,27 @@
 package com.accbdd.complicated_bees.compat.jei.ingredient;
 
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.renderer.entity.DisplayRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-
-import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
-
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.models.blockstates.BlockStateGenerator;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.Services;
-import net.minecraft.world.entity.Display;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelDataManager;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import org.slf4j.Logger;
+import net.minecraftforge.client.model.data.ModelData;
+import org.spongepowered.asm.mixin.injection.invoke.arg.ArgumentIndexOutOfBoundsException;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
 public class BlockRenderer implements IIngredientRenderer<Block> {
@@ -62,29 +44,22 @@ public class BlockRenderer implements IIngredientRenderer<Block> {
                 guiGraphics.renderFakeItem(new ItemStack(block.asItem()), 0, 0);
             } else {
                 // Handle blocks without corresponding BlockItems
-//                BlockModel
-//                new BlockRenderDispatcher()
-//                ModelBlockRenderer renderer = new ModelBlockRenderer(BlockColors.createDefault());
-//                renderer.renderModel(Pose.CROAKING, );
-//                new BlockRenderDispatcher().getBlockModel(block.defaultBlockState()).getQuads().get(0).getSprite();
                 ModelManager manager = Minecraft.getInstance().getModelManager();
                 Level level = Minecraft.getInstance().level;
                 if (null != level) {
                     ResourceLocation rl = level.registryAccess().registry(Registries.BLOCK).orElseThrow().getKey(block);
                     if (null != rl) {
-                        TextureAtlasSprite sprite = manager.getModel(rl).getQuads(block.defaultBlockState(), Direction.NORTH, level.random).get(0).getSprite();
+                        TextureAtlasSprite sprite = manager.getBlockModelShaper().getBlockModel(block.defaultBlockState()).getParticleIcon(ModelData.EMPTY);
                         guiGraphics.blit(0, 0, 0, 16, 16, sprite);
                     } else {
                         LOGGER.debug("Error parsing block: {} for JEI plugin.", block.getName().getString());
                     }
                 }
-//                BlockRendererDispatcher.getModelForState(block.defaultBlockState()).getQuads.get.getSprite()
-//                BlockModelProvider.
-//                 block.defaultBlockState()
             }
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArgumentIndexOutOfBoundsException e) {
             LOGGER.error("Block [{}] handled badly and may not render properly in recipe viewers.",
                     block.getName().getString());
+            e.printStackTrace();
         }
 
     }
@@ -101,6 +76,4 @@ public class BlockRenderer implements IIngredientRenderer<Block> {
     public List<Component> getTooltip(Block ingredient, TooltipFlag tooltipFlag) {
         return List.of(ingredient.getName());
     }
-
-
 }

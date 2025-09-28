@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.compat.jei.ingredient;
 
+import mezz.jei.api.constants.Tags;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
@@ -45,7 +46,7 @@ public class BlockHelper implements IIngredientHelper<Block> {
     @Override
     public String getUniqueId(Block ingredient, UidContext context) {
 
-        return getRegistryNameForBlock(ingredient);
+        return "Block: " + getRegistryNameForBlock(ingredient);
     }
 
     private String getRegistryNameForBlock(Block ingredient) {
@@ -108,6 +109,8 @@ public class BlockHelper implements IIngredientHelper<Block> {
      */
     @Override
     public ItemStack getCheatItemStack(Block block) {
+        // This try catch probably isn't necessary, and both paths should spit out an air stack (effectively nothing)
+        // if the BlockItem doesn't exist.
         try {
             return new ItemStack(block.asItem());
         } catch (IllegalArgumentException e) {

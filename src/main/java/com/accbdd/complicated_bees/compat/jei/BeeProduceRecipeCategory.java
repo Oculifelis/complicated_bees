@@ -1,13 +1,11 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.GeneFlower;
 import com.accbdd.complicated_bees.compat.jei.ingredient.ComplicatedIngredients;
-import com.accbdd.complicated_bees.datagen.builtin.Flowers;
 import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -18,15 +16,10 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.List;
