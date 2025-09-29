@@ -47,8 +47,13 @@ public class Flower {
         return result;
     }
 
-    public Set<Block> getFlowerBlocks() {
-        return flowerBlocks;
+    /**
+     * @return all blocks that satisfy this flower
+     */
+    public Set<Block> getAllFlowerBlocks() {
+        HashSet<Block> blocks = new HashSet<>(flowerBlocks);
+        getFlowerTags().forEach(tagKey -> ForgeRegistries.BLOCKS.tags().getTag(tagKey).forEach(blocks::add));
+        return blocks;
     }
 
     public Set<TagKey<Block>> getFlowerTags() {

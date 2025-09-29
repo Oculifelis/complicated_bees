@@ -93,15 +93,10 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     public static List<Block> createList() {
 
         Set<Block> blocks = new HashSet<>();
-        GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow().forEach(flower -> {
-            blocks.addAll(flower.getFlowerBlocks());
-            flower.getFlowerTags().forEach(tagKey -> ForgeRegistries.BLOCKS.tags().getTag(tagKey).forEach(blocks::add));
-        });
+        GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow()
+                .forEach(flower -> blocks.addAll(flower.getAllFlowerBlocks()));
 
-        LOGGER.debug(
-                "Added {} flower blocks to the JEI ingredient list",
-                blocks.size()
-        );
+        LOGGER.debug("Added {} flower blocks to the JEI ingredient list", blocks.size());
 
         return blocks.stream().toList();
     }

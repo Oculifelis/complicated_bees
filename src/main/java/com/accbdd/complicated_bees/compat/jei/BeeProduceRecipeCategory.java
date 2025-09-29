@@ -1,12 +1,7 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.bees.Flower;
-import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.gene.GeneFlower;
-import com.accbdd.complicated_bees.compat.jei.ingredient.ComplicatedIngredients;
-import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -14,18 +9,11 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
@@ -64,10 +52,6 @@ public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
                 .setSlotName("input_species")
                 .addIngredients(VanillaTypes.ITEM_STACK, species.toMembers());
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 14, 45)
-                .setSlotName("flower")
-                .addIngredients(ComplicatedIngredients.BLOCK, getFlowers(species));
-
         List<Product> products = species.getProducts();
         List<Product> specProducts = species.getSpecialtyProducts();
 
@@ -84,40 +68,5 @@ public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
                     .addIngredient(VanillaTypes.ITEM_STACK, specProducts.get(i).getStack())
                     .addRichTooltipCallback(new ChanceTooltipCallback(specProducts.get(i).getChance()));
         }
-    }
-
-    List<Block> getFlowers(Species species) {
-        Level level =Minecraft.getInstance().level;
-        if (level != null) {
-            Flower flower = level.registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow()
-                    .get(((GeneFlower) GeneticHelper.getGene(species.toMembers().get(0), GeneFlower.ID, true)).get());
-            if (flower != null) {
-                ArrayList<Block> flowers = new ArrayList<>();
-                flower.getBlocksAsResourceLocs().stream().map(
-                   rl -> level.registryAccess().registry(Registries.BLOCK).orElseThrow().get(rl)
-                ).filter(Objects::nonNull).forEach(flowers::add);
-
-                flower.getFlowerTags().forEach(
-                       key -> {
-                           level.registryAccess().registry(Registries.BLOCK).orElseThrow().stream().filter(
-                                   block -> block.defaultBlockState().is(key)
-                           )
-                       .forEach(flowers::add);
-                       }
-                );
-
-                if (!flowers.isEmpty()) {
-
-                    return flowers;
-                }
-            }
-        }
-
-        LOGGER.error("No valid flower found for: {} \n" +
-                "This is an error from the {} JEI plugin and might not affect gameplay.",
-                species.toMembers().get(0).getDisplayName().getString(),
-                MODID);
-
-        return List.of();
     }
 }
