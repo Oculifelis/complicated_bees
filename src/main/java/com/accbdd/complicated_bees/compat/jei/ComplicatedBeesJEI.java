@@ -4,10 +4,9 @@ import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
-import com.accbdd.complicated_bees.compat.jei.ingredient.BlockRenderer;
+import com.accbdd.complicated_bees.compat.jei.ingredient.BlockIngredientHelper;
+import com.accbdd.complicated_bees.compat.jei.ingredient.BlockIngredientRenderer;
 import com.accbdd.complicated_bees.compat.jei.ingredient.ComplicatedIngredients;
-import com.accbdd.complicated_bees.compat.jei.ingredient.BlockHelper;
-import com.accbdd.complicated_bees.compat.jei.ingredient.BlockListFactory;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -107,15 +106,8 @@ public class ComplicatedBeesJEI implements IModPlugin {
         registration.addGhostIngredientHandler(BeeSorterScreen.class, new BeeSorterDragDropJEI());
     }
 
-    /**
-     * Register special ingredients, beyond the basic ItemStack and FluidStack.
-     *
-     * @param registration
-     */
     @Override public void registerIngredients(IModIngredientRegistration registration) {
-        BlockHelper helper = new BlockHelper();
-
-        registration.register(ComplicatedIngredients.BLOCK, BlockListFactory.create(helper), helper, new BlockRenderer());
+        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer());
         IModPlugin.super.registerIngredients(registration);
     }
 

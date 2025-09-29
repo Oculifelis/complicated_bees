@@ -16,8 +16,4 @@ public class ComplicatedIngredients {
             return Block.class;
         }
     };
-
-    private ComplicatedIngredients() {
-
-    }
 }

@@ -19,13 +19,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/comb_product");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/comb_product");
     public static final RecipeType<CentrifugeRecipe> TYPE = new RecipeType<>(ID, CentrifugeRecipe.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.centrifuge");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 128, 64);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 128, 64);
 
     public CentrifugeRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.CENTRIFUGE.get()));

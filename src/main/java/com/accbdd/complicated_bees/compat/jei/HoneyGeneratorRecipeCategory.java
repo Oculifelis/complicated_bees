@@ -21,13 +21,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class HoneyGeneratorRecipeCategory implements IRecipeCategory<HoneyGeneratorRecipe> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/honey_generator");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/honey_generator");
     public static final RecipeType<HoneyGeneratorRecipe> TYPE = new RecipeType<>(ID, HoneyGeneratorRecipe.class);
 
     private static final Component TITLE = Component.translatable("jei.complicated_bees.honey_generator");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
 
     public HoneyGeneratorRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.HONEY_GENERATOR.get()));

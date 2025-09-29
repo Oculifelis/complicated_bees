@@ -24,14 +24,7 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
-public class BlockRenderer implements IIngredientRenderer<Block> {
-    /**
-     * Renders an ingredient.
-     *
-     * @param guiGraphics The current {@link GuiGraphics} for rendering the ingredient.
-     * @param ingredient  the ingredient to render.
-     * @since 9.3.0
-     */
+public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
     @Override
     public void render(GuiGraphics guiGraphics, Block ingredient) {
         drawBlock(guiGraphics, ingredient);
@@ -46,9 +39,9 @@ public class BlockRenderer implements IIngredientRenderer<Block> {
                 // Handle blocks without corresponding BlockItems
                 ModelManager manager = Minecraft.getInstance().getModelManager();
                 Level level = Minecraft.getInstance().level;
-                if (null != level) {
-                    ResourceLocation rl = level.registryAccess().registry(Registries.BLOCK).orElseThrow().getKey(block);
-                    if (null != rl) {
+                if (level != null) {
+                    ResourceLocation loc = level.registryAccess().registry(Registries.BLOCK).orElseThrow().getKey(block);
+                    if (loc != null) {
                         TextureAtlasSprite sprite = manager.getBlockModelShaper().getBlockModel(block.defaultBlockState()).getParticleIcon(ModelData.EMPTY);
                         guiGraphics.blit(0, 0, 0, 16, 16, sprite);
                     } else {

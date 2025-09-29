@@ -64,7 +64,7 @@ public class HydroEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
         widgets.addSlot(input, 3, 11);
         widgets.addSlot(output, 49, 11).recipeContext(this);
 

@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.compat.jei.ingredient;
 
-import mezz.jei.api.constants.Tags;
+import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
@@ -12,41 +13,30 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
-public class BlockHelper implements IIngredientHelper<Block> {
+public class BlockIngredientHelper implements IIngredientHelper<Block> {
 
-    /**
-     * @return The ingredient type for this {@link IIngredientHelper}.
-     */
     @Override
     public IIngredientType<Block> getIngredientType() {
         return ComplicatedIngredients.BLOCK;
     }
 
-    /**
-     * Display name used for searching. Normally this is the first line of the tooltip.
-     *
-     * @param ingredient
-     */
     @Override
     public String getDisplayName(Block ingredient) {
         return "Block: " + ingredient.getName().getString();
     }
 
-    /**
-     * Unique ID for use in comparing, blacklisting, and looking up ingredients.
-     *
-     * @param ingredient
-     * @param context
-     * @since 7.3.0
-     */
     @Override
     public String getUniqueId(Block ingredient, UidContext context) {
 
-        return "Block: " + getRegistryNameForBlock(ingredient);
+        return "Block:" + getRegistryNameForBlock(ingredient);
     }
 
     private String getRegistryNameForBlock(Block ingredient) {
@@ -57,24 +47,11 @@ public class BlockHelper implements IIngredientHelper<Block> {
         return rl.toString();
     }
 
-    /**
-     * Return the registry name of the given ingredient.
-     *
-     * @param ingredient
-     * @since 9.2.2
-     */
     @Override
     public ResourceLocation getResourceLocation(Block ingredient) {
-        return new ResourceLocation(getRegistryNameForBlock(ingredient));
+        return ResourceLocation.parse(getRegistryNameForBlock(ingredient));
     }
 
-    /**
-     * Makes a copy of the given ingredient.
-     * Used by JEI to protect against mutation of ingredients.
-     *
-     * @param ingredient the ingredient to copy
-     * @return a copy of the ingredient
-     */
     @Override
     public Block copyIngredient(Block ingredient) {
         // Blocks are singletons, so the only way to copy this would be to create
@@ -83,30 +60,15 @@ public class BlockHelper implements IIngredientHelper<Block> {
         return ingredient;
     }
 
-
-
-    /**
-     * Get information for error messages involving this ingredient.
-     * Be extremely careful not to crash here, get as much useful info as possible.
-     *
-     * @param block
-     */
     @Override
     public String getErrorInfo(@Nullable Block block) {
-        if (null == block) {
-
+        if (block == null) {
             return "Block ingredient is null";
         }
 
         return MODID + " registered an ingredient for the block " + getDisplayName(block) + ", registered at " + getRegistryNameForBlock(block) + " that has caused an error.";
     }
 
-    /**
-     * Called when a player is in cheat mode and clicks an ingredient in the list.
-     *
-     * @param block The ingredient to cheat in. Do not edit this ingredient.
-     * @return an ItemStack for JEI to give the player, or an empty stack if there is nothing that can be given.
-     */
     @Override
     public ItemStack getCheatItemStack(Block block) {
         // This try catch probably isn't necessary, and both paths should spit out an air stack (effectively nothing)
@@ -118,17 +80,29 @@ public class BlockHelper implements IIngredientHelper<Block> {
         }
     }
 
-    /**
-     * Return true if the given ingredient is hidden from recipe viewers by its tags.
-     *
-     * @param ingredient
-     * @see Tags#HIDDEN_FROM_RECIPE_VIEWERS
-     * @since 15.6.0
-     */
     @Override
     public boolean isHiddenFromRecipeViewersByTags(Block ingredient) {
-        // While showing blocktags is a useful utility, it's kind of wierd to have every block show up twice
+        // While showing blocktags is a useful utility, it's kind of weird to have every block show up twice
         // in JEI. Better to hide these from the search panel. Can be turned into a config option if desired.
         return true;
+    }
+
+    /**
+     * @return a list of all blocks that are in flower datapack entries
+     */
+    public static List<Block> createList() {
+
+        Set<Block> blocks = new HashSet<>();
+        GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow().forEach(flower -> {
+            blocks.addAll(flower.getFlowerBlocks());
+            flower.getFlowerTags().forEach(tagKey -> ForgeRegistries.BLOCKS.tags().getTag(tagKey).forEach(blocks::add));
+        });
+
+        LOGGER.debug(
+                "Added {} flower blocks to the JEI ingredient list",
+                blocks.size()
+        );
+
+        return blocks.stream().toList();
     }
 }

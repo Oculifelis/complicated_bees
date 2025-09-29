@@ -21,6 +21,6 @@ public class BeeNestComponentProvider implements IBlockComponentProvider {
 
     @Override
     public ResourceLocation getUid() {
-        return new ResourceLocation(MODID, "bee_nest_type");
+        return ResourceLocation.fromNamespaceAndPath(MODID, "bee_nest_type");
     }
 }

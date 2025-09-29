@@ -30,13 +30,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/bee_product");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/bee_product");
     public static final RecipeType<Species> TYPE = new RecipeType<>(ID, Species.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.bee_products");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
 
     @Override
     public RecipeType<Species> getRecipeType() {
@@ -88,16 +88,16 @@ public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
 
     List<Block> getFlowers(Species species) {
         Level level =Minecraft.getInstance().level;
-        if (null != level) {
-            Flower flower = level.registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
+        if (level != null) {
+            Flower flower = level.registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow()
                     .get(((GeneFlower) GeneticHelper.getGene(species.toMembers().get(0), GeneFlower.ID, true)).get());
-            if (null != flower) {
+            if (flower != null) {
                 ArrayList<Block> flowers = new ArrayList<>();
                 flower.getBlocksAsResourceLocs().stream().map(
                    rl -> level.registryAccess().registry(Registries.BLOCK).orElseThrow().get(rl)
                 ).filter(Objects::nonNull).forEach(flowers::add);
 
-                flower.getTags().forEach(
+                flower.getFlowerTags().forEach(
                        key -> {
                            level.registryAccess().registry(Registries.BLOCK).orElseThrow().stream().filter(
                                    block -> block.defaultBlockState().is(key)
