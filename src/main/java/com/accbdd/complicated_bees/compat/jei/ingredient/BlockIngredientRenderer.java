@@ -50,7 +50,7 @@ public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
                 }
             }
         } catch (IllegalArgumentException | ArgumentIndexOutOfBoundsException e) {
-            LOGGER.error("Block [{}] handled badly and may not render properly in recipe viewers.",
+            LOGGER.error("Block [{}] was handled badly and may not render properly in recipe viewers.",
                     block.getName().getString());
             e.printStackTrace();
         }

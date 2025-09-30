@@ -46,7 +46,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
                 return test.comparison(Comparison.compareNbt());
             return test;
         }).toList();
-        catalysts = new ArrayList<>(List.of(ComplicatedBeesEMI.APIARY));
+        catalysts = new ArrayList<>();
         catalysts.addAll(species.toMembers().stream().map(EmiStack::of).toList());
     }
 
