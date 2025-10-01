@@ -23,6 +23,7 @@ import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 
+@SuppressWarnings("removal")
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
 public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
     @Override
@@ -52,21 +53,17 @@ public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
         } catch (IllegalArgumentException | ArgumentIndexOutOfBoundsException e) {
             LOGGER.error("Block [{}] was handled badly and may not render properly in recipe viewers.",
                     block.getName().getString());
-            e.printStackTrace();
         }
 
     }
 
-    /**
-     * Get the tooltip text for this ingredient. JEI renders the tooltip based on this.
-     *
-     * @param ingredient  The ingredient to get the tooltip for.
-     * @param tooltipFlag Whether to show advanced information on item tooltips, toggled by F3+H
-     * @return The tooltip text for the ingredient.
-     * @deprecated use {@link #getTooltip(ITooltipBuilder, Object, TooltipFlag)}
-     */
     @Override
     public List<Component> getTooltip(Block ingredient, TooltipFlag tooltipFlag) {
-        return List.of(ingredient.getName());
+        return null;//List.of(ingredient.getName());
+    }
+
+    @Override
+    public void getTooltip(ITooltipBuilder tooltip, Block ingredient, TooltipFlag tooltipFlag) {
+        tooltip.add(ingredient.getName());
     }
 }

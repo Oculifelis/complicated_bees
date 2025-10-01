@@ -96,7 +96,6 @@ public class EmiBlock extends EmiStack {
         } catch (IllegalArgumentException | ArgumentIndexOutOfBoundsException e) {
             LOGGER.error("Block [{}] was handled badly and may not render properly in recipe viewers.",
                     block.getName().getString());
-            e.printStackTrace();
         }
     }
 }
