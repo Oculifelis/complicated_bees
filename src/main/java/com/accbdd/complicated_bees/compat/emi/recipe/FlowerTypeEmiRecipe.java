@@ -63,12 +63,12 @@ public class FlowerTypeEmiRecipe implements EmiRecipe {
 
     @Override
     public int getDisplayWidth() {
-        return 160;
+        return 143;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 64;
+        return 40;
     }
 
     @Override
