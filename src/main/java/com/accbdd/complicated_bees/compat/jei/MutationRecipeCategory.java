@@ -30,13 +30,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 @ParametersAreNonnullByDefault
 public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/mutation");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/mutation");
     public static final RecipeType<Mutation> TYPE = new RecipeType<>(ID, Mutation.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.mutations");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 143, 40);
 
     @Override
     public RecipeType<Mutation> getRecipeType() {
@@ -99,6 +99,6 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
 
     @Override
     public @Nullable ResourceLocation getRegistryName(Mutation recipe) {
-        return new ResourceLocation(MODID, Integer.toHexString(recipe.hashCode()));
+        return ResourceLocation.fromNamespaceAndPath(MODID, Integer.toHexString(recipe.hashCode()));
     }
 }

@@ -21,13 +21,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class TempUnitRecipeCategory implements IRecipeCategory<TempUnitRecipe> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/temp_unit");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/temp_unit");
     public static final RecipeType<TempUnitRecipe> TYPE = new RecipeType<>(ID, TempUnitRecipe.class);
 
     private static final Component TITLE = Component.translatable("jei.complicated_bees.temp_unit");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
 
     public TempUnitRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.MELLARIUM_TEMP_UNIT.get()));

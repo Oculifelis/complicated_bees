@@ -14,8 +14,8 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 @WailaPlugin
 public class ComplicatedBeesJade implements IWailaPlugin {
 
-    public static ResourceLocation ERRORS_CONFIG = new ResourceLocation(MODID, "show_errors");
-    public static ResourceLocation CYCLE_CONFIG = new ResourceLocation(MODID, "show_cycle_ticks");
+    public static ResourceLocation ERRORS_CONFIG = ResourceLocation.fromNamespaceAndPath(MODID, "show_errors");
+    public static ResourceLocation CYCLE_CONFIG = ResourceLocation.fromNamespaceAndPath(MODID, "show_cycle_ticks");
 
     @Override
     public void register(IWailaCommonRegistration registration) {

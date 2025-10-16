@@ -3,10 +3,7 @@ package com.accbdd.complicated_bees.compat.emi;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
 import com.accbdd.complicated_bees.item.BeeNestBlockItem;
-import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
@@ -20,6 +17,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -37,6 +35,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY = new ComplicatedBeesRecipeCategory("centrifuge", CENTRIFUGE, Component.translatable("gui.complicated_bees.jei.centrifuge"));
     public static final EmiRecipeCategory BEE_PRODUCE_CATEGORY = new ComplicatedBeesRecipeCategory("bee_produce", APIARY, Component.translatable("gui.complicated_bees.jei.bee_products"));
     public static final EmiRecipeCategory MUTATION_CATEGORY = new ComplicatedBeesRecipeCategory("mutation", APIARY, Component.translatable("gui.complicated_bees.jei.mutations"));
+    public static final EmiRecipeCategory FLOWER_TYPE_CATEGORY = new ComplicatedBeesRecipeCategory("flower_type", EmiStack.of(Items.POPPY), Component.translatable("gui.complicated_bees.jei.flower_type"));
     public static final EmiRecipeCategory MUTATOR_CATEGORY = new ComplicatedBeesRecipeCategory("mutator", MUTATOR, Component.translatable("jei.complicated_bees.mutator"));
     public static final EmiRecipeCategory TEMP_UNIT_CATEGORY = new ComplicatedBeesRecipeCategory("temp_unit", TEMP_UNIT, Component.translatable("jei.complicated_bees.temp_unit"));
     public static final EmiRecipeCategory HYDROREGULATOR_CATEGORY = new ComplicatedBeesRecipeCategory("hydroregulator", HYDROREGULATOR, Component.translatable("jei.complicated_bees.hydroregulator"));
@@ -66,6 +65,9 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addCategory(MUTATION_CATEGORY);
         registry.addWorkstation(MUTATION_CATEGORY, APIARY);
         registry.addWorkstation(MUTATION_CATEGORY, MELLARIUM);
+        registry.addCategory(FLOWER_TYPE_CATEGORY);
+        registry.addWorkstation(FLOWER_TYPE_CATEGORY, APIARY);
+        registry.addWorkstation(FLOWER_TYPE_CATEGORY, MELLARIUM);
         registry.addCategory(MUTATOR_CATEGORY);
         registry.addWorkstation(MUTATOR_CATEGORY, MUTATOR);
         registry.addCategory(TEMP_UNIT_CATEGORY);
@@ -113,6 +115,11 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY)
                 .stream()
                 .map(BeeProduceEmiRecipe::new)
+                .forEach(registry::addRecipe);
+
+        registryAccess.registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
+                .stream()
+                .map(FlowerTypeEmiRecipe::new)
                 .forEach(registry::addRecipe);
     }
 

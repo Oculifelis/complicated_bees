@@ -30,7 +30,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
 
     public BeeProduceEmiRecipe(Species species) {
         ResourceLocation speciesId = Minecraft.getInstance().level.registryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species);
-        this.id = new ResourceLocation(ComplicatedBees.MODID, "/bee_produce/" + speciesId.toString().replace(":", "/"));
+        this.id = ResourceLocation.fromNamespaceAndPath(ComplicatedBees.MODID, "/bee_produce/" + speciesId.toString().replace(":", "/"));
 
         this.beeInput = EmiStack.of(species.toStack(ItemsRegistration.QUEEN.get()));
 
@@ -46,7 +46,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
                 return test.comparison(Comparison.compareNbt());
             return test;
         }).toList();
-        catalysts = new ArrayList<>(List.of(ComplicatedBeesEMI.APIARY));
+        catalysts = new ArrayList<>();
         catalysts.addAll(species.toMembers().stream().map(EmiStack::of).toList());
     }
 
@@ -87,7 +87,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 0, 0, 160, 64, 160, 64);
+        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 0, 0, 160, 64, 160, 64);
 
         widgets.addSlot(beeInput, 13, 23)
                 .drawBack(false);

@@ -21,13 +21,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MutatorRecipeCategory implements IRecipeCategory<MutatorRecipe> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/mutator");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/mutator");
     public static final RecipeType<MutatorRecipe> TYPE = new RecipeType<>(ID, MutatorRecipe.class);
 
     private static final Component TITLE = Component.translatable("jei.complicated_bees.mutator");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 143, 40);
 
     public MutatorRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.MELLARIUM_MUTATOR.get()));

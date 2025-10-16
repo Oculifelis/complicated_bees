@@ -18,13 +18,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
 
-    public static final ResourceLocation ID = new ResourceLocation(MODID, "jei/bee_product");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/bee_product");
     public static final RecipeType<Species> TYPE = new RecipeType<>(ID, Species.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.bee_products");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(new ResourceLocation(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
 
     @Override
     public RecipeType<Species> getRecipeType() {

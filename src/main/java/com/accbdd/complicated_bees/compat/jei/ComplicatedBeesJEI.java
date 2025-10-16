@@ -4,11 +4,11 @@ import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
+import com.accbdd.complicated_bees.compat.jei.ingredient.BlockIngredientHelper;
+import com.accbdd.complicated_bees.compat.jei.ingredient.BlockIngredientRenderer;
+import com.accbdd.complicated_bees.compat.jei.ingredient.ComplicatedIngredients;
 import com.accbdd.complicated_bees.item.CombItem;
-import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -40,6 +40,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
                 new CentrifugeRecipeCategory(helper),
                 new BeeProduceRecipeCategory(),
                 new MutationRecipeCategory(),
+                new FlowerTypeRecipeCategory(),
                 new TempUnitRecipeCategory(helper),
                 new MutatorRecipeCategory(helper),
                 new HydroRecipeCategory(helper),
@@ -53,6 +54,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
         registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()));
         registration.addRecipes(BeeProduceRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().stream().toList());
         registration.addRecipes(MutationRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().stream().toList());
+        registration.addRecipes(FlowerTypeRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().stream().toList());
         registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()));
         registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()));
         registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()));
@@ -88,8 +90,10 @@ public class ComplicatedBeesJEI implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(ItemsRegistration.APIARY.get().getDefaultInstance(), BeeProduceRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.APIARY.get().getDefaultInstance(), MutationRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.APIARY.get().getDefaultInstance(), FlowerTypeRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_BASE.get().getDefaultInstance(), BeeProduceRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_BASE.get().getDefaultInstance(), MutationRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_BASE.get().getDefaultInstance(), FlowerTypeRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.CENTRIFUGE.get().getDefaultInstance(), CentrifugeRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.GYROFUGE_BASE.get().getDefaultInstance(), CentrifugeRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ItemsRegistration.MELLARIUM_MUTATOR.get().getDefaultInstance(), MutatorRecipeCategory.TYPE);
@@ -101,6 +105,11 @@ public class ComplicatedBeesJEI implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGhostIngredientHandler(BeeSorterScreen.class, new BeeSorterDragDropJEI());
+    }
+
+    @Override public void registerIngredients(IModIngredientRegistration registration) {
+        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer());
+        IModPlugin.super.registerIngredients(registration);
     }
 
     public static IDrawable createDrawable(ResourceLocation location, int uOffset, int vOffset, int width, int height, int textureWidth, int textureHeight) {

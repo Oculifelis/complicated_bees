@@ -67,7 +67,7 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(new ResourceLocation(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 0, 0, 128, 64, 128, 64);
+        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 0, 0, 128, 64, 128, 64);
 
         widgets.addSlot(input, 14, 23);
 

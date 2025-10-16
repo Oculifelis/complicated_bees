@@ -47,6 +47,6 @@ public class ApiaryComponentProvider implements IBlockComponentProvider, IServer
 
     @Override
     public ResourceLocation getUid() {
-        return new ResourceLocation(MODID, "apiary_errors");
+        return ResourceLocation.fromNamespaceAndPath(MODID, "apiary_errors");
     }
 }

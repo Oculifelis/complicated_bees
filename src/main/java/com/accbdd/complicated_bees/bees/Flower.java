@@ -1,10 +1,10 @@
 package com.accbdd.complicated_bees.bees;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ public class Flower {
         flowerBlocks = new HashSet<>();
         flowerTags = new HashSet<>();
         for (ResourceLocation block : blocks) {
-            flowerBlocks.add(BuiltInRegistries.BLOCK.get(block));
+            flowerBlocks.add(ForgeRegistries.BLOCKS.getValue(block));
         }
         flowerTags.addAll(tags);
     }
@@ -41,13 +41,22 @@ public class Flower {
     public List<ResourceLocation> getBlocksAsResourceLocs() {
         List<ResourceLocation> result = new ArrayList<>();
         for (Block block : flowerBlocks) {
-            result.add(BuiltInRegistries.BLOCK.getKey(block));
+            result.add(ForgeRegistries.BLOCKS.getKey(block));
         }
 
         return result;
     }
 
-    public List<TagKey<Block>> getTags() {
-        return flowerTags.stream().toList();
+    /**
+     * @return all blocks that satisfy this flower
+     */
+    public Set<Block> getAllFlowerBlocks() {
+        HashSet<Block> blocks = new HashSet<>(flowerBlocks);
+        getFlowerTags().forEach(tagKey -> ForgeRegistries.BLOCKS.tags().getTag(tagKey).forEach(blocks::add));
+        return blocks;
+    }
+
+    public Set<TagKey<Block>> getFlowerTags() {
+        return flowerTags;
     }
 }
