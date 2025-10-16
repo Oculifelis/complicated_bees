@@ -1,4 +1,4 @@
-package com.accbdd.complicated_bees.compat.emi;
+package com.accbdd.complicated_bees.compat.emi.ingredient;
 
 import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.GeneticHelper;

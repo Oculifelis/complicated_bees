@@ -1,4 +1,4 @@
-package com.accbdd.complicated_bees.compat.emi;
+package com.accbdd.complicated_bees.compat.emi.ingredient;
 
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
