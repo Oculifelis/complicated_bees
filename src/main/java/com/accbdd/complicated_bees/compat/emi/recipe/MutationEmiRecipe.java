@@ -15,6 +15,7 @@ import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -27,9 +28,8 @@ public class MutationEmiRecipe implements EmiRecipe {
     private final ResourceLocation id;
     private final EmiIngredient first;
     private final EmiIngredient second;
-    private final EmiStack result;
-    private final List<EmiStack> extraResults;
-    private final List<EmiIngredient> catalysts;
+    private final EmiIngredient result;
+    private final EmiIngredient lookups;
 
     public MutationEmiRecipe(Mutation mutation) {
         this.mutation = mutation;
@@ -42,15 +42,23 @@ public class MutationEmiRecipe implements EmiRecipe {
                         "/result/" +
                         mutation.getResult().toString().replace(":", "/")
         );
-        first = EmiStack.of(mutation.getFirstSpecies().toStack(ItemsRegistration.DRONE.get()));
-        second = EmiStack.of(mutation.getSecondSpecies().toStack(ItemsRegistration.DRONE.get()));
-        result = EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.DRONE.get())).setChance(mutation.getChance());
-        extraResults = new ArrayList<>(List.of(result));
-        extraResults.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.PRINCESS.get())));
-        extraResults.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())));
-        catalysts = new ArrayList<>();
-        catalysts.addAll(mutation.getFirstSpecies().toMembers().stream().map(EmiStack::of).toList());
-        catalysts.addAll(mutation.getSecondSpecies().toMembers().stream().map(EmiStack::of).toList());
+        first = EmiIngredient.of(Ingredient.of(
+                mutation.getFirstSpecies().toStack(ItemsRegistration.DRONE.get()),
+                mutation.getFirstSpecies().toStack(ItemsRegistration.PRINCESS.get())
+        ));
+        second = EmiIngredient.of(Ingredient.of(
+                mutation.getSecondSpecies().toStack(ItemsRegistration.PRINCESS.get()),
+                mutation.getSecondSpecies().toStack(ItemsRegistration.DRONE.get())
+        ));
+        result = EmiIngredient.of(Ingredient.of(
+                mutation.getResultSpecies().toStack(ItemsRegistration.DRONE.get()),
+                mutation.getResultSpecies().toStack(ItemsRegistration.PRINCESS.get())
+        ));
+        lookups = EmiIngredient.of(Ingredient.of(
+                mutation.getFirstSpecies().toStack(ItemsRegistration.QUEEN.get()),
+                mutation.getSecondSpecies().toStack(ItemsRegistration.QUEEN.get()),
+                mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())
+        ));
     }
 
     @Override
@@ -69,15 +77,13 @@ public class MutationEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public List<EmiIngredient> getCatalysts() {
-        return catalysts;
+    public List<EmiStack> getOutputs() {
+        return result.getEmiStacks();
     }
 
     @Override
-    public List<EmiStack> getOutputs() {
-        ArrayList<EmiStack> emiStacks = new ArrayList<>(extraResults);
-        emiStacks.add(result);
-        return emiStacks;
+    public List<EmiIngredient> getCatalysts() {
+        return List.of(lookups);
     }
 
     @Override
