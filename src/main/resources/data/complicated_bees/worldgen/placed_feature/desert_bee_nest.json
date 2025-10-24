@@ -16,6 +16,26 @@
       "type": "minecraft:biome"
     },
     {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:would_survive",
+            "state": { "Name": "minecraft:dead_bush" }
+          },
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:matching_fluids",
+              "fluids": ["minecraft:water"],
+              "offset": [0, -1, 0]
+            }
+          }
+        ]
+      }
+    },
+    {
       "type": "minecraft:rarity_filter",
       "chance": 150
     }

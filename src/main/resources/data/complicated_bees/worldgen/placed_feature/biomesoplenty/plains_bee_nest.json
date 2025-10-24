@@ -24,10 +24,21 @@
     {
       "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "minecraft:would_survive",
-        "state": {
-          "Name": "minecraft:short_grass"
-        }
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:would_survive",
+            "state": { "Name": "minecraft:short_grass" }
+          },
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:matching_fluids",
+              "fluids": ["minecraft:water"],
+              "offset": [0, -1, 0]
+            }
+          }
+        ]
       }
     },
     {
