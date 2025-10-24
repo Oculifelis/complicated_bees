@@ -3,6 +3,8 @@ package com.accbdd.complicated_bees.compat.emi.ingredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.registries.Registries;
@@ -32,7 +34,7 @@ public class EmiBlock extends EmiStack {
 
     @Override
     public List<EmiStack> getEmiStacks() {
-        return List.of(EmiStack.of(block), EmiStack.of(stack));
+        return stack.isEmpty() ? List.of(this) : List.of(EmiStack.of(stack));
     }
 
     @Override
@@ -63,6 +65,11 @@ public class EmiBlock extends EmiStack {
     @Override
     public List<Component> getTooltipText() {
         return List.of(block.getName());
+    }
+
+    @Override
+    public List<ClientTooltipComponent> getTooltip() {
+        return List.of(new ClientTextTooltip(block.getName().getVisualOrderText()));
     }
 
     @Override
