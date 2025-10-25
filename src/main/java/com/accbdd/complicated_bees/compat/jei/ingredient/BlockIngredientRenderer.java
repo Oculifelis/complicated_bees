@@ -26,6 +26,8 @@ import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 @SuppressWarnings("removal")
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
 public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
+    public static BlockIngredientRenderer INSTANCE = new BlockIngredientRenderer();
+
     @Override
     public void render(GuiGraphics guiGraphics, Block ingredient) {
         drawBlock(guiGraphics, ingredient);
@@ -59,7 +61,7 @@ public class BlockIngredientRenderer implements IIngredientRenderer<Block> {
 
     @Override
     public List<Component> getTooltip(Block ingredient, TooltipFlag tooltipFlag) {
-        return null;//List.of(ingredient.getName());
+        return List.of();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.compat.emi;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.compat.emi.ingredient.EmiFlower;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
 import com.accbdd.complicated_bees.item.BeeNestBlockItem;
 import com.accbdd.complicated_bees.registry.*;
@@ -119,8 +120,10 @@ public class ComplicatedBeesEMI implements EmiPlugin {
 
         registryAccess.registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .stream()
-                .map(FlowerTypeEmiRecipe::new)
-                .forEach(registry::addRecipe);
+                .forEach(flower -> {
+                    registry.addRecipe(new FlowerTypeEmiRecipe(flower));
+                    registry.addEmiStack(new EmiFlower(flower));
+                });
     }
 
     private static class ComplicatedBeesRecipeCategory extends EmiRecipeCategory {

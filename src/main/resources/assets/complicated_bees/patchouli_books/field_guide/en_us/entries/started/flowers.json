@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "You can get an overview of what blocks count as what flowers by checking the uses of an apiary or mellarium in a recipe viewer."
+      "text": "You can get an overview of what blocks count as what flowers by checking the uses of an apiary/mellarium or searching the flower name in a recipe viewer."
     }
   ]
 }
