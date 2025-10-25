@@ -4,8 +4,8 @@ import com.accbdd.complicated_bees.bees.Chromosome;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.*;
-import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.registry.GeneRegistration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -76,7 +76,7 @@ public class BeeItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag isAdvanced) {
-        GeneSpecies geneSpecies = (GeneSpecies) GeneticHelper.getGene(stack, new ResourceLocation(MODID, GeneSpecies.TAG), true);
+        GeneSpecies geneSpecies = (GeneSpecies) GeneticHelper.getGene(stack, ResourceLocation.fromNamespaceAndPath(MODID, GeneSpecies.TAG), true);
         if (geneSpecies == null) {
             //broken nbt
             components.add(Component.literal("INVALID ITEM"));
@@ -93,28 +93,32 @@ public class BeeItem extends Item {
             if (hybridName != null)
                 components.add(hybridName
                         .withStyle(ChatFormatting.BLUE));
-            components.add(primary.getGene(GeneLifespan.ID).getTranslationKey()
-                    .append(" ")
-                    .append(Component.translatable("gene.complicated_bees.lifespan_label"))
+            components.add(Component.translatable("gene.complicated_bees.lifespan_label", primary.getGene(GeneLifespan.ID).getTranslationKey())
                     .withStyle(ChatFormatting.GRAY));
-            components.add(primary.getGene(GeneProductivity.ID).getTranslationKey()
-                    .append(" ")
-                    .append(Component.translatable("gene.complicated_bees.productivity_label.short"))
+            components.add(Component.translatable("gene.complicated_bees.productivity_label.short", primary.getGene(GeneProductivity.ID).getTranslationKey())
                     .withStyle(ChatFormatting.GRAY));
-            components.add(Component.translatable("gene.complicated_bees.temperature_label.short")
-                    .append(": ")
-                    .append(primary.getGene(GeneTemperature.ID).getTranslationKey())
-                    .append(" / ")
-                    .append(((GeneTolerant<?>) primary.getGene(GeneTemperature.ID)).getTolerance().getTranslationKey())
+            components.add(Component.translatable("gene.complicated_bees.temperature_label.short", primary.getGene(GeneTemperature.ID).getTranslationKey(), ((GeneTolerant<?>) primary.getGene(GeneTemperature.ID)).getTolerance().getTranslationKey())
                     .withStyle(ChatFormatting.GREEN));
-            components.add(Component.translatable("gene.complicated_bees.humidity_label.short")
-                    .append(": ")
-                    .append(((EnumHumidity) primary.getGene(GeneHumidity.ID).get()).getTranslationKey())
-                    .append(" / ")
-                    .append(((GeneTolerant<?>) primary.getGene(GeneHumidity.ID)).getTolerance().getTranslationKey())
+            components.add(Component.translatable("gene.complicated_bees.humidity_label.short", primary.getGene(GeneHumidity.ID).getTranslationKey(), ((GeneTolerant<?>) primary.getGene(GeneHumidity.ID)).getTolerance().getTranslationKey())
                     .withStyle(ChatFormatting.GREEN));
             components.add(primary.getGene(GeneFlower.ID).getTranslationKey()
                     .withStyle(ChatFormatting.GRAY));
+            if (!Screen.hasControlDown()) {
+                components.add(Component.translatable("gui.complicated_bees.even_more_info").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+            } else {
+                components.add(Component.translatable("tooltip.complicated_bees.slash_separated",
+                        Component.translatable("gene.complicated_bees.cave_dwelling_label.short", primary.getGene(GeneRegistration.CAVE_DWELLING.getId()).getTranslationKey()),
+                        Component.translatable("gene.complicated_bees.weatherproof_label.short", primary.getGene(GeneRegistration.WEATHERPROOF.getId()).getTranslationKey()))
+                        .withStyle(ChatFormatting.GOLD));
+                components.add(Component.translatable("tooltip.complicated_bees.slash_separated",
+                                Component.translatable("gene.complicated_bees.active_time_label.short", primary.getGene(GeneActiveTime.ID).getTranslationKey()),
+                                Component.translatable("gene.complicated_bees.fertility_label.short", primary.getGene(GeneFertility.ID).getTranslationKey()))
+                        .withStyle(ChatFormatting.GOLD));
+                components.add(Component.translatable("tooltip.complicated_bees.slash_separated",
+                                Component.translatable("gene.complicated_bees.effect_label.short", primary.getGene(GeneEffect.ID).getTranslationKey()),
+                                primary.getGene(GeneTerritory.ID).getTranslationKey())
+                        .withStyle(ChatFormatting.GOLD));
+            }
         }
         super.appendHoverText(stack, pLevel, components, isAdvanced);
     }
