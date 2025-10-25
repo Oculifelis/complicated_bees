@@ -17,6 +17,11 @@ public class Flower {
 
     public static final Flower INVALID = new Flower(new ArrayList<>(), new ArrayList<>());
 
+    private Flower(Set<Block> flowerBlocks, Set<TagKey<Block>> flowerTags) {
+        this.flowerBlocks = flowerBlocks;
+        this.flowerTags = flowerTags;
+    }
+
     public Flower(List<ResourceLocation> blocks, List<TagKey<Block>> tags) {
         flowerBlocks = new HashSet<>();
         flowerTags = new HashSet<>();
@@ -24,6 +29,10 @@ public class Flower {
             flowerBlocks.add(ForgeRegistries.BLOCKS.getValue(block));
         }
         flowerTags.addAll(tags);
+    }
+
+    public Flower copy() {
+        return new Flower(flowerBlocks, flowerTags);
     }
 
     public boolean isAcceptable(BlockState block) {

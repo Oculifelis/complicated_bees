@@ -16,6 +16,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.List;
+
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
@@ -53,6 +55,12 @@ public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
         builder.addSlot(RecipeIngredientRole.CATALYST, 117, 12)
                 .setSlotName("flower_blocks")
                 .addIngredients(ComplicatedIngredients.BLOCK, flower.getAllFlowerBlocks().stream().toList());
+
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
+                .addIngredients(ComplicatedIngredients.FLOWER, List.of(flower));
+
+        builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
+                .addIngredients(ComplicatedIngredients.FLOWER, List.of(flower));
     }
 
     @Override
