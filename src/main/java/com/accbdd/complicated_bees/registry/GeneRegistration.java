@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.bees.gene.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
@@ -26,6 +27,6 @@ public class GeneRegistration {
     public static final Supplier<GeneEffect> EFFECT = GENES.register(GeneEffect.TAG, GeneEffect::new);
     public static final Supplier<GeneActiveTime> ACTIVE_TIME = GENES.register(GeneActiveTime.TAG, GeneActiveTime::new);
 
-    public static final Supplier<GeneBoolean> CAVE_DWELLING = GENES.register("cave_dwelling", () -> new GeneBoolean(false, true));
-    public static final Supplier<GeneBoolean> WEATHERPROOF = GENES.register("weatherproof", () -> new GeneBoolean(false, true));
+    public static final RegistryObject<GeneBoolean> CAVE_DWELLING = GENES.register("cave_dwelling", () -> new GeneBoolean(false, true));
+    public static final RegistryObject<GeneBoolean> WEATHERPROOF = GENES.register("weatherproof", () -> new GeneBoolean(false, true));
 }
