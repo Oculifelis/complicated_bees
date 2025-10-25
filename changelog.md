@@ -2,6 +2,7 @@
 
 ## Added
 * Flower types are now searchable using a recipe viewer! - #59
+* Extended tooltip for analyzed bees
 
 ## Fixed
 * Nests occasionally spawning on top of water in the default datapack - #106
