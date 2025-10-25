@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -182,7 +183,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         while (!outputBuffer.empty()) {
             ItemStack next = outputBuffer.pop();
             next = ItemHandlerHelper.insertItem(outputItems, next, false);
-            if (next == ItemStack.EMPTY) {
+            if (next == ItemStack.EMPTY || next.is(Items.AIR)) {
                 setChanged();
             } else {
                 outputBuffer.push(next);

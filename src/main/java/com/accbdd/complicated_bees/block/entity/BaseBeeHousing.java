@@ -17,6 +17,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -256,7 +257,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         while (!getOutputBuffer().empty()) {
             ItemStack next = getOutputBuffer().pop();
             next = ItemHandlerHelper.insertItem(getOutputItems(), next, false);
-            if (next == ItemStack.EMPTY) {
+            if (next == ItemStack.EMPTY || next.is(Items.AIR)) {
                 setChanged();
                 removeError(EnumErrorCodes.OUTPUT_FULL);
             } else {
