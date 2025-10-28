@@ -1,4 +1,4 @@
-# Complicated Bees 3.1.1
+# Complicated Bees 3.1.2
 
 ## Changed
-* Terraforming effect names changed to be unique
+* Updated zh_cn translation
