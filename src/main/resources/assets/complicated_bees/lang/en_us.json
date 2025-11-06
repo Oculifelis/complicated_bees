@@ -32,6 +32,9 @@
   "advancements.complicated_bees.gyrofuge.title": "Spinning to Win",
   "advancements.complicated_bees.gyrofuge.description": "Assemble a 3x3x3 cube of Gyrofuge Base blocks (or modules) into a fully-functional Gyrofuge",
 
+  "toast.complicated_bees.new_species": "New Species Discovered!",
+  "toast.complicated_bees.research": "Mutation Researched!",
+
   "item.complicated_bees.drone": "Drone",
   "item.complicated_bees.princess": "Princess",
   "item.complicated_bees.queen": "Queen",
@@ -79,6 +82,8 @@
   "item.complicated_bees.royal_upgrade": "Royal Upgrade",
   "item.complicated_bees.endenic_upgrade": "Endenic Upgrade",
   "item.complicated_bees.withered_upgrade": "Withered Upgrade",
+  "item.complicated_bees.apiarist_guide.name": "Apiarist Field Guide",
+  "item.complicated_bees.apiarist_guide.landing": "Welcome to Complicated Bees!",
 
   "block.complicated_bees.bee_nest": "Bee Nest",
   "block.complicated_bees.apiary": "Apiary",

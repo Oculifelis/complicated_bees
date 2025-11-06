@@ -1,6 +1,6 @@
 {
-  "name": "Apiarist Field Guide",
-  "landing_text": "Welcome to Complicated Bees!",
+  "name": "item.complicated_bees.apiarist_guide.name",
+  "landing_text": "item.complicated_bees.apiarist_guide.landing",
   "version": 2,
   "creative_tab": "complicated_bees:complicated_bees",
   "use_resource_pack": true,
