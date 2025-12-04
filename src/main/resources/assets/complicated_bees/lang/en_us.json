@@ -222,6 +222,7 @@
   "gene.complicated_bees.temperature_label": "Temperature",
   "gene.complicated_bees.temperature_label.short": "T: %1$s / %2$s",
   "gene.complicated_bees.lifespan_label": "%s Life",
+  "gene.complicated_bees.lifespan_label.short": "Life",
   "gene.complicated_bees.flower_label": "Flower",
   "gene.complicated_bees.tolerance_label": "Tolerance",
   "gene.complicated_bees.effect_label": "Effect",

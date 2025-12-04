@@ -110,7 +110,7 @@ public class BeeHousingModifier {
         List<Component> components = new ArrayList<>();
         if (Minecraft.getInstance().level != null) {
             if (this.getLifespanMod() != 1)
-                components.add(Component.translatable("gene.complicated_bees.lifespan_label")
+                components.add(Component.translatable("gene.complicated_bees.lifespan_label.short")
                         .append(": ")
                         .append(Component.literal(this.getLifespanMod() + "x"))
                         .withStyle(ChatFormatting.GRAY));

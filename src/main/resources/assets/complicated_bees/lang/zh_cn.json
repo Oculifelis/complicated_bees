@@ -222,6 +222,7 @@
   "gene.complicated_bees.temperature_label": "温度",
   "gene.complicated_bees.temperature_label.short": "温度：%1$s / %2$s",
   "gene.complicated_bees.lifespan_label": "寿命：%s",
+  "gene.complicated_bees.lifespan_label.short": "寿命",
   "gene.complicated_bees.flower_label": "采蜜对象",
   "gene.complicated_bees.tolerance_label": "适应性",
   "gene.complicated_bees.effect_label": "特殊效果",
