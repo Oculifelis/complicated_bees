@@ -19,7 +19,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class DiscoverToast implements Toast {
     private static final ResourceLocation TEXTURE = new ResourceLocation(MODID, "textures/gui/toasts.png");
     private static final long DISPLAY_TIME = 5000L;
-    private static final Component TITLE_TEXT = Component.literal("New Species Discovered!");
+    private static final Component TITLE_TEXT = Component.translatable("toast.complicated_bees.new_species");
     private final Component descriptionText;
     private final Species species;
     private long lastChanged;
