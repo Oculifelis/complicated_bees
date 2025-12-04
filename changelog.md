@@ -1,4 +1,8 @@
-# Complicated Bees 3.1.2
+# Complicated Bees 3.1.3
+
+## Fixed
+* String placeholder showing up on frames
 
 ## Changed
-* Updated zh_cn translation
+* Gyrofuge upgrades now show idle rf/t usage in their tooltip
+
