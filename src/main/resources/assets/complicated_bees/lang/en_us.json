@@ -333,6 +333,7 @@
   "upgrade.complicated_bees.efficiency_label": "Power Efficiency",
   "upgrade.complicated_bees.output_label": "Output Chance",
   "upgrade.complicated_bees.processing_label": "Processing Count",
+  "upgrade.complicated_bees.rf_label": "Idle RF/t: +%s",
 
   "frame.complicated_bees.overrides_sleep": "Ignores Sleep",
   "frame.complicated_bees.overrides_sky": "Ignores Sky",

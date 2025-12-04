@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.item;
 
-import net.minecraft.ChatFormatting;
+import com.accbdd.complicated_bees.block.AbstractGyrofugePoweredBlock;
+import com.accbdd.complicated_bees.block.entity.gyrofuge.AbstractGyrofugePoweredModifierBlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -12,16 +14,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GyrofugeUpgradeBlockItem extends BlockItem {
-    public final List<Component> tooltip;
+    public List<Component> tooltip;
 
-    public GyrofugeUpgradeBlockItem(Block pBlock, List<Component> tooltip) {
+    public GyrofugeUpgradeBlockItem(Block pBlock) {
         super(pBlock, new Properties());
-        this.tooltip = tooltip;
+        this.tooltip = List.of();
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-        pTooltip.addAll(tooltip.stream().map(component -> Component.empty().append(component).withStyle(ChatFormatting.GRAY)).toList());
+        if (this.tooltip.isEmpty() && getBlock() instanceof AbstractGyrofugePoweredBlock block && block.newBlockEntity(BlockPos.ZERO, block.defaultBlockState()) instanceof AbstractGyrofugePoweredModifierBlockEntity be) {
+            this.tooltip = be.getTooltip();
+        }
+        pTooltip.addAll(tooltip);
     }
 }
