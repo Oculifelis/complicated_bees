@@ -75,7 +75,9 @@ public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-                        return new GyrofugeMenu(windowId, player, pPos, gyrofuge.getLogic().getController().getData());
+                        return gyrofuge.getLogic().getController().
+                                map(gyrofugeControllerBlockEntity -> new GyrofugeMenu(windowId, player, pPos, gyrofugeControllerBlockEntity.getData())).
+                                orElseGet(() -> new GyrofugeMenu(windowId, player, pPos));
                     }
                 };
 

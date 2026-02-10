@@ -19,7 +19,7 @@ public abstract class AbstractPoweredGyrofugeBlockEntity extends AbstractGyrofug
 
     @Override
     public void onTick() {
-        if (getLogic() != null && getLogic().getController() != null) {
+        if (getLogic() != null && getLogic().getController().isPresent()) {
             setPowered(getLogic().getEnergyStorage().extractEnergy(getIdleUsage(), false) >= getIdleUsage());
         }
     }

@@ -89,7 +89,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     public GyrofugeLogic getGyrofugeLogic() {
         if (gyrofugeLogic == null && MultiblockHelper.isValidGyrofuge(getLevel(), getBlockPos())) {
-            MultiblockHelper.buildGyrofuge(getLevel(), getBlockPos());
+            setLogic(MultiblockHelper.buildGyrofuge(getLevel(), getBlockPos()));
         }
         return gyrofugeLogic;
     }
@@ -97,11 +97,14 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     @Override
     public void tickServer() {
         super.tickServer();
-        getGyrofugeLogic().getSpecialBlocks().stream().forEach(pos -> {
-            if (getLevel().getBlockEntity(pos) instanceof IGyrofugeTickable tickable) {
-                tickable.onTick();
-            }
-        });
+        GyrofugeLogic logic = getGyrofugeLogic();
+        if (logic != null) {
+            logic.getSpecialBlocks().forEach(pos -> {
+                if (level != null && level.getBlockEntity(pos) instanceof IGyrofugeTickable tickable) {
+                    tickable.onTick();
+                }
+            });
+        }
     }
 
     @Override

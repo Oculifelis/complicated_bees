@@ -23,14 +23,14 @@ public class GyrofugeOutputHatchBlockEntity extends AbstractGyrofugeBlockEntity 
     public void setLogic(GyrofugeLogic logic) {
         super.setLogic(logic);
         if (logic != null)
-            this.gyrofugeOutput = logic.getController().getOutputItemHandler();
+            this.gyrofugeOutput = logic.getController().map(GyrofugeControllerBlockEntity::getOutputItemHandler).orElse(LazyOptional.empty());
         else
-            this.gyrofugeOutput = null;
+            this.gyrofugeOutput = LazyOptional.empty();
     }
 
     @Override
     public void onTick() {
-        if (gyrofugeOutput != null && tickCount++ % 4 == 0) {
+        if (gyrofugeOutput != null && gyrofugeOutput.isPresent() && tickCount++ % 4 == 0) {
             for (Direction dir : Direction.values()) {
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
                 if (blockEntity == null || blockEntity instanceof AbstractGyrofugeBlockEntity)
