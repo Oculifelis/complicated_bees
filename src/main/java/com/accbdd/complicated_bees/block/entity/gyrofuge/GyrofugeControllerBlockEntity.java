@@ -89,7 +89,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
 
     public GyrofugeLogic getGyrofugeLogic() {
         if (gyrofugeLogic == null && MultiblockHelper.isValidGyrofuge(getLevel(), getBlockPos())) {
-            setLogic(MultiblockHelper.buildGyrofuge(getLevel(), getBlockPos()));
+            MultiblockHelper.buildGyrofuge(getLevel(), getBlockPos());
         }
         return gyrofugeLogic;
     }
