@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlock
 import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
+import com.accbdd.complicated_bees.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
@@ -135,7 +136,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-            return logic != null && logic.getController().filter(controller -> MultiblockHelper.isValidGyrofuge(controller.getLevel(), logic.getCenter()) &&
-                    player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D).isPresent();
+            return logic != null && logic.getController().
+                    filter(controller -> MultiblockHelper.isValidGyrofuge(controller.getLevel(), logic.getCenter()) && Util.canReach(pos, player)).isPresent();
     }
 }

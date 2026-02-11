@@ -116,14 +116,16 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     public void onBeeTick() {
         ItemStack stack = inputItems.getStackInSlot(0);
         quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).ifPresent(recipe -> {
-            if (level.getRandom().nextFloat() < recipe.getUseChance()) {
-                stack.shrink(1);
-                if (stack.isEmpty()) {
-                    getLogic().getController().getLogic().clearConditionCache();
-                    getLogic().getController().getLogic().checkConditions();
+            getLogic().getController().ifPresent(controller -> {
+                if (level.getRandom().nextFloat() < recipe.getUseChance()) {
+                    stack.shrink(1);
+                    if (stack.isEmpty()) {
+                        controller.getLogic().clearConditionCache();
+                        controller.getLogic().checkConditions();
+                    }
+                    outputItems.insertItem(0, recipe.getOutput().getStackResult(), false);
                 }
-                outputItems.insertItem(0, recipe.getOutput().getStackResult(), false);
-            }
+            });
         });
     }
 

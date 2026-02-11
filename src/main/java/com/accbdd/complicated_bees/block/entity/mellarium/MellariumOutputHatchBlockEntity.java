@@ -27,21 +27,11 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
     public void setLogic(MellariumLogic logic) {
         super.setLogic(logic);
         if (logic != null)
-            this.mellariumOutput = logic.getController().getOutputItemHandler();
+            logic.getController().ifPresent(controller ->
+                this.mellariumOutput = controller.getOutputItemHandler()
+            );
         else
-            this.mellariumOutput = null;
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
-            return super.getCapability(cap, side);
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return getLogic().getController().getItemHandler().cast();
-        }
-
-        return super.getCapability(cap, side);
+            this.mellariumOutput = LazyOptional.empty();
     }
 
     @Override

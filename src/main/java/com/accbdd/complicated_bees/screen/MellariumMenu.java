@@ -3,21 +3,23 @@ package com.accbdd.complicated_bees.screen;
 import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
+import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.ItemSlot;
 import com.accbdd.complicated_bees.screen.slot.OutputSlot;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
+import com.accbdd.complicated_bees.util.Util;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
+
+import java.util.Optional;
 
 import static com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity.*;
 
@@ -29,6 +31,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     private int power;
     private int maxPower;
+    private MellariumLogic logic;
 
     public MellariumMenu(int windowId, Player player, BlockPos pos) {
         this(windowId, player, pos, new SimpleContainerData(3));
@@ -41,10 +44,14 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
         if (player.level().getBlockEntity(pos) instanceof AbstractMellariumBlockEntity blockEntity) {
             MellariumControllerBlockEntity controller;
             if (blockEntity.getLogic() != null) {
-                controller = blockEntity.getLogic().getController();
+                logic = blockEntity.getLogic();
             } else {
-                controller = MultiblockHelper.tryBuildMellarium(player.level(), pos, player.getUUID()).getController();
+                logic = MultiblockHelper.tryBuildMellarium(player.level(), pos, player.getUUID());
             }
+            if (logic == null) return;
+            Optional<MellariumControllerBlockEntity> controllerOptional = logic.getController();
+            if (controllerOptional.isEmpty()) return;
+            controller = controllerOptional.get();
             addSlot(new TagSlot(controller.getBeeItems(), BEE_SLOT, 29, 38, ItemTagGenerator.ROYAL));
             addSlot(new ItemSlot(controller.getBeeItems(), BEE_SLOT + 1, 29, 63, ItemsRegistration.DRONE.get()));
 
@@ -108,7 +115,9 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return ContainerLevelAccess.create(player.level(), pos).evaluate((level, pos1) -> !level.getBlockState(pos1).is(Blocks.AIR)).get() && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
+        return logic != null && logic.getController().
+                filter(controller -> MultiblockHelper.isValidMellarium(player.level(), logic.getCenter()) && Util.canReach(pos, player)).
+                isPresent();
     }
 
     public boolean hasQueen() {

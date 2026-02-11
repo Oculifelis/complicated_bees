@@ -75,7 +75,9 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-                        return new MellariumMenu(windowId, player, pPos, mellarium.getLogic().getController().getData());
+                        return mellarium.getLogic().getController().map(controller ->
+                                new MellariumMenu(windowId, player, pPos, controller.getData())
+                        ).orElseGet(() -> new MellariumMenu(windowId, player, pPos));
                     }
                 };
 
