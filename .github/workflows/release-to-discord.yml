@@ -12,5 +12,5 @@ jobs:
         uses: SethCohen/github-releases-to-discord@v1
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          content: "A new version of Complicated Bees has been pushed to CurseForge and Modrinth! It should be approved within 24 hours. It is also available immediately on the [GitHub.](https://github.com/ACCBDD/reclamation-dev)"
+          content: "A new version of Complicated Bees has been pushed to CurseForge and Modrinth! It should be approved within 24 hours. It is also available immediately on the [GitHub.](https://github.com/ACCBDD/complicated_bees)"
           reduce_headings: true
