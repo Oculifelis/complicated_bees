@@ -1,11 +1,10 @@
-# Complicated Bees 3.1.3
-
-## Added
-* ru_ru translation - thank you @chdkov!
+# Complicated Bees 3.1.4
 
 ## Fixed
-* String placeholder showing up on frames
+* Several NPEs - thank you @Rurla!
+* Crash when Gyrofuge is broken - thank you @Rurla!
+* Multiblock menus staying open when multiblock becomes invalid - thank you @Rurla!
 
-## Changed
-* Gyrofuge upgrades now show idle rf/t usage in their tooltip
+## Updated
+* zh_cn translation - thank you @ChuijkYahus!
 
