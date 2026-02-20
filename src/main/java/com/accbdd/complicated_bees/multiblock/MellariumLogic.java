@@ -17,9 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class MellariumLogic {
     private final Level level;
@@ -57,17 +55,17 @@ public class MellariumLogic {
 
     public void deconstruct(BlockPos pos) {
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
-        if (getController() != null) {
-            while (getController() != null && !getController().getOutputBuffer().empty()) {
-                ItemStack stack = getController().getOutputBuffer().pop();
+        getController().ifPresent(controller -> {
+            while (!controller.getOutputBuffer().empty()) {
+                ItemStack stack = controller.getOutputBuffer().pop();
                 if (stack.is(ItemTagGenerator.BEE))
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
-            IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }
-        }
+        });
         while (iterator.hasNext()) {
             BlockPos p = iterator.next();
             if (level.getBlockEntity(p) instanceof AbstractMellariumBlockEntity mellariumBlock) {
@@ -89,10 +87,10 @@ public class MellariumLogic {
         return center;
     }
 
-    public MellariumControllerBlockEntity getController() {
+    public Optional<MellariumControllerBlockEntity> getController() {
         if (level.getBlockEntity(center) instanceof MellariumControllerBlockEntity controller)
-            return controller;
-        return null;
+            return Optional.of(controller);
+        return Optional.empty();
     }
 
     public List<BlockPos> getSpecialBlocks() {

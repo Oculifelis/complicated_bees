@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -91,5 +92,20 @@ public class Util {
             }
         }
         return stack;
+    }
+
+    /**
+     * Checks whether the target block is within the player's interaction reach.
+     *
+     * @param pos position of the target block
+     * @param player the target player
+     * @return whether the target block is within the player's reach
+     */
+    public static boolean canReach(BlockPos pos, Player player) {
+        return player.distanceToSqr(
+                pos.getX() + 0.5D,
+                pos.getY() + 0.5D,
+                pos.getZ() + 0.5D
+        ) <= 64.0D;
     }
 }

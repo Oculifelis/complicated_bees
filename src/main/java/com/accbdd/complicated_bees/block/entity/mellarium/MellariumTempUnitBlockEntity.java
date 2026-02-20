@@ -91,17 +91,19 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
             if (level.getRandom().nextFloat() < quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getUseChance()) {
-                if (stack.hasCraftingRemainingItem()) {
-                    items.setStackInSlot(0, stack.getCraftingRemainingItem());
-                    getLogic().getController().getLogic().clearConditionCache();
-                    getLogic().getController().getLogic().checkConditions();
-                } else {
-                    stack.shrink(1);
-                    if (stack.isEmpty()) {
-                        getLogic().getController().getLogic().clearConditionCache();
-                        getLogic().getController().getLogic().checkConditions();
+                getLogic().getController().ifPresent(controller -> {
+                    if (stack.hasCraftingRemainingItem()) {
+                        items.setStackInSlot(0, stack.getCraftingRemainingItem());
+                        controller.getLogic().clearConditionCache();
+                        controller.getLogic().checkConditions();
+                    } else {
+                        stack.shrink(1);
+                        if (stack.isEmpty()) {
+                            controller.getLogic().clearConditionCache();
+                            controller.getLogic().checkConditions();
+                        }
                     }
-                }
+                });
             }
         }
     }

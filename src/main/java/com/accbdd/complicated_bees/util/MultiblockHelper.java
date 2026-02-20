@@ -37,8 +37,8 @@ public class MultiblockHelper {
         while (structureIterator.hasNext()) {
             BlockPos structurePos = structureIterator.next();
             if (level.getBlockEntity(structurePos) instanceof AbstractMellariumBlockEntity mellariumBlock) {
-                if (mellariumBlock.getLogic() != null && !level.isClientSide()) {
-                    //todo: dear god, fix this garbage !isClientSide call
+                MellariumLogic logic = mellariumBlock.getLogic();
+                if (logic != null && logic.getController().isPresent() && !logic.getCenter().equals(center)) {
                     return false;
                 } else {
                     if (!(mellariumBlock instanceof MellariumBaseBlockEntity) && structurePos.getY() > center.getY()) //only allow non-base blocks in the bottom two layers
@@ -78,8 +78,8 @@ public class MultiblockHelper {
         while (structureIterator.hasNext()) {
             BlockPos structurePos = structureIterator.next();
             if (level.getBlockEntity(structurePos) instanceof AbstractGyrofugeBlockEntity gyrofugeBlock) {
-                if (gyrofugeBlock.getLogic() != null && !level.isClientSide()) {
-                    //todo: dear god, fix this garbage !isClientSide call
+                GyrofugeLogic logic = gyrofugeBlock.getLogic();
+                if (logic != null && logic.getController().isPresent() && !logic.getCenter().equals(center)) {
                     return false;
                 } else {
                     if (!(gyrofugeBlock instanceof GyrofugeBaseBlockEntity) && structurePos.getY() > center.getY()) //only allow non-base blocks in the bottom two layers

@@ -16,6 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GyrofugeLogic {
     private final Level level;
@@ -57,15 +58,15 @@ public class GyrofugeLogic {
 
     public void deconstruct(BlockPos pos) {
         BlockPosBoxIterator iterator = new BlockPosBoxIterator(center, 1, 1);
-        if (getController() != null) {
-            while (getController() != null && !getController().outputBuffer.empty()) {
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), getController().outputBuffer.pop());
+        getController().ifPresent(controller -> {
+            while (!controller.outputBuffer.empty()) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), controller.outputBuffer.pop());
             }
-            IItemHandler handler = getController().getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }
-        }
+        });
         while (iterator.hasNext()) {
             BlockPos p = iterator.next();
             if (level.getBlockEntity(p) instanceof AbstractGyrofugeBlockEntity gyrofugeBlock) {
@@ -79,10 +80,10 @@ public class GyrofugeLogic {
         return center;
     }
 
-    public GyrofugeControllerBlockEntity getController() {
+    public Optional<GyrofugeControllerBlockEntity> getController() {
         if (level.getBlockEntity(center) instanceof GyrofugeControllerBlockEntity controller)
-            return controller;
-        return null;
+            return Optional.of(controller);
+        return Optional.empty();
     }
 
     public List<BlockPos> getSpecialBlocks() {

@@ -15,6 +15,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public abstract class AbstractGyrofugeBlockEntity extends BlockEntity {
     private GyrofugeLogic logic;
     private BlockPos center;
@@ -45,11 +47,17 @@ public abstract class AbstractGyrofugeBlockEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
+        GyrofugeLogic logic = getLogic();
+        if (logic == null) {
             return super.getCapability(cap, side);
+        }
+        Optional<GyrofugeControllerBlockEntity> controller = logic.getController();
+        if (controller.isEmpty()) {
+            return super.getCapability(cap, side);
+        }
 
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return getLogic().getController().getItemHandler().cast();
+            return controller.map(GyrofugeControllerBlockEntity::getItemHandler).orElse(LazyOptional.empty()).cast();
         }
 
         return super.getCapability(cap, side);

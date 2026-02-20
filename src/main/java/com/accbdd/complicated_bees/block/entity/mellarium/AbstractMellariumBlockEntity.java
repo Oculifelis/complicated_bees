@@ -15,6 +15,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * All mellarium blocks should extend this class
  */
@@ -48,11 +50,17 @@ public abstract class AbstractMellariumBlockEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
+        MellariumLogic logic = getLogic();
+        if (logic == null) {
             return super.getCapability(cap, side);
+        }
+        Optional<MellariumControllerBlockEntity> controller = logic.getController();
+        if (controller.isEmpty()) {
+            return super.getCapability(cap, side);
+        }
 
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return getLogic().getController().getItemHandler().cast();
+            return controller.map(MellariumControllerBlockEntity::getItemHandler).orElse(LazyOptional.empty()).cast();
         }
 
         return super.getCapability(cap, side);
