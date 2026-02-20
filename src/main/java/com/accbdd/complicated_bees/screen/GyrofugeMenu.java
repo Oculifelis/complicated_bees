@@ -59,7 +59,9 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().get().getEnergyStored() & 0xffff;
+                    return controller.getEnergyHandler().resolve().
+                            map(iEnergyStorage -> iEnergyStorage.getEnergyStored() & 0xffff).
+                            orElse(0);
                 }
 
                 @Override
@@ -70,7 +72,9 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return (controller.getEnergyHandler().resolve().get().getEnergyStored() >> 16) & 0xffff;
+                    return controller.getEnergyHandler().resolve().
+                            map(iEnergyStorage -> (iEnergyStorage.getEnergyStored() >> 16) & 0xffff).
+                            orElse(0);
                 }
 
                 @Override
@@ -81,7 +85,9 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().get().getMaxEnergyStored() & 0xffff;
+                    return controller.getEnergyHandler().resolve().
+                            map(iEnergyStorage -> iEnergyStorage.getMaxEnergyStored() & 0xffff).
+                            orElse(0);
                 }
 
                 @Override
@@ -92,7 +98,9 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return (controller.getEnergyHandler().resolve().get().getMaxEnergyStored() >> 16) & 0xffff;
+                    return controller.getEnergyHandler().resolve().
+                            map(iEnergyStorage -> (iEnergyStorage.getMaxEnergyStored() >> 16) & 0xffff).
+                            orElse(0);
                 }
 
                 @Override
