@@ -2,8 +2,11 @@ package com.accbdd.complicated_bees.bees.gene.enums;
 
 import com.accbdd.complicated_bees.ComplicatedBees;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.StringRepresentable;
 
-public enum EnumTolerance {
+import java.util.Locale;
+
+public enum EnumTolerance implements StringRepresentable {
     NONE("NONE", 0, 0),
     BOTH_5("BOTH_5", 5, 5),
     BOTH_4("BOTH_4", 4, 4),
@@ -20,6 +23,8 @@ public enum EnumTolerance {
     DOWN_3("DOWN_3", 0, 3),
     DOWN_2("DOWN_2", 0, 2),
     DOWN_1("DOWN_1", 0, 1);
+
+    public static final StringRepresentable.StringRepresentableCodec<EnumTolerance> CODEC = StringRepresentable.fromEnum(EnumTolerance::values);
 
     public final String name;
     public final int up;
@@ -87,5 +92,10 @@ public enum EnumTolerance {
 
     public int collapsed() {
         return this.up - this.down;
+    }
+
+    @Override
+    public String getSerializedName() {
+        return name.toLowerCase(Locale.ROOT);
     }
 }

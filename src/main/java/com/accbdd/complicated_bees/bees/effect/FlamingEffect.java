@@ -13,7 +13,7 @@ public class FlamingEffect extends BeeEffect {
         if (cycleProgress % 80 == 0) {
             for (Entity entity : getTerritoryEntities(apiary, queen)) {
                 if (entity instanceof LivingEntity living) {
-                    living.setRemainingFireTicks(3);
+                    living.setRemainingFireTicks(60);
                 }
             }
         }

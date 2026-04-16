@@ -24,12 +24,12 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
     public CentrifugeEmiRecipe(ResourceLocation id, CentrifugeRecipe recipe) {
         this.id = id;
 
-        if (recipe.getInput().is(ItemsRegistration.COMB.get()))
-            this.input = EmiStack.of(recipe.getInput()).comparison(Comparison.compareComponents());
+        if (recipe.input().is(ItemsRegistration.COMB.get()))
+            this.input = EmiStack.of(recipe.input()).comparison(Comparison.compareComponents());
         else
-            this.input = EmiStack.of(recipe.getInput());
+            this.input = EmiStack.of(recipe.input());
 
-        this.outputs = recipe.getOutputs()
+        this.outputs = recipe.outputs()
                 .stream()
                 .map(p -> EmiStack.of(p.getStack()).setChance(p.getChance()))
                 .toList();

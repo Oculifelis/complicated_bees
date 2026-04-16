@@ -57,22 +57,22 @@ public class HydroRecipeCategory implements IRecipeCategory<HydroRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, HydroRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 4, 12)
                 .setSlotName("input")
-                .addIngredients(recipe.getInput());
+                .addIngredients(recipe.input());
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 50, 12)
                 .setSlotName("output")
-                .addIngredient(VanillaTypes.ITEM_STACK, recipe.getOutput().getStack())
-                .addRichTooltipCallback(new ChanceTooltipCallback(recipe.getOutput().getChance()));
+                .addIngredient(VanillaTypes.ITEM_STACK, recipe.output().getStack())
+                .addRichTooltipCallback(new ChanceTooltipCallback(recipe.output().getChance()));
     }
 
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, HydroRecipe recipe, IFocusGroup focuses) {
         IRecipeCategory.super.createRecipeExtras(builder, recipe, focuses);
-        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.getHumidityChange().getTranslationKey()), 71, 14);
+        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.humidityChange().getTranslationKey()), 71, 14);
         widget.setPosition(69, 5, 71, 14, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget.setTextAlignment(HorizontalAlignment.CENTER);
         widget.setTextAlignment(VerticalAlignment.CENTER);
-        var widget2 = builder.addText(Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.getUseChance() * 100)), 71, 14);
+        var widget2 = builder.addText(Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.useChance() * 100)), 71, 14);
         widget2.setPosition(69, 22, 71, 14, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget2.setTextAlignment(HorizontalAlignment.CENTER);
         widget2.setTextAlignment(VerticalAlignment.CENTER);

@@ -3,10 +3,8 @@ package com.accbdd.complicated_bees.loot;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -14,15 +12,20 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
 
 public class InheritHiveCombFunction extends LootItemConditionalFunction {
-    public InheritHiveCombFunction(LootItemCondition[] pPredicates) {
+    public static final MapCodec<InheritHiveCombFunction> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            commonFields(instance).apply(instance, InheritHiveCombFunction::new)
+    );
+    
+    public InheritHiveCombFunction(List<LootItemCondition> pPredicates) {
         super(pPredicates);
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public LootItemFunctionType<InheritHiveCombFunction> getType() {
         return EsotericRegistration.INHERIT_COMB.get();
     }
 
@@ -38,22 +41,5 @@ public class InheritHiveCombFunction extends LootItemConditionalFunction {
 
     public static Builder<?> set() {
         return simpleBuilder(InheritHiveCombFunction::new);
-    }
-
-    public static class Serializer implements net.minecraft.world.level.storage.loot.Serializer<InheritHiveCombFunction> {
-        public static Serializer INSTANCE = new Serializer();
-
-        @Override
-        public void serialize(JsonObject json, InheritHiveCombFunction function, JsonSerializationContext context) {
-            if (!ArrayUtils.isEmpty(function.predicates)) {
-                json.add("conditions", context.serialize(function.predicates));
-            }
-        }
-
-        @Override
-        public final InheritHiveCombFunction deserialize(JsonObject p_80719_, JsonDeserializationContext p_80720_) {
-            LootItemCondition[] alootitemcondition = GsonHelper.getAsObject(p_80719_, "conditions", new LootItemCondition[0], p_80720_, LootItemCondition[].class);
-            return new InheritHiveCombFunction(alootitemcondition);
-        }
     }
 }

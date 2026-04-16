@@ -8,8 +8,10 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.RecordBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -98,7 +100,7 @@ public class Product {
         return stack;
     }
 
-    public void toNetwork(FriendlyByteBuf buf) {
+    public void toNetwork(RegistryFriendlyByteBuf buf) {
         buf.writeBoolean(isTagProduct());
         buf.writeInt(count);
         buf.writeFloat(chance);
@@ -107,11 +109,11 @@ public class Product {
         if (isTagProduct()) {
             buf.writeResourceLocation(tag.location());
         } else {
-            buf.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, item);
+            ByteBufCodecs.registry(Registries.ITEM).encode(buf, item);
         }
     }
 
-    public static Product fromNetwork(FriendlyByteBuf buf) {
+    public static Product fromNetwork(RegistryFriendlyByteBuf buf) {
         boolean isTag = buf.readBoolean();
         int count = buf.readInt();
         float chance = buf.readFloat();
@@ -122,7 +124,7 @@ public class Product {
             TagKey<Item> tag = TagKey.create(BuiltInRegistries.ITEM.key(), tagId);
             return new Product(Items.AIR, count, nbt, tag, chance);
         } else {
-            Item item = buf.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
+            Item item = ByteBufCodecs.registry(Registries.ITEM).decode(buf);
             ItemStack stack = new ItemStack(item, count);
             if (nbt != null) {
                 stack.setTag(nbt);

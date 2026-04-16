@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -92,7 +91,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     public void onBeeTick() {
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            if (level.getRandom().nextFloat() < quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().getUseChance()) {
+            if (level.getRandom().nextFloat() < quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().useChance()) {
                 getLogic().getController().ifPresent(controller -> {
                     if (stack.hasCraftingRemainingItem()) {
                         items.setStackInSlot(0, stack.getCraftingRemainingItem());

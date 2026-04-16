@@ -57,17 +57,17 @@ public class TempUnitRecipeCategory implements IRecipeCategory<TempUnitRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, TempUnitRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 12)
                 .setSlotName("input")
-                .addIngredients(recipe.getInput());
+                .addIngredients(recipe.input());
     }
 
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, TempUnitRecipe recipe, IFocusGroup focuses) {
         IRecipeCategory.super.createRecipeExtras(builder, recipe, focuses);
-        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.getTempChange().getTranslationKey()), 81, 14);
+        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.tempChange().getTranslationKey()), 81, 14);
         widget.setPosition(59, 5, 81, 14, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget.setTextAlignment(HorizontalAlignment.CENTER);
         widget.setTextAlignment(VerticalAlignment.CENTER);
-        var widget2 = builder.addText(Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.getUseChance() * 100)), 81, 14);
+        var widget2 = builder.addText(Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.useChance() * 100)), 81, 14);
         widget2.setPosition(59, 22, 81, 14, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget2.setTextAlignment(HorizontalAlignment.CENTER);
         widget2.setTextAlignment(VerticalAlignment.CENTER);

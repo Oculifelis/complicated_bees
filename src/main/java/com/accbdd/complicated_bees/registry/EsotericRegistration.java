@@ -49,9 +49,9 @@ public class EsotericRegistration {
             () -> new SimpleParticleType(true));
 
     public static final Supplier<LootItemFunctionType<InheritHiveSpeciesFunction>> INHERIT_HIVE = LOOT_ITEM_FUNCTION_REGISTER.register("inherit_hive_species",
-            () -> new LootItemFunctionType<>(InheritHiveSpeciesFunction.Serializer.INSTANCE));
+            () -> new LootItemFunctionType<>(InheritHiveSpeciesFunction.CODEC));
     public static final Supplier<LootItemFunctionType<InheritHiveCombFunction>> INHERIT_COMB = LOOT_ITEM_FUNCTION_REGISTER.register("inherit_hive_comb",
-            () -> new LootItemFunctionType<>(InheritHiveCombFunction.Serializer.INSTANCE));
+            () -> new LootItemFunctionType<>(InheritHiveCombFunction.CODEC));
 
     public static final Supplier<TreeDecoratorType<ComplicatedBeenestDecorator>> COMPLICATED_BEENEST_DECORATOR = TREE_DECORATOR_REGISTER.register("bee_nest_decorator",
             () -> new TreeDecoratorType<>(ComplicatedBeenestDecorator.CODEC));
@@ -71,13 +71,13 @@ public class EsotericRegistration {
             () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(MODID, "honey_generator")));
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CentrifugeRecipe>> CENTRIFUGE_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("centrifuge",
-            () -> CentrifugeRecipe.SERIALIZER);
+            CentrifugeRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MutatorRecipe>> MUTATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("mutator",
-            () -> MutatorRecipe.SERIALIZER);
+            MutatorRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<TempUnitRecipe>> TEMP_UNIT_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("temp_unit",
-            () -> TempUnitRecipe.SERIALIZER);
+            TempUnitRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<HydroRecipe>> HYDROREGULATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("hydroregulator",
-            () -> HydroRecipe.SERIALIZER);
+            HydroRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<HoneyGeneratorRecipe>> HONEY_GENERATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("honey_generator",
-            () -> HoneyGeneratorRecipe.SERIALIZER);
+            HoneyGeneratorRecipe.Serializer::new);
 }

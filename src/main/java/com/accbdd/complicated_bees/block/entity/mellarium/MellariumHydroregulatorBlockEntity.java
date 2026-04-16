@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -71,7 +70,7 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     }
 
     private boolean canRecipeOutput(HydroRecipe recipe) {
-        return outputItems.insertItem(0, recipe.getOutput().getStack(), true).isEmpty();
+        return outputItems.insertItem(0, recipe.output().getStack(), true).isEmpty();
     }
 
     @Override
@@ -109,7 +108,7 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     public BeeHousingModifier getModifier() {
         ItemStack stack = inputItems.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            return new BeeHousingModifier.Builder().humidity(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().getHumidityChange()).build();
+            return new BeeHousingModifier.Builder().humidity(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().humidityChange()).build();
         }
         return new BeeHousingModifier();
     }
@@ -119,13 +118,13 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
         ItemStack stack = inputItems.getStackInSlot(0);
         quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).ifPresent(recipe -> {
             getLogic().getController().ifPresent(controller -> {
-                if (level.getRandom().nextFloat() < recipe.value().getUseChance()) {
+                if (level.getRandom().nextFloat() < recipe.value().useChance()) {
                     stack.shrink(1);
                     if (stack.isEmpty()) {
                         controller.getLogic().clearConditionCache();
                         controller.getLogic().checkConditions();
                     }
-                    outputItems.insertItem(0, recipe.value().getOutput().getStackResult(), false);
+                    outputItems.insertItem(0, recipe.value().output().getStackResult(), false);
                 }
             });
         });

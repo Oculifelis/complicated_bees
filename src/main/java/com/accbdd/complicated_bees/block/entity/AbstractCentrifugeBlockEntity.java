@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.bees.Product;
-import com.accbdd.complicated_bees.block.CentrifugeBlock;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
@@ -12,11 +11,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -208,7 +205,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         CentrifugeRecipe recipe = getRecipe(stack);
         if (recipe == null)
             return;
-        List<Product> products = getRecipe(stack).getOutputs();
+        List<Product> products = getRecipe(stack).outputs();
         stack.shrink(1);
 
         for (Product product : products) {
@@ -225,8 +222,8 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         if (recipe == null)
             return true;
         ItemStack primary = ItemStack.EMPTY;
-        if (!recipe.getOutputs().isEmpty()) {
-            primary = recipe.getOutputs().get(0).getStack();
+        if (!recipe.outputs().isEmpty()) {
+            primary = recipe.outputs().getFirst().getStack();
         }
         boolean canInsert = false;
         int stackCount = primary.getCount();

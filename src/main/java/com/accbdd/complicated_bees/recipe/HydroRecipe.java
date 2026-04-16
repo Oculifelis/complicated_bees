@@ -3,51 +3,48 @@ package com.accbdd.complicated_bees.recipe;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
-public class HydroRecipe implements Recipe<RecipeInput> {
-    private final Ingredient input;
-    private final Product output;
-    private final EnumTolerance humidityChange;
-    private final float useChance;
+public record HydroRecipe(Ingredient input, Product output, EnumTolerance humidityChange, float useChance) implements Recipe<RecipeInput> {
+    public static class Serializer implements RecipeSerializer<HydroRecipe> {
+        public static final MapCodec<HydroRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+                instance.group(
+                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(HydroRecipe::input),
+                        Product.CODEC.fieldOf("output").forGetter(HydroRecipe::output),
+                        EnumTolerance.CODEC.fieldOf("humidity_change").forGetter(HydroRecipe::humidityChange),
+                        Codec.FLOAT.fieldOf("use_chance").forGetter(HydroRecipe::useChance)
+                ).apply(instance, HydroRecipe::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, HydroRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-    public static final RecipeSerializer<HydroRecipe> SERIALIZER = new RecipeSerializer<>() {
         @Override
-        public HydroRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
-            Ingredient input = Ingredient.fromJson(json.getAsJsonObject("input"), false);
-            Product output =  Product.CODEC.decode(JsonOps.INSTANCE, json.getAsJsonObject("output")).result().get().getFirst();
-            EnumTolerance humidityChange = EnumTolerance.getFromString(json.get("humidity_change").getAsString());
-            float useChance = json.get("use_chance").getAsFloat();
-            return new HydroRecipe(pRecipeId, input, output, humidityChange, useChance);
+        public MapCodec<HydroRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public @Nullable HydroRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            return new HydroRecipe(pRecipeId, Ingredient.fromNetwork(pBuffer), Product.fromNetwork(pBuffer), pBuffer.readEnum(EnumTolerance.class), pBuffer.readFloat());
+        public StreamCodec<RegistryFriendlyByteBuf, HydroRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
 
-        @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, HydroRecipe pRecipe) {
-            pRecipe.getInput().toNetwork(pBuffer);
-            pRecipe.getOutput().toNetwork(pBuffer);
+        private static HydroRecipe fromNetwork(RegistryFriendlyByteBuf pBuffer) {
+            return new HydroRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(pBuffer), Product.fromNetwork(pBuffer), pBuffer.readEnum(EnumTolerance.class), pBuffer.readFloat());
+        }
+
+        private static void toNetwork(RegistryFriendlyByteBuf pBuffer, HydroRecipe pRecipe) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(pBuffer, pRecipe.input);
+            pRecipe.output().toNetwork(pBuffer);
             pBuffer.writeEnum(pRecipe.humidityChange);
             pBuffer.writeFloat(pRecipe.useChance);
         }
-    };
-
-    public HydroRecipe(Ingredient input, Product output, EnumTolerance humidityChange, float useChance) {
-        this.input = input;
-        this.output = output;
-        this.humidityChange = humidityChange;
-        this.useChance = useChance;
     }
 
     @Override
@@ -72,27 +69,11 @@ public class HydroRecipe implements Recipe<RecipeInput> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return EsotericRegistration.HYDROREGULATOR_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
         return EsotericRegistration.HYDROREGULATOR_RECIPE.get();
-    }
-
-    public EnumTolerance getHumidityChange() {
-        return humidityChange;
-    }
-
-    public float getUseChance() {
-        return useChance;
-    }
-
-    public Ingredient getInput() {
-        return input;
-    }
-
-    public Product getOutput() {
-        return output;
     }
 }
