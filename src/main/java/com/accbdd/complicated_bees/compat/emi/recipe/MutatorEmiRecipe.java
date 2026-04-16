@@ -21,8 +21,8 @@ public class MutatorEmiRecipe implements EmiRecipe {
     private final EmiIngredient input;
     private final float mutationModifier;
 
-    public MutatorEmiRecipe(MutatorRecipe recipe) {
-        id = recipe.getId();
+    public MutatorEmiRecipe(ResourceLocation id, MutatorRecipe recipe) {
+        this.id = id;
         input = EmiIngredient.of(recipe.getInput());
         mutationModifier = recipe.getMutationModifier();
     }

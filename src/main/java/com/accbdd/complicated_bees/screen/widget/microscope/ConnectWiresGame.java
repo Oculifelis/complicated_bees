@@ -20,7 +20,7 @@ import java.util.Random;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class ConnectWiresGame extends AbstractMicroscopeGame {
-    private static final ResourceLocation BG = new ResourceLocation(MODID, "textures/gui/microscope/matching.png");
+    private static final ResourceLocation BG = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/microscope/matching.png");
     private static final int BORDER_WIDTH = 1;
     private static final int VERTICAL_PADDING = 3;
     private static final int VERTICAL_SPACE = 29;

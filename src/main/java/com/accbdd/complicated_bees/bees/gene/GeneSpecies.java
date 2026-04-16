@@ -16,7 +16,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneSpecies extends Gene<Species> {
     public static final String TAG = "species";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneSpecies() {
         super(Species.INVALID, true);

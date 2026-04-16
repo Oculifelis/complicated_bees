@@ -5,20 +5,22 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.recipe.HydroRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +33,7 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     private final LazyOptional<IItemHandlerModifiable> inputItemHandler;
     private final LazyOptional<IItemHandlerModifiable> outputItemHandler;
     private final LazyOptional<IItemHandlerModifiable> itemHandler;
-    private final RecipeManager.CachedCheck<Container, HydroRecipe> quickCheck;
+    private final RecipeManager.CachedCheck<RecipeInput, HydroRecipe> quickCheck;
 
     public MellariumHydroregulatorBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -62,8 +64,8 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
 
     private boolean hasRecipe(ItemStack stack) {
         AtomicBoolean test = new AtomicBoolean(false);
-        quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).ifPresent(recipe ->
-                test.set(canRecipeOutput(recipe))
+        quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).ifPresent(recipe ->
+                test.set(canRecipeOutput(recipe.value()))
         );
         return test.get();
     }
@@ -91,23 +93,23 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.put(ITEMS_TAG, inputItems.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
+        pTag.put(ITEMS_TAG, inputItems.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            inputItems.deserializeNBT(pTag.getCompound(ITEMS_TAG));
+            inputItems.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
     }
 
     @Override
     public BeeHousingModifier getModifier() {
         ItemStack stack = inputItems.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            return new BeeHousingModifier.Builder().humidity(quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getHumidityChange()).build();
+            return new BeeHousingModifier.Builder().humidity(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().getHumidityChange()).build();
         }
         return new BeeHousingModifier();
     }
@@ -115,15 +117,15 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     @Override
     public void onBeeTick() {
         ItemStack stack = inputItems.getStackInSlot(0);
-        quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).ifPresent(recipe -> {
+        quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).ifPresent(recipe -> {
             getLogic().getController().ifPresent(controller -> {
-                if (level.getRandom().nextFloat() < recipe.getUseChance()) {
+                if (level.getRandom().nextFloat() < recipe.value().getUseChance()) {
                     stack.shrink(1);
                     if (stack.isEmpty()) {
                         controller.getLogic().clearConditionCache();
                         controller.getLogic().checkConditions();
                     }
-                    outputItems.insertItem(0, recipe.getOutput().getStackResult(), false);
+                    outputItems.insertItem(0, recipe.value().getOutput().getStackResult(), false);
                 }
             });
         });

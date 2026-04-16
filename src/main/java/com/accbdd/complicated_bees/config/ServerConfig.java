@@ -1,31 +1,31 @@
 package com.accbdd.complicated_bees.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ServerConfig {
-    public static ForgeConfigSpec CONFIG_SPEC;
+    public static ModConfigSpec CONFIG_SPEC;
     public static ServerConfig SERVER_CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Integer> productionCycleLength;
-    public final ForgeConfigSpec.ConfigValue<Integer> enviroCycleLength;
-    public final ForgeConfigSpec.ConfigValue<Integer> centrifugeBaseSpeed;
-    public final ForgeConfigSpec.ConfigValue<Integer> centrifugeBaseEnergy;
-    public final ForgeConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseEnergy;
-    public final ForgeConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseStorage;
-    public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseEnergy;
-    public final ForgeConfigSpec.ConfigValue<Integer> honeyGeneratorBaseStorage;
-    public final ForgeConfigSpec.ConfigValue<Integer> mellariumCellTransfer;
-    public final ForgeConfigSpec.ConfigValue<Integer> mellariumCellStorage;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeCellTransfer;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeCellStorage;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseSpeed;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseUsage;
-    public final ForgeConfigSpec.ConfigValue<Integer> gyrofugeBaseIdleUsage;
-    public final ForgeConfigSpec.ConfigValue<Integer> productivityCap;
-    public final ForgeConfigSpec.ConfigValue<Float> researchBonus;
+    public final ModConfigSpec.ConfigValue<Integer> productionCycleLength;
+    public final ModConfigSpec.ConfigValue<Integer> enviroCycleLength;
+    public final ModConfigSpec.ConfigValue<Integer> centrifugeBaseSpeed;
+    public final ModConfigSpec.ConfigValue<Integer> centrifugeBaseEnergy;
+    public final ModConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseEnergy;
+    public final ModConfigSpec.ConfigValue<Integer> furnaceGeneratorBaseStorage;
+    public final ModConfigSpec.ConfigValue<Integer> honeyGeneratorBaseEnergy;
+    public final ModConfigSpec.ConfigValue<Integer> honeyGeneratorBaseStorage;
+    public final ModConfigSpec.ConfigValue<Integer> mellariumCellTransfer;
+    public final ModConfigSpec.ConfigValue<Integer> mellariumCellStorage;
+    public final ModConfigSpec.ConfigValue<Integer> gyrofugeCellTransfer;
+    public final ModConfigSpec.ConfigValue<Integer> gyrofugeCellStorage;
+    public final ModConfigSpec.ConfigValue<Integer> gyrofugeBaseSpeed;
+    public final ModConfigSpec.ConfigValue<Integer> gyrofugeBaseUsage;
+    public final ModConfigSpec.ConfigValue<Integer> gyrofugeBaseIdleUsage;
+    public final ModConfigSpec.ConfigValue<Integer> productivityCap;
+    public final ModConfigSpec.ConfigValue<Float> researchBonus;
 
-    ServerConfig(ForgeConfigSpec.Builder builder) {
+    ServerConfig(ModConfigSpec.Builder builder) {
         builder.push("production_cap");
         productivityCap = builder.comment("The absolute maximum multiplier that bees can receive from modifiers").define("productivityCap", 50000);
         builder.pop();
@@ -54,7 +54,7 @@ public class ServerConfig {
     }
 
     static {
-        Pair<ServerConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+        Pair<ServerConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(ServerConfig::new);
 
         CONFIG_SPEC = pair.getRight();
         SERVER_CONFIG = pair.getLeft();

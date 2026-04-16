@@ -1,8 +1,9 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
+
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public interface ICentrifuge {
     /**

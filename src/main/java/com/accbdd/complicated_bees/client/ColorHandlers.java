@@ -6,10 +6,10 @@ import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class ColorHandlers {

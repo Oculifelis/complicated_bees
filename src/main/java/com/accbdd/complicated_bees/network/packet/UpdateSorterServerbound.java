@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.block.entity.BeeSorterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
 import java.util.List;

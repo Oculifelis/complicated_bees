@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
@@ -15,25 +16,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
 
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class RecipeGenerator extends RecipeProvider {
-
-    public RecipeGenerator(PackOutput pOutput) {
-        super(pOutput);
+    public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+        super(output, registries);
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> output) {
-        frameRecipe(output, ItemsRegistration.FRAME.get(), Ingredient.of(Tags.Items.STRING), Ingredient.of(Tags.Items.RODS_WOODEN));
-        frameRecipe(output, ItemsRegistration.WAXED_FRAME.get(), Ingredient.of(Tags.Items.STRING), Ingredient.of(ItemsRegistration.WAXED_STICK.get()), ItemsRegistration.WAXED_STICK.get());
-        frameRecipe(output, ItemsRegistration.HONEYED_FRAME.get(), Ingredient.of(Tags.Items.STRING), Ingredient.of(ItemsRegistration.HONEYED_STICK.get()), ItemsRegistration.HONEYED_STICK.get());
+    protected void buildRecipes(RecipeOutput output) {
+        frameRecipe(output, ItemsRegistration.FRAME.get(), Ingredient.of(Tags.Items.STRINGS), Ingredient.of(Tags.Items.RODS_WOODEN));
+        frameRecipe(output, ItemsRegistration.WAXED_FRAME.get(), Ingredient.of(Tags.Items.STRINGS), Ingredient.of(ItemsRegistration.WAXED_STICK.get()), ItemsRegistration.WAXED_STICK.get());
+        frameRecipe(output, ItemsRegistration.HONEYED_FRAME.get(), Ingredient.of(Tags.Items.STRINGS), Ingredient.of(ItemsRegistration.HONEYED_STICK.get()), ItemsRegistration.HONEYED_STICK.get());
         frameRecipe(output, ItemsRegistration.TWISTING_FRAME.get(), Ingredient.of(Items.SOUL_SAND, Items.SOUL_SOIL), Ingredient.of(ItemsRegistration.WAXED_STICK.get()), ItemsRegistration.WAXED_STICK.get());
         frameRecipe(output, ItemsRegistration.SOOTHING_FRAME.get(), Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), Ingredient.of(ItemsRegistration.HONEYED_STICK.get()), ItemsRegistration.HONEYED_STICK.get());
         frameRecipe(output, ItemsRegistration.RESTRICTIVE_FRAME.get(), Ingredient.of(Items.CHAIN), Ingredient.of(ItemsRegistration.WAXED_STICK.get()), ItemsRegistration.WAXED_STICK.get());
@@ -140,7 +138,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('F', ItemsRegistration.FURNACE_GENERATOR.get())
                 .define('W', ItemsRegistration.SMOOTH_WAX.get())
                 .define('P', ItemsRegistration.PROPOLIS.get())
-                .define('G', Tags.Items.GLASS)
+                .define('G', Tags.Items.GLASS_BLOCKS)
                 .define('I', Items.IRON_INGOT)
                 .unlockedBy(getHasName(ItemsRegistration.FURNACE_GENERATOR.get()), has(ItemsRegistration.FURNACE_GENERATOR.get())).save(output);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.AUTOLYZER.get())
@@ -627,11 +625,11 @@ public class RecipeGenerator extends RecipeProvider {
         honeyGeneratorRecipe(output, "royal_jelly", Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), 1600);
     }
 
-    protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside) {
+    protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside) {
         frameRecipe(output, result, center, outside, ItemsRegistration.APIARY.get());
     }
 
-    protected static void mutatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, float modifier) {
+    protected static void mutatorRecipe(RecipeOutput output, String name, Ingredient input, float modifier) {
         output.accept(new CBRecipeBuilder.MutatorRecipe(
                 ResourceLocation.tryBuild(MODID, "mutator/" + name),
                 input,
@@ -639,7 +637,7 @@ public class RecipeGenerator extends RecipeProvider {
         );
     }
 
-    protected static void tempUnitRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
+    protected static void tempUnitRecipe(RecipeOutput output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
         output.accept(new CBRecipeBuilder.TempUnitRecipe(
                 ResourceLocation.tryBuild(MODID, "temp_unit/" + name),
                 input,
@@ -648,7 +646,7 @@ public class RecipeGenerator extends RecipeProvider {
         ));
     }
 
-    protected static void hydroregulatorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
+    protected static void hydroregulatorRecipe(RecipeOutput output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
         output.accept(new CBRecipeBuilder.HydroRecipe(
                 ResourceLocation.tryBuild(MODID, "hydroregulator/" + name),
                 input,
@@ -658,7 +656,7 @@ public class RecipeGenerator extends RecipeProvider {
         ));
     }
 
-    protected static void honeyGeneratorRecipe(Consumer<FinishedRecipe> output, String name, Ingredient input, int burnTime) {
+    protected static void honeyGeneratorRecipe(RecipeOutput output, String name, Ingredient input, int burnTime) {
         output.accept(new CBRecipeBuilder.HoneyGeneratorRecipe(
                 ResourceLocation.tryBuild(MODID, "honey_generator/" + name),
                 input,
@@ -666,7 +664,7 @@ public class RecipeGenerator extends RecipeProvider {
         ));
     }
 
-    protected static void frameRecipe(Consumer<FinishedRecipe> output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {
+    protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {
         ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
                 .pattern("OOO")
                 .pattern("OXO")
@@ -681,7 +679,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .build(output, ForgeRegistries.ITEMS.getKey(result.asItem()));
     }
 
-    protected static void deadlyFrame(Consumer<FinishedRecipe> output) {
+    protected static void deadlyFrame(RecipeOutput output) {
         ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.DEADLY_FRAME.get())
                 .pattern("OCO")
                 .pattern("OXO")
@@ -697,7 +695,7 @@ public class RecipeGenerator extends RecipeProvider {
                 .build(output, ForgeRegistries.ITEMS.getKey(ItemsRegistration.DEADLY_FRAME.get().asItem()));
     }
 
-    protected static void enabledRecipe(RecipeBuilder builder, Consumer<FinishedRecipe> output) {
+    protected static void enabledRecipe(RecipeBuilder builder, RecipeOutput output) {
         ConditionalRecipe.builder()
                 .addCondition(new ItemEnabledCondition(ForgeRegistries.ITEMS.getKey(builder.getResult())))
                 .addRecipe(builder::save)
@@ -705,11 +703,11 @@ public class RecipeGenerator extends RecipeProvider {
                 .build(output, ForgeRegistries.ITEMS.getKey(builder.getResult().asItem()));
     }
 
-    protected static void stonecutterFor(Consumer<FinishedRecipe> output, BlockFamily family) {
+    protected static void stonecutterFor(RecipeOutput output, BlockFamily family) {
         stonecutterFor(output, family, family.getBaseBlock());
     }
 
-    protected static void stonecutterFor(Consumer<FinishedRecipe> output, BlockFamily family, Block base) {
+    protected static void stonecutterFor(RecipeOutput output, BlockFamily family, Block base) {
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.SLAB), base, 2);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.STAIRS), base);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.WALL), base);

@@ -22,7 +22,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

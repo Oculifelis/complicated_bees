@@ -8,8 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

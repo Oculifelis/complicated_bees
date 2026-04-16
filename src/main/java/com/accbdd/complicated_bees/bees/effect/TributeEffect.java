@@ -30,7 +30,7 @@ public class TributeEffect extends BeeEffect {
             if (!list.isEmpty() && apiary.getLevel().random.nextFloat() < 0.1f) {
                 LivingEntity collectFrom = list.get(apiary.getLevel().random.nextInt(list.size()));
                 ServerLevel level = (ServerLevel) collectFrom.level();
-                LootTable lootTable = level.getServer().getLootData().getLootTable(collectFrom.getLootTable());
+                LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(collectFrom.getLootTable());
                 LootParams params = new LootParams.Builder(level)
                         .withParameter(LootContextParams.THIS_ENTITY, collectFrom)
                         .withParameter(LootContextParams.ORIGIN, collectFrom.position())

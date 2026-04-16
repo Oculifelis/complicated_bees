@@ -37,13 +37,13 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
         this.products = species.getProducts().stream().map(p -> {
             EmiStack test = EmiStack.of(p.getStack()).setChance(p.getChance());
             if (p.getStack().is(ItemsRegistration.COMB.get()))
-                return test.comparison(Comparison.compareNbt());
+                return test.comparison(Comparison.compareComponents());
             return test;
         }).toList();
         this.specialtyProducts = species.getSpecialtyProducts().stream().map(p -> {
             EmiStack test = EmiStack.of(p.getStack()).setChance(p.getChance());
             if (p.getStack().is(ItemsRegistration.COMB.get()))
-                return test.comparison(Comparison.compareNbt());
+                return test.comparison(Comparison.compareComponents());
             return test;
         }).toList();
         catalysts = new ArrayList<>();

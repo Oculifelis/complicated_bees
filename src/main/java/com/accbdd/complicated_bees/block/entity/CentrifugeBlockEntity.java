@@ -4,18 +4,19 @@ import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.UpgradeHelper;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -104,16 +105,16 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(ENERGY_TAG, ((EnergyStorage)energyStorage).serializeNBT());
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put(ENERGY_TAG, ((EnergyStorage)energyStorage).serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (tag.contains(ENERGY_TAG)) {
-            ((EnergyStorage)energyStorage).deserializeNBT(tag.get(ENERGY_TAG));
+            ((EnergyStorage)energyStorage).deserializeNBT(registries, tag.get(ENERGY_TAG));
         }
     }
 

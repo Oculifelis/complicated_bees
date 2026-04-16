@@ -15,7 +15,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 //custom registry for species
 public class SpeciesRegistration {
-    public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(MODID, "species"));
+    public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "species"));
     private static final Map<ResourceLocation, Integer> complexities = new HashMap<>();
 
     @Nullable
@@ -25,7 +25,7 @@ public class SpeciesRegistration {
 
     public static ResourceLocation getResourceLocation(Species species) {
         if (species == null || species.equals(Species.INVALID))
-            return new ResourceLocation("complicated_bees:invalid");
+            return ResourceLocation.fromNamespaceAndPath(MODID, "invalid");
         return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().getKey(species);
     }
 

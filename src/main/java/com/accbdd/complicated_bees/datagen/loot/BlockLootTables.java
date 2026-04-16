@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
@@ -15,20 +16,20 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
-import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
+import net.minecraft.world.level.storage.loot.functions.CopyCustomDataFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Collections;
 
 public class BlockLootTables extends BlockLootSubProvider {
     public static final CompoundTag ENERGY_TAG_EMPTY = new CompoundTag();
 
-    public BlockLootTables() {
-        super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+    public BlockLootTables(HolderLookup.Provider registries) {
+        super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags(), registries);
         ENERGY_TAG_EMPTY.put(MellariumEnergyCellBlockEntity.ENERGY_TAG, IntTag.valueOf(0));
     }
 
@@ -105,29 +106,30 @@ public class BlockLootTables extends BlockLootSubProvider {
     protected Iterable<Block> getKnownBlocks() {
         return BlocksRegistration.BLOCKS.getEntries()
                 .stream()
-                .map(RegistryObject::get)
+                .map(DeferredHolder::get)
+                .map(block -> (Block) block) // TODO???
                 .toList();
     }
 
     public LootTable.Builder nestLootTable(Block beenest) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .when(HAS_SILK_TOUCH)
+                        .when(hasSilkTouch())
                         .setRolls(ConstantValue.exactly(1.0f))
                         .add(
-                                LootItem.lootTableItem(beenest).apply(CopyNbtFunction
+                                LootItem.lootTableItem(beenest).apply(CopyCustomDataFunction
                                         .copyData(ContextNbtProvider.BLOCK_ENTITY)
-                                        .copy("species", "BlockEntityTag.species", CopyNbtFunction.MergeStrategy.REPLACE)
+                                        .copy("species", "BlockEntityTag.species", CopyCustomDataFunction.MergeStrategy.REPLACE)
                                 )
                         ))
                 .withPool(LootPool.lootPool()
-                        .when(HAS_NO_SILK_TOUCH)
+                        .when(doesNotHaveSilkTouch())
                         .setRolls(ConstantValue.exactly(1.0f))
                         .add(
                                 LootItem.lootTableItem(ItemsRegistration.PRINCESS.get()).apply(InheritHiveSpeciesFunction.set())
                         ))
                 .withPool(LootPool.lootPool()
-                        .when(HAS_NO_SILK_TOUCH)
+                        .when(doesNotHaveSilkTouch())
                         .setRolls(ConstantValue.exactly(1.0f))
                         .add(
                                 LootItem.lootTableItem(ItemsRegistration.DRONE.get())
@@ -136,7 +138,7 @@ public class BlockLootTables extends BlockLootSubProvider {
                                         .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 1))
                         ))
                 .withPool(LootPool.lootPool()
-                        .when(HAS_NO_SILK_TOUCH)
+                        .when(doesNotHaveSilkTouch())
                         .setRolls(ConstantValue.exactly(1.0f))
                         .add(
                                 LootItem.lootTableItem(ItemsRegistration.COMB.get())
@@ -153,7 +155,7 @@ public class BlockLootTables extends BlockLootSubProvider {
                         .setRolls(ConstantValue.exactly(1.0f))
                         .add(
                                 LootItem.lootTableItem(pBlock)
-                                        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("energy", "BlockEntityTag.energy"))
+                                        .apply(CopyCustomDataFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("energy", "BlockEntityTag.energy"))
                         )
                 );
     }

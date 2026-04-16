@@ -21,8 +21,8 @@ public class HoneyGeneratorEmiRecipe implements EmiRecipe {
     private final EmiIngredient input;
     private final int burnTime;
 
-    public HoneyGeneratorEmiRecipe(HoneyGeneratorRecipe recipe) {
-        id = recipe.getId();
+    public HoneyGeneratorEmiRecipe(ResourceLocation id, HoneyGeneratorRecipe recipe) {
+        this.id = id;
         input = EmiIngredient.of(recipe.getInput());
         burnTime = recipe.getBurnTime();
     }

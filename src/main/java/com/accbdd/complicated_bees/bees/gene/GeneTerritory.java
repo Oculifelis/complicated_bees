@@ -10,7 +10,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneTerritory extends Gene<int[]> {
     public static final String TAG = "territory";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneTerritory() {
         this(4, 2, true);

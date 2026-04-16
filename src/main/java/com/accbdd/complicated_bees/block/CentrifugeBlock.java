@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity;
 import com.accbdd.complicated_bees.screen.CentrifugeMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,8 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +42,11 @@ public class CentrifugeBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
+    @Override
     public @NotNull RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
@@ -53,7 +58,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof CentrifugeBlockEntity) {
@@ -68,7 +73,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
                         return new CentrifugeMenu(windowId, player, pos, ((CentrifugeBlockEntity) be).getData());
                     }
                 };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+                player.openMenu(containerProvider, be.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }

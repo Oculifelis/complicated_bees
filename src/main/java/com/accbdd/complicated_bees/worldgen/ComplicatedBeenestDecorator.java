@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class ComplicatedBeenestDecorator extends TreeDecorator {
     private final float probability;
     private final String speciesKey;
 
-    public static final Codec<ComplicatedBeenestDecorator> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<ComplicatedBeenestDecorator> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter(ComplicatedBeenestDecorator::getProbability),
                     Codec.STRING.fieldOf("species").forGetter(ComplicatedBeenestDecorator::getSpeciesKey)

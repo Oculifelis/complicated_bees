@@ -20,7 +20,7 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
 
     public MellariumMutatorScreen(MellariumMutatorMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_mutator.png");
+        this.GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/mellarium_mutator.png");
         this.imageHeight = 161;
         this.imageWidth = 176;
         this.inventoryLabelY = imageHeight - 93;

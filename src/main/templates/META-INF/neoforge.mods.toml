@@ -22,47 +22,47 @@ logoBlur=false
 #file="META-INF/accesstransformer.cfg"
 
 [[dependencies.${mod_id}]]
-    modId="forge"
-    mandatory=true
-    versionRange="${forge_version_range}"
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="jei"
-    mandatory=false
+    type="optional"
     reason="recipe lookups"
-    versionRange="[15.20,)"
+    versionRange="[19.8.4.110,)"
     ordering="AFTER"
     side="CLIENT"
 
 [[dependencies.${mod_id}]]
     modId="jade"
-    mandatory=false
+    type="optional"
     reason="block lookies"
-    versionRange="[11.12,)"
+    versionRange="[15.1.0,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="patchouli"
-    mandatory=false
+    type="optional"
     reason="in-game guidebook"
-    versionRange="[1.20.1-84,)"
+    versionRange="[1.21-87,)"
     ordering="AFTER"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
     modId="biomesoplenty"
-    mandatory=false
-    reason="in-game guidebook"
-    versionRange="[19,)"
+    type="optional"
+    reason="???"
+    versionRange="[21.1.0.0,)"
     ordering="AFTER"
     side="BOTH"

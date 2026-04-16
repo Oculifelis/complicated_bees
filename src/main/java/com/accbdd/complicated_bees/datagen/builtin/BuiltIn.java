@@ -55,7 +55,7 @@ public class BuiltIn {
     }
 
     static ResourceLocation loc(String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     static ItemStack stack(Map.Entry<ResourceKey<Comb>, Comb> combEntry) {

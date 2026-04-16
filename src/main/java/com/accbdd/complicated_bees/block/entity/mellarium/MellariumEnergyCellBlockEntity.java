@@ -2,15 +2,14 @@ package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,15 +40,15 @@ public class MellariumEnergyCellBlockEntity extends AbstractMellariumBlockEntity
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag);
-        tag.put(ENERGY_TAG, energy.serializeNBT());
+        tag.put(ENERGY_TAG, energy.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (tag.contains(ENERGY_TAG))
-            energy.deserializeNBT(tag.get(ENERGY_TAG));
+            energy.deserializeNBT(registries, tag.get(ENERGY_TAG));
     }
 }

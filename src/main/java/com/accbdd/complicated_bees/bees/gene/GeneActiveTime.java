@@ -11,7 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneActiveTime extends Gene<EnumActiveTime> {
     public static final String TAG = "active_time";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneActiveTime() {
         this(EnumActiveTime.DIURNAL, true);

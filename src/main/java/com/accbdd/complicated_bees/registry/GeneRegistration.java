@@ -1,18 +1,20 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.bees.gene.*;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
 import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneRegistration {
-    public static final ResourceLocation GENE_REGISTRY_LOCATION = new ResourceLocation(MODID, "gene");
-    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = RegistryBuilder.of(GENE_REGISTRY_LOCATION);
+    public static final ResourceKey<Registry<IGene<?>>> GENE_REGISTRY_LOCATION = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "gene"));
+    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = new RegistryBuilder<>(GENE_REGISTRY_LOCATION);
 
     //every registered gene should be registered as a 'default' value
     public static final DeferredRegister<IGene<?>> GENES = DeferredRegister.create(GENE_REGISTRY_LOCATION, MODID);
@@ -27,6 +29,6 @@ public class GeneRegistration {
     public static final Supplier<GeneEffect> EFFECT = GENES.register(GeneEffect.TAG, GeneEffect::new);
     public static final Supplier<GeneActiveTime> ACTIVE_TIME = GENES.register(GeneActiveTime.TAG, GeneActiveTime::new);
 
-    public static final RegistryObject<GeneBoolean> CAVE_DWELLING = GENES.register("cave_dwelling", () -> new GeneBoolean(false, true));
-    public static final RegistryObject<GeneBoolean> WEATHERPROOF = GENES.register("weatherproof", () -> new GeneBoolean(false, true));
+    public static final DeferredHolder<IGene<?>, GeneBoolean> CAVE_DWELLING = GENES.register("cave_dwelling", () -> new GeneBoolean(false, true));
+    public static final DeferredHolder<IGene<?>, GeneBoolean> WEATHERPROOF = GENES.register("weatherproof", () -> new GeneBoolean(false, true));
 }

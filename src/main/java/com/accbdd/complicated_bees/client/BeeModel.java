@@ -11,10 +11,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.*;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -22,11 +19,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.generators.ModelBuilder;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -38,7 +35,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
     public static HashMap<ResourceLocation, Variant> cacheMap = new HashMap<ResourceLocation, Variant>();
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
         return new Baked();
     }
 
@@ -108,7 +105,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
 
                 ResourceLocation speciesLoc = GeneticHelper.getSpeciesLoc(pStack);
                 if (speciesLoc == null) {
-                    Minecraft.getInstance().getModelManager().getModel(Species.DEFAULT_MODELS.get(0));
+                    Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(Species.DEFAULT_MODELS.getFirst()));
                 }
 
                 Variant variant = cacheMap.get(speciesLoc);
@@ -118,9 +115,9 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
                     if (species == null) {
                         variant = new Variant(Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel());
                     } else {
-                        BakedModel droneModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(0));
-                        BakedModel princessModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(1));
-                        BakedModel queenModel = Minecraft.getInstance().getModelManager().getModel(species.getModels().get(2));
+                        BakedModel droneModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(0)));
+                        BakedModel princessModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(1)));
+                        BakedModel queenModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(2)));
                         variant = new Variant(droneModel, princessModel, queenModel);
                     }
                     cacheMap.put(speciesLoc, variant);

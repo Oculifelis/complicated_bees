@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class LibraryMenu extends AbstractBaseInventoryMenu {
     private static final int INV_X = 36;

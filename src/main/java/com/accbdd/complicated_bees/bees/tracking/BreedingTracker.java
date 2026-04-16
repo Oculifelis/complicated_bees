@@ -13,6 +13,7 @@ import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -22,10 +23,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -156,7 +156,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     @Override
-    public CompoundTag save(CompoundTag pCompoundTag) {
+    public CompoundTag save(CompoundTag pCompoundTag, HolderLookup.Provider registries) {
         pCompoundTag.putUUID(UUID_KEY, playerId);
         writeListToNBT(pCompoundTag, discoveredSpecies, SPECIES_KEY);
         writeListToNBT(pCompoundTag, discoveredMutations, MUTATIONS_KEY);

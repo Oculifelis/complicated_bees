@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.compat.emi;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.ingredient.EmiFlower;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
-import com.accbdd.complicated_bees.item.BeeNestBlockItem;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
@@ -15,6 +14,7 @@ import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +51,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
         //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
         registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> {
-            CompoundTag blockEntityData = BeeNestBlockItem.getBlockEntityData(s.getItemStack());
+            CompoundTag blockEntityData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe();
             if (blockEntityData == null)
                 return "empty";
             return blockEntityData.getString("species");
@@ -85,27 +85,27 @@ public class ComplicatedBeesEMI implements EmiPlugin {
 
         manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get())
                 .stream()
-                .map(CentrifugeEmiRecipe::new)
+                .map(holder -> new CentrifugeEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get())
                 .stream()
-                .map(MutatorEmiRecipe::new)
+                .map(holder -> new MutatorEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get())
                 .stream()
-                .map(TempUnitEmiRecipe::new)
+                .map(holder -> new TempUnitEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get())
                 .stream()
-                .map(HydroEmiRecipe::new)
+                .map(holder -> new HydroEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get())
                 .stream()
-                .map(HoneyGeneratorEmiRecipe::new)
+                .map(holder -> new HoneyGeneratorEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)

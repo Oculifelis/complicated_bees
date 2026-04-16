@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.util;
 
 import com.accbdd.complicated_bees.item.UpgradeItem;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public class UpgradeHelper {
     public static float getSpeedMod(IItemHandler upgradeItems) {

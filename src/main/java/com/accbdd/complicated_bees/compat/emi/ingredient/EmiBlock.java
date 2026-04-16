@@ -7,16 +7,16 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.spongepowered.asm.mixin.injection.invoke.arg.ArgumentIndexOutOfBoundsException;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class EmiBlock extends EmiStack {
     }
 
     @Override
-    public CompoundTag getNbt() {
+    public DataComponentPatch getComponentChanges() {
         return null;
     }
 
@@ -59,7 +59,7 @@ public class EmiBlock extends EmiStack {
 
     @Override
     public ResourceLocation getId() {
-        return ForgeRegistries.BLOCKS.getKey(block);
+        return BuiltInRegistries.BLOCK.getKey(block);
     }
 
     @Override

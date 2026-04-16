@@ -32,9 +32,9 @@ public class Comb {
         try {
             id = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().getKey(this);
         } catch (NullPointerException e) {
-            return new ResourceLocation(MODID, "null");
+            return ResourceLocation.fromNamespaceAndPath(MODID, "null");
         }
-        return id == null ? new ResourceLocation(MODID, "null") : id;
+        return id == null ? ResourceLocation.fromNamespaceAndPath(MODID, "null") : id;
     }
 
     public int getOuterColor() {

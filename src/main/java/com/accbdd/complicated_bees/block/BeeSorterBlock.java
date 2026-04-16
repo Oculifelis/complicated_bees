@@ -25,8 +25,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class BeeSorterBlock extends BaseEntityBlock {

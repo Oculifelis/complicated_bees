@@ -4,16 +4,15 @@ import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,15 +80,15 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.put("frame_items", frameItems.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
+        pTag.put("frame_items", frameItems.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.load(pTag, registries);
         if (pTag.contains("frame_items"))
-            frameItems.deserializeNBT(pTag.getCompound("frame_items"));
+            frameItems.deserializeNBT(registries, pTag.getCompound("frame_items"));
     }
 }

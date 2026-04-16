@@ -1,10 +1,13 @@
 package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.bees.Product;
+import com.accbdd.complicated_bees.block.CentrifugeBlock;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -13,18 +16,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +51,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     private final ContainerData data;
 
-    private final RecipeManager.CachedCheck<Container, CentrifugeRecipe> quickCheck;
+    private final RecipeManager.CachedCheck<RecipeInput, CentrifugeRecipe> quickCheck;
 
     private int progress;
     private int maxProgress;
@@ -111,26 +114,26 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag);
-        tag.put(ITEMS_INPUT_TAG, inputItems.serializeNBT());
-        tag.put(ITEMS_OUTPUT_TAG, outputItems.serializeNBT());
-        tag.put(ITEMS_UPGRADE_TAG, upgradeItems.serializeNBT());
+        tag.put(ITEMS_INPUT_TAG, inputItems.serializeNBT(registries));
+        tag.put(ITEMS_OUTPUT_TAG, outputItems.serializeNBT(registries));
+        tag.put(ITEMS_UPGRADE_TAG, upgradeItems.serializeNBT(registries));
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : outputBuffer) {
-            bufferTag.add(stack.save(new CompoundTag()));
+            bufferTag.add(stack.save(registries));
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_INPUT_TAG)) {
-            inputItems.deserializeNBT(tag.getCompound(ITEMS_INPUT_TAG));
+            inputItems.deserializeNBT(registries, tag.getCompound(ITEMS_INPUT_TAG));
         }
         if (tag.contains(ITEMS_OUTPUT_TAG)) {
-            outputItems.deserializeNBT(tag.getCompound(ITEMS_OUTPUT_TAG));
+            outputItems.deserializeNBT(registries, tag.getCompound(ITEMS_OUTPUT_TAG));
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
             for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
@@ -138,7 +141,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
             }
         }
         if (tag.contains(ITEMS_UPGRADE_TAG)) {
-            upgradeItems.deserializeNBT(tag.getCompound(ITEMS_UPGRADE_TAG));
+            upgradeItems.deserializeNBT(registries, tag.getCompound(ITEMS_UPGRADE_TAG));
         }
     }
 
@@ -194,8 +197,8 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     @Nullable
     public CentrifugeRecipe getRecipe(ItemStack stack) {
-        Optional<CentrifugeRecipe> recipeCheck = quickCheck.getRecipeFor(getWrapper(stack), getLevel());
-        return recipeCheck.orElse(null);
+        Optional<RecipeHolder<CentrifugeRecipe>> recipeCheck = quickCheck.getRecipeFor(getWrapper(stack), getLevel());
+        return recipeCheck.isPresent() ? recipeCheck.get().value() : null;
     }
 
     /**

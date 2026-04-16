@@ -19,7 +19,7 @@ public class DimensionCondition extends MutationCondition {
 
     @Override
     public ResourceLocation getID() {
-        return new ResourceLocation(MODID, ID);
+        return ResourceLocation.fromNamespaceAndPath(MODID, ID);
     }
 
     @Override

@@ -15,7 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.spongepowered.asm.mixin.injection.invoke.arg.ArgumentIndexOutOfBoundsException;
 
 import javax.annotation.ParametersAreNonnullByDefault;

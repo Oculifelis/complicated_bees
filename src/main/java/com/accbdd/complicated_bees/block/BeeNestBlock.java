@@ -24,6 +24,8 @@ import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+
 public class BeeNestBlock extends BaseEntityBlock {
 
     public BeeNestBlock() {
@@ -60,7 +62,7 @@ public class BeeNestBlock extends BaseEntityBlock {
 
     @Override
     public @NotNull void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pPlayer.getMainHandItem().is(ItemTags.create(new ResourceLocation("complicated_bees", "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
+        if (!pPlayer.getMainHandItem().is(ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
             pPlayer.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
         }
         super.playerWillDestroy(pLevel, pPos, pState, pPlayer);

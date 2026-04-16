@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeTypeWidget extends AbstractButton {
-    private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/bee_sorter.png");
+    private static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/bee_sorter.png");
     private final Consumer<BeeTypeState> stateConsumer;
     BeeTypeState state;
 

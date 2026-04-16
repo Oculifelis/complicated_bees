@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -18,20 +19,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class CentrifugeRecipe implements Recipe<Container> {
+public class CentrifugeRecipe implements Recipe<RecipeInput> {
     private final ItemStack input;
     private final List<Product> outputs;
-    private final ResourceLocation id;
 
     public static final RecipeSerializer<CentrifugeRecipe> SERIALIZER = new RecipeSerializer<>() {
 
@@ -77,14 +76,13 @@ public class CentrifugeRecipe implements Recipe<Container> {
         }
     };
 
-    public CentrifugeRecipe(ResourceLocation id, ItemStack input, List<Product> outputs) {
-        this.id = id;
+    public CentrifugeRecipe(ItemStack input, List<Product> outputs) {
         this.input = input;
         this.outputs = outputs;
     }
 
     @Override
-    public boolean matches(Container pContainer, Level pLevel) {
+    public boolean matches(RecipeInput pContainer, Level pLevel) {
         ItemStack containerInput = pContainer.getItem(0);
         boolean itemMatch = input.is(containerInput.getItem());
         boolean countMatch = input.getCount() <= containerInput.getCount();
@@ -93,7 +91,7 @@ public class CentrifugeRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(RecipeInput pContainer, HolderLookup.Provider pRegistryAccess) {
         ComplicatedBees.LOGGER.debug("tried to use assemble on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
     }
@@ -112,14 +110,9 @@ public class CentrifugeRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistryAccess) {
         ComplicatedBees.LOGGER.debug("tried to use getResultItem on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
     }
 
     @Override

@@ -9,8 +9,10 @@ import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
@@ -21,12 +23,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -149,33 +148,33 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.put(CYCLE_TAG, IntTag.valueOf(cycleProgress));
-        tag.put(ITEMS_BEES_TAG, getBeeItems().serializeNBT());
-        tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT());
-        tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT());
+        tag.put(ITEMS_BEES_TAG, getBeeItems().serializeNBT(registries));
+        tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT(registries));
+        tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT(registries));
         if (getOwner() != null)
             tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
-            bufferTag.add(stack.save(new CompoundTag()));
+            bufferTag.add(stack.save(registries));
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         cycleProgress = tag.getInt(CYCLE_TAG);
         if (tag.contains(ITEMS_BEES_TAG)) {
-            getBeeItems().deserializeNBT(tag.getCompound(ITEMS_BEES_TAG));
+            getBeeItems().deserializeNBT(registries, tag.getCompound(ITEMS_BEES_TAG));
         }
         if (tag.contains(ITEMS_OUTPUT_TAG)) {
-            getOutputItems().deserializeNBT(tag.getCompound(ITEMS_OUTPUT_TAG));
+            getOutputItems().deserializeNBT(registries, tag.getCompound(ITEMS_OUTPUT_TAG));
         }
         if (tag.contains(FRAME_SLOT_TAG)) {
-            getFrameItems().deserializeNBT(tag.getCompound(FRAME_SLOT_TAG));
+            getFrameItems().deserializeNBT(registries, tag.getCompound(FRAME_SLOT_TAG));
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
             for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {

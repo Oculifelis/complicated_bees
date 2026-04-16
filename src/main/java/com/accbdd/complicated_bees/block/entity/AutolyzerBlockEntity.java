@@ -3,17 +3,16 @@ package com.accbdd.complicated_bees.block.entity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,16 +51,16 @@ public class AutolyzerBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(ITEMS_TAG, items.serializeNBT());
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put(ITEMS_TAG, items.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            items.deserializeNBT(pTag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
     }
 
     private ItemStackHandler createItemHandler() {

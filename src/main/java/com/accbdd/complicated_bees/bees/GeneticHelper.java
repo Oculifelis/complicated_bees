@@ -25,9 +25,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class GeneticHelper {
 
     public static RegistryAccess getRegistryAccess() {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
-            if (FMLEnvironment.dist.equals(Dist.DEDICATED_SERVER) || Minecraft.getInstance() == null) //datagen
+            if (FMLLoader.getDist().equals(Dist.DEDICATED_SERVER) || Minecraft.getInstance() == null) //datagen
                 return null;
             if (Minecraft.getInstance().getConnection() == null) {
                 return null;

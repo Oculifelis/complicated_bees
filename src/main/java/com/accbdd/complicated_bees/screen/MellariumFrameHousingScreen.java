@@ -13,7 +13,7 @@ public class MellariumFrameHousingScreen extends AbstractContainerScreen<Mellari
 
     public MellariumFrameHousingScreen(MellariumFrameHousingMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_frame"+(menu.slots.size()-36)+".png");
+        this.GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/mellarium_frame"+(menu.slots.size()-36)+".png");
         this.imageHeight = 143;
         this.imageWidth = 176;
         this.inventoryLabelY = this.imageHeight - 10000;

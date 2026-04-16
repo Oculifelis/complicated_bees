@@ -33,7 +33,7 @@ public class JazzyEffect extends BeeEffect {
         if (cycleProgress % 2 == 0 && rand.nextFloat() < 0.5f) {
             BlockPos pos = apiary.getBlockPos();
             var note = pentatonicFrequencies[rand.nextInt(10)];
-            apiary.getLevel().playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP.get(), SoundSource.BLOCKS, 1, note);
+            apiary.getLevel().playSound(null, pos, SoundEvents.NOTE_BLOCK_HARP.value(), SoundSource.BLOCKS, 1, note);
             if (apiary.getLevel() instanceof ServerLevel serverLevel)
                 serverLevel.sendParticles(ParticleTypes.NOTE, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.2D, (double)pos.getZ() + 0.5D, 1, (double)note / 24.0D, 0.0D, 0.0D, 1);
         }

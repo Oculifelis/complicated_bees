@@ -8,8 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.Objects;
 
@@ -77,7 +77,7 @@ public class Util {
             ItemStack slotStack = handler.getStackInSlot(i);
             if (slotStack.isEmpty()) {
                 emptySlots.add(i);
-            } else if (ItemHandlerHelper.canItemStacksStack(stack, slotStack)) {
+            } else if (ItemStack.isSameItemSameComponents(stack, slotStack)) {
                 stack = handler.insertItem(i, stack, simulate);
                 if (stack.isEmpty()) {
                     return ItemStack.EMPTY;
@@ -106,6 +106,6 @@ public class Util {
                 pos.getX() + 0.5D,
                 pos.getY() + 0.5D,
                 pos.getZ() + 0.5D
-        ) <= Math.pow(player.getBlockReach(), 2);
+        ) <= Math.pow(player.entityInteractionRange(), 2);
     }
 }

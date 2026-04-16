@@ -23,8 +23,8 @@ public class TempUnitEmiRecipe implements EmiRecipe {
     private final EnumTolerance tempModifier;
     private final float consumeChance;
 
-    public TempUnitEmiRecipe(TempUnitRecipe recipe) {
-        id = recipe.getId();
+    public TempUnitEmiRecipe(ResourceLocation id, TempUnitRecipe recipe) {
+        this.id = id;
         input = EmiIngredient.of(recipe.getInput());
         tempModifier = recipe.getTempChange();
         consumeChance = recipe.getUseChance();

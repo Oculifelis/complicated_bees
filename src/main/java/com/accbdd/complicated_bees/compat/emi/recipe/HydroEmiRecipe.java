@@ -24,8 +24,8 @@ public class HydroEmiRecipe implements EmiRecipe {
     private final EnumTolerance humidityModifier;
     private final float consumeChance;
 
-    public HydroEmiRecipe(HydroRecipe recipe) {
-        id = recipe.getId();
+    public HydroEmiRecipe(ResourceLocation id, HydroRecipe recipe) {
+        this.id = id;
         input = EmiIngredient.of(recipe.getInput());
         output = EmiStack.of(recipe.getOutput().getStack()).setChance(recipe.getOutput().getChance());
         humidityModifier = recipe.getHumidityChange();

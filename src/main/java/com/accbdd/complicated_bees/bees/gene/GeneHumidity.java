@@ -10,7 +10,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneHumidity extends GeneTolerant<EnumHumidity> {
     public static final String TAG = "humidity";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneHumidity() {
         this(EnumHumidity.NORMAL, EnumTolerance.NONE, true);

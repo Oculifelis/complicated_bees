@@ -11,7 +11,6 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;

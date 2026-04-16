@@ -16,8 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MellariumMutatorBlock extends MellariumBlock {

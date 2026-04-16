@@ -18,7 +18,7 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
-    private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/bee_sorter.png");
+    private static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/bee_sorter.png");
     private byte[] beeTypes;
     public BeeSorterScreen(BeeSorterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -39,7 +39,6 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(pGuiGraphics);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         pGuiGraphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);

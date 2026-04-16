@@ -1,9 +1,9 @@
 package com.accbdd.complicated_bees.bees;
 
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.List;
 import java.util.UUID;

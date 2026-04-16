@@ -2,19 +2,14 @@ package com.accbdd.complicated_bees.recipe;
 
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.google.gson.JsonObject;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class MutatorRecipe implements Recipe<Container> {
-    private final ResourceLocation id;
+public class MutatorRecipe implements Recipe<RecipeInput> {
     private final Ingredient input;
     private final float mutationModifier;
 
@@ -38,19 +33,18 @@ public class MutatorRecipe implements Recipe<Container> {
         }
     };
 
-    public MutatorRecipe(ResourceLocation id, Ingredient input, float mutationModifier) {
-        this.id = id;
+    public MutatorRecipe(Ingredient input, float mutationModifier) {
         this.input = input;
         this.mutationModifier = mutationModifier;
     }
 
     @Override
-    public boolean matches(Container pContainer, Level pLevel) {
+    public boolean matches(RecipeInput pContainer, Level pLevel) {
         return input.test(pContainer.getItem(0));
     }
 
     @Override
-    public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(RecipeInput pContainer, HolderLookup.Provider pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -60,13 +54,8 @@ public class MutatorRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistryAccess) {
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
     }
 
     @Override

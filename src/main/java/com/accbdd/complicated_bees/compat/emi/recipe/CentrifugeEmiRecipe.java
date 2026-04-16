@@ -21,11 +21,11 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
     private final EmiIngredient input;
     private final List<EmiStack> outputs;
 
-    public CentrifugeEmiRecipe(CentrifugeRecipe recipe) {
-        this.id = recipe.getId();
+    public CentrifugeEmiRecipe(ResourceLocation id, CentrifugeRecipe recipe) {
+        this.id = id;
 
         if (recipe.getInput().is(ItemsRegistration.COMB.get()))
-            this.input = EmiStack.of(recipe.getInput()).comparison(Comparison.compareNbt());
+            this.input = EmiStack.of(recipe.getInput()).comparison(Comparison.compareComponents());
         else
             this.input = EmiStack.of(recipe.getInput());
 

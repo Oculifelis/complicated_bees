@@ -2,7 +2,9 @@ package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -10,9 +12,8 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,16 +42,16 @@ public class MicroscopeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(ITEMS_TAG, items.serializeNBT());
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put(ITEMS_TAG, items.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_TAG)) {
-            items.deserializeNBT(tag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, tag.getCompound(ITEMS_TAG));
         }
     }
 
@@ -74,8 +75,8 @@ public class MicroscopeBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 
     public boolean isLocked() {

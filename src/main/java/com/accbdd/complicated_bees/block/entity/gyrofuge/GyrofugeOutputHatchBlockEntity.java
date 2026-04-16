@@ -3,13 +3,13 @@ package com.accbdd.complicated_bees.block.entity.gyrofuge;
 import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.Util;
+import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public class GyrofugeOutputHatchBlockEntity extends AbstractGyrofugeBlockEntity implements IGyrofugeTickable {
     private LazyOptional<IItemHandler> gyrofugeOutput;
@@ -35,7 +35,7 @@ public class GyrofugeOutputHatchBlockEntity extends AbstractGyrofugeBlockEntity 
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
                 if (blockEntity == null || blockEntity instanceof AbstractGyrofugeBlockEntity)
                     continue;
-                IItemHandler itemCap = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve().orElse(null);
+                IItemHandler itemCap = getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
                 IItemHandler output = gyrofugeOutput.resolve().orElse(null);
                 if (itemCap != null && output != null) {
                     Util.moveInventoryItems(output, itemCap);
