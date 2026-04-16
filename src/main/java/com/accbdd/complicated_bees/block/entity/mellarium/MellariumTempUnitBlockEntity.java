@@ -73,8 +73,8 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         getItemHandler().invalidate();
     }
 

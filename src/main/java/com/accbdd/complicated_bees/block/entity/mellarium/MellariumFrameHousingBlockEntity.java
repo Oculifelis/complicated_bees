@@ -51,8 +51,8 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         getFrameItemHandler().invalidate();
     }
 

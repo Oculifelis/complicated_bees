@@ -91,8 +91,8 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         getItemHandler().invalidate();
         getInputItemHandler().invalidate();
         getOutputItemHandler().invalidate();
@@ -134,7 +134,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
             for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
-                outputBuffer.add(ItemStack.of((CompoundTag) itemCompound));
+                outputBuffer.add(ItemStack.parseOptional(registries, (CompoundTag) itemCompound));
             }
         }
         if (tag.contains(ITEMS_UPGRADE_TAG)) {

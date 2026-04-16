@@ -86,8 +86,8 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         getItemHandler().invalidate();
     }
 

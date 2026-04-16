@@ -52,8 +52,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -107,8 +107,8 @@ public class ComplicatedBees {
         modEventBus.addListener(this::registerSerializers);
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
-        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(DataGenerators::generate);
+        modEventBus.addListener(PacketHandler::registerPayloadHandlers);
 
         if(FMLLoader.getDist().isClient()) {
             modEventBus.addListener(ColorHandlers::registerItemColorHandlers);
@@ -137,6 +137,11 @@ public class ComplicatedBees {
         modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG_SPEC);
 
         CREATIVE_MODE_TABS.register(modEventBus);
+    }
+
+    @SubscribeEvent
+    public void registerCapabilities(RegisterCapabilitiesEvent event) {
+        // TODO
     }
 
     @SubscribeEvent
@@ -188,11 +193,6 @@ public class ComplicatedBees {
     }
 
     @SubscribeEvent
-    public void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(PacketHandler::register);
-    }
-
-    @SubscribeEvent
     public void serverStarted(ServerStartedEvent event) {
         LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().size());
         LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().size());
@@ -203,8 +203,7 @@ public class ComplicatedBees {
     @SubscribeEvent
     public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         LOGGER.info("syncing tracker to {}", event.getEntity().getName());
-        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(event.getEntity().getUUID())),
-                new TrackerSyncClientbound(BreedingTracker.getTracker(event.getEntity())));
+        PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(event.getEntity().getUUID()), new TrackerSyncClientbound(BreedingTracker.getTracker(event.getEntity())));
     }
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)

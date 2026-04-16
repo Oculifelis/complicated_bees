@@ -49,8 +49,8 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     private int maxBurnTime;
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         itemHandler.invalidate();
         upgradeItemHandler.invalidate();
         energyHandler.invalidate();

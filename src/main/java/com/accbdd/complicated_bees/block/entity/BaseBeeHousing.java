@@ -66,8 +66,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     private final BeeLogic beeLogic;
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         getItemHandler().invalidate();
         getBeeItemHandler().invalidate();
         getOutputItemHandler().invalidate();
@@ -178,7 +178,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
             for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
-                getOutputBuffer().add(ItemStack.of((CompoundTag) itemCompound));
+                getOutputBuffer().add(ItemStack.parseOptional(registries, (CompoundTag) itemCompound));
             }
         }
         if (tag.contains(OWNER_TAG))

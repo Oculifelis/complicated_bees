@@ -38,8 +38,8 @@ public class AutolyzerBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
+    public void invalidateCapabilities() {
+        super.invalidateCapabilities();
         itemHandler.invalidate();
     }
 
