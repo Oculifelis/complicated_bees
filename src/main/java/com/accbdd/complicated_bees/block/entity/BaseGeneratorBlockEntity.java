@@ -56,16 +56,6 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         energyHandler.invalidate();
     }
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-            return getItemHandler().cast();
-        if (cap == ForgeCapabilities.ENERGY)
-            return getEnergyHandler().cast();
-
-        return super.getCapability(cap, side);
-    }
-
     public BaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int baseGenerate, int baseStorage) {
         super(type, pos, state);
         this.baseGenerate = baseGenerate;

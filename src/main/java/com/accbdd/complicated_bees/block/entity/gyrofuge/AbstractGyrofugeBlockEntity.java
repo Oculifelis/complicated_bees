@@ -3,18 +3,12 @@ package com.accbdd.complicated_bees.block.entity.gyrofuge;
 import com.accbdd.complicated_bees.block.AbstractGyrofugeBlock;
 import com.accbdd.complicated_bees.multiblock.GyrofugeLogic;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public abstract class AbstractGyrofugeBlockEntity extends BlockEntity {
     private GyrofugeLogic logic;
@@ -42,24 +36,6 @@ public abstract class AbstractGyrofugeBlockEntity extends BlockEntity {
                 getLevel().setBlock(getBlockPos(), getBlockState().setValue(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.none), 3);
             }
         }
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        GyrofugeLogic logic = getLogic();
-        if (logic == null) {
-            return super.getCapability(cap, side);
-        }
-        Optional<GyrofugeControllerBlockEntity> controller = logic.getController();
-        if (controller.isEmpty()) {
-            return super.getCapability(cap, side);
-        }
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return controller.map(GyrofugeControllerBlockEntity::getItemHandler).orElse(LazyOptional.empty()).cast();
-        }
-
-        return super.getCapability(cap, side);
     }
 
     @Override

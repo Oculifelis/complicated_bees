@@ -31,7 +31,6 @@ public class MellariumHydroregulatorScreen extends AbstractContainerScreen<Mella
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        renderBackground(graphics);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
@@ -48,12 +47,12 @@ public class MellariumHydroregulatorScreen extends AbstractContainerScreen<Mella
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
-            graphics.blit(GUI, leftPos+82, topPos+27, recipe.getHumidityChange().up > 0 ? 176 : 183, 0, 7, 11);
+            graphics.blit(GUI, leftPos+82, topPos+27, recipe.value().humidityChange().up > 0 ? 176 : 183, 0, 7, 11);
             if (mouseX > leftPos+81 && mouseX < leftPos+81+9 && mouseY > topPos+24 && mouseY < topPos+24+15) {
                 graphics.renderTooltip(this.font,
                         List.of(
-                                Component.translatable("jei.complicated_bees.modifier", recipe.getHumidityChange().getTranslationKey()),
-                                Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.getUseChance() * 100))
+                                Component.translatable("jei.complicated_bees.modifier", recipe.value().humidityChange().getTranslationKey()),
+                                Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.value().useChance() * 100))
                         ),
                         Optional.empty(),
                         mouseX,

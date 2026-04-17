@@ -4,14 +4,11 @@ import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GyrofugeEnergyCellBlockEntity extends AbstractGyrofugeBlockEntity {
 
@@ -29,14 +26,6 @@ public class GyrofugeEnergyCellBlockEntity extends AbstractGyrofugeBlockEntity {
 
     public EnergyStorage getEnergy() {
         return energy;
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ENERGY)
-            return this.energyHandler.cast();
-
-        return super.getCapability(cap, side);
     }
 
     public LazyOptional<IEnergyStorage> getEnergyHandler() {

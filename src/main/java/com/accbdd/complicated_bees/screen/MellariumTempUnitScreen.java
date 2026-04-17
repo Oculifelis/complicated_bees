@@ -37,7 +37,6 @@ public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTe
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        renderBackground(graphics);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
@@ -48,7 +47,7 @@ public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTe
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
-            switch (recipe.getTempChange()) {
+            switch (recipe.value().tempChange()) {
                 case DOWN_1 -> drawThermometer(graphics, 0, 0);
                 case DOWN_2 -> drawThermometer(graphics, 8, 0);
                 case DOWN_3, DOWN_4, DOWN_5 -> drawThermometer(graphics, 16, 0);
@@ -59,8 +58,8 @@ public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTe
             if (mouseX > leftPos+84 && mouseX < leftPos+84+8 && mouseY > topPos+22 && mouseY < topPos+22+16) {
                 graphics.renderTooltip(this.font,
                         List.of(
-                                Component.translatable("jei.complicated_bees.modifier", recipe.getTempChange().getTranslationKey()),
-                                Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.getUseChance() * 100))
+                                Component.translatable("jei.complicated_bees.modifier", recipe.value().tempChange().getTranslationKey()),
+                                Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.value().useChance() * 100))
                         ),
                         Optional.empty(),
                         mouseX,

@@ -6,7 +6,6 @@ import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +34,6 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
 
     public LazyOptional<IItemHandler> getFrameItemHandler() {
         return frameItemHandler;
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
-            return super.getCapability(cap, side);
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getFrameItemHandler().cast();
-        }
-
-        return super.getCapability(cap, side);
     }
 
     @Override

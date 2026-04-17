@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class AutolyzerBlockEntity extends BlockEntity {
     public static final String ITEMS_TAG = "items";
@@ -41,13 +39,6 @@ public class AutolyzerBlockEntity extends BlockEntity {
     public void invalidateCapabilities() {
         super.invalidateCapabilities();
         itemHandler.invalidate();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-            return getItemHandler().cast();
-        return super.getCapability(cap, side);
     }
 
     @Override

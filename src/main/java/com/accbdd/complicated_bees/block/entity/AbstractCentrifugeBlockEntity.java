@@ -3,9 +3,7 @@ package com.accbdd.complicated_bees.block.entity;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +23,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -98,16 +95,6 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         getOutputItemHandler().invalidate();
         getUpgradeItemHandler().invalidate();
         getEnergyHandler().invalidate();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getItemHandler().cast();
-        }
-        if (cap == ForgeCapabilities.ENERGY)
-            return this.getEnergyHandler().cast();
-        return super.getCapability(cap, side);
     }
 
     @Override

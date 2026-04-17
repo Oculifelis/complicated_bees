@@ -7,7 +7,6 @@ import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
@@ -21,7 +20,6 @@ import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -71,18 +69,6 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
 
     private boolean canRecipeOutput(HydroRecipe recipe) {
         return outputItems.insertItem(0, recipe.output().getStack(), true).isEmpty();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
-            return super.getCapability(cap, side);
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getItemHandler().cast();
-        }
-
-        return super.getCapability(cap, side);
     }
 
     @Override

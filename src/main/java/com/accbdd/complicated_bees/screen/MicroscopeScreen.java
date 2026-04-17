@@ -96,7 +96,6 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        renderBackground(graphics);
         graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 

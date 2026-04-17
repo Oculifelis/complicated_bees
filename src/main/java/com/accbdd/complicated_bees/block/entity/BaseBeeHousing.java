@@ -11,7 +11,6 @@ import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -72,14 +70,6 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         getBeeItemHandler().invalidate();
         getOutputItemHandler().invalidate();
         getFrameItemHandler().invalidate();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getItemHandler().cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     public BaseBeeHousing(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {

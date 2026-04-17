@@ -7,11 +7,11 @@ import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +20,6 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -43,7 +42,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     }
 
     private boolean hasRecipe(ItemStack stack) {
-        Optional<TempUnitRecipe> recipeCheck = quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel());
+        Optional<RecipeHolder<TempUnitRecipe>> recipeCheck = quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel());
         return recipeCheck.isPresent();
     }
 
@@ -61,18 +60,6 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
-            return super.getCapability(cap, side);
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getItemHandler().cast();
-        }
-
-        return super.getCapability(cap, side);
-    }
-
-    @Override
     public void invalidateCapabilities() {
         super.invalidateCapabilities();
         getItemHandler().invalidate();
@@ -82,7 +69,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     public BeeHousingModifier getModifier() {
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            return new BeeHousingModifier.Builder().temperature(quickCheck.getRecipeFor(new SimpleContainer(stack), getLevel()).get().getTempChange()).build();
+            return new BeeHousingModifier.Builder().temperature(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().getTempChange()).build();
         }
         return new BeeHousingModifier();
     }

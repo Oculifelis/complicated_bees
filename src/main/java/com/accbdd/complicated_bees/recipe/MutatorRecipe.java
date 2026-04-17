@@ -70,12 +70,4 @@ public record MutatorRecipe(Ingredient input, float mutationModifier) implements
     public RecipeType<?> getType() {
         return EsotericRegistration.MUTATOR_RECIPE.get();
     }
-
-    public float getMutationModifier() {
-        return mutationModifier;
-    }
-
-    public Ingredient getInput() {
-        return input;
-    }
 }

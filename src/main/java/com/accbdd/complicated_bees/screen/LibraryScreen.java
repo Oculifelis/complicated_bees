@@ -36,7 +36,6 @@ public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
 
     @Override
     protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(graphics);
         graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 

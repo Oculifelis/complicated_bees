@@ -23,8 +23,8 @@ public class MutatorEmiRecipe implements EmiRecipe {
 
     public MutatorEmiRecipe(ResourceLocation id, MutatorRecipe recipe) {
         this.id = id;
-        input = EmiIngredient.of(recipe.getInput());
-        mutationModifier = recipe.getMutationModifier();
+        input = EmiIngredient.of(recipe.input());
+        mutationModifier = recipe.mutationModifier();
     }
 
     @Override
