@@ -1,7 +1,6 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.UpdateSorterServerbound;
 import com.accbdd.complicated_bees.screen.slot.FakeSpeciesSlot;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
@@ -11,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
             else
                 speciesSlots.add(menu.getSlot(i).getItem().getTag().getString(GeneticHelper.SPECIES));
         }
-        PacketHandler.CHANNEL.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
+        PacketDistributor.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
     }
 
     @Override

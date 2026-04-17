@@ -13,10 +13,10 @@ public class PacketHandler {
         //surely there is a better way to do this
         registrar.playToServer(MicroscopeGameServerbound.TYPE, MicroscopeGameServerbound.STREAM_CODEC, MicroscopeGameServerbound::handle);
         registrar.playToClient(MicroscopeGameClientbound.TYPE, MicroscopeGameClientbound.STREAM_CODEC, MicroscopeGameClientbound::handle);
-        registrar.playToServer(MicroscopeHintServerbound.class, MicroscopeHintServerbound::decode, MicroscopeHintServerbound::handle);
-        registrar.playToClient(MicroscopeHintClientbound.class, MicroscopeHintClientbound::decode, MicroscopeHintClientbound::handle);
-        registrar.playToClient(TrackerSyncClientbound.class, TrackerSyncClientbound::decode, TrackerSyncClientbound::handle);
-        registrar.playToClient(TrackerUpdateClientbound.class, TrackerUpdateClientbound::decode, TrackerUpdateClientbound::handle);
-        registrar.playToServer(UpdateSorterServerbound.class, UpdateSorterServerbound::decode, UpdateSorterServerbound::handle);
+        registrar.playToServer(MicroscopeHintServerbound.TYPE, MicroscopeHintServerbound.STREAM_CODEC, MicroscopeHintServerbound::handle);
+        registrar.playToClient(MicroscopeHintClientbound.TYPE, MicroscopeHintClientbound.STREAM_CODEC, MicroscopeHintClientbound::handle);
+        registrar.playToClient(TrackerSyncClientbound.TYPE, TrackerSyncClientbound.STREAM_CODEC, TrackerSyncClientbound::handle);
+        registrar.playToClient(TrackerUpdateClientbound.TYPE, TrackerUpdateClientbound.STREAM_CODEC, TrackerUpdateClientbound::handle);
+        registrar.playToServer(UpdateSorterServerbound.TYPE, UpdateSorterServerbound.STREAM_CODEC, UpdateSorterServerbound::handle);
     }
 }

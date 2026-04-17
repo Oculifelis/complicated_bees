@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.screen.widget.microscope;
 
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameServerbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
@@ -11,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -195,7 +195,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     @Override
     public void sendGuess(byte[] guess) {
-        PacketHandler.CHANNEL.sendToServer(new MicroscopeGameServerbound(guess));
+        PacketDistributor.sendToServer(new MicroscopeGameServerbound(guess));
     }
 
     @Override

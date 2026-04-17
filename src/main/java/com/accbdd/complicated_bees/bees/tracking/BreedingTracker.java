@@ -7,7 +7,6 @@ import com.accbdd.complicated_bees.client.DiscoverToast;
 import com.accbdd.complicated_bees.client.ResearchToast;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.item.BeeItem;
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.Collection;
@@ -146,13 +146,12 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     public void syncToPlayer() {
-        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())),
-                new TrackerSyncClientbound(this));
+        PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerSyncClientbound(this));
     }
 
     public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
         if (ServerLifecycleHooks.getCurrentServer() != null && ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()) != null)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())), new TrackerUpdateClientbound(type, loc));
+            PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerUpdateClientbound(type, loc));
     }
 
     @Override
@@ -216,7 +215,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
 
     @OnlyIn(Dist.CLIENT)
     public static void updateFromPacket(TrackerUpdateClientbound packet) {
-        switch (packet.type()) {
+        switch (packet.updateType()) {
             case SPECIES -> {
                 CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
                 Minecraft.getInstance().getToasts().addToast(new DiscoverToast(SpeciesRegistration.getFromResourceLocation(packet.loc())));

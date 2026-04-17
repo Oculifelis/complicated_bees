@@ -24,11 +24,11 @@ public record MicroscopeGameClientbound(GameState state) implements CustomPacket
     public static final Type<MicroscopeGameClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_game_clientbound"));
     public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeGameClientbound> STREAM_CODEC = StreamCodec.of(MicroscopeGameClientbound::encode, MicroscopeGameClientbound::decode);
 
-    public static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameClientbound payload) {
+    private static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameClientbound payload) {
         buf.writeEnum(payload.state);
     }
 
-    public static MicroscopeGameClientbound decode(FriendlyByteBuf buf) {
+    private static MicroscopeGameClientbound decode(FriendlyByteBuf buf) {
         return new MicroscopeGameClientbound(buf.readEnum(GameState.class));
     }
 

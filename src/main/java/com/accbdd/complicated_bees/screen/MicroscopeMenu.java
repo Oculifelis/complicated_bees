@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
@@ -23,6 +22,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -141,7 +141,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 }
             }
             byte index = unguessed.get(rand.nextInt(unguessed.size())).byteValue();
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintClientbound(index, researchCode[index]));
+            PacketDistributor.sendToPlayer(serverPlayer, new MicroscopeHintClientbound(index, researchCode[index]));
         }
     }
 
@@ -160,7 +160,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
 
     private void clearGame() {
         if (player instanceof ServerPlayer serverPlayer)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.CLEAR));
+            PacketDistributor.sendToPlayer(serverPlayer, new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.CLEAR));
         this.setState(MicroscopeGameClientbound.GameState.CLEAR);
     }
 

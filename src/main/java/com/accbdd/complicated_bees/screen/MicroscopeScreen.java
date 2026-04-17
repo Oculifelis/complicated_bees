@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.screen;
 
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintServerbound;
 import com.accbdd.complicated_bees.screen.widget.microscope.ConnectWiresGame;
@@ -18,6 +17,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 GUI,
                 (button) -> {
                     if (game != null && menu.canSendHint())
-                        PacketHandler.CHANNEL.sendToServer(new MicroscopeHintServerbound());
+                        PacketDistributor.sendToServer(MicroscopeHintServerbound.INSTANCE);
                 });
         startButton = new PlainTextButton(leftPos + 8 + 215/2 - textWidth / 2,
                 topPos + 50,

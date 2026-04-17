@@ -23,11 +23,11 @@ public record MicroscopeGameServerbound(byte[] guesses) implements CustomPacketP
     public static final Type<MicroscopeGameServerbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_game_serverbound"));
     public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeGameServerbound> STREAM_CODEC = StreamCodec.of(MicroscopeGameServerbound::encode, MicroscopeGameServerbound::decode);
 
-    public static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameServerbound payload) {
+    private static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameServerbound payload) {
         buf.writeByteArray(payload.guesses);
     }
 
-    public static MicroscopeGameServerbound decode(RegistryFriendlyByteBuf buffer) {
+    private static MicroscopeGameServerbound decode(RegistryFriendlyByteBuf buffer) {
         return new MicroscopeGameServerbound(buffer.readByteArray());
     }
 
