@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 import static com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity.SLOT_COUNT;
 

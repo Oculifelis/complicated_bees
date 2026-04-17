@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.screen.slot.OutputSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class MellariumHydroregulatorMenu extends AbstractBaseInventoryMenu {
     private static final int INV_X = 8;

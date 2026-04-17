@@ -10,7 +10,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +22,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTempUnitMenu> {
     private final ResourceLocation GUI;
-    private final RecipeManager.CachedCheck<Container, TempUnitRecipe> recipeCheck = RecipeManager.createCheck(EsotericRegistration.TEMP_UNIT_RECIPE.get());
+    private final RecipeManager.CachedCheck<RecipeInput, TempUnitRecipe> recipeCheck = RecipeManager.createCheck(EsotericRegistration.TEMP_UNIT_RECIPE.get());
 
     public MellariumTempUnitScreen(MellariumTempUnitMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -46,7 +49,7 @@ public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTe
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().getFirst();
-        recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
+        recipeCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getMenu().getLevel()).ifPresent(recipe -> {
             switch (recipe.value().tempChange()) {
                 case DOWN_1 -> drawThermometer(graphics, 0, 0);
                 case DOWN_2 -> drawThermometer(graphics, 8, 0);

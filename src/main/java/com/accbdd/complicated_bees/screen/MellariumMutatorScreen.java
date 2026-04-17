@@ -10,13 +10,16 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMutatorMenu> {
     private final ResourceLocation GUI;
-    private final RecipeManager.CachedCheck<Container, MutatorRecipe> recipeCheck = RecipeManager.createCheck(EsotericRegistration.MUTATOR_RECIPE.get());
+    private final RecipeManager.CachedCheck<RecipeInput, MutatorRecipe> recipeCheck = RecipeManager.createCheck(EsotericRegistration.MUTATOR_RECIPE.get());
 
     public MellariumMutatorScreen(MellariumMutatorMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -43,7 +46,7 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().getFirst();
-        recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
+        recipeCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getMenu().getLevel()).ifPresent(recipe -> {
             graphics.blit(GUI, leftPos+84, topPos+26, 176, 0, 8, 8);
             if (mouseX > leftPos+83 && mouseX < leftPos+83+10 && mouseY > topPos+25 && mouseY < topPos+25+10) {
                 graphics.renderTooltip(this.font,

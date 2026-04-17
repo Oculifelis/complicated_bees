@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeNestBlock extends BaseEntityBlock {
+    private static final MapCodec<BeeNestBlock> CODEC = simpleCodec(properties -> new BeeNestBlock());
 
     public BeeNestBlock() {
         super(BlockBehaviour.Properties.of()
@@ -34,6 +36,11 @@ public class BeeNestBlock extends BaseEntityBlock {
                 .lightLevel(state -> 15)
                 .strength(0.6f)
                 .sound(SoundType.WOOD));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public static ItemStack stackNest(ItemStack stack, Species species) {
