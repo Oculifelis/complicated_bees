@@ -1,11 +1,13 @@
 package com.accbdd.complicated_bees.registry;
 
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.recipe.*;
 import com.accbdd.complicated_bees.worldgen.ComplicatedBeenestDecorator;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeature;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeatureConfiguration;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
@@ -31,6 +33,7 @@ public class EsotericRegistration {
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE_REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER_REGISTER = DeferredRegister.create(Registries.RECIPE_SERIALIZER, MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPE = DeferredRegister.create(Registries.PARTICLE_TYPE, MODID);
+    public static final DeferredRegister.DataComponents DATA_COMPONENT_TYPE = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
 
     public static EnumProperty<AssembledStatus> ASSEMBLED = EnumProperty.create("assembled", AssembledStatus.class);
 
@@ -80,4 +83,7 @@ public class EsotericRegistration {
             HydroRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<HoneyGeneratorRecipe>> HONEY_GENERATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("honey_generator",
             HoneyGeneratorRecipe.Serializer::new);
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Bee>> BEE = DATA_COMPONENT_TYPE.registerComponentType("bee",
+            builder -> builder.persistent(Bee.CODEC).networkSynchronized(Bee.STREAM_CODEC).cacheEncoding());
 }

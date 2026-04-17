@@ -3,7 +3,11 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.gene.Gene;
 import com.accbdd.complicated_bees.bees.gene.IGene;
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
@@ -12,6 +16,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Chromosome {
+    public static final Codec<Chromosome> CODEC = CompoundTag.CODEC.xmap(Chromosome::deserialize, Chromosome::serialize);
+    public static final StreamCodec<ByteBuf, Chromosome> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(Chromosome::deserialize, Chromosome::serialize);
+
     private Map<ResourceLocation, IGene<?>> genes;
 
     public Chromosome() {

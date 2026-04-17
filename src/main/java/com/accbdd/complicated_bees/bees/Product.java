@@ -12,6 +12,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -27,6 +28,7 @@ import java.util.Random;
 public class Product {
 
     public static final Codec<Product> CODEC = Codec.of(Product::encode, Product::decode);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Product> STREAM_CODEC = StreamCodec.of((buf, val) -> val.toNetwork(buf), Product::fromNetwork);
 
     public static final List<Product> EMPTY = List.of(new Product(Items.AIR.getDefaultInstance(), 0));
     public static final Random rand = new Random();

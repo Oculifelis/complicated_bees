@@ -196,8 +196,8 @@ public class ComplicatedBees {
     public void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(
                 SpeciesRegistration.SPECIES_REGISTRY_KEY,
-                Species.SPECIES_CODEC,
-                Species.SPECIES_CODEC
+                Species.CODEC,
+                Species.CODEC
         );
 
         event.dataPackRegistry(
