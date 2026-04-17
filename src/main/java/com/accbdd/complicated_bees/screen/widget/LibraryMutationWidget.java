@@ -4,6 +4,8 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.component.Bee;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
@@ -159,7 +161,7 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
             researchedMutations = List.of();
             return;
         }
-        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
+        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))

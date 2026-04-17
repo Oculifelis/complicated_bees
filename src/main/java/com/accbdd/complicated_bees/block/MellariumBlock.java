@@ -2,14 +2,18 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumBaseBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class MellariumBlock extends AbstractMellariumBlock {
+    private static final MapCodec<MellariumBlock> CODEC = simpleCodec(props -> new MellariumBlock(props, MellariumBlockType.OTHER));
+
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
     private final MellariumBlockType type;
 
@@ -27,6 +31,11 @@ public class MellariumBlock extends AbstractMellariumBlock {
 
     public MellariumBlock() {
         this(MellariumBlockType.OTHER);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable

@@ -54,7 +54,7 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
-        super.saveAdditional(pTag);
+        super.saveAdditional(pTag, registries);
         pTag.put(ITEMS_TAG, items.serializeNBT(registries));
     }
 

@@ -86,4 +86,6 @@ public class EsotericRegistration {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Bee>> BEE = DATA_COMPONENT_TYPE.registerComponentType("bee",
             builder -> builder.persistent(Bee.CODEC).networkSynchronized(Bee.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> COMB = DATA_COMPONENT_TYPE.registerComponentType("comb",
+            builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC).cacheEncoding());
 }

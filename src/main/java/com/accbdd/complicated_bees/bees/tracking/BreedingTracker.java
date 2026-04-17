@@ -5,10 +5,12 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.client.DiscoverToast;
 import com.accbdd.complicated_bees.client.ResearchToast;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.client.Minecraft;
@@ -91,7 +93,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     public void discoverIndividual(ItemStack stack) {
         if (stack.is(ItemTagGenerator.BEE)) {
             discover(GeneticHelper.getSpecies(stack, true));
-            if (stack.getOrCreateTag().getBoolean(BeeItem.ANALYZED_TAG)) {
+            if (stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).analyzed()) {
                 discover(GeneticHelper.getSpecies(stack, false));
             }
         }

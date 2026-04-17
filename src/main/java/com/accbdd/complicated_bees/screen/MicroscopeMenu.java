@@ -4,13 +4,11 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;
-import com.accbdd.complicated_bees.registry.BlocksRegistration;
-import com.accbdd.complicated_bees.registry.MenuRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -188,7 +186,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             researchedMutationsCount = -1;
             return;
         }
-        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
+        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
@@ -212,7 +210,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         if (bee.isEmpty())
             return;
         BreedingTracker tracker = BreedingTracker.getTracker(this.player);
-        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
+        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
                 location -> {

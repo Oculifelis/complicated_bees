@@ -69,7 +69,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     public BeeHousingModifier getModifier() {
         ItemStack stack = items.getStackInSlot(0);
         if (hasRecipe(stack)) {
-            return new BeeHousingModifier.Builder().temperature(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().getTempChange()).build();
+            return new BeeHousingModifier.Builder().temperature(quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().tempChange()).build();
         }
         return new BeeHousingModifier();
     }

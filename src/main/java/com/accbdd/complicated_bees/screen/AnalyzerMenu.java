@@ -1,8 +1,9 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.item.BeeItem;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -30,7 +31,7 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
                 if (getSlot(0).hasItem()) {
                     if (!bee.isEmpty()) {
                         if (!isBeeAnalyzed()) {
-                            bee.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
+                            bee.update(EsotericRegistration.BEE, Bee.DEFAULT, component -> component.withAnalyzed(true));
                             getSlot(0).remove(1);
                         }
                     }

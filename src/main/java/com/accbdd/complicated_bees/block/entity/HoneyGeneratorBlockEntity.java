@@ -32,7 +32,7 @@ public class HoneyGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     @Override
     public int getBurnTime(ItemStack stack) {
         if (isValidInput(stack))
-            return quickCheck.getRecipeFor(getWrapper(stack), getLevel()).get().getBurnTime();
+            return quickCheck.getRecipeFor(getWrapper(stack), getLevel()).get().value().burnTime();
         return 0;
     }
 

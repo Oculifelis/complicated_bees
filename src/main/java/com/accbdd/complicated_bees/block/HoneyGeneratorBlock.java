@@ -3,16 +3,15 @@ package com.accbdd.complicated_bees.block;
 import com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity;
 import com.accbdd.complicated_bees.block.entity.HoneyGeneratorBlockEntity;
 import com.accbdd.complicated_bees.screen.HoneyGeneratorMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -31,9 +30,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class HoneyGeneratorBlock extends BaseEntityBlock {
+
+    private static final MapCodec<HoneyGeneratorBlock> CODEC = simpleCodec(props -> new HoneyGeneratorBlock());
 
     public static final String SCREEN_GENERATOR = "gui.complicated_bees.honey_generator";
 
@@ -42,6 +44,11 @@ public class HoneyGeneratorBlock extends BaseEntityBlock {
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -65,7 +72,7 @@ public class HoneyGeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof HoneyGeneratorBlockEntity) {
@@ -80,7 +87,7 @@ public class HoneyGeneratorBlock extends BaseEntityBlock {
                         return new HoneyGeneratorMenu(windowId, playerEntity, pos);
                     }
                 };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+                player.openMenu(containerProvider, be.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }

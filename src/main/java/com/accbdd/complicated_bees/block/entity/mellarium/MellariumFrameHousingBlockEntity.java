@@ -73,7 +73,7 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
-        super.load(pTag, registries);
+        super.loadAdditional(pTag, registries);
         if (pTag.contains("frame_items"))
             frameItems.deserializeNBT(registries, pTag.getCompound("frame_items"));
     }

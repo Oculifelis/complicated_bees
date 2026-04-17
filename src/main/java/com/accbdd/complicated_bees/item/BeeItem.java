@@ -5,6 +5,8 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.*;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.component.Bee;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -38,11 +40,11 @@ public class BeeItem extends Item {
     }
 
     public static float getAge(ItemStack stack) {
-        return stack.getOrCreateTag().getFloat(AGE_TAG);
+        return stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).age();
     }
 
     public static void setAge(ItemStack stack, float age) {
-        stack.getOrCreateTag().putFloat(AGE_TAG, age);
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withAge(age));
     }
 
     @Override
@@ -82,7 +84,7 @@ public class BeeItem extends Item {
         } else if (geneSpecies.get() == null) {
             //species doesn't exist in registry
             tooltipComponents.add(Component.literal("INVALID SPECIES"));
-        } else if (!stack.getOrCreateTag().getBoolean(ANALYZED_TAG)) {
+        } else if (!stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).analyzed()) {
             tooltipComponents.add(Component.translatable("gui.complicated_bees.not_analyzed").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
         } else if (!Screen.hasShiftDown()) {
             tooltipComponents.add(Component.translatable("gui.complicated_bees.more_info").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));

@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.AutolyzerBlockEntity;
 import com.accbdd.complicated_bees.screen.AutolyzerMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,11 +27,18 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class AutolyzerBlock extends BaseEntityBlock {
+    private static final MapCodec<AutolyzerBlock> CODEC = simpleCodec(props -> new AutolyzerBlock());
+
     public AutolyzerBlock() {
         super(Properties.of()
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -40,7 +48,7 @@ public class AutolyzerBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof AutolyzerBlockEntity) {

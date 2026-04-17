@@ -1,7 +1,10 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.network.packet.UpdateSorterServerbound;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.slot.FakeSpeciesSlot;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
 import net.minecraft.client.gui.GuiGraphics;
@@ -58,7 +61,7 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
             if (!menu.getSlot(i).hasItem())
                 speciesSlots.add("");
             else
-                speciesSlots.add(menu.getSlot(i).getItem().getTag().getString(GeneticHelper.SPECIES));
+                speciesSlots.add(SpeciesRegistration.getResourceLocation(menu.getSlot(i).getItem().getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species()).toString());
         }
         PacketDistributor.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
     }

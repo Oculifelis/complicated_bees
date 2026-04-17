@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.item;
 
 import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.registry.CombRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
@@ -13,10 +14,9 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class CombItem extends Item {
-
-    public static final String COMB_TYPE_TAG = "comb_type";
 
     public CombItem(Properties pProperties) {
         super(pProperties);
@@ -29,28 +29,28 @@ public class CombItem extends Item {
             if (Minecraft.getInstance().getConnection() == null) {
                 return comb;
             }
-            comb = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(ResourceLocation.tryParse(stack.getOrCreateTag().getString(COMB_TYPE_TAG)));
+            comb = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB.get()));
         } else {
-            comb = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(ResourceLocation.tryParse(stack.getOrCreateTag().getString(COMB_TYPE_TAG)));
+            comb = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB.get()));
         }
         return comb;
     }
 
     public static ItemStack setComb(ItemStack stack, ResourceLocation comb) {
-        stack.getOrCreateTag().putString(COMB_TYPE_TAG, comb.toString());
+        stack.set(EsotericRegistration.COMB.get(), comb);
         return stack;
     }
 
     @Override
     public @NotNull Component getName(ItemStack stack) {
         return Component.translatable("comb.complicated_bees." +
-                        (stack.getOrCreateTag().contains(COMB_TYPE_TAG) ? stack.getOrCreateTag().getString(COMB_TYPE_TAG) : "invalid"))
+                        (Optional.ofNullable(stack.get(EsotericRegistration.COMB.get())).map(ResourceLocation::toString).orElse("invalid")))
                 .append(" ")
                 .append(Component.translatable(getDescriptionId()));
     }
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
-        ResourceLocation combLocation = ResourceLocation.tryParse(stack.getOrCreateTag().getString(COMB_TYPE_TAG));
+        ResourceLocation combLocation = stack.get(EsotericRegistration.COMB.get());
         Registry<Comb> registry = Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get();
         if (combLocation != null) {
             switch (tintIndex) {

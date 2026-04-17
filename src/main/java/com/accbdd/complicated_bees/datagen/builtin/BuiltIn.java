@@ -5,10 +5,8 @@ import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
-import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -60,9 +58,7 @@ public class BuiltIn {
 
     static ItemStack stack(Map.Entry<ResourceKey<Comb>, Comb> combEntry) {
         ItemStack stack = new ItemStack(ItemsRegistration.COMB.get(), 1);
-        CompoundTag tag = new CompoundTag();
-        tag.putString(CombItem.COMB_TYPE_TAG, combEntry.getKey().location().toString());
-        stack.setTag(tag);
+        stack.set(EsotericRegistration.COMB.get(), combEntry.getKey().location());
         return stack;
     }
 }

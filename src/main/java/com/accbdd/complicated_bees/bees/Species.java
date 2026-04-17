@@ -4,7 +4,9 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.gene.Gene;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.item.BeeItem;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -138,7 +140,7 @@ public class Species {
 
     public ItemStack toStack(Item item) {
         ItemStack stack = new ItemStack(item);
-        stack.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withAnalyzed(true));
         return GeneticHelper.setGenome(stack, new Genome(getDefaultChromosome(), getDefaultChromosome()));
     }
 

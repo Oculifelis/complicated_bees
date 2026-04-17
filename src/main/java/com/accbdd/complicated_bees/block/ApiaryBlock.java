@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
 import com.accbdd.complicated_bees.screen.ApiaryMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ApiaryBlock extends BaseEntityBlock {
+    private static final MapCodec<ApiaryBlock> CODEC = simpleCodec(props -> new ApiaryBlock());
+
     public static final String SCREEN_APIARY = "gui.complicated_bees.apiary";
 
     public ApiaryBlock() {
@@ -35,6 +38,11 @@ public class ApiaryBlock extends BaseEntityBlock {
                 .requiresCorrectToolForDrops()
                 .strength(5, 6)
                 .sound(SoundType.METAL));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

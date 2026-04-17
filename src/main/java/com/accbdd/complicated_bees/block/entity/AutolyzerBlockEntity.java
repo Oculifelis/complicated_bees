@@ -1,8 +1,9 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -63,7 +64,7 @@ public class AutolyzerBlockEntity extends BlockEntity {
                 if (!getStackInSlot(0).isEmpty()) {
                     if (!bee.isEmpty()) {
                         if (!isBeeAnalyzed(bee)) {
-                            bee.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
+                            bee.update(EsotericRegistration.BEE, Bee.DEFAULT, component -> component.withAnalyzed(true));
                             getStackInSlot(0).shrink(1);
                         }
                     }
@@ -90,6 +91,6 @@ public class AutolyzerBlockEntity extends BlockEntity {
     }
 
     public boolean isBeeAnalyzed(ItemStack bee) {
-        return bee.is(ItemTagGenerator.BEE) && bee.getOrCreateTag().getBoolean(BeeItem.ANALYZED_TAG);
+        return bee.is(ItemTagGenerator.BEE) && bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).analyzed();
     }
 }

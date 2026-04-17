@@ -7,14 +7,12 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
-import com.accbdd.complicated_bees.registry.FlowerRegistration;
-import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.registry.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
@@ -42,25 +40,21 @@ public class GeneticHelper {
     private static final Random rand = new Random();
 
     public static Chromosome getChromosome(ItemStack stack, boolean primary) {
-        CompoundTag serializedGenome = stack.getOrCreateTag().getCompound(primary ? CHROMOSOME_A : CHROMOSOME_B);
-        return Chromosome.deserialize(serializedGenome);
+        Genome genome = stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).genome();
+        return primary ? genome.primary() : genome.secondary();
     }
 
     public static Genome getGenome(ItemStack stack) {
-        CompoundTag genome_a = stack.getOrCreateTag().getCompound(CHROMOSOME_A);
-        CompoundTag genome_b = stack.getOrCreateTag().getCompound(CHROMOSOME_B);
-
-        return new Genome(Chromosome.deserialize(genome_a), Chromosome.deserialize(genome_b));
+        return stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).genome();
     }
 
     public static ItemStack setGenome(ItemStack stack, Chromosome chromosome, boolean primary) {
-        stack.getOrCreateTag().put(primary ? CHROMOSOME_A : CHROMOSOME_B, chromosome.serialize());
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> primary ? bee.withGenome(new Genome(chromosome, bee.genome().secondary())) : bee.withGenome(new Genome(bee.genome().primary(), chromosome)));
         return stack;
     }
 
     public static ItemStack setGenome(ItemStack stack, Genome genome) {
-        stack.getOrCreateTag().put(CHROMOSOME_A, genome.getPrimary().serialize());
-        stack.getOrCreateTag().put(CHROMOSOME_B, genome.getSecondary().serialize());
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withGenome(genome));
         setSpeciesTag(stack);
         return stack;
     }
@@ -71,10 +65,7 @@ public class GeneticHelper {
     }
 
     public static void setMate(ItemStack stack, Genome genome) {
-        CompoundTag tag = new CompoundTag();
-        tag.put(CHROMOSOME_A, genome.getPrimary().serialize());
-        tag.put(CHROMOSOME_B, genome.getSecondary().serialize());
-        stack.getOrCreateTag().put(MATE, tag);
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withMate(genome));
     }
 
     public static RegistryAccess getRegistryAccess() {
@@ -148,7 +139,7 @@ public class GeneticHelper {
 
     public static void setSpeciesTag(ItemStack stack) {
         Species species = getSpecies(stack, true);
-        stack.getOrCreateTag().putString(SPECIES, SpeciesRegistration.getResourceLocation(species).toString());
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withSpecies(species));
     }
 
     /**
@@ -158,8 +149,9 @@ public class GeneticHelper {
      * @return raw data in a gene
      */
     public static CompoundTag getRaw(ItemStack stack, ResourceLocation id, boolean primary) {
-        if (stack.hasTag() & stack.getTag() != null) {
-            CompoundTag chromosomeTag = stack.getTag().getCompound(primary ? CHROMOSOME_A : CHROMOSOME_B);
+        if (stack.has(EsotericRegistration.BEE)) {
+            Genome chromosomes = stack.get(EsotericRegistration.BEE).genome();
+            CompoundTag chromosomeTag = primary ? chromosomes.primary().serialize() : chromosomes.secondary().serialize();
             if (chromosomeTag.contains(id.toString())) {
                 return chromosomeTag.getCompound(id.toString());
             }
@@ -177,8 +169,8 @@ public class GeneticHelper {
     }
 
     public static ResourceLocation getSpeciesLoc(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("species"))
-            return ResourceLocation.tryParse(stack.getTag().getString("species"));
+        if (stack.has(EsotericRegistration.BEE))
+            return SpeciesRegistration.getResourceLocation(stack.get(EsotericRegistration.BEE).species());
         return null;
     }
 
@@ -202,12 +194,12 @@ public class GeneticHelper {
 
         for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {
             ResourceLocation key = geneEntry.getKey();
-            IGene<?> geneA = (rand.nextFloat() < 0.5 ? left.getPrimary() : left.getSecondary()).getGene(key);
-            IGene<?> geneB = (rand.nextFloat() < 0.5 ? right.getPrimary() : right.getSecondary()).getGene(key);
+            IGene<?> geneA = (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key);
+            IGene<?> geneB = (rand.nextFloat() < 0.5 ? right.primary() : right.secondary()).getGene(key);
 
             if (geneEntry.getValue() instanceof GeneTolerant) {
-                EnumTolerance toleranceA = ((GeneTolerant<?>) (rand.nextFloat() < 0.5 ? left.getPrimary() : left.getSecondary()).getGene(key)).getTolerance();
-                EnumTolerance toleranceB = ((GeneTolerant<?>) (rand.nextFloat() < 0.5 ? right.getPrimary() : right.getSecondary()).getGene(key)).getTolerance();
+                EnumTolerance toleranceA = ((GeneTolerant<?>) (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key)).getTolerance();
+                EnumTolerance toleranceB = ((GeneTolerant<?>) (rand.nextFloat() < 0.5 ? right.primary() : right.secondary()).getGene(key)).getTolerance();
                 geneA = ((GeneTolerant<?>) geneA).setTolerance(toleranceA);
                 geneB = ((GeneTolerant<?>) geneB).setTolerance(toleranceB);
             } else if (geneEntry.getValue() instanceof GeneSpecies) {
@@ -281,11 +273,11 @@ public class GeneticHelper {
      */
     public static ItemStack getOffspring(ItemStack bee, Item resultType, Level level, BlockPos pos, float... mutationModifiers) {
         ItemStack result = new ItemStack(resultType);
-        CompoundTag eggs = bee.getOrCreateTag().getCompound(MATE);
+        Genome eggs = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).mate();
 
         Genome genome = getGenome(bee);
-        Genome mate = new Genome(Chromosome.deserialize(eggs.getCompound(CHROMOSOME_A)), Chromosome.deserialize(eggs.getCompound(CHROMOSOME_B)));
-        if (!eggs.equals(new CompoundTag())) {
+        Genome mate = new Genome(eggs.primary(), eggs.secondary());
+        if (!eggs.equals(new Genome(new Chromosome(), new Chromosome()))) {
             setGenome(result, mixGenomes(genome, mate, level, pos, mutationModifiers));
         } else {
             setGenome(result, genome);
@@ -308,10 +300,8 @@ public class GeneticHelper {
         GeneticHelper.setGenome(queen, GeneticHelper.getGenome(princess));
         GeneticHelper.setMate(queen, GeneticHelper.getGenome(drone));
         QueenItem.setGeneration(queen, PrincessItem.getGeneration(princess));
-        if (princess.getTag().contains(BeeItem.ANALYZED_TAG)) {
-            if (princess.getTag().getBoolean(BeeItem.ANALYZED_TAG)) {
-                queen.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
-            }
+        if (princess.has(EsotericRegistration.BEE)) {
+            queen.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withAnalyzed(princess.get(EsotericRegistration.BEE).analyzed()));
         }
         return queen;
     }
