@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * @see Supplier
  */
 @FunctionalInterface
-@Deprecated(forRemoval = true)
+@Deprecated
 public interface NonNullSupplier<T>
 {
 	@NotNull T get();

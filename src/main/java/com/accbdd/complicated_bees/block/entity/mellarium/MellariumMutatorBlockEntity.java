@@ -60,7 +60,7 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
-        super.load(pTag);
+        super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
             items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
     }

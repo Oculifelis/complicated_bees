@@ -15,7 +15,7 @@ import java.util.function.Function;
  * @see Function
  */
 @FunctionalInterface
-@Deprecated(forRemoval = true)
+@Deprecated
 public interface NonNullFunction<T, R>
 {
 	@NotNull

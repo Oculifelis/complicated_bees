@@ -15,7 +15,7 @@ import java.util.function.Predicate;
  * @see Predicate
  */
 @FunctionalInterface
-@Deprecated(forRemoval = true)
+@Deprecated
 public interface NonNullPredicate<T>
 {
 	boolean test(@NotNull T t);

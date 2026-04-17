@@ -38,7 +38,7 @@ import java.util.Set;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-@Deprecated(forRemoval = true)
+@Deprecated
 public class LazyOptional<T> {
 	private final NonNullSupplier<T> supplier;
 	private final Object lock = new Object();

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  * @see Consumer
  */
 @FunctionalInterface
-@Deprecated(forRemoval = true)
+@Deprecated
 public interface NonNullConsumer<T>
 {
 	void accept(@NotNull T t);
