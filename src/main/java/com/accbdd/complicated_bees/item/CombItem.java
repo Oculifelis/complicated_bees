@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -23,7 +25,7 @@ public class CombItem extends Item {
     public static Comb getComb(ItemStack stack) {
         Comb comb = Comb.NULL;
         //get comb string from nbt, return comb from registry
-        if (FMLEnvironment.dist.isClient()) {
+        if (FMLLoader.getDist().isClient()) {
             if (Minecraft.getInstance().getConnection() == null) {
                 return comb;
             }

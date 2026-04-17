@@ -15,10 +15,10 @@ import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -51,10 +51,10 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
         //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
         registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> {
-            CompoundTag blockEntityData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe();
-            if (blockEntityData == null)
+            CustomData customData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA);
+            if (customData == null)
                 return "empty";
-            return blockEntityData.getString("species");
+            return customData.getUnsafe().getString("species");
         }));
 
         registry.addCategory(CENTRIFUGE_CATEGORY);
