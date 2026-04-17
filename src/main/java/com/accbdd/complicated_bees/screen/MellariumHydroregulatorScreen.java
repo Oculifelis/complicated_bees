@@ -46,7 +46,7 @@ public class MellariumHydroregulatorScreen extends AbstractContainerScreen<Mella
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
-        ItemStack stack = getMenu().getItems().get(0);
+        ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
             graphics.blit(GUI, leftPos+82, topPos+27, recipe.getHumidityChange().up > 0 ? 176 : 183, 0, 7, 11);
             if (mouseX > leftPos+81 && mouseX < leftPos+81+9 && mouseY > topPos+24 && mouseY < topPos+24+15) {

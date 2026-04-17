@@ -35,7 +35,7 @@ public class TributeEffect extends BeeEffect {
                         .withParameter(LootContextParams.THIS_ENTITY, collectFrom)
                         .withParameter(LootContextParams.ORIGIN, collectFrom.position())
                         .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic()).create(LootContextParamSets.ENTITY);
-                ItemStack stack = lootTable.getRandomItems(params).get(0);
+                ItemStack stack = lootTable.getRandomItems(params).getFirst();
                 stack.setCount(1);
                 ((ApiaryBlockEntity) apiary).addToOutput(stack);
             }

@@ -39,6 +39,10 @@ public class GyrofugeEnergyCellBlockEntity extends AbstractGyrofugeBlockEntity {
         return super.getCapability(cap, side);
     }
 
+    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+        return energyHandler;
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);

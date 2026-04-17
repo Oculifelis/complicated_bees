@@ -34,7 +34,7 @@ public class InheritHiveCombFunction extends LootItemConditionalFunction {
         BlockEntity blockEntity = pContext.getParam(LootContextParams.BLOCK_ENTITY);
         if (blockEntity instanceof BeeNestBlockEntity) {
             Species species = ((BeeNestBlockEntity) blockEntity).getSpecies();
-            return species.getProducts().get(0).getStack();
+            return species.getProducts().getFirst().getStack();
         }
         return pStack;
     }

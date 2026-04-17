@@ -30,6 +30,10 @@ public class MellariumEnergyCellBlockEntity extends AbstractMellariumBlockEntity
     public EnergyStorage getEnergy() {
         return energy;
     }
+    
+    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+        return energyHandler;
+    }
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
@@ -40,13 +44,13 @@ public class MellariumEnergyCellBlockEntity extends AbstractMellariumBlockEntity
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.put(ENERGY_TAG, energy.serializeNBT(registries));
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(ENERGY_TAG))
             energy.deserializeNBT(registries, tag.get(ENERGY_TAG));

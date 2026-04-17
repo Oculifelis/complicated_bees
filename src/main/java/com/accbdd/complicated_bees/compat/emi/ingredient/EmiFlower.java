@@ -37,7 +37,7 @@ public class EmiFlower extends EmiStack {
     @Override
     public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
         if (!stacks.isEmpty()) {
-            stacks.get(0).render(draw, x, y, delta, flags);
+            stacks.getFirst().render(draw, x, y, delta, flags);
             RenderSystem.disableDepthTest();
             RenderSystem.enableBlend();
             draw.blit(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), x, y, 0, 0, 16, 16, 16, 16);

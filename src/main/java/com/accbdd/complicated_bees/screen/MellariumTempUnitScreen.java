@@ -46,7 +46,7 @@ public class MellariumTempUnitScreen extends AbstractContainerScreen<MellariumTe
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
-        ItemStack stack = getMenu().getItems().get(0);
+        ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
             switch (recipe.getTempChange()) {
                 case DOWN_1 -> drawThermometer(graphics, 0, 0);

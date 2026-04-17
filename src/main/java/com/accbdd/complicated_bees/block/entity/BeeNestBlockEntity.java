@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -32,8 +33,8 @@ public class BeeNestBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
         if (registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(getSpecies()) == null) {
             tag.put("species", StringTag.valueOf("complicated_bees:invalid"));
@@ -43,8 +44,8 @@ public class BeeNestBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         this.species = SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(tag.getString("species")));
     }
 
@@ -65,14 +66,14 @@ public class BeeNestBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         if (level != null)
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_IMMEDIATE);
-        load(pkt.getTag());
+        loadAdditional(pkt.getTag(), lookupProvider);
     }
 }

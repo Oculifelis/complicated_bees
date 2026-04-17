@@ -43,7 +43,7 @@ public class MellariumMutatorScreen extends AbstractContainerScreen<MellariumMut
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
-        ItemStack stack = getMenu().getItems().get(0);
+        ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new SimpleContainer(stack), getMenu().getLevel()).ifPresent(recipe -> {
             graphics.blit(GUI, leftPos+84, topPos+26, 176, 0, 8, 8);
             if (mouseX > leftPos+83 && mouseX < leftPos+83+10 && mouseY > topPos+25 && mouseY < topPos+25+10) {

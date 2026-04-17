@@ -112,7 +112,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
         tag.put(ITEMS_INPUT_TAG, inputItems.serializeNBT(registries));
         tag.put(ITEMS_OUTPUT_TAG, outputItems.serializeNBT(registries));
         tag.put(ITEMS_UPGRADE_TAG, upgradeItems.serializeNBT(registries));

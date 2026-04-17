@@ -50,11 +50,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
         transferCooldown = TRANSFER_TICKS;
     }
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-            return side == null ? handlers.get(0).cast() : handlers.get(side.ordinal()).cast();
-        return super.getCapability(cap, side);
+    public LazyOptional<IItemHandler> getHandlerCapability(Direction side) {
+        return side == null ? handlers.getFirst().cast() : handlers.get(side.ordinal()).cast();
     }
 
     @Override
