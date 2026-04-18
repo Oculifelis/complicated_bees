@@ -98,13 +98,13 @@ public class ItemsRegistration {
             () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().territory(0.5f).lifespan(0.75f).productivity(0.75f).build(), CommonConfig.COMMON_CONFIG.restrictiveFrame));
 
     public static final DeferredItem<ArmorItem> APIARIST_HELMET = register("apiarist_helmet",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.HELMET, new Item.Properties()));
+            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(5))));
     public static final DeferredItem<ArmorItem> APIARIST_CHESTPLATE = register("apiarist_chestplate",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))));
     public static final DeferredItem<ArmorItem> APIARIST_LEGGINGS = register("apiarist_leggings",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(5))));
     public static final DeferredItem<ArmorItem> APIARIST_BOOTS = register("apiarist_boots",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.BOOTS, new Item.Properties()));
+            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(5))));
 
     public static final DeferredItem<Item> APIARY = registerSimpleBlockItem("apiary", BlocksRegistration.APIARY);
     public static final DeferredItem<Item> CENTRIFUGE = registerSimpleBlockItem("centrifuge", BlocksRegistration.CENTRIFUGE);

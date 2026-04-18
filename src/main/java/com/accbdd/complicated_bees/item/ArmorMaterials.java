@@ -1,78 +1,64 @@
 package com.accbdd.complicated_bees.item;
 
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public enum ArmorMaterials implements ArmorMaterial {
-    APIARIST("apiarist", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0, () -> Ingredient.of(ItemsRegistration.WOVEN_MESH.get()));
+public class ArmorMaterials {
+    public static final Holder<ArmorMaterial> APIARIST = register(
+            "apiarist",
+            Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                map.put(ArmorItem.Type.BOOTS, 1);
+                map.put(ArmorItem.Type.LEGGINGS, 2);
+                map.put(ArmorItem.Type.CHESTPLATE, 3);
+                map.put(ArmorItem.Type.HELMET, 1);
+                map.put(ArmorItem.Type.BODY, 3);
+            }),
+            15,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            0,
+            0,
+            () -> Ingredient.of(ItemsRegistration.WOVEN_MESH.get()),
+            List.of(
+                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MODID, "apiarist"), "", false),
+                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MODID, "apiarist"), "_overlay", false)
+            )
+    );
 
-    private final String name;
-    private final int durabilityMult;
-    private final int[] protectionAmounts;
-    private final int enchantmentValue;
-    private final SoundEvent equipSound;
-    private final float toughness;
-    private final float knockbackResistance;
-    private final Supplier<Ingredient> repairIngredient;
+    private static Holder<ArmorMaterial> register(
+            String name,
+            EnumMap<ArmorItem.Type, Integer> defense,
+            int enchantmentValue,
+            Holder<SoundEvent> equipSound,
+            float toughness,
+            float knockbackResistance,
+            Supplier<Ingredient> repairIngridient,
+            List<ArmorMaterial.Layer> layers
+    ) {
+        EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
 
-    private static final int[] BASE_DURABILITY = {11, 16, 16, 13};
+        for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {
+            enummap.put(armoritem$type, defense.get(armoritem$type));
+        }
 
-    ArmorMaterials(String name, int durabilityMult, int[] protectionAmounts, int enchantmentValue, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
-        this.name = name;
-        this.durabilityMult = durabilityMult;
-        this.protectionAmounts = protectionAmounts;
-        this.enchantmentValue = enchantmentValue;
-        this.equipSound = equipSound;
-        this.toughness = toughness;
-        this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = repairIngredient;
-    }
-
-    @Override
-    public int getDurabilityForType(ArmorItem.Type pType) {
-        return BASE_DURABILITY[pType.ordinal()] * this.durabilityMult;
-    }
-
-    @Override
-    public int getDefenseForType(ArmorItem.Type pType) {
-        return protectionAmounts[pType.ordinal()];
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return enchantmentValue;
-    }
-
-    @Override
-    public SoundEvent getEquipSound() {
-        return equipSound;
-    }
-
-    @Override
-    public Ingredient getRepairIngredient() {
-        return repairIngredient.get();
-    }
-
-    @Override
-    public String getName() {
-        return MODID + ":" + name;
-    }
-
-    @Override
-    public float getToughness() {
-        return toughness;
-    }
-
-    @Override
-    public float getKnockbackResistance() {
-        return knockbackResistance;
+        return Registry.registerForHolder(
+                BuiltInRegistries.ARMOR_MATERIAL,
+                ResourceLocation.fromNamespaceAndPath(MODID, name),
+                new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance)
+        );
     }
 }
