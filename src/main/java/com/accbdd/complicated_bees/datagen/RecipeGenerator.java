@@ -3,6 +3,10 @@ package com.accbdd.complicated_bees.datagen;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
+import com.accbdd.complicated_bees.recipe.HoneyGeneratorRecipe;
+import com.accbdd.complicated_bees.recipe.HydroRecipe;
+import com.accbdd.complicated_bees.recipe.MutatorRecipe;
+import com.accbdd.complicated_bees.recipe.TempUnitRecipe;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.core.HolderLookup;
@@ -12,6 +16,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -580,10 +585,10 @@ public class RecipeGenerator extends RecipeProvider {
                         0.1f,
                         200)
                 .unlockedBy(getHasName(ItemsRegistration.WAX_BLOCK.get()), has(ItemsRegistration.WAX_BLOCK.get())).save(output);
-        generateRecipes(output, DataGenerators.HONEYED_PLANK_FAMILY);
-        generateRecipes(output, DataGenerators.WAX_BLOCK_FAMILY);
-        generateRecipes(output, DataGenerators.WAX_BRICK_FAMILY);
-        generateRecipes(output, DataGenerators.SMOOTH_WAX_FAMILY);
+        generateRecipes(output, DataGenerators.HONEYED_PLANK_FAMILY, FeatureFlagSet.of());
+        generateRecipes(output, DataGenerators.WAX_BLOCK_FAMILY, FeatureFlagSet.of());
+        generateRecipes(output, DataGenerators.WAX_BRICK_FAMILY, FeatureFlagSet.of());
+        generateRecipes(output, DataGenerators.SMOOTH_WAX_FAMILY, FeatureFlagSet.of());
         stonecutterFor(output, DataGenerators.WAX_BLOCK_FAMILY);
         stonecutterFor(output, DataGenerators.WAX_BRICK_FAMILY);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlocksRegistration.WAX_BRICKS.get(), BlocksRegistration.WAX_BLOCK.get());
@@ -630,38 +635,31 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static void mutatorRecipe(RecipeOutput output, String name, Ingredient input, float modifier) {
-        output.accept(new CBRecipeBuilder.MutatorRecipe(
-                ResourceLocation.tryBuild(MODID, "mutator/" + name),
-                input,
-                modifier)
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "mutator/" + name),
+                new MutatorRecipe(input, modifier),
+                null
         );
     }
 
     protected static void tempUnitRecipe(RecipeOutput output, String name, Ingredient input, EnumTolerance tempChange, float useChance) {
-        output.accept(new CBRecipeBuilder.TempUnitRecipe(
-                ResourceLocation.tryBuild(MODID, "temp_unit/" + name),
-                input,
-                tempChange,
-                useChance
-        ));
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "temp_unit/" + name),
+                new TempUnitRecipe(input, tempChange, useChance),
+                null
+        );
     }
 
     protected static void hydroregulatorRecipe(RecipeOutput output, String name, Ingredient input, Product recipeOutput, EnumTolerance humidityChange, float useChance) {
-        output.accept(new CBRecipeBuilder.HydroRecipe(
-                ResourceLocation.tryBuild(MODID, "hydroregulator/" + name),
-                input,
-                recipeOutput,
-                humidityChange,
-                useChance
-        ));
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "hydroregulator/" + name),
+                new HydroRecipe(input, recipeOutput, humidityChange, useChance),
+                null
+        );
     }
 
     protected static void honeyGeneratorRecipe(RecipeOutput output, String name, Ingredient input, int burnTime) {
-        output.accept(new CBRecipeBuilder.HoneyGeneratorRecipe(
-                ResourceLocation.tryBuild(MODID, "honey_generator/" + name),
-                input,
-                burnTime
-        ));
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "honey_generator/" + name),
+                new HoneyGeneratorRecipe(input, burnTime),
+                null
+        );
     }
 
     protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {

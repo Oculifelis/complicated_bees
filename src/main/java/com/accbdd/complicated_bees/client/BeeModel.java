@@ -2,7 +2,9 @@ package com.accbdd.complicated_bees.client;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -13,7 +15,6 @@ import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -135,8 +136,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
             }
 
             private int getStackHash(ItemStack stack) {
-                CompoundTag tag = stack.getTag();
-                String species = tag != null && tag.contains("species") ? tag.getString("species") : "none";
+                String species = stack.has(EsotericRegistration.BEE) ? SpeciesRegistration.getResourceLocation(stack.get(EsotericRegistration.BEE).species()).toString() : "none";
                 int type = stack.is(ItemsRegistration.QUEEN.get()) ? 2 :
                         stack.is(ItemsRegistration.PRINCESS.get()) ? 1 : 0;
                 return Objects.hash(species, type);

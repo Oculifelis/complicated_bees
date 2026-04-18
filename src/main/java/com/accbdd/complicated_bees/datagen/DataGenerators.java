@@ -70,9 +70,9 @@ public class DataGenerators {
         BlockTagGenerator blockTagGenerator = new BlockTagGenerator(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagGenerator);
         generator.addProvider(event.includeServer(), new ItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput));
-        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput));
-        generator.addProvider(event.includeServer() , new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
         //instantiate utility classes for datagen
         ComplicatedBees.LOGGER.info("combs: {}, flowers: {}, species: {}, mutations: {}", new Combs(), new Flowers(), new BuiltInSpecies(), new Mutations());
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(

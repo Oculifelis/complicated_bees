@@ -9,13 +9,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public record Bee(float age, boolean analyzed, Genome genome, Genome mate, Species species) {
-	public static final Bee DEFAULT = new Bee(0, false, new Genome(new Chromosome(), new Chromosome()), new Genome(new Chromosome(), new Chromosome()), Species.INVALID);
+public record Bee(float age, boolean analyzed, int generation, Genome genome, Genome mate, Species species) {
+	public static final Bee DEFAULT = new Bee(0, false, 0, new Genome(new Chromosome(), new Chromosome()), new Genome(new Chromosome(), new Chromosome()), Species.INVALID);
 
 	public static final Codec<Bee> CODEC = RecordCodecBuilder.create(instance ->
 			instance.group(
 					Codec.FLOAT.fieldOf("age").forGetter(Bee::age),
 					Codec.BOOL.fieldOf("analyzed").forGetter(Bee::analyzed),
+					Codec.INT.fieldOf("generation").forGetter(Bee::generation),
 					Genome.CODEC.fieldOf("chromosomes").forGetter(Bee::genome),
 					Genome.CODEC.fieldOf("mate").forGetter(Bee::mate),
 					Species.CODEC.fieldOf("species").forGetter(Bee::species)
@@ -26,6 +27,8 @@ public record Bee(float age, boolean analyzed, Genome genome, Genome mate, Speci
 			Bee::age,
 			ByteBufCodecs.BOOL,
 			Bee::analyzed,
+			ByteBufCodecs.INT,
+			Bee::generation,
 			Genome.STREAM_CODEC,
 			Bee::genome,
 			Genome.STREAM_CODEC,
@@ -36,22 +39,26 @@ public record Bee(float age, boolean analyzed, Genome genome, Genome mate, Speci
 	);
 
 	public Bee withAge(float age) {
-		return new Bee(age, this.analyzed, this.genome, this.mate, this.species);
+		return new Bee(age, this.analyzed, this.generation, this.genome, this.mate, this.species);
 	}
 
 	public Bee withAnalyzed(boolean analyzed) {
-		return new Bee(this.age, analyzed, this.genome, this.mate, this.species);
+		return new Bee(this.age, analyzed, this.generation, this.genome, this.mate, this.species);
+	}
+
+	public Bee withGeneration(int generation) {
+		return new Bee(this.age, this.analyzed, generation, this.genome, this.mate, this.species);
 	}
 
 	public Bee withGenome(Genome genome) {
-		return new Bee(this.age, this.analyzed, genome, this.mate, this.species);
+		return new Bee(this.age, this.analyzed, this.generation, genome, this.mate, this.species);
 	}
 
 	public Bee withMate(Genome mate) {
-		return new Bee(this.age, this.analyzed, this.genome, mate, this.species);
+		return new Bee(this.age, this.analyzed, this.generation, this.genome, mate, this.species);
 	}
 
 	public Bee withSpecies(Species species) {
-		return new Bee(this.age, this.analyzed, this.genome, this.mate, species);
+		return new Bee(this.age, this.analyzed, this.generation, this.genome, this.mate, species);
 	}
 }

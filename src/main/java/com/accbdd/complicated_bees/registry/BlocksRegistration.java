@@ -134,18 +134,18 @@ public class BlocksRegistration {
     }
 
     private static StandingSignBlock sign(WoodType type, Block base) {
-        return new StandingSignBlockCB(BlockBehaviour.Properties.ofFullCopy(base).noOcclusion(), type);
+        return new StandingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
     }
 
     private static WallSignBlock wallSign(WoodType type, Block base) {
-        return new WallSignBlockCB(BlockBehaviour.Properties.ofFullCopy(base).noOcclusion(), type);
+        return new WallSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
     }
 
     private static WallHangingSignBlock wallHangingSign(WoodType type, Block base) {
-        return new WallHangingSignBlockCB(BlockBehaviour.Properties.ofFullCopy(base).noOcclusion(), type);
+        return new WallHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
     }
 
     private static CeilingHangingSignBlock hangingSign(WoodType type, Block base) {
-        return new CeilingHangingSignBlockCB(BlockBehaviour.Properties.ofFullCopy(base).noOcclusion(), type);
+        return new CeilingHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
     }
 }

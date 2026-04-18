@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.block;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumEnergyCellBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,13 +21,13 @@ public class MellariumEnergyCellBlock extends MellariumBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof MellariumEnergyCellBlockEntity cell) {
             pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.energy_cell",
                     FORMAT.format(cell.getEnergy().getEnergyStored() / 1000D),
                     FORMAT.format(cell.getEnergy().getMaxEnergyStored() / 1000D)), true);
             return InteractionResult.CONSUME;
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHit);
     }
 }
