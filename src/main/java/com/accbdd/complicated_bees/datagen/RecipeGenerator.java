@@ -663,42 +663,30 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {
-        ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
                 .pattern("OOO")
                 .pattern("OXO")
                 .pattern("OOO")
                 .define('O', outside)
                 .define('X', center)
-                .unlockedBy(getHasName(unlockedBy), has(unlockedBy));
-        ConditionalRecipe.builder()
-                .addCondition(new ItemEnabledCondition(BuiltInRegistries.ITEM.getKey(result.asItem())))
-                .addRecipe(recipe::save)
-                .generateAdvancement()
-                .build(output, ForgeRegistries.ITEMS.getKey(result.asItem()));
+                .unlockedBy(getHasName(unlockedBy), has(unlockedBy))
+                .save(output.withConditions(new ItemEnabledCondition(BuiltInRegistries.ITEM.getKey(result.asItem()))));
     }
 
     protected static void deadlyFrame(RecipeOutput output) {
-        ShapedRecipeBuilder recipe = ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.DEADLY_FRAME.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemsRegistration.DEADLY_FRAME.get())
                 .pattern("OCO")
                 .pattern("OXO")
                 .pattern("OOO")
                 .define('O', Items.OBSIDIAN)
                 .define('X', Items.SKELETON_SKULL)
                 .define('C', Items.CRYING_OBSIDIAN)
-                .unlockedBy("has_apiary", has(ItemsRegistration.APIARY.get()));
-        ConditionalRecipe.builder()
-                .addCondition(new ItemEnabledCondition(ForgeRegistries.ITEMS.getKey(ItemsRegistration.DEADLY_FRAME.get().asItem())))
-                .addRecipe(recipe::save)
-                .generateAdvancement()
-                .build(output, ForgeRegistries.ITEMS.getKey(ItemsRegistration.DEADLY_FRAME.get().asItem()));
+                .unlockedBy("has_apiary", has(ItemsRegistration.APIARY.get()))
+                .save(output.withConditions(new ItemEnabledCondition(BuiltInRegistries.ITEM.getKey(ItemsRegistration.DEADLY_FRAME.get().asItem()))));
     }
 
     protected static void enabledRecipe(RecipeBuilder builder, RecipeOutput output) {
-        ConditionalRecipe.builder()
-                .addCondition(new ItemEnabledCondition(ForgeRegistries.ITEMS.getKey(builder.getResult())))
-                .addRecipe(builder::save)
-                .generateAdvancement()
-                .build(output, ForgeRegistries.ITEMS.getKey(builder.getResult().asItem()));
+        builder.save(output.withConditions(new ItemEnabledCondition(BuiltInRegistries.ITEM.getKey(builder.getResult()))));
     }
 
     protected static void stonecutterFor(RecipeOutput output, BlockFamily family) {
