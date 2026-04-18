@@ -23,7 +23,7 @@ public record TrackerSyncClientbound(BreedingTracker tracker) implements CustomP
     private static TrackerSyncClientbound decode(RegistryFriendlyByteBuf buf) {
         CompoundTag data = buf.readNbt();
         if (data != null)
-            return new TrackerSyncClientbound(BreedingTracker.load(data));
+            return new TrackerSyncClientbound(BreedingTracker.load(data, buf.registryAccess()));
         else
             return new TrackerSyncClientbound(null);
     }

@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -328,9 +329,10 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     }
 
     public void damageFrames() {
-        for (int i = 0; i < getFrameItems().getSlots(); i++) {
-            if (getFrameItems().getStackInSlot(i).hurt(1, getLevel().random, null))
-                getFrameItems().setStackInSlot(i, ItemStack.EMPTY);
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < getFrameItems().getSlots(); i++) {
+                getFrameItems().getStackInSlot(i).hurtAndBreak(1, serverLevel, null, item -> {});
+            }
         }
     }
 

@@ -2,8 +2,6 @@ package com.accbdd.complicated_bees.bees.effect;
 
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.Filterable;
 import net.minecraft.world.item.ItemStack;

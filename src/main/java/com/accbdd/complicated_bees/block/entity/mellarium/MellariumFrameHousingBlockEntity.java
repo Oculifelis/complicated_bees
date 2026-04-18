@@ -8,6 +8,7 @@ import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -59,9 +60,10 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     }
 
     public void damageFrames() {
-        for (int i = 0; i < frameItems.getSlots(); i++) {
-            if (frameItems.getStackInSlot(i).hurt(1, getLevel().random, null))
-                frameItems.setStackInSlot(i, ItemStack.EMPTY);
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < frameItems.getSlots(); i++) {
+                frameItems.getStackInSlot(i).hurtAndBreak(1, serverLevel, null, item -> {});
+            }
         }
     }
 

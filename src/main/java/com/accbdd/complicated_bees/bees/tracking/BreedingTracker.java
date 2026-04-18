@@ -7,7 +7,6 @@ import com.accbdd.complicated_bees.client.DiscoverToast;
 import com.accbdd.complicated_bees.client.ResearchToast;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
@@ -165,7 +164,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         return pCompoundTag;
     }
 
-    public static BreedingTracker load(CompoundTag tag) {
+    public static BreedingTracker load(CompoundTag tag, HolderLookup.Provider registries) {
         if (!tag.contains(UUID_KEY))
             throw new NullPointerException("tried to load breeding tracker with no uuid!");
         BreedingTracker tracker = new BreedingTracker(tag.getUUID(UUID_KEY));
@@ -212,7 +211,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         if (ServerLifecycleHooks.getCurrentServer() == null)
             return CLIENT_INSTANCE;
         DimensionDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
-        return storage.computeIfAbsent(BreedingTracker::load, () -> new BreedingTracker(uuid), "complicated_bees." + uuid.toString());
+        return storage.computeIfAbsent(new Factory<BreedingTracker>(() -> new BreedingTracker(uuid), BreedingTracker::load), "complicated_bees." + uuid.toString());
     }
 
     @OnlyIn(Dist.CLIENT)

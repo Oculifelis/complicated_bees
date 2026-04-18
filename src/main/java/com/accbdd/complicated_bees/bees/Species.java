@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.gene.Gene;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
 import com.accbdd.complicated_bees.component.Bee;
-import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
