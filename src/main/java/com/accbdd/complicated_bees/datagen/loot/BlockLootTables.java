@@ -6,6 +6,7 @@ import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
@@ -112,6 +113,7 @@ public class BlockLootTables extends BlockLootSubProvider {
     }
 
     public LootTable.Builder nestLootTable(Block beenest) {
+        var fortune = registries.lookup(Registries.ENCHANTMENT).flatMap(lookup -> lookup.get(Enchantments.FORTUNE)).orElseThrow();
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .when(hasSilkTouch())
@@ -135,7 +137,7 @@ public class BlockLootTables extends BlockLootSubProvider {
                                 LootItem.lootTableItem(ItemsRegistration.DRONE.get())
                                         .apply(InheritHiveSpeciesFunction.set())
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
-                                        .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 1))
+                                        .apply(ApplyBonusCount.addUniformBonusCount(fortune, 1))
                         ))
                 .withPool(LootPool.lootPool()
                         .when(doesNotHaveSilkTouch())
@@ -144,7 +146,7 @@ public class BlockLootTables extends BlockLootSubProvider {
                                 LootItem.lootTableItem(ItemsRegistration.COMB.get())
                                         .apply(InheritHiveCombFunction.set())
                                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
-                                        .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 1))
+                                        .apply(ApplyBonusCount.addUniformBonusCount(fortune, 1))
                         )
                 );
     }
