@@ -67,14 +67,14 @@
     {
       "chance": 0.3,
       "components": {
-        "complicated_bees:comb": "complicated_bees:simmering"
+        "complicated_bees:comb_type": "complicated_bees:simmering"
       },
       "item": "complicated_bees:comb"
     },
     {
       "chance": 0.1,
       "components": {
-        "complicated_bees:comb": "complicated_bees:netherite"
+        "complicated_bees:comb_type": "complicated_bees:netherite"
       },
       "item": "complicated_bees:comb"
     }

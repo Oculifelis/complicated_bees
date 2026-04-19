@@ -61,7 +61,7 @@
     {
       "chance": 0.4,
       "components": {
-        "complicated_bees:comb": "complicated_bees:dripping"
+        "complicated_bees:comb_type": "complicated_bees:dripping"
       },
       "item": "complicated_bees:comb"
     }
@@ -70,7 +70,7 @@
     {
       "chance": 0.25,
       "components": {
-        "complicated_bees:comb": "complicated_bees:royal"
+        "complicated_bees:comb_type": "complicated_bees:royal"
       },
       "item": "complicated_bees:comb"
     }

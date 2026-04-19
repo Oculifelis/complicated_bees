@@ -17,10 +17,10 @@ import java.util.concurrent.CompletableFuture;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-    public static final TagKey<Block> SCOOPABLE = BlockTags.create(ResourceLocation.parse("complicated_bees:mineable/scoop_tool"));
-    public static final TagKey<Block> MELLARIUM = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/mellarium"));
-    public static final TagKey<Block> GYROFUGE = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/gyrofuge"));
-    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(ResourceLocation.parse("complicated_bees:flowers/desert"));
+    public static final TagKey<Block> SCOOPABLE = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "mineable/scoop_tool"));
+    public static final TagKey<Block> MELLARIUM = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "multiblock/mellarium"));
+    public static final TagKey<Block> GYROFUGE = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "multiblock/gyrofuge"));
+    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "flowers/desert"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MODID, existingFileHelper);

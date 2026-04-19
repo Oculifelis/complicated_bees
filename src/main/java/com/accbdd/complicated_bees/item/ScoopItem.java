@@ -37,7 +37,7 @@ public class ScoopItem extends DiggerItem {
             
                     @Override
                     public TagKey<Block> getIncorrectBlocksForDrops() {
-                        return null; // TODO
+                        return BlockTags.INCORRECT_FOR_WOODEN_TOOL; // TODO
                     }
             
                     @Override

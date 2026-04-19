@@ -67,7 +67,7 @@
     {
       "chance": 0.25,
       "components": {
-        "complicated_bees:comb": "complicated_bees:mysterious"
+        "complicated_bees:comb_type": "complicated_bees:mysterious"
       },
       "item": "complicated_bees:comb"
     }

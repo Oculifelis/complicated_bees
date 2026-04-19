@@ -66,14 +66,14 @@
     {
       "chance": 0.35,
       "components": {
-        "complicated_bees:comb": "complicated_bees:spectral"
+        "complicated_bees:comb_type": "complicated_bees:spectral"
       },
       "item": "complicated_bees:comb"
     },
     {
       "chance": 0.05,
       "components": {
-        "complicated_bees:comb": "complicated_bees:simmering"
+        "complicated_bees:comb_type": "complicated_bees:simmering"
       },
       "item": "complicated_bees:comb"
     }

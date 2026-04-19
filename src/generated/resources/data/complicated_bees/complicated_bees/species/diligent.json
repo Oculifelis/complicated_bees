@@ -60,14 +60,14 @@
     {
       "chance": 0.35,
       "components": {
-        "complicated_bees:comb": "complicated_bees:stringy"
+        "complicated_bees:comb_type": "complicated_bees:stringy"
       },
       "item": "complicated_bees:comb"
     },
     {
       "chance": 0.1,
       "components": {
-        "complicated_bees:comb": "complicated_bees:honey"
+        "complicated_bees:comb_type": "complicated_bees:honey"
       },
       "item": "complicated_bees:comb"
     }
