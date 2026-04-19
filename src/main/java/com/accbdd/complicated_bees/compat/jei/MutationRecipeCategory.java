@@ -46,7 +46,7 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
     @Override
     public void draw(Mutation recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        float chance = recipe.getChance() * 100;
+        double chance = recipe.getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
             chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(recipe)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }

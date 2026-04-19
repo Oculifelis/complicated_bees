@@ -211,7 +211,7 @@ public class GeneticHelper {
                         for (IMutationCondition condition : mutation.getConditions())
                             canMutate = canMutate && condition.check(level, pos);
                         if (canMutate) {
-                            float mod = 0;
+                            double mod = 0;
                             if (tracker != null && tracker.isResearched(mutation))
                                 mod = ServerConfig.SERVER_CONFIG.researchBonus.get();
                             if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
