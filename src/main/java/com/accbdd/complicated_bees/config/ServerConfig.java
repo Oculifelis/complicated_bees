@@ -23,7 +23,7 @@ public class ServerConfig {
     public final ModConfigSpec.ConfigValue<Integer> gyrofugeBaseUsage;
     public final ModConfigSpec.ConfigValue<Integer> gyrofugeBaseIdleUsage;
     public final ModConfigSpec.ConfigValue<Integer> productivityCap;
-    public final ModConfigSpec.ConfigValue<Float> researchBonus;
+    public final ModConfigSpec.ConfigValue<Double> researchBonus;
 
     ServerConfig(ModConfigSpec.Builder builder) {
         builder.push("production_cap");
@@ -34,7 +34,7 @@ public class ServerConfig {
         enviroCycleLength = builder.comment("How long (in ticks) an apiary should wait between re-scanning the environment for appropriate conditions.").define("enviroCycleLength", 200);
         builder.pop();
         builder.push("research");
-        researchBonus = builder.comment("The percentage bonus researching a mutation in the microscope should grant to that mutation's chances.").define("researchBonus", 0.2f);
+        researchBonus = builder.comment("The percentage bonus researching a mutation in the microscope should grant to that mutation's chances.").define("researchBonus", 0.2d);
         builder.pop();
         builder.push("rf");
         centrifugeBaseSpeed = builder.comment("How many ticks an unupgraded centrifuge should take to process a comb").define("centrifugeBaseSpeed", 200);
