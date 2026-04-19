@@ -8,10 +8,11 @@ import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -45,8 +46,6 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 topPos + 26,
                 16,
                 12,
-                0,
-                216,
                 GUI,
                 (button) -> {
                     if (game != null && menu.canSendHint())
@@ -182,11 +181,14 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
         game = null;
     }
 
-    private class AnalyzeButton extends ImageButton {
+    // TODO: Migrate to ImageButton and WidgetSprites
+    private class AnalyzeButton extends Button {
+        private final ResourceLocation resourceLocation;
         private boolean clicked = false;
 
-        public AnalyzeButton(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, ResourceLocation pResourceLocation, OnPress pOnPress) {
-            super(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pResourceLocation, pOnPress);
+        protected AnalyzeButton(int x, int y, int width, int height, ResourceLocation resourceLocation, OnPress onPress) {
+            super(x, y, width, height, CommonComponents.EMPTY, onPress, DEFAULT_NARRATION);
+            this.resourceLocation = resourceLocation;
         }
 
         @Override

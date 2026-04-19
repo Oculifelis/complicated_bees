@@ -6,10 +6,12 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import com.accbdd.complicated_bees.config.CommonConfig;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.item.ArmorMaterials;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -34,7 +36,7 @@ public class ItemsRegistration {
 
     public static final DeferredItem<ScoopItem> SCOOP = register("scoop", () -> new ScoopItem(new Item.Properties()));
     public static final DeferredItem<MeterItem> METER = register("meter", () -> new MeterItem(new Item.Properties()));
-    public static final DeferredItem<AnalyzerItem> ANALYZER = register("analyzer", () -> new AnalyzerItem(new Item.Properties()));
+    public static final DeferredItem<AnalyzerItem> ANALYZER = register("analyzer", () -> new AnalyzerItem(new Item.Properties().component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)));
     public static final DeferredItem<ExpDropItem> EXP_DROP = register("exp_drop", () -> new ExpDropItem(new Item.Properties()));
     public static final DeferredItem<BeeswaxItem> BEESWAX = register("beeswax", () -> new BeeswaxItem(new Item.Properties()));
 

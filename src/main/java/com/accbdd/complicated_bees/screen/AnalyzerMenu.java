@@ -6,11 +6,16 @@ import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.items.ItemStackHandler;
+
+import java.util.List;
 
 public class AnalyzerMenu extends AbstractAnalyzerMenu {
     public static final int SLOT_COUNT = 2;
@@ -38,11 +43,11 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
                 }
                 BreedingTracker tracker = BreedingTracker.getTracker(player);
                 tracker.discoverIndividual(bee);
-                player.getInventory().getItem(bagSlot).getOrCreateTag().put(INVENTORY_TAG, this.serializeNBT());
+                handlerToContents(player.getInventory().getItem(bagSlot), this);
             }
         };
 
-        handler.deserializeNBT(player.getInventory().getItem(bagSlot).getOrCreateTag().getCompound(INVENTORY_TAG));
+        contentsToHandler(this.handler, player.getInventory().getItem(bagSlot));
         addSlot(new TagSlot(handler, 0, 225, 8, ItemTagGenerator.ANALYZER_FUEL));
         addSlot(new TagSlot(handler, 1, 225, 26, ItemTagGenerator.BEE));
         layoutPlayerInventorySlots(player.getInventory());
@@ -51,7 +56,7 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
     @Override
     public void removed(Player pPlayer) {
         ItemStack analyzer = pPlayer.getInventory().getItem(bagSlot);
-        analyzer.getOrCreateTag().put(INVENTORY_TAG, handler.serializeNBT());
+        handlerToContents(analyzer, this.handler);
         super.removed(pPlayer);
     }
 
@@ -69,5 +74,20 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
         if (this.bagSlot == pSlotId - SLOT_COUNT - 27)
             return;
         super.clicked(pSlotId, pButton, pClickType, pPlayer);
+    }
+    
+    private static void contentsToHandler(ItemStackHandler handler, ItemStack analyzer) {
+        var contents = analyzer.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
+        for (int i = 0; i < contents.getSlots(); i++) {
+            handler.setStackInSlot(i, contents.getStackInSlot(i));
+        }
+    }
+
+    private static void handlerToContents(ItemStack analyzer, ItemStackHandler handler) {
+        List<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+        for (int i = 0; i < handler.getSlots(); i++) {
+            items.set(i, handler.getStackInSlot(i));
+        }
+        analyzer.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
     }
 }
