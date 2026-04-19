@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "terralith"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["terralith:amethyst_canyon", "terralith:amethyst_rainforest"],
+  "features": "complicated_bees:terralith/amethyst_tree",
+  "step": "vegetal_decoration"
+}

@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomeswevegone"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": [
+    "biomeswevegone:tropical_rainforest"
+  ],
+  "features": "complicated_bees:biomeswevegone/mahogany_tree",
+  "step": "vegetal_decoration"
+}

@@ -58,7 +58,7 @@ public class BuiltIn {
 
     static ItemStack stack(Map.Entry<ResourceKey<Comb>, Comb> combEntry) {
         ItemStack stack = new ItemStack(ItemsRegistration.COMB.get(), 1);
-        stack.set(EsotericRegistration.COMB.get(), combEntry.getKey().location());
+        stack.set(EsotericRegistration.COMB_TYPE.get(), combEntry.getKey().location());
         return stack;
     }
 }

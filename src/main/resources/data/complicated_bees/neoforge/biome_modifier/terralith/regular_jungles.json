@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "terralith"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["terralith:jungle_mountains", "terralith:rocky_jungle", "terralith:tropical_jungle"],
+  "features": "complicated_bees:terralith/jungle_bee_nest",
+  "step": "vegetal_decoration"
+}

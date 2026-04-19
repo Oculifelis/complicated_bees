@@ -1,0 +1,15 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomeswevegone"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": [
+    "biomeswevegone:aspen_boreal",
+    "biomeswevegone:black_forest"
+  ],
+  "features": "complicated_bees:biomeswevegone/aspen_tree",
+  "step": "vegetal_decoration"
+}

@@ -1,0 +1,27 @@
+{
+  "type": "complicated_bees:centrifuge",
+  "input": {
+    "id": "complicated_bees:comb",
+    "components": {
+      "complicated_bees:comb_type": "complicated_bees:rotten"
+    }
+  },
+  "outputs": [
+    {
+      "item": "complicated_bees:beeswax",
+      "chance": 0.6
+    },
+    {
+      "item": "minecraft:bone_meal",
+      "chance": 0.3
+    },
+    {
+      "item": "complicated_bees:honey_droplet",
+      "chance": 0.2
+    },
+    {
+      "item": "minecraft:rotten_flesh",
+      "chance": 0.1
+    }
+  ]
+}

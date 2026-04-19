@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["biomesoplenty:seasonal_forest"],
+  "features": "complicated_bees:biomesoplenty/orange_maple_tree",
+  "step": "vegetal_decoration"
+}

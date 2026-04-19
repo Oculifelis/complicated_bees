@@ -1,0 +1,23 @@
+{
+  "type": "complicated_bees:centrifuge",
+  "input": {
+    "id": "complicated_bees:comb",
+    "components": {
+      "complicated_bees:comb_type": "complicated_bees:simmering"
+    }
+  },
+  "outputs": [
+    {
+      "item": "complicated_bees:honey_droplet",
+      "chance": 0.75
+    },
+    {
+      "item": "complicated_bees:beeswax",
+      "chance": 0.2
+    },
+    {
+      "item": "complicated_bees:propolis",
+      "chance": 0.1
+    }
+  ]
+}

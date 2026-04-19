@@ -29,28 +29,28 @@ public class CombItem extends Item {
             if (Minecraft.getInstance().getConnection() == null) {
                 return comb;
             }
-            comb = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB.get()));
+            comb = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB_TYPE.get()));
         } else {
-            comb = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB.get()));
+            comb = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().get(stack.get(EsotericRegistration.COMB_TYPE.get()));
         }
         return comb;
     }
 
     public static ItemStack setComb(ItemStack stack, ResourceLocation comb) {
-        stack.set(EsotericRegistration.COMB.get(), comb);
+        stack.set(EsotericRegistration.COMB_TYPE.get(), comb);
         return stack;
     }
 
     @Override
     public @NotNull Component getName(ItemStack stack) {
         return Component.translatable("comb.complicated_bees." +
-                        (Optional.ofNullable(stack.get(EsotericRegistration.COMB.get())).map(ResourceLocation::toString).orElse("invalid")))
+                        (Optional.ofNullable(stack.get(EsotericRegistration.COMB_TYPE.get())).map(ResourceLocation::toString).orElse("invalid")))
                 .append(" ")
                 .append(Component.translatable(getDescriptionId()));
     }
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
-        ResourceLocation combLocation = stack.get(EsotericRegistration.COMB.get());
+        ResourceLocation combLocation = stack.get(EsotericRegistration.COMB_TYPE.get());
         Registry<Comb> registry = Objects.requireNonNull(Minecraft.getInstance().getConnection()).registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get();
         if (combLocation != null) {
             switch (tintIndex) {
