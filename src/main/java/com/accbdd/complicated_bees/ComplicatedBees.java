@@ -298,7 +298,7 @@ public class ComplicatedBees {
                 for (Map.Entry<ResourceLocation, Resource> entry : manager.listResources("models/bee", res -> res.getPath().endsWith(".json")).entrySet()) {
                     String path = entry.getKey().getPath(); // e.g. models/item/custom/fire_wand.json
                     String modelPath = path.substring("models/".length(), path.length() - ".json".length());
-                    event.register(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), modelPath)));
+                    event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), modelPath)));
                     ComplicatedBees.LOGGER.debug("Loaded bee model: " + entry.getKey());
                 }
             } catch (Exception e) {

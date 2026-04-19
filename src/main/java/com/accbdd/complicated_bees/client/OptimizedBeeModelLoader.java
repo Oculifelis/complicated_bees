@@ -134,7 +134,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
                         beeModels[i] = bakedModel;
                         continue;
                     }
-                    beeModels[i] = new BeeModel(Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(i))));
+                    beeModels[i] = new BeeModel(Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(species.getModels().get(i))));
                 }
                 return new Variant(beeModels[0], beeModels[1], beeModels[2]);
             });

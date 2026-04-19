@@ -106,7 +106,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
 
                 ResourceLocation speciesLoc = GeneticHelper.getSpeciesLoc(pStack);
                 if (speciesLoc == null) {
-                    Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(Species.DEFAULT_MODELS.getFirst()));
+                    Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(Species.DEFAULT_MODELS.getFirst()));
                 }
 
                 Variant variant = cacheMap.get(speciesLoc);
@@ -116,9 +116,9 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
                     if (species == null) {
                         variant = new Variant(Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel(), Minecraft.getInstance().getModelManager().getMissingModel());
                     } else {
-                        BakedModel droneModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(0)));
-                        BakedModel princessModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(1)));
-                        BakedModel queenModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.inventory(species.getModels().get(2)));
+                        BakedModel droneModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(species.getModels().get(0)));
+                        BakedModel princessModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(species.getModels().get(1)));
+                        BakedModel queenModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(species.getModels().get(2)));
                         variant = new Variant(droneModel, princessModel, queenModel);
                     }
                     cacheMap.put(speciesLoc, variant);
