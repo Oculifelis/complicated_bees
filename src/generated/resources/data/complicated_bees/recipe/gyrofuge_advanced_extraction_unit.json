@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:gyrofuge_panel"
+    },
+    "A": {
+      "item": "complicated_bees:gyrofuge_extraction_unit"
+    },
+    "C": {
+      "item": "minecraft:dragon_breath"
+    },
+    "G": {
+      "item": "complicated_bees:ambrosia"
+    },
+    "N": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "pattern": [
+    "#G#",
+    "CAC",
+    "#N#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:gyrofuge_advanced_extraction_unit"
+  }
+}

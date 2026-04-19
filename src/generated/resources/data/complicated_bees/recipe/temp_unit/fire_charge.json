@@ -1,0 +1,8 @@
+{
+  "type": "complicated_bees:temp_unit",
+  "input": {
+    "item": "minecraft:fire_charge"
+  },
+  "temp_change": "up_2",
+  "use_chance": 0.15
+}

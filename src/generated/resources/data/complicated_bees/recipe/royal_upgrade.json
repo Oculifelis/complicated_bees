@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "complicated_bees:basic_upgrade"
+    },
+    "P": {
+      "item": "complicated_bees:propolis"
+    },
+    "R": {
+      "item": "complicated_bees:royal_jelly"
+    }
+  },
+  "pattern": [
+    "PRP",
+    "RBR",
+    "PRP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:royal_upgrade"
+  }
+}

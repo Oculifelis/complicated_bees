@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:honeyed_planks"
+    },
+    "P": {
+      "item": "complicated_bees:pollen"
+    },
+    "R": {
+      "item": "complicated_bees:royal_jelly"
+    },
+    "W": {
+      "item": "complicated_bees:beeswax"
+    }
+  },
+  "pattern": [
+    "RW#",
+    "W#W",
+    "#WP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "complicated_bees:mellarium_panel"
+  }
+}

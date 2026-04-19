@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "complicated_bees:furnace_generator"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "complicated_bees:propolis"
+    },
+    "W": {
+      "item": "complicated_bees:smooth_wax"
+    }
+  },
+  "pattern": [
+    "IGI",
+    "PFP",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:honey_generator"
+  }
+}

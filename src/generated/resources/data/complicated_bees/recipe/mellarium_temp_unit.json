@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_bars"
+    },
+    "A": {
+      "item": "complicated_bees:mellarium_base"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "I#I",
+    "#A#",
+    "I#I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:mellarium_temp_unit"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:gyrofuge_panel"
+    },
+    "A": {
+      "item": "complicated_bees:gyrofuge_base"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "RAR",
+    "#D#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:gyrofuge_basic_speed_unit"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:apiary",
+  "criteria": {
+    "has_frame": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#complicated_bees:frame"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.frame.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:frame"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.frame.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_frame"
+    ]
+  ]
+}

@@ -34,7 +34,7 @@ import java.util.function.Function;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeModelLoader.BeeGeometry> {
-    public static final ResourceLocation ID = ResourceLocation.tryBuild(MODID, "optimized_bee_model");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "optimized_bee_model");
     @Override
     public BeeGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         return new BeeGeometry(deserializationContext.deserialize(jsonObject.get("base_model"), BlockModel.class));

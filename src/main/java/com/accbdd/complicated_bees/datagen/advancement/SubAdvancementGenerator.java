@@ -19,26 +19,27 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class SubAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
-    private static final AdvancementHolder ROOT = advancement()
-            .display(ItemsRegistration.SCOOP.get(),
-                    Component.translatable("advancements.complicated_bees.root.title"),
-                    Component.translatable("advancements.complicated_bees.root.description"),
-                    loc("textures/gui/advancement/background.png"),
-                    AdvancementType.TASK,
-                    true,
-                    true,
-                    false)
-            .addCriterion("has_scoop", hasItem(ItemTagGenerator.SCOOP_TOOL))
-            .build(loc("root"));
+    private AdvancementHolder root;
 
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper ex) {
-        saver.accept(ROOT);
+        this.root = advancement()
+                .display(ItemsRegistration.SCOOP.get(),
+                        Component.translatable("advancements.complicated_bees.root.title"),
+                        Component.translatable("advancements.complicated_bees.root.description"),
+                        loc("textures/gui/advancement/background.png"),
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false)
+                .addCriterion("has_scoop", hasItem(ItemTagGenerator.SCOOP_TOOL))
+                .save(saver, loc("root"), ex);
 
         hiddenHas(ItemsRegistration.BEESWAX.get(), "beeswax", saver, ex);
         hiddenHas(ItemsRegistration.ROYAL_JELLY.get(), "royal_jelly", saver, ex);
@@ -46,7 +47,7 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
         hiddenHas(ItemsRegistration.POLLEN.get(), "pollen", saver, ex);
 
         AdvancementHolder firstBee = advancement(ItemsRegistration.QUEEN.get(), "first_bee")
-                .parent(ROOT)
+                .parent(this.root)
                 .addCriterion("nest_broken", hasItem(ItemTagGenerator.BEE))
                 .save(saver, loc("first_bee"), ex);
 
@@ -76,43 +77,45 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
         AdvancementHolder microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, ex);
         AdvancementHolder apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, ex);
 
-        AdvancementHolder mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
-                .parent(advanced_products)
-                .addCriterion("use_mellarium", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
-                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
-                                StatePropertiesPredicate.Builder.properties()
-                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
-                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-                        ).of(BlockTagGenerator.MELLARIUM)),
-                        ItemPredicate.Builder.item()))
-                .display(ItemsRegistration.MELLARIUM_BASE.get(),
-                        Component.translatable("advancements.complicated_bees.mellarium.title"),
-                        Component.translatable("advancements.complicated_bees.mellarium.description"),
-                        null,
-                        AdvancementType.GOAL,
-                        true,
-                        true,
-                        false)
-                .save(saver, loc("mellarium"), ex);
+        // TODO: cannot match against multiple properties that are named identically ("assembled")
 
-        AdvancementHolder gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
-                .parent(advanced_products)
-                .addCriterion("use_gyrofuge", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
-                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
-                                StatePropertiesPredicate.Builder.properties()
-                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
-                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-                        ).of(BlockTagGenerator.GYROFUGE)),
-                        ItemPredicate.Builder.item()))
-                .display(ItemsRegistration.GYROFUGE_BASE.get(),
-                        Component.translatable("advancements.complicated_bees.gyrofuge.title"),
-                        Component.translatable("advancements.complicated_bees.gyrofuge.description"),
-                        null,
-                        AdvancementType.GOAL,
-                        true,
-                        true,
-                        false)
-                .save(saver, loc("gyrofuge"), ex);
+//        AdvancementHolder mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
+//                .parent(advanced_products)
+//                .addCriterion("use_mellarium", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+//                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+//                                StatePropertiesPredicate.Builder.properties()
+//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
+//                        ).of(BlockTagGenerator.MELLARIUM)),
+//                        ItemPredicate.Builder.item()))
+//                .display(ItemsRegistration.MELLARIUM_BASE.get(),
+//                        Component.translatable("advancements.complicated_bees.mellarium.title"),
+//                        Component.translatable("advancements.complicated_bees.mellarium.description"),
+//                        null,
+//                        AdvancementType.GOAL,
+//                        true,
+//                        true,
+//                        false)
+//                .save(saver, loc("mellarium"), ex);
+
+//        AdvancementHolder gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
+//                .parent(advanced_products)
+//                .addCriterion("use_gyrofuge", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+//                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+//                                StatePropertiesPredicate.Builder.properties()
+//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
+//                        ).of(BlockTagGenerator.GYROFUGE)),
+//                        ItemPredicate.Builder.item()))
+//                .display(ItemsRegistration.GYROFUGE_BASE.get(),
+//                        Component.translatable("advancements.complicated_bees.gyrofuge.title"),
+//                        Component.translatable("advancements.complicated_bees.gyrofuge.description"),
+//                        null,
+//                        AdvancementType.GOAL,
+//                        true,
+//                        true,
+//                        false)
+//                .save(saver, loc("gyrofuge"), ex);
     }
 
 
@@ -128,7 +131,7 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
         return new DisplayInfo(new ItemStack(item),
                 Component.translatable("advancements.complicated_bees."+translationId+".title"),
                 Component.translatable("advancements.complicated_bees."+translationId+".description"),
-                null,
+                Optional.empty(),
                 AdvancementType.TASK,
                 true,
                 true,
@@ -165,12 +168,11 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
                 .save(saver, loc(id), existingFileHelper);
     }
 
-    private static AdvancementHolder hiddenHas(ItemLike item, String translationId, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
+    private AdvancementHolder hiddenHas(ItemLike item, String translationId, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
         return advancement(item, id)
-                .display(null)
                 .addCriterion("has_"+id, hasItem(item))
-                .parent(ROOT)
+                .parent(this.root)
                 .save(saver, loc(id), existingFileHelper);
     }
 }

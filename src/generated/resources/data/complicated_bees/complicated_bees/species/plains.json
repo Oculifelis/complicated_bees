@@ -59,10 +59,10 @@
   "products": [
     {
       "chance": 0.35,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:honey"
-      }
+      "components": {
+        "complicated_bees:comb": "complicated_bees:honey"
+      },
+      "item": "complicated_bees:comb"
     }
   ]
 }

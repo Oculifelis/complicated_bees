@@ -114,6 +114,7 @@ public class ComplicatedBees {
         modEventBus.addListener(this::registerSerializers);
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
+        modEventBus.addListener(this::registerCapabilities);
         modEventBus.addListener(DataGenerators::generate);
         modEventBus.addListener(PacketHandler::registerPayloadHandlers);
 
@@ -136,6 +137,7 @@ public class ComplicatedBees {
         EsotericRegistration.RECIPE_TYPE_REGISTER.register(modEventBus);
         EsotericRegistration.RECIPE_SERIALIZER_REGISTER.register(modEventBus);
         EsotericRegistration.PARTICLE_TYPE.register(modEventBus);
+        EsotericRegistration.DATA_COMPONENT_TYPE.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(ComplicatedBeesEvents::onItemPickup);
@@ -146,7 +148,6 @@ public class ComplicatedBees {
         CREATIVE_MODE_TABS.register(modEventBus);
     }
 
-    @SubscribeEvent
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.APIARY_ENTITY.get(), (be, ctx) -> be.getItemHandler().resolve().orElse(null));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), (be, ctx) -> be.getItemHandler().resolve().orElse(null));
@@ -192,7 +193,6 @@ public class ComplicatedBees {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).flatMap(LazyOptional::resolve).orElse(null));
     }
 
-    @SubscribeEvent
     public void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(
                 SpeciesRegistration.SPECIES_REGISTRY_KEY,
@@ -219,7 +219,6 @@ public class ComplicatedBees {
         );
     }
 
-    @SubscribeEvent
     public void registerRegistries(NewRegistryEvent event) {
         var geneRegistry = event.create(GeneRegistration.GENE_REGISTRY);
         var beeEffectRegistry = event.create(BeeEffectRegistration.BEE_EFFECT_REGISTRY);
@@ -229,7 +228,6 @@ public class ComplicatedBees {
         MUTATION_CONDITION_REGISTRY = () -> mutationConditionRegistry;
     }
 
-    @SubscribeEvent
     public void registerSerializers(RegisterEvent event) {
         event.register(NeoForgeRegistries.CONDITION_SERIALIZERS.key(),
                 helper -> helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "item_enabled"), ItemEnabledCondition.CODEC));
@@ -300,7 +298,7 @@ public class ComplicatedBees {
                 for (Map.Entry<ResourceLocation, Resource> entry : manager.listResources("models/bee", res -> res.getPath().endsWith(".json")).entrySet()) {
                     String path = entry.getKey().getPath(); // e.g. models/item/custom/fire_wand.json
                     String modelPath = path.substring("models/".length(), path.length() - ".json".length());
-                    event.register(ModelResourceLocation.inventory(ResourceLocation.tryBuild(entry.getKey().getNamespace(), modelPath)));
+                    event.register(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), modelPath)));
                     ComplicatedBees.LOGGER.debug("Loaded bee model: " + entry.getKey());
                 }
             } catch (Exception e) {

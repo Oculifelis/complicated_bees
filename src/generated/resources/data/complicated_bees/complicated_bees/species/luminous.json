@@ -64,17 +64,17 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:simmering"
-      }
+      "components": {
+        "complicated_bees:comb": "complicated_bees:simmering"
+      },
+      "item": "complicated_bees:comb"
     },
     {
       "chance": 0.15,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:glowstone"
-      }
+      "components": {
+        "complicated_bees:comb": "complicated_bees:glowstone"
+      },
+      "item": "complicated_bees:comb"
     }
   ]
 }

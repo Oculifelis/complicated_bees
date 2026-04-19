@@ -1,8 +1,0 @@
-{
-  "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:blue_ice"
-  },
-  "temp_change": "DOWN_3",
-  "use_chance": 0.05
-}

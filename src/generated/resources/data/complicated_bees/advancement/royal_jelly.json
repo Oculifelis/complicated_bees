@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:root",
+  "criteria": {
+    "has_royal_jelly": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:royal_jelly"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.royal_jelly.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:royal_jelly"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.royal_jelly.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_royal_jelly"
+    ]
+  ]
+}

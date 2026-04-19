@@ -44,7 +44,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
     }
 
     public static class Loader implements IGeometryLoader<BeeModel> {
-        public static final ResourceLocation ID = ResourceLocation.tryBuild(MODID, "bee_model");
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "bee_model");
         @Override
         public BeeModel read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
             return new BeeModel();

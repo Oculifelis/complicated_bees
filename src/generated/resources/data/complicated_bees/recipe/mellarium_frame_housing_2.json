@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:mellarium_panel"
+    },
+    "A": {
+      "item": "complicated_bees:mellarium_frame_housing_1"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "###",
+    "GAG",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:mellarium_frame_housing_2"
+  }
+}

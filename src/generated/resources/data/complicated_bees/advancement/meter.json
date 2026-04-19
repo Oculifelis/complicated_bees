@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:first_bee",
+  "criteria": {
+    "has_meter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:meter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.meter.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:meter"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.meter.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_meter"
+    ]
+  ]
+}

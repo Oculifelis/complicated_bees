@@ -1,0 +1,32 @@
+{
+  "criteria": {
+    "has_scoop": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#complicated_bees:scoop_tool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "background": "complicated_bees:textures/gui/advancement/background.png",
+    "description": {
+      "translate": "advancements.complicated_bees.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:scoop"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_scoop"
+    ]
+  ]
+}
