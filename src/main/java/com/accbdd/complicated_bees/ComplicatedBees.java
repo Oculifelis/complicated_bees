@@ -262,7 +262,7 @@ public class ComplicatedBees {
                 WoodType.register(BlocksRegistration.HONEYED_WOOD);
             });
         }
-        
+
         @SubscribeEvent
         public static void registerMenuScreens(RegisterMenuScreensEvent event) {
             event.register(MenuRegistration.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
