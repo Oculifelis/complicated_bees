@@ -32,12 +32,12 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
         this.handler = new ItemStackHandler(2) {
             @Override
             protected void onContentsChanged(int slot) {
-                ItemStack bee = getSlot(1).getItem();
-                if (getSlot(0).hasItem()) {
+                ItemStack bee = getStackInSlot(1);
+                if (!getStackInSlot(0).isEmpty()) {
                     if (!bee.isEmpty()) {
                         if (!isBeeAnalyzed()) {
                             bee.update(EsotericRegistration.BEE, Bee.DEFAULT, component -> component.withAnalyzed(true));
-                            getSlot(0).remove(1);
+                            getStackInSlot(0).shrink(1);
                         }
                     }
                 }
