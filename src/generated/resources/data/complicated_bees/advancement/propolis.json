@@ -13,16 +13,15 @@
     }
   },
   "display": {
-    "description": {
-      "translate": "advancements.complicated_bees.propolis.description"
-    },
+    "announce_to_chat": false,
+    "description": "",
+    "hidden": true,
     "icon": {
       "count": 1,
       "id": "complicated_bees:propolis"
     },
-    "title": {
-      "translate": "advancements.complicated_bees.propolis.title"
-    }
+    "show_toast": false,
+    "title": ""
   },
   "requirements": [
     [

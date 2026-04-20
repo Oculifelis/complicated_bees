@@ -170,6 +170,14 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
         String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
         return advancement(item, id)
                 .addCriterion("has_"+id, hasItem(item))
+                .display(item,
+                        Component.empty(),
+                        Component.empty(),
+                        null,
+                        AdvancementType.TASK,
+                        false,
+                        false,
+                        true)
                 .parent(this.root)
                 .save(saver, loc(id), existingFileHelper);
     }
