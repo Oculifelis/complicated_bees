@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.recipe.MutatorRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +25,7 @@ import java.util.Optional;
 public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
-    private final LazyOptional<IItemHandler> itemHandler;
+    private final IItemHandler itemHandler;
     private final RecipeManager.CachedCheck<RecipeInput, MutatorRecipe> quickCheck;
 
     public MellariumMutatorBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -38,18 +37,12 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
                 return hasRecipe(stack);
             }
         };
-        itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+        itemHandler = new AdaptedItemHandler(items);
     }
 
     private boolean hasRecipe(ItemStack stack) {
         Optional<RecipeHolder<MutatorRecipe>> recipeCheck = quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel());
         return recipeCheck.isPresent();
-    }
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getItemHandler().invalidate();
     }
 
     @Override
@@ -79,7 +72,7 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
         items.getStackInSlot(0).shrink(1);
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 }

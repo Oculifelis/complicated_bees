@@ -62,7 +62,7 @@ public class GyrofugeLogic {
             while (!controller.outputBuffer.empty()) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), controller.outputBuffer.pop());
             }
-            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }

@@ -4,7 +4,6 @@ import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.UpgradeHelper;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -32,21 +31,21 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     public static final int BASE_USAGE = ServerConfig.SERVER_CONFIG.centrifugeBaseEnergy.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.centrifugeBaseSpeed.get();
 
-    private final LazyOptional<IItemHandler> inputItemHandler;
-    private final LazyOptional<IItemHandler> outputItemHandler;
-    public final LazyOptional<IItemHandler> upgradeItemHandler;
-    private final LazyOptional<IItemHandler> itemHandler;
-    private final LazyOptional<IEnergyStorage> energyHandler;
+    private final IItemHandler inputItemHandler;
+    private final IItemHandler outputItemHandler;
+    public final IItemHandler upgradeItemHandler;
+    private final IItemHandler itemHandler;
+    private final IEnergyStorage energyHandler;
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), pos, blockState);
-        this.inputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(inputItems) {
+        this.inputItemHandler = new AdaptedItemHandler(inputItems) {
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
                 return ItemStack.EMPTY;
             }
-        });
-        this.outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+        };
+        this.outputItemHandler = new AdaptedItemHandler(outputItems) {
             @Override
             public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return stack;
@@ -56,14 +55,14 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return false;
             }
-        });
-        this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+        };
+        this.upgradeItemHandler = new AdaptedItemHandler(upgradeItems) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.getItem() instanceof UpgradeItem;
             }
-        });
-        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energyStorage) {
+        };
+        this.energyHandler = new AdaptedEnergyStorage(energyStorage) {
             @Override
             public int extractEnergy(int maxExtract, boolean simulate) {
                 return 0;
@@ -84,8 +83,8 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
             public boolean canReceive() {
                 return true;
             }
-        });
-        this.itemHandler = LazyOptional.of(() -> new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler.resolve().get(), (IItemHandlerModifiable) inputItemHandler.resolve().get()));
+        };
+        this.itemHandler = new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler, (IItemHandlerModifiable) inputItemHandler);
     }
 
     public void tickServer() {
@@ -201,27 +200,27 @@ public class CentrifugeBlockEntity extends AbstractCentrifugeBlockEntity {
     }
 
     @Override
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getInputItemHandler() {
+    public IItemHandler getInputItemHandler() {
         return inputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getOutputItemHandler() {
+    public IItemHandler getOutputItemHandler() {
         return outputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getUpgradeItemHandler() {
+    public IItemHandler getUpgradeItemHandler() {
         return upgradeItemHandler;
     }
 
     @Override
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+    public IEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 

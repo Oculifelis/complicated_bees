@@ -26,7 +26,7 @@ public class MellariumTempUnitBlock extends MellariumBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (!(pNewState.getBlock() instanceof MellariumTempUnitBlock) && pLevel.getBlockEntity(pPos) instanceof MellariumTempUnitBlockEntity be) {
-            IItemHandler handler = be.getItemHandler().resolve().get();
+            IItemHandler handler = be.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }

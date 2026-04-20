@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.block.entity;
 import com.accbdd.complicated_bees.bees.BeeLogic;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,14 +23,14 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler outputItems = createOutputHandler();
     private final ItemStackHandler frameItems = createFrameHandler();
 
-    private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
+    private final IItemHandlerModifiable beeItemHandler = new AdaptedItemHandler(beeItems) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
-    });
+    };
 
-    private final LazyOptional<IItemHandlerModifiable> outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+    private final IItemHandlerModifiable outputItemHandler = new AdaptedItemHandler(outputItems) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return stack;
@@ -41,8 +40,8 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return false;
         }
-    });
-    private final LazyOptional<IItemHandlerModifiable> frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems) {
+    };
+    private final IItemHandlerModifiable frameItemHandler = new AdaptedItemHandler(frameItems) {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return stack.getItem() instanceof FrameItem;
@@ -57,9 +56,9 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
-    });
+    };
 
-    private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItemHandler.resolve().get(), outputItemHandler.resolve().get()));
+    private final IItemHandlerModifiable itemHandler = new CombinedInvWrapper(beeItemHandler, outputItemHandler);
 
     public ApiaryBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.APIARY_ENTITY.get(), pPos, pBlockState);
@@ -79,22 +78,22 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getItemHandler() {
+    public IItemHandlerModifiable getItemHandler() {
         return itemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getBeeItemHandler() {
+    public IItemHandlerModifiable getBeeItemHandler() {
         return beeItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getOutputItemHandler() {
+    public IItemHandlerModifiable getOutputItemHandler() {
         return outputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getFrameItemHandler() {
+    public IItemHandlerModifiable getFrameItemHandler() {
         return frameItemHandler;
     }
 

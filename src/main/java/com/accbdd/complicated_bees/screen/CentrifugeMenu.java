@@ -32,13 +32,13 @@ public class CentrifugeMenu extends AbstractBaseInventoryMenu {
         if (player.level().getBlockEntity(pos) instanceof CentrifugeBlockEntity centrifuge) {
             addSlot(new SlotItemHandler(centrifuge.getInputItems(), 0, 34, 35));
             for (int i = 0; i < 9; i++) {
-                addSlot(new SlotItemHandler(centrifuge.getOutputItemHandler().resolve().get(),
+                addSlot(new SlotItemHandler(centrifuge.getOutputItemHandler(),
                         i,
                         91 + (18 * (i % 3)),
                         17 + (18 * (i / 3))));
             }
             for (int i = 0; i < 3; i++) {
-                addSlot(new SlotItemHandler(centrifuge.getUpgradeItemHandler().resolve().get(),
+                addSlot(new SlotItemHandler(centrifuge.getUpgradeItemHandler(),
                         i,
                         16 + (18 * i),
                         53));

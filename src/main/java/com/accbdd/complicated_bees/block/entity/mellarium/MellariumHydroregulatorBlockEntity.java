@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.recipe.HydroRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -27,9 +26,9 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler inputItems;
     private final ItemStackHandler outputItems;
-    private final LazyOptional<IItemHandlerModifiable> inputItemHandler;
-    private final LazyOptional<IItemHandlerModifiable> outputItemHandler;
-    private final LazyOptional<IItemHandlerModifiable> itemHandler;
+    private final IItemHandlerModifiable inputItemHandler;
+    private final IItemHandlerModifiable outputItemHandler;
+    private final IItemHandlerModifiable itemHandler;
     private final RecipeManager.CachedCheck<RecipeInput, HydroRecipe> quickCheck;
 
     public MellariumHydroregulatorBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -43,20 +42,20 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
         };
 
         outputItems = new ItemStackHandler(1);
-        inputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(inputItems) {
+        inputItemHandler = new AdaptedItemHandler(inputItems) {
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 return ItemStack.EMPTY;
             }
-        });
-        outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+        };
+        outputItemHandler = new AdaptedItemHandler(outputItems) {
             @Override
             public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return stack;
             }
-        });
+        };
 
-        itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(inputItemHandler.resolve().get(), outputItemHandler.resolve().get()));
+        itemHandler = new CombinedInvWrapper(inputItemHandler, outputItemHandler);
     }
 
     private boolean hasRecipe(ItemStack stack) {
@@ -69,12 +68,6 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
 
     private boolean canRecipeOutput(HydroRecipe recipe) {
         return outputItems.insertItem(0, recipe.output().getStack(), true).isEmpty();
-    }
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getItemHandler().invalidate();
     }
 
     @Override
@@ -120,7 +113,7 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
         return inputItems;
     }
 
-    public LazyOptional<IItemHandlerModifiable> getItemHandler() {
+    public IItemHandlerModifiable getItemHandler() {
         return itemHandler;
     }
 }

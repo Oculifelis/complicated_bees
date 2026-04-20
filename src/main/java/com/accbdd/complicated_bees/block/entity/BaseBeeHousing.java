@@ -9,7 +9,6 @@ import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -64,15 +63,6 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
     private final BeeLogic beeLogic;
 
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getItemHandler().invalidate();
-        getBeeItemHandler().invalidate();
-        getOutputItemHandler().invalidate();
-        getFrameItemHandler().invalidate();
-    }
-
     public BaseBeeHousing(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
         super(type, pPos, pBlockState);
         this.beeLogic = new BeeLogic(getLevel(), getBlockPos(), this);
@@ -109,13 +99,13 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
     public abstract ItemStackHandler getFrameItems();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getItemHandler();
+    public abstract IItemHandlerModifiable getItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getBeeItemHandler();
+    public abstract IItemHandlerModifiable getBeeItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getOutputItemHandler();
+    public abstract IItemHandlerModifiable getOutputItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getFrameItemHandler();
+    public abstract IItemHandlerModifiable getFrameItemHandler();
 
     public abstract Stack<ItemStack> getOutputBuffer();
 

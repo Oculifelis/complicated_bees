@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.block.entity.mellarium;
 import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.Util;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,7 +12,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntity implements IMellariumTickable {
-    private LazyOptional<IItemHandlerModifiable> mellariumOutput;
+    private IItemHandlerModifiable mellariumOutput;
     private int tickCount;
 
     public MellariumOutputHatchBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -28,7 +27,7 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
                 this.mellariumOutput = controller.getOutputItemHandler()
             );
         else
-            this.mellariumOutput = LazyOptional.empty();
+            this.mellariumOutput = null;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
                 if (blockEntity == null || blockEntity instanceof AbstractMellariumBlockEntity || blockEntity instanceof MellariumControllerBlockEntity)
                     continue;
                 IItemHandler itemCap = getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
-                IItemHandler output = mellariumOutput.resolve().orElse(null);
+                IItemHandler output = mellariumOutput;
                 if (itemCap != null && output != null) {
                     Util.moveInventoryItems(output, itemCap);
                 }

@@ -64,7 +64,7 @@ public class MellariumLogic {
                 if (stack.is(ItemTagGenerator.BEE))
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
-            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }

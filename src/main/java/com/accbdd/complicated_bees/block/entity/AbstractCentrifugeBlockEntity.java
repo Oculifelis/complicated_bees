@@ -88,16 +88,6 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     }
 
     @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getItemHandler().invalidate();
-        getInputItemHandler().invalidate();
-        getOutputItemHandler().invalidate();
-        getUpgradeItemHandler().invalidate();
-        getEnergyHandler().invalidate();
-    }
-
-    @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put(ITEMS_INPUT_TAG, inputItems.serializeNBT(registries));

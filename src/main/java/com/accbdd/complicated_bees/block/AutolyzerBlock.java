@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class AutolyzerBlock extends BaseEntityBlock {
@@ -80,7 +79,7 @@ public class AutolyzerBlock extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         BlockEntity blockentity = pLevel.getBlockEntity(pPos);
         if (blockentity instanceof AutolyzerBlockEntity autolyzer && !pNewState.is(this)) {
-            IItemHandler handler = autolyzer.getItemHandler().resolve().orElse(new ItemStackHandler());
+            IItemHandler handler = autolyzer.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }

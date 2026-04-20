@@ -17,7 +17,7 @@ public class MellariumHydroregulatorMenu extends AbstractBaseInventoryMenu {
         super(MenuRegistration.MELLARIUM_HYDROREGULATOR_MENU.get(), windowId, player, 2, INV_X, INV_Y);
         if (player.level().getBlockEntity(pos) instanceof MellariumHydroregulatorBlockEntity hydroregulator) {
             addSlot(new SlotItemHandler(hydroregulator.getInputItems(), 0, 52, 40));
-            addSlot(new OutputSlot(hydroregulator.getItemHandler().resolve().get(), 1, 107, 40));
+            addSlot(new OutputSlot(hydroregulator.getItemHandler(), 1, 107, 40));
         }
         layoutPlayerInventorySlots(player.getInventory());
         level = player.level();

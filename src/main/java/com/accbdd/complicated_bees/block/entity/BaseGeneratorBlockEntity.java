@@ -2,7 +2,6 @@ package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.util.UpgradeHelper;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -39,22 +38,14 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
     private final ItemStackHandler items;
     private final ItemStackHandler upgradeItems;
-    private final LazyOptional<IItemHandler> itemHandler;
-    private final LazyOptional<IItemHandler> upgradeItemHandler;
+    private final IItemHandler itemHandler;
+    private final IItemHandler upgradeItemHandler;
 
     private final EnergyStorage energy;
-    private final LazyOptional<IEnergyStorage> energyHandler;
+    private final IEnergyStorage energyHandler;
 
     private int burnTime;
     private int maxBurnTime;
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        itemHandler.invalidate();
-        upgradeItemHandler.invalidate();
-        energyHandler.invalidate();
-    }
 
     public BaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int baseGenerate, int baseStorage) {
         super(type, pos, state);
@@ -62,16 +53,16 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         this.baseStorage = baseStorage;
         this.generate = baseGenerate;
         this.items = createItemHandler();
-        this.itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+        this.itemHandler = new AdaptedItemHandler(items);
         this.upgradeItems = createUpgradeHandler(3);
-        this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+        this.upgradeItemHandler = new AdaptedItemHandler(upgradeItems) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.getItem() instanceof UpgradeItem;
             }
-        });
+        };
         this.energy = createEnergyStorage();
-        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energy) {
+        this.energyHandler = new AdaptedEnergyStorage(energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
                 return 0;
@@ -81,7 +72,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
             public boolean canReceive() {
                 return false;
             }
-        });
+        };
     }
 
     public void tickServer() {
@@ -219,15 +210,15 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         return new EnergyStorage(baseStorage);
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 
-    public LazyOptional<IItemHandler> getUpgradeItemHandler() {
+    public IItemHandler getUpgradeItemHandler() {
         return upgradeItemHandler;
     }
 
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+    public IEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 

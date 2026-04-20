@@ -2,7 +2,6 @@ package com.accbdd.complicated_bees.block.entity.mellarium;
 
 import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,20 +14,20 @@ public class MellariumEnergyCellBlockEntity extends AbstractMellariumBlockEntity
     public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.mellariumCellStorage.get();
     public static final int BASE_TRANSFER = ServerConfig.SERVER_CONFIG.mellariumCellTransfer.get();
     public static final String ENERGY_TAG = "energy";
-    private final LazyOptional<IEnergyStorage> energyHandler;
+    private final IEnergyStorage energyHandler;
     private final EnergyStorage energy;
 
     public MellariumEnergyCellBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), pPos, pBlockState);
         this.energy = new EnergyStorage(BASE_STORAGE, BASE_TRANSFER);
-        this.energyHandler = LazyOptional.of(() -> energy);
+        this.energyHandler = energy;
     }
 
     public EnergyStorage getEnergy() {
         return energy;
     }
     
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+    public IEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 

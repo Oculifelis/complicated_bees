@@ -29,7 +29,7 @@ public class MellariumFrameHousingBlock extends MellariumBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (!(pNewState.getBlock() instanceof MellariumFrameHousingBlock) && pLevel.getBlockEntity(pPos) instanceof MellariumFrameHousingBlockEntity frameHousingBlockEntity) {
-            IItemHandler handler = frameHousingBlockEntity.getFrameItemHandler().resolve().get();
+            IItemHandler handler = frameHousingBlockEntity.getFrameItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }

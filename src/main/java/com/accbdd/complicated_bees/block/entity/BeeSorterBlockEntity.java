@@ -8,7 +8,6 @@ import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
 import com.accbdd.complicated_bees.util.Util;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -34,7 +33,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     private byte[] typeFilters; //down, up, north, south, east, west
     private String[] speciesFilters;
     private final ItemStackHandler item;
-    private final List<LazyOptional<IItemHandler>> handlers;
+    private final List<IItemHandler> handlers;
     private int transferCooldown;
 
     public BeeSorterBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -49,8 +48,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
         transferCooldown = TRANSFER_TICKS;
     }
 
-    public LazyOptional<IItemHandler> getHandlerCapability(Direction side) {
-        return side == null ? handlers.getFirst().cast() : handlers.get(side.ordinal()).cast();
+    public IItemHandler getHandlerCapability(Direction side) {
+        return side == null ? handlers.getFirst() : handlers.get(side.ordinal());
     }
 
     @Override
@@ -169,8 +168,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
         };
     }
 
-    private LazyOptional<IItemHandler> createFilterHandler(int index) {
-        return LazyOptional.of(() -> new AdaptedItemHandler(item) {
+    private IItemHandler createFilterHandler(int index) {
+        return new AdaptedItemHandler(item) {
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if (filterSpecificity(Direction.values()[index]) > 0) {
@@ -178,7 +177,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
                 }
                 return ItemStack.EMPTY;
             }
-        });
+        };
     }
 
     private boolean matchFilter(String species, String filter) {

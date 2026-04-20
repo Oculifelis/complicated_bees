@@ -26,7 +26,7 @@ public class MellariumHydroregulatorBlock extends MellariumBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (!(pNewState.getBlock() instanceof MellariumHydroregulatorBlock) && pLevel.getBlockEntity(pPos) instanceof MellariumHydroregulatorBlockEntity hydroregulator) {
-            IItemHandler handler = hydroregulator.getItemHandler().resolve().get();
+            IItemHandler handler = hydroregulator.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }

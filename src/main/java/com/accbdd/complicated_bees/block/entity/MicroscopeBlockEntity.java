@@ -2,7 +2,6 @@ package com.accbdd.complicated_bees.block.entity;
 
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class MicroscopeBlockEntity extends BlockEntity {
     public static final String ITEMS_TAG = "items";
     private final ItemStackHandler items = createItemHandler();
-    private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+    private final IItemHandler itemHandler = new AdaptedItemHandler(items);
     private boolean locked = false;
 
     public MicroscopeBlockEntity(BlockPos pos, BlockState state) {
@@ -55,7 +54,7 @@ public class MicroscopeBlockEntity extends BlockEntity {
         }
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 

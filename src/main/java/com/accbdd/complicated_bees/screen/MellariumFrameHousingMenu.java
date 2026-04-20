@@ -15,7 +15,7 @@ public class MellariumFrameHousingMenu extends AbstractBaseInventoryMenu {
         super(MenuRegistration.MELLARIUM_FRAME_MENUS.get(slotCount-1).get(), windowId, player, slotCount, INV_X, INV_Y);
         if (player.level().getBlockEntity(pos) instanceof MellariumFrameHousingBlockEntity mellarium) {
             for (int i = 0; i < slotCount; i++) {
-                addSlot(new TagSlot(mellarium.getFrameItemHandler().resolve().get(), i, (89 - slotCount*9) + (18 * i), 24, ItemTagGenerator.FRAME));
+                addSlot(new TagSlot(mellarium.getFrameItemHandler(), i, (89 - slotCount*9) + (18 * i), 24, ItemTagGenerator.FRAME));
             }
         }
         layoutPlayerInventorySlots(player.getInventory());

@@ -5,7 +5,6 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.recipe.TempUnitRecipe;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +25,7 @@ import java.util.Optional;
 public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
-    private final LazyOptional<IItemHandler> itemHandler;
+    private final IItemHandler itemHandler;
     private final RecipeManager.CachedCheck<RecipeInput, TempUnitRecipe> quickCheck;
 
     public MellariumTempUnitBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -37,7 +36,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
                 return hasRecipe(stack);
             }
         };
-        itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+        itemHandler = new AdaptedItemHandler(items);
         this.quickCheck = RecipeManager.createCheck(EsotericRegistration.TEMP_UNIT_RECIPE.get());
     }
 
@@ -57,12 +56,6 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
         super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
             items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
-    }
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getItemHandler().invalidate();
     }
 
     @Override
@@ -96,7 +89,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
         }
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 }

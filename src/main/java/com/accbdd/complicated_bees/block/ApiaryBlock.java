@@ -111,11 +111,11 @@ public class ApiaryBlock extends BaseEntityBlock {
             while (!apiary.getOutputBuffer().empty()) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), apiary.getOutputBuffer().pop());
             }
-            IItemHandler handler = apiary.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = apiary.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
-            IItemHandler frames = apiary.getFrameItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler frames = apiary.getFrameItemHandler();
             for (int i = 0; i < frames.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), frames.getStackInSlot(i));
             }

@@ -40,7 +40,7 @@ public abstract class AbstractGeneratorMenu extends AbstractBaseInventoryMenu {
             this.upgradeSlots = new ArrayList<>();
             addSlot(new SlotItemHandler(generator.getItems(), SLOT, 80, 40));
             for (int i = 0; i < 3; i++) {
-                upgradeSlots.add(addSlot(new SlotItemHandler(generator.getUpgradeItemHandler().resolve().get(), i,
+                upgradeSlots.add(addSlot(new SlotItemHandler(generator.getUpgradeItemHandler(), i,
                         145,
                         8 + i * 18)));
             }

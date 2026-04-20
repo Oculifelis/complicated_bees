@@ -4,7 +4,6 @@ import com.accbdd.complicated_bees.bees.BeeHousingModifier;
 import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private final ItemStackHandler frameItems;
-    private final LazyOptional<IItemHandler> frameItemHandler;
+    private final IItemHandler frameItemHandler;
 
     public MellariumFrameHousingBlockEntity(BlockPos pPos, BlockState pBlockState, int frameSlots) {
         super(BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_ENTITIES.get(frameSlots-1).get(), pPos, pBlockState);
@@ -30,17 +29,11 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
                 return stack.getItem() instanceof FrameItem;
             }
         };
-        frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems));
+        frameItemHandler = new AdaptedItemHandler(frameItems);
     }
 
-    public LazyOptional<IItemHandler> getFrameItemHandler() {
+    public IItemHandler getFrameItemHandler() {
         return frameItemHandler;
-    }
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        getFrameItemHandler().invalidate();
     }
 
     public BeeHousingModifier getModifier() {

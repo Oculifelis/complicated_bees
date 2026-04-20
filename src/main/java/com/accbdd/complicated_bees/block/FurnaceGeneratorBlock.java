@@ -144,7 +144,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
-            IItemHandler upgrades = generator.getUpgradeItemHandler().orElseThrow(() -> new RuntimeException("no upgrade item handler found!"));
+            IItemHandler upgrades = generator.getUpgradeItemHandler();
             for (int i = 0; i < upgrades.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), upgrades.getStackInSlot(i));
             }

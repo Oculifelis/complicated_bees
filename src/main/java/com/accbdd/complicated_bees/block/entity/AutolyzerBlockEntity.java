@@ -4,7 +4,6 @@ import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.util.forge.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -20,12 +19,12 @@ public class AutolyzerBlockEntity extends BlockEntity {
     public static final int SLOT_COUNT = 2;
     public static final int SLOT = 0;
     private final ItemStackHandler items;
-    private final LazyOptional<IItemHandler> itemHandler;
+    private final IItemHandler itemHandler;
 
     public AutolyzerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.AUTOLYZER_BLOCK_ENTITY.get(), pPos, pBlockState);
         items = createItemHandler();
-        itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items) {
+        itemHandler = new AdaptedItemHandler(items) {
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if (slot == 1 && isBeeAnalyzed(getStackInSlot(1)))
@@ -33,13 +32,7 @@ public class AutolyzerBlockEntity extends BlockEntity {
                 else
                     return ItemStack.EMPTY;
             }
-        });
-    }
-
-    @Override
-    public void invalidateCapabilities() {
-        super.invalidateCapabilities();
-        itemHandler.invalidate();
+        };
     }
 
     @Override
@@ -82,7 +75,7 @@ public class AutolyzerBlockEntity extends BlockEntity {
         };
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 

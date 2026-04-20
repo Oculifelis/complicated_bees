@@ -114,11 +114,11 @@ public class CentrifugeBlock extends BaseEntityBlock {
             while (!centrifuge.outputBuffer.empty()) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), centrifuge.outputBuffer.pop());
             }
-            IItemHandler handler = centrifuge.getItemHandler().orElseThrow(() -> new RuntimeException("item handler not found!"));
+            IItemHandler handler = centrifuge.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
-            IItemHandler upgrades = centrifuge.getUpgradeItemHandler().orElseThrow(() -> new RuntimeException("no upgrade item handler found!"));
+            IItemHandler upgrades = centrifuge.getUpgradeItemHandler();
             for (int i = 0; i < upgrades.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), upgrades.getStackInSlot(i));
             }
