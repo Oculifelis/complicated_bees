@@ -161,7 +161,7 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
             researchedMutations = List.of();
             return;
         }
-        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
+        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))

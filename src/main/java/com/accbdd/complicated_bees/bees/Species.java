@@ -10,9 +10,6 @@ import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +20,6 @@ import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
-import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_STREAM_CODEC;
 
 /**
  * Defines the color and products of a bee, as well as the default genes for things like JEI display and world drops.
@@ -57,32 +53,6 @@ public class Species {
             Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
             Chromosome.CODEC.optionalFieldOf("default_chromosome", new Chromosome()).forGetter(Species::getDefaultChromosome)
     ).apply(instance, Species::new));
-    public static final StreamCodec<RegistryFriendlyByteBuf, Species> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public Species decode(RegistryFriendlyByteBuf buffer) {
-            boolean dominant = ByteBufCodecs.BOOL.decode(buffer);
-            boolean foil = ByteBufCodecs.BOOL.decode(buffer);
-            List<ResourceLocation> models = ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
-            int color = HEX_STRING_STREAM_CODEC.decode(buffer);
-            int nest_color = HEX_STRING_STREAM_CODEC.decode(buffer);
-            List<Product> products = Product.STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
-            List<Product> specialtyProducts = Product.STREAM_CODEC.apply(ByteBufCodecs.list()).decode(buffer);
-            Chromosome default_chromosome = Chromosome.STREAM_CODEC.decode(buffer);
-            return new Species(dominant, foil, models, color, nest_color, products, specialtyProducts, default_chromosome);
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buffer, Species value) {
-            ByteBufCodecs.BOOL.encode(buffer, value.dominant);
-            ByteBufCodecs.BOOL.encode(buffer, value.foil);
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, value.models);
-            HEX_STRING_STREAM_CODEC.encode(buffer, value.color);
-            HEX_STRING_STREAM_CODEC.encode(buffer, value.nest_color);
-            Product.STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, value.products);
-            Product.STREAM_CODEC.apply(ByteBufCodecs.list()).encode(buffer, value.specialty_products);
-            Chromosome.STREAM_CODEC.encode(buffer, value.default_chromosome);
-        }
-    };
 
     public Species() {
         this(false, false, new ArrayList<>(), 0xFFFFFF, 0xFFFFFF, new ArrayList<>(), new ArrayList<>(), new Chromosome());

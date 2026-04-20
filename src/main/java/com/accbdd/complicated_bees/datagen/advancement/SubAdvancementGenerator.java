@@ -1,9 +1,7 @@
 package com.accbdd.complicated_bees.datagen.advancement;
 
-import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
-import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;

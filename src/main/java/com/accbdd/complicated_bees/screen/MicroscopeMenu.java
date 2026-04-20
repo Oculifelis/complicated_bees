@@ -186,7 +186,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             researchedMutationsCount = -1;
             return;
         }
-        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
+        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
@@ -210,7 +210,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         if (bee.isEmpty())
             return;
         BreedingTracker tracker = BreedingTracker.getTracker(this.player);
-        ResourceLocation species = SpeciesRegistration.getResourceLocation(bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species());
+        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
         Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
         Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
                 location -> {

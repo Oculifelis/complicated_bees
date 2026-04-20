@@ -4,7 +4,6 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -136,7 +135,7 @@ public class BeeModel implements IUnbakedGeometry<BeeModel> {
             }
 
             private int getStackHash(ItemStack stack) {
-                String species = stack.has(EsotericRegistration.BEE) ? SpeciesRegistration.getResourceLocation(stack.get(EsotericRegistration.BEE).species()).toString() : "none";
+                String species = stack.has(EsotericRegistration.BEE) ? stack.get(EsotericRegistration.BEE).species().toString() : "none";
                 int type = stack.is(ItemsRegistration.QUEEN.get()) ? 2 :
                         stack.is(ItemsRegistration.PRINCESS.get()) ? 1 : 0;
                 return Objects.hash(species, type);

@@ -139,7 +139,7 @@ public class GeneticHelper {
 
     public static void setSpeciesTag(ItemStack stack) {
         Species species = getSpecies(stack, true);
-        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withSpecies(species));
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withSpecies(SpeciesRegistration.getResourceLocation(species)));
     }
 
     /**
@@ -170,7 +170,7 @@ public class GeneticHelper {
 
     public static ResourceLocation getSpeciesLoc(ItemStack stack) {
         if (stack.has(EsotericRegistration.BEE))
-            return SpeciesRegistration.getResourceLocation(stack.get(EsotericRegistration.BEE).species());
+            return stack.get(EsotericRegistration.BEE).species();
         return null;
     }
 
