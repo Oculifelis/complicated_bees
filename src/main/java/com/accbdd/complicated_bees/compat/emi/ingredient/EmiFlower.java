@@ -53,7 +53,7 @@ public class EmiFlower extends EmiStack {
 
     @Override
     public DataComponentPatch getComponentChanges() {
-        return null;
+        return DataComponentPatch.EMPTY;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EmiFlower extends EmiStack {
 
     @Override
     public ResourceLocation getId() {
-        return GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().getKey(flower);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
     }
 
     @Override

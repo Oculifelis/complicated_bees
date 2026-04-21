@@ -72,10 +72,10 @@ public class GeneticHelper {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
             if (FMLLoader.getDist().equals(Dist.DEDICATED_SERVER) || Minecraft.getInstance() == null) //datagen
                 return null;
-            if (Minecraft.getInstance().getConnection() == null) {
+            if (Minecraft.getInstance().level == null) {
                 return null;
             } else {
-                return Minecraft.getInstance().getConnection().registryAccess();
+                return Minecraft.getInstance().level.registryAccess();
             }
         } else {
             return ServerLifecycleHooks.getCurrentServer().registryAccess();
@@ -84,42 +84,42 @@ public class GeneticHelper {
 
     public static MutableComponent getTranslationKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        return Component.translatable("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species));
+        return Component.translatable("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species));
     }
 
     public static MutableComponent getGenusTaxonomyKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species) + ".genus", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".genus", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_genus") : mutableComponent;
     }
 
     public static MutableComponent getSpeciesTaxonomyKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species) + ".species_taxonomy", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".species_taxonomy", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_species") : mutableComponent;
     }
 
     public static MutableComponent getFlavorTextKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species) + ".flavor_text", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_text", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_flavor") : mutableComponent;
     }
 
     public static MutableComponent getFlavorTextAuthorKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species) + ".flavor_author", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_author", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_author") : mutableComponent;
     }
 
     public static MutableComponent getAuthorityKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species) + ".authority", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".authority", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_authority") : mutableComponent;
     }
 
     public static MutableComponent getTranslationKey(Flower flower) {
         RegistryAccess registryAccess = getRegistryAccess();
-        return Component.translatable("flower.complicated_bees." + registryAccess.registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().getKey(flower));
+        return Component.translatable("flower.complicated_bees." + registryAccess.registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower));
     }
 
     public static MutableComponent getSpeciesHybridName(ItemStack stack) {
@@ -205,7 +205,7 @@ public class GeneticHelper {
             } else if (geneEntry.getValue() instanceof GeneSpecies) {
                 Species speciesA = (Species) geneA.get();
                 Species speciesB = (Species) geneB.get();
-                for (Mutation mutation : ServerLifecycleHooks.getCurrentServer().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().stream().toList()) {
+                for (Mutation mutation : getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)) {
                     if ((mutation.getFirstSpecies() == speciesA && mutation.getSecondSpecies() == speciesB) || (mutation.getSecondSpecies() == speciesA && mutation.getFirstSpecies() == speciesB)) {
                         boolean canMutate = true;
                         for (IMutationCondition condition : mutation.getConditions())

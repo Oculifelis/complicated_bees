@@ -20,13 +20,13 @@ public class SpeciesRegistration {
 
     @Nullable
     public static Species getFromResourceLocation(@Nullable ResourceLocation resourceLocation) {
-        return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().get(resourceLocation);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(SPECIES_REGISTRY_KEY).get(resourceLocation);
     }
 
     public static ResourceLocation getResourceLocation(Species species) {
         if (species == null || species.equals(Species.INVALID))
             return ResourceLocation.fromNamespaceAndPath(MODID, "invalid");
-        return GeneticHelper.getRegistryAccess().registry(SPECIES_REGISTRY_KEY).get().getKey(species);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(SPECIES_REGISTRY_KEY).getKey(species);
     }
 
     public static int getComplexity(Species species) {
@@ -41,7 +41,7 @@ public class SpeciesRegistration {
             return complexities.get(species);
         Set<Mutation> visited = new HashSet<>();
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
-        return calculateComplexity(species, visited, registryAccess.registry(MutationRegistration.MUTATION_REGISTRY_KEY).get());
+        return calculateComplexity(species, visited, registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY));
     }
 
     public static int calculateComplexity(ResourceLocation species, Set<Mutation> visited, Registry<Mutation> mutationRegistry) {

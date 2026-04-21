@@ -38,10 +38,10 @@ public class MutationRegistration {
     public static final Supplier<IMutationCondition> BLOCK_TAG_UNDER = MUTATION_CONDITIONS.register(BlockTagUnderCondition.ID, () -> new BlockTagUnderCondition(BlockTags.DIRT));
 
     public static ResourceLocation getResourceLocation(Mutation mutation) {
-        return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().getKey(mutation);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(MUTATION_REGISTRY_KEY).getKey(mutation);
     }
 
     public static Mutation getFromResourceLocation(ResourceLocation loc) {
-        return GeneticHelper.getRegistryAccess().registry(MUTATION_REGISTRY_KEY).get().get(loc);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(MUTATION_REGISTRY_KEY).get(loc);
     }
 }

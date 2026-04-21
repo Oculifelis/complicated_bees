@@ -12,7 +12,6 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -81,7 +80,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addDragDropHandler(BeeSorterScreen.class, new BeeSorterDragDropEMI());
 
         RecipeManager manager = registry.getRecipeManager();
-        RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
+        RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
 
         manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get())
                 .stream()

@@ -27,7 +27,7 @@ public class FlowerIngredientHelper implements IIngredientHelper<Flower> {
 
     @Override
     public ResourceLocation getResourceLocation(Flower ingredient) {
-        return GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().getKey(ingredient);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(ingredient);
     }
 
     @Override

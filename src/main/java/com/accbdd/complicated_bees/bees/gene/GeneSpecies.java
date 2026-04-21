@@ -33,10 +33,10 @@ public class GeneSpecies extends Gene<Species> {
         if (this.get().builderOverride != null) {
             tag.put(DATA, StringTag.valueOf(this.get().builderOverride.toString()));
         } else {
-            if (registryAccess == null || registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(this.get()) == null) {
+            if (registryAccess == null || registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()) == null) {
                 tag.put(DATA, StringTag.valueOf("complicated_bees:invalid"));
             } else {
-                tag.put(DATA, StringTag.valueOf(registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(this.get()).toString()));
+                tag.put(DATA, StringTag.valueOf(registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()).toString()));
             }
         }
 
@@ -49,7 +49,7 @@ public class GeneSpecies extends Gene<Species> {
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
         if (registryAccess == null)
             return new GeneSpecies();
-        Registry<Species> registry = registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get();
+        Registry<Species> registry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
 
         return new GeneSpecies(registry.get(ResourceLocation.tryParse(tag.getString(DATA))), tag.getBoolean(DOMINANT));
     }

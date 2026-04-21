@@ -236,7 +236,7 @@ public class BeeLogic {
     }
 
     private void checkFlowerCache() {
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
+        Flower flower = GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
         Level level = getLevel();
         if (flower == null || level == null) {
@@ -259,7 +259,7 @@ public class BeeLogic {
 
     public void rebuildFlowerCache() {
         clearFlowerCache();
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
+        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
 
         if (flower == null) {

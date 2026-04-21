@@ -46,7 +46,7 @@ public class DumpCommands implements Command<CommandSourceStack> {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Biome> biomes = registryAccess.registry(Registries.BIOME).get();
+        Registry<Biome> biomes = registryAccess.registryOrThrow(Registries.BIOME);
         biomes.stream().forEach(entry ->
                 player.sendSystemMessage(Component.literal(biomes.getKey(entry) + ": " + EnumTemperature.getFromValue(entry.getModifiedClimateSettings().temperature()) + ", " + EnumHumidity.getFromValue(entry.getModifiedClimateSettings().downfall()))));
         return 1;
@@ -68,7 +68,7 @@ public class DumpCommands implements Command<CommandSourceStack> {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Species> speciesRegistry = registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get();
+        Registry<Species> speciesRegistry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
         speciesRegistry.stream().forEach(species -> {
             Chromosome chromosome = species.getDefaultChromosome();
             player.sendSystemMessage(GeneticHelper.getTranslationKey(species)

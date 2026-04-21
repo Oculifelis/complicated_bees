@@ -95,12 +95,12 @@ public class ComplicatedBees {
                 }
                 RegistryAccess access = GeneticHelper.getRegistryAccess();
                 if (access != null) {
-                    Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().entrySet();
+                    Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).entrySet();
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
                         if (entry.getValue().getColor() != -1)
                             output.acceptAll(entry.getValue().toMembers());
                     }
-                    for (ResourceLocation id : access.registry(CombRegistration.COMB_REGISTRY_KEY).get().keySet()) {
+                    for (ResourceLocation id : access.registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).keySet()) {
                         output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
                     }
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
@@ -239,10 +239,10 @@ public class ComplicatedBees {
 
     @SubscribeEvent
     public void serverStarted(ServerStartedEvent event) {
-        LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().size());
-        LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().size());
-        LOGGER.info("Registered {} mutations", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().size());
-        LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().size());
+        LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} mutations", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).size());
     }
 
     @SubscribeEvent

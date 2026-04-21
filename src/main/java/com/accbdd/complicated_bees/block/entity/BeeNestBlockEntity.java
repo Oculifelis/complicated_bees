@@ -36,10 +36,10 @@ public class BeeNestBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
-        if (registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(getSpecies()) == null) {
+        if (registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()) == null) {
             tag.put("species", StringTag.valueOf("complicated_bees:invalid"));
         } else {
-            tag.put("species", StringTag.valueOf(registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(getSpecies()).toString()));
+            tag.put("species", StringTag.valueOf(registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()).toString()));
         }
     }
 
