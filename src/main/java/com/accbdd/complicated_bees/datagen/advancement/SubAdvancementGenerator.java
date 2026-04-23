@@ -1,7 +1,9 @@
 package com.accbdd.complicated_bees.datagen.advancement;
 
+import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
@@ -75,45 +77,53 @@ public class SubAdvancementGenerator implements AdvancementProvider.AdvancementG
         AdvancementHolder microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, ex);
         AdvancementHolder apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, ex);
 
-        // TODO: cannot match against multiple properties that are named identically ("assembled")
+        AdvancementHolder mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
+                .parent(advanced_products)
+                .addCriterion("use_mellarium_top", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+                        ).of(BlockTagGenerator.MELLARIUM)),
+                        ItemPredicate.Builder.item()))
+                .addCriterion("use_mellarium_side", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
+                        ).of(BlockTagGenerator.MELLARIUM)),
+                        ItemPredicate.Builder.item()))
+                .display(ItemsRegistration.MELLARIUM_BASE.get(),
+                        Component.translatable("advancements.complicated_bees.mellarium.title"),
+                        Component.translatable("advancements.complicated_bees.mellarium.description"),
+                        null,
+                        AdvancementType.GOAL,
+                        true,
+                        true,
+                        false)
+                .save(saver, loc("mellarium"), ex);
 
-//        AdvancementHolder mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
-//                .parent(advanced_products)
-//                .addCriterion("use_mellarium", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
-//                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
-//                                StatePropertiesPredicate.Builder.properties()
-//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
-//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-//                        ).of(BlockTagGenerator.MELLARIUM)),
-//                        ItemPredicate.Builder.item()))
-//                .display(ItemsRegistration.MELLARIUM_BASE.get(),
-//                        Component.translatable("advancements.complicated_bees.mellarium.title"),
-//                        Component.translatable("advancements.complicated_bees.mellarium.description"),
-//                        null,
-//                        AdvancementType.GOAL,
-//                        true,
-//                        true,
-//                        false)
-//                .save(saver, loc("mellarium"), ex);
-
-//        AdvancementHolder gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
-//                .parent(advanced_products)
-//                .addCriterion("use_gyrofuge", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
-//                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
-//                                StatePropertiesPredicate.Builder.properties()
-//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
-//                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-//                        ).of(BlockTagGenerator.GYROFUGE)),
-//                        ItemPredicate.Builder.item()))
-//                .display(ItemsRegistration.GYROFUGE_BASE.get(),
-//                        Component.translatable("advancements.complicated_bees.gyrofuge.title"),
-//                        Component.translatable("advancements.complicated_bees.gyrofuge.description"),
-//                        null,
-//                        AdvancementType.GOAL,
-//                        true,
-//                        true,
-//                        false)
-//                .save(saver, loc("gyrofuge"), ex);
+        AdvancementHolder gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
+                .parent(advanced_products)
+                .addCriterion("use_gyrofuge_top", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+                        ).of(BlockTagGenerator.GYROFUGE)),
+                        ItemPredicate.Builder.item()))
+                .addCriterion("use_gyrofuge_side", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
+                        ).of(BlockTagGenerator.GYROFUGE)),
+                        ItemPredicate.Builder.item()))
+                .display(ItemsRegistration.GYROFUGE_BASE.get(),
+                        Component.translatable("advancements.complicated_bees.gyrofuge.title"),
+                        Component.translatable("advancements.complicated_bees.gyrofuge.description"),
+                        null,
+                        AdvancementType.GOAL,
+                        true,
+                        true,
+                        false)
+                .save(saver, loc("gyrofuge"), ex);
     }
 
 
