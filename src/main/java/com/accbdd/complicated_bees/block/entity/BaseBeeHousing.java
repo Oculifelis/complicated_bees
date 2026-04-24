@@ -139,7 +139,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
-            bufferTag.add(stack.save(registries));
+            if (!stack.isEmpty())
+                bufferTag.add(stack.save(registries));
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
