@@ -5,7 +5,8 @@
       "modid": "patchouli"
     }
   ],
-  "type": "patchouli:shapeless_book_recipe",
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     {
       "item": "minecraft:book"
@@ -14,5 +15,11 @@
       "item": "complicated_bees:comb"
     }
   ],
-  "book": "complicated_bees:field_guide"
+  "result": {
+    "id": "patchouli:guide_book",
+    "count": 1,
+    "components": {
+      "patchouli:book": "complicated_bees:field_guide"
+    }
+  }
 }
