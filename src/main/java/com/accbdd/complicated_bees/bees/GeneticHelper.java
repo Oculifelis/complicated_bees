@@ -33,10 +33,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class GeneticHelper {
-    public static final String CHROMOSOME_A = "chromosome_a";
-    public static final String CHROMOSOME_B = "chromosome_b";
-    public static final String SPECIES = "species";
-    public static final String MATE = "mate";
     private static final Random rand = new Random();
 
     public static Chromosome getChromosome(ItemStack stack, boolean primary) {
