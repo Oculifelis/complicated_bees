@@ -3,7 +3,6 @@ package com.accbdd.complicated_bees.compat.emi;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.ingredient.EmiFlower;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
-import com.accbdd.complicated_bees.item.BeeNestBlockItem;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
@@ -13,12 +12,12 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -51,10 +50,10 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
         //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
         registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> {
-            CompoundTag blockEntityData = BeeNestBlockItem.getBlockEntityData(s.getItemStack());
-            if (blockEntityData == null)
+            CustomData customData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA);
+            if (customData == null)
                 return "empty";
-            return blockEntityData.getString("species");
+            return customData.getUnsafe().getString("species");
         }));
 
         registry.addCategory(CENTRIFUGE_CATEGORY);
@@ -81,31 +80,31 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.addDragDropHandler(BeeSorterScreen.class, new BeeSorterDragDropEMI());
 
         RecipeManager manager = registry.getRecipeManager();
-        RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
+        RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
 
         manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get())
                 .stream()
-                .map(CentrifugeEmiRecipe::new)
+                .map(holder -> new CentrifugeEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get())
                 .stream()
-                .map(MutatorEmiRecipe::new)
+                .map(holder -> new MutatorEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get())
                 .stream()
-                .map(TempUnitEmiRecipe::new)
+                .map(holder -> new TempUnitEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get())
                 .stream()
-                .map(HydroEmiRecipe::new)
+                .map(holder -> new HydroEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get())
                 .stream()
-                .map(HoneyGeneratorEmiRecipe::new)
+                .map(holder -> new HoneyGeneratorEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)

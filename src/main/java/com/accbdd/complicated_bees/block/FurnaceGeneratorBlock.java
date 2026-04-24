@@ -3,16 +3,15 @@ package com.accbdd.complicated_bees.block;
 import com.accbdd.complicated_bees.block.entity.BaseGeneratorBlockEntity;
 import com.accbdd.complicated_bees.block.entity.FurnaceGeneratorBlockEntity;
 import com.accbdd.complicated_bees.screen.FurnaceGeneratorMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,11 +31,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class FurnaceGeneratorBlock extends BaseEntityBlock {
+
+    private static final MapCodec<FurnaceGeneratorBlock> CODEC = simpleCodec(props -> new FurnaceGeneratorBlock());
 
     public static final String SCREEN_GENERATOR = "gui.complicated_bees.furnace_generator";
 
@@ -45,6 +45,11 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -68,7 +73,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof FurnaceGeneratorBlockEntity) {
@@ -83,7 +88,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
                         return new FurnaceGeneratorMenu(windowId, playerEntity, pos);
                     }
                 };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+                player.openMenu(containerProvider, be.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }
@@ -139,7 +144,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
-            IItemHandler upgrades = generator.getUpgradeItemHandler().orElseThrow(() -> new RuntimeException("no upgrade item handler found!"));
+            IItemHandler upgrades = generator.getUpgradeItemHandler();
             for (int i = 0; i < upgrades.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), upgrades.getStackInSlot(i));
             }

@@ -5,24 +5,21 @@ import com.accbdd.complicated_bees.block.entity.AdaptedItemHandler;
 import com.accbdd.complicated_bees.item.FrameItem;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
     private final ItemStackHandler frameItems;
-    private final LazyOptional<IItemHandler> frameItemHandler;
+    private final IItemHandler frameItemHandler;
 
     public MellariumFrameHousingBlockEntity(BlockPos pPos, BlockState pBlockState, int frameSlots) {
         super(BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_ENTITIES.get(frameSlots-1).get(), pPos, pBlockState);
@@ -32,29 +29,11 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
                 return stack.getItem() instanceof FrameItem;
             }
         };
-        frameItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(frameItems));
+        frameItemHandler = new AdaptedItemHandler(frameItems);
     }
 
-    public LazyOptional<IItemHandler> getFrameItemHandler() {
+    public IItemHandler getFrameItemHandler() {
         return frameItemHandler;
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (getLogic() == null || getLogic().getController() == null)
-            return super.getCapability(cap, side);
-
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getFrameItemHandler().cast();
-        }
-
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        getFrameItemHandler().invalidate();
     }
 
     public BeeHousingModifier getModifier() {
@@ -74,22 +53,23 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     }
 
     public void damageFrames() {
-        for (int i = 0; i < frameItems.getSlots(); i++) {
-            if (frameItems.getStackInSlot(i).hurt(1, getLevel().random, null))
-                frameItems.setStackInSlot(i, ItemStack.EMPTY);
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < frameItems.getSlots(); i++) {
+                frameItems.getStackInSlot(i).hurtAndBreak(1, serverLevel, null, item -> {});
+            }
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.put("frame_items", frameItems.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
+        pTag.put("frame_items", frameItems.serializeNBT(registries));
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         if (pTag.contains("frame_items"))
-            frameItems.deserializeNBT(pTag.getCompound("frame_items"));
+            frameItems.deserializeNBT(registries, pTag.getCompound("frame_items"));
     }
 }

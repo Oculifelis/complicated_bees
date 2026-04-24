@@ -13,7 +13,6 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +28,7 @@ public class FlowerTypeEmiRecipe implements EmiRecipe {
     private final EmiFlower flowerStack;
 
     public FlowerTypeEmiRecipe(Flower flower) {
-        ResourceLocation flowerId = Minecraft.getInstance().level.registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
+        ResourceLocation flowerId = GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
         this.id = ResourceLocation.fromNamespaceAndPath(ComplicatedBees.MODID, "/flower_type/" + flowerId.toString().replace(":", "/"));
         this.flower = flower;
         this.flowerStack = new EmiFlower(flower);

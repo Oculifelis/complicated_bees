@@ -66,7 +66,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().get().getEnergyStored() & 0xffff;
+                    return controller.getEnergyHandler().getEnergyStored() & 0xffff;
                 }
 
                 @Override
@@ -77,7 +77,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return (controller.getEnergyHandler().resolve().get().getEnergyStored() >> 16) & 0xffff;
+                    return (controller.getEnergyHandler().getEnergyStored() >> 16) & 0xffff;
                 }
 
                 @Override
@@ -88,7 +88,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().get().getMaxEnergyStored() & 0xffff;
+                    return controller.getEnergyHandler().getMaxEnergyStored() & 0xffff;
                 }
 
                 @Override
@@ -99,7 +99,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return (controller.getEnergyHandler().resolve().get().getMaxEnergyStored() >> 16) & 0xffff;
+                    return (controller.getEnergyHandler().getMaxEnergyStored() >> 16) & 0xffff;
                 }
 
                 @Override

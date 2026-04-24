@@ -1,22 +1,22 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
+
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public interface ICentrifuge {
     /**
      * @return The side-agnostic item handler for this centrifuge
      */
-    LazyOptional<IItemHandler> getItemHandler();
+    IItemHandler getItemHandler();
 
-    LazyOptional<IItemHandler> getInputItemHandler();
+    IItemHandler getInputItemHandler();
 
-    LazyOptional<IItemHandler> getOutputItemHandler();
+    IItemHandler getOutputItemHandler();
 
-    LazyOptional<IItemHandler> getUpgradeItemHandler();
+    IItemHandler getUpgradeItemHandler();
 
-    LazyOptional<IEnergyStorage> getEnergyHandler();
+    IEnergyStorage getEnergyHandler();
 
     int getProgress();
 

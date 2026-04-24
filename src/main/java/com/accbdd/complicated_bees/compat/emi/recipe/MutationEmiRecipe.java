@@ -107,7 +107,7 @@ public class MutationEmiRecipe implements EmiRecipe {
                 .drawBack(false)
                 .recipeContext(this);
 
-        float chance = mutation.getChance() * 100;
+        double chance = mutation.getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
             chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }

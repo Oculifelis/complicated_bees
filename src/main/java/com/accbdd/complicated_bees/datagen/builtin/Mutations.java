@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +40,8 @@ public class Mutations {
         mutation("jungle/tangle", BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.TANGLE.getKey(), 0.10f);
         mutation("jungle/lush", BuiltInSpecies.TANGLE.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.LUSH.getKey(), 0.08f);
 
-        mutation("ender/surreal", BuiltInSpecies.ENDER.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.SURREAL.getKey(), 0.10f, new DimensionCondition(new ResourceLocation("minecraft:the_end")));
-        mutation("ender/enigmatic", BuiltInSpecies.SURREAL.getKey(), BuiltInSpecies.INTREPID.getKey(), BuiltInSpecies.ENIGMATIC.getKey(), 0.10f, new DimensionCondition(new ResourceLocation("minecraft:the_end")));
+        mutation("ender/surreal", BuiltInSpecies.ENDER.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.SURREAL.getKey(), 0.10f, new DimensionCondition(ResourceLocation.tryParse("minecraft:the_end")));
+        mutation("ender/enigmatic", BuiltInSpecies.SURREAL.getKey(), BuiltInSpecies.INTREPID.getKey(), BuiltInSpecies.ENIGMATIC.getKey(), 0.10f, new DimensionCondition(ResourceLocation.tryParse("minecraft:the_end")));
 
         mutation("heroic/explorer", BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.EXPLORER.getKey(), 0.12f);
         mutation("heroic/intrepid", BuiltInSpecies.EXPLORER.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.INTREPID.getKey(), 0.10f);

@@ -5,10 +5,8 @@ import com.accbdd.complicated_bees.bees.Genome;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -16,16 +14,21 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
 
 public class InheritHiveSpeciesFunction extends LootItemConditionalFunction {
 
-    public InheritHiveSpeciesFunction(LootItemCondition[] pPredicates) {
+    public static final MapCodec<InheritHiveSpeciesFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> 
+            commonFields(instance).apply(instance, InheritHiveSpeciesFunction::new)
+    );
+
+    public InheritHiveSpeciesFunction(List<LootItemCondition> pPredicates) {
         super(pPredicates);
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public LootItemFunctionType<InheritHiveSpeciesFunction> getType() {
         return EsotericRegistration.INHERIT_HIVE.get();
     }
 
@@ -41,22 +44,5 @@ public class InheritHiveSpeciesFunction extends LootItemConditionalFunction {
 
     public static LootItemConditionalFunction.Builder<?> set() {
         return simpleBuilder(InheritHiveSpeciesFunction::new);
-    }
-
-    public static class Serializer implements net.minecraft.world.level.storage.loot.Serializer<InheritHiveSpeciesFunction> {
-        public static InheritHiveSpeciesFunction.Serializer INSTANCE = new Serializer();
-
-        @Override
-        public void serialize(JsonObject json, InheritHiveSpeciesFunction function, JsonSerializationContext context) {
-            if (!ArrayUtils.isEmpty(function.predicates)) {
-                json.add("conditions", context.serialize(function.predicates));
-            }
-        }
-
-        @Override
-        public final InheritHiveSpeciesFunction deserialize(JsonObject p_80719_, JsonDeserializationContext p_80720_) {
-            LootItemCondition[] alootitemcondition = GsonHelper.getAsObject(p_80719_, "conditions", new LootItemCondition[0], p_80720_, LootItemCondition[].class);
-            return new InheritHiveSpeciesFunction(alootitemcondition);
-        }
     }
 }

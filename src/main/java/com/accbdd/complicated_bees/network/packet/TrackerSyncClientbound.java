@@ -2,37 +2,44 @@ package com.accbdd.complicated_bees.network.packet;
 
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public record TrackerSyncClientbound(BreedingTracker tracker) implements IModPacket {
+public record TrackerSyncClientbound(BreedingTracker tracker) implements CustomPacketPayload {
+    public static final Type<TrackerSyncClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "tracker_sync_clientbound"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, TrackerSyncClientbound> STREAM_CODEC = StreamCodec.of(TrackerSyncClientbound::encode, TrackerSyncClientbound::decode);
 
-    @Override
-    public void encode(FriendlyByteBuf buf) {
+    private static void encode(RegistryFriendlyByteBuf buf, TrackerSyncClientbound payload) {
         CompoundTag tag = new CompoundTag();
-        buf.writeNbt(tracker.save(tag));
+        buf.writeNbt(payload.tracker.save(tag, buf.registryAccess()));
     }
 
-    public static TrackerSyncClientbound decode(FriendlyByteBuf buf) {
+    private static TrackerSyncClientbound decode(RegistryFriendlyByteBuf buf) {
         CompoundTag data = buf.readNbt();
         if (data != null)
-            return new TrackerSyncClientbound(BreedingTracker.load(data));
+            return new TrackerSyncClientbound(BreedingTracker.load(data, buf.registryAccess()));
         else
             return new TrackerSyncClientbound(null);
     }
 
-    public static void handle(TrackerSyncClientbound packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TrackerSyncClientbound.handlePacket(packet, ctx))
-        );
-        ctx.get().setPacketHandled(true);
+    public static void handle(TrackerSyncClientbound packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            if (FMLLoader.getDist().isClient()) TrackerSyncClientbound.handlePacket(packet, ctx);
+        });
     }
 
-    public static void handlePacket(TrackerSyncClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handlePacket(TrackerSyncClientbound packet, IPayloadContext ctx) {
         BreedingTracker.CLIENT_INSTANCE = packet.tracker;
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

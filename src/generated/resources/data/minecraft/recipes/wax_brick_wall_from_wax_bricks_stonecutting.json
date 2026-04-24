@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "complicated_bees:wax_bricks"
-  },
-  "result": "complicated_bees:wax_brick_wall"
-}

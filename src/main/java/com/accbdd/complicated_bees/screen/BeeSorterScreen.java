@@ -1,8 +1,9 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.network.PacketHandler;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.network.packet.UpdateSorterServerbound;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.screen.slot.FakeSpeciesSlot;
 import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
-    private static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/bee_sorter.png");
+    private static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/bee_sorter.png");
     private byte[] beeTypes;
     public BeeSorterScreen(BeeSorterMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -39,7 +41,6 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(pGuiGraphics);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         pGuiGraphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
@@ -59,9 +60,9 @@ public class BeeSorterScreen extends AbstractContainerScreen<BeeSorterMenu> {
             if (!menu.getSlot(i).hasItem())
                 speciesSlots.add("");
             else
-                speciesSlots.add(menu.getSlot(i).getItem().getTag().getString(GeneticHelper.SPECIES));
+                speciesSlots.add(menu.getSlot(i).getItem().getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species().toString());
         }
-        PacketHandler.CHANNEL.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
+        PacketDistributor.sendToServer(new UpdateSorterServerbound(menu.getPos(), beeTypes, speciesSlots));
     }
 
     @Override

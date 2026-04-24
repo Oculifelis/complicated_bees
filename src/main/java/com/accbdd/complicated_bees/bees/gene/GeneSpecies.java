@@ -16,7 +16,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneSpecies extends Gene<Species> {
     public static final String TAG = "species";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneSpecies() {
         super(Species.INVALID, true);
@@ -30,13 +30,15 @@ public class GeneSpecies extends Gene<Species> {
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
-        if (this.get().builderOverride != null) {
+        if (this.get() == null) {
+            tag.put(DATA, StringTag.valueOf("complicated_bees:invalid"));
+        } else if (this.get().builderOverride != null) {
             tag.put(DATA, StringTag.valueOf(this.get().builderOverride.toString()));
         } else {
-            if (registryAccess == null || registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(this.get()) == null) {
+            if (registryAccess == null || registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()) == null) {
                 tag.put(DATA, StringTag.valueOf("complicated_bees:invalid"));
             } else {
-                tag.put(DATA, StringTag.valueOf(registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(this.get()).toString()));
+                tag.put(DATA, StringTag.valueOf(registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()).toString()));
             }
         }
 
@@ -49,7 +51,7 @@ public class GeneSpecies extends Gene<Species> {
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
         if (registryAccess == null)
             return new GeneSpecies();
-        Registry<Species> registry = registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get();
+        Registry<Species> registry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
 
         return new GeneSpecies(registry.get(ResourceLocation.tryParse(tag.getString(DATA))), tag.getBoolean(DOMINANT));
     }

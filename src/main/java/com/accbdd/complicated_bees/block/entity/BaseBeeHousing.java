@@ -10,24 +10,21 @@ import com.accbdd.complicated_bees.item.*;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -66,23 +63,6 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
     private final BeeLogic beeLogic;
 
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        getItemHandler().invalidate();
-        getBeeItemHandler().invalidate();
-        getOutputItemHandler().invalidate();
-        getFrameItemHandler().invalidate();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.getItemHandler().cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
     public BaseBeeHousing(BlockEntityType<?> type, BlockPos pPos, BlockState pBlockState) {
         super(type, pPos, pBlockState);
         this.beeLogic = new BeeLogic(getLevel(), getBlockPos(), this);
@@ -119,13 +99,13 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
     public abstract ItemStackHandler getFrameItems();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getItemHandler();
+    public abstract IItemHandlerModifiable getItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getBeeItemHandler();
+    public abstract IItemHandlerModifiable getBeeItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getOutputItemHandler();
+    public abstract IItemHandlerModifiable getOutputItemHandler();
 
-    public abstract LazyOptional<IItemHandlerModifiable> getFrameItemHandler();
+    public abstract IItemHandlerModifiable getFrameItemHandler();
 
     public abstract Stack<ItemStack> getOutputBuffer();
 
@@ -149,37 +129,38 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.put(CYCLE_TAG, IntTag.valueOf(cycleProgress));
-        tag.put(ITEMS_BEES_TAG, getBeeItems().serializeNBT());
-        tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT());
-        tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT());
+        tag.put(ITEMS_BEES_TAG, getBeeItems().serializeNBT(registries));
+        tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT(registries));
+        tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT(registries));
         if (getOwner() != null)
             tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
-            bufferTag.add(stack.save(new CompoundTag()));
+            if (!stack.isEmpty())
+                bufferTag.add(stack.save(registries));
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         cycleProgress = tag.getInt(CYCLE_TAG);
         if (tag.contains(ITEMS_BEES_TAG)) {
-            getBeeItems().deserializeNBT(tag.getCompound(ITEMS_BEES_TAG));
+            getBeeItems().deserializeNBT(registries, tag.getCompound(ITEMS_BEES_TAG));
         }
         if (tag.contains(ITEMS_OUTPUT_TAG)) {
-            getOutputItems().deserializeNBT(tag.getCompound(ITEMS_OUTPUT_TAG));
+            getOutputItems().deserializeNBT(registries, tag.getCompound(ITEMS_OUTPUT_TAG));
         }
         if (tag.contains(FRAME_SLOT_TAG)) {
-            getFrameItems().deserializeNBT(tag.getCompound(FRAME_SLOT_TAG));
+            getFrameItems().deserializeNBT(registries, tag.getCompound(FRAME_SLOT_TAG));
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
             for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
-                getOutputBuffer().add(ItemStack.of((CompoundTag) itemCompound));
+                getOutputBuffer().add(ItemStack.parseOptional(registries, (CompoundTag) itemCompound));
             }
         }
         if (tag.contains(OWNER_TAG))
@@ -339,9 +320,10 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     }
 
     public void damageFrames() {
-        for (int i = 0; i < getFrameItems().getSlots(); i++) {
-            if (getFrameItems().getStackInSlot(i).hurt(1, getLevel().random, null))
-                getFrameItems().setStackInSlot(i, ItemStack.EMPTY);
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < getFrameItems().getSlots(); i++) {
+                getFrameItems().getStackInSlot(i).hurtAndBreak(1, serverLevel, null, item -> {});
+            }
         }
     }
 

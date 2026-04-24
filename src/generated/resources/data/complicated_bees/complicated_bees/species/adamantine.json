@@ -66,17 +66,17 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:simmering"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:simmering"
+      },
+      "item": "complicated_bees:comb"
     },
     {
       "chance": 0.1,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:netherite"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:netherite"
+      },
+      "item": "complicated_bees:comb"
     }
   ]
 }

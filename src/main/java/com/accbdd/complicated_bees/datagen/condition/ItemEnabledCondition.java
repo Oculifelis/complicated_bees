@@ -1,23 +1,14 @@
 package com.accbdd.complicated_bees.datagen.condition;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
-
-import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+import net.neoforged.neoforge.common.conditions.ICondition;
 
 public class ItemEnabledCondition implements ICondition {
-    public static Codec<ItemEnabledCondition> CODEC = RecordCodecBuilder.create(
+    public static MapCodec<ItemEnabledCondition> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder
                     .group(
                             ResourceLocation.CODEC.fieldOf("item").forGetter(ItemEnabledCondition::getItem))
@@ -26,11 +17,11 @@ public class ItemEnabledCondition implements ICondition {
     private final ResourceLocation item;
 
     public ItemEnabledCondition(String location) {
-        this(new ResourceLocation(location));
+        this(ResourceLocation.tryParse(location));
     }
 
     public ItemEnabledCondition(String namespace, String path) {
-        this(new ResourceLocation(namespace, path));
+        this(ResourceLocation.fromNamespaceAndPath(namespace, path));
     }
 
     public ItemEnabledCondition(ResourceLocation item) {
@@ -38,13 +29,13 @@ public class ItemEnabledCondition implements ICondition {
     }
 
     @Override
-    public ResourceLocation getID() {
-        return new ResourceLocation(MODID, "item_enabled");
+    public boolean test(IContext context) {
+        return BuiltInRegistries.ITEM.get(getItem()).isEnabled(FeatureFlagSet.of());
     }
 
     @Override
-    public boolean test(IContext context) {
-        return BuiltInRegistries.ITEM.get(getItem()).isEnabled(FeatureFlagSet.of());
+    public MapCodec<? extends ICondition> codec() {
+        return CODEC;
     }
 
     public ResourceLocation getItem() {
@@ -54,29 +45,5 @@ public class ItemEnabledCondition implements ICondition {
     @Override
     public String toString() {
         return "item_enabled(\"" + item + "\")";
-    }
-
-    public static class Serializer implements IConditionSerializer<ItemEnabledCondition> {
-        public static Serializer INSTANCE = new Serializer();
-
-        @Override
-        public void write(JsonObject json, ItemEnabledCondition value) {
-            json.add("type", new JsonPrimitive(getID().toString()));
-            json.add("item", new JsonPrimitive(value.item.toString()));
-        }
-
-        @Override
-        public ItemEnabledCondition read(JsonObject json) {
-            DataResult<Pair<ItemEnabledCondition, JsonElement>> result = CODEC.decode(JsonOps.INSTANCE, json);
-            Pair<ItemEnabledCondition, JsonElement> completedResult = result.getOrThrow(false, (string) -> {
-                throw new RuntimeException("error reading ItemEnabledCondition: " + string);
-            });
-            return completedResult.getFirst();
-        }
-
-        @Override
-        public ResourceLocation getID() {
-            return new ResourceLocation(MODID, "item_enabled");
-        }
     }
 }

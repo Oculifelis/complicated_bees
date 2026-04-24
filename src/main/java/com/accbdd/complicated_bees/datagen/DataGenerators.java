@@ -14,9 +14,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.Map;
 import java.util.Set;
@@ -70,9 +70,9 @@ public class DataGenerators {
         BlockTagGenerator blockTagGenerator = new BlockTagGenerator(packOutput, lookupProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagGenerator);
         generator.addProvider(event.includeServer(), new ItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput));
-        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput));
-        generator.addProvider(event.includeServer() , new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
         //instantiate utility classes for datagen
         ComplicatedBees.LOGGER.info("combs: {}, flowers: {}, species: {}, mutations: {}", new Combs(), new Flowers(), new BuiltInSpecies(), new Mutations());
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(

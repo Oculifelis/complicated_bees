@@ -4,16 +4,18 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
@@ -21,10 +23,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+
 public class BeeNestBlock extends BaseEntityBlock {
+    private static final MapCodec<BeeNestBlock> CODEC = simpleCodec(props -> new BeeNestBlock());
 
     public BeeNestBlock() {
         super(BlockBehaviour.Properties.of()
@@ -34,17 +38,19 @@ public class BeeNestBlock extends BaseEntityBlock {
                 .sound(SoundType.WOOD));
     }
 
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
     public static ItemStack stackNest(ItemStack stack, Species species) {
-        CompoundTag tag = stack.getOrCreateTag();
-        CompoundTag data = new CompoundTag();
-        data.putString("species", SpeciesRegistration.getResourceLocation(species).toString());
-        tag.put("BlockEntityTag", data);
+        stack.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> tag.putString("species", SpeciesRegistration.getResourceLocation(species).toString())));
         return stack;
     }
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
         if (tintIndex == 1) {
-            Species species = SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(stack.getOrCreateTag().getCompound("BlockEntityTag").getString("species")));
+            Species species = SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(stack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).getUnsafe().getString("species")));
             if (species != null) {
                 return species.getNestColor();
             }
@@ -59,11 +65,11 @@ public class BeeNestBlock extends BaseEntityBlock {
     }
 
     @Override
-    public @NotNull void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pPlayer.getMainHandItem().is(ItemTags.create(new ResourceLocation("complicated_bees", "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
+    public BlockState playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
+        if (!pPlayer.getMainHandItem().is(ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
             pPlayer.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
         }
-        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+        return super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
     }
 
     @Nullable
@@ -73,14 +79,11 @@ public class BeeNestBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         ItemStack nest = new ItemStack(ItemsRegistration.BEE_NEST.get());
-        CompoundTag tag = nest.getOrCreateTag();
-        CompoundTag data = new CompoundTag();
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BeeNestBlockEntity ne)
-            data.putString("species", SpeciesRegistration.getResourceLocation(ne.getSpecies()).toString());
-        tag.put("BlockEntityTag", data);
+            nest.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> tag.putString("species", SpeciesRegistration.getResourceLocation(ne.getSpecies()).toString())));
         return nest;
     }
 }

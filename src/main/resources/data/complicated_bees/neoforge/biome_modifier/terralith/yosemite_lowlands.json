@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "terralith"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["terralith:yosemite_lowlands"],
+  "features": "complicated_bees:terralith/birch",
+  "step": "vegetal_decoration"
+}

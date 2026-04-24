@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public abstract class AbstractGeneratorMenu extends AbstractBaseInventoryMenu {
             this.upgradeSlots = new ArrayList<>();
             addSlot(new SlotItemHandler(generator.getItems(), SLOT, 80, 40));
             for (int i = 0; i < 3; i++) {
-                upgradeSlots.add(addSlot(new SlotItemHandler(generator.getUpgradeItemHandler().resolve().get(), i,
+                upgradeSlots.add(addSlot(new SlotItemHandler(generator.getUpgradeItemHandler(), i,
                         145,
                         8 + i * 18)));
             }

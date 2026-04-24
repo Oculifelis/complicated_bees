@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:honey_droplet",
+  "criteria": {
+    "has_analyzer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:analyzer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.analyzer.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:analyzer"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.analyzer.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_analyzer"
+    ]
+  ]
+}

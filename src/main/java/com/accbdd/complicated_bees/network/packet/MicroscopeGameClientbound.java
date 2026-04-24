@@ -3,13 +3,16 @@ package com.accbdd.complicated_bees.network.packet;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public record MicroscopeGameClientbound(GameState state) implements IModPacket {
+public record MicroscopeGameClientbound(GameState state) implements CustomPacketPayload {
     public enum GameState {
         WON,
         ONGOING,
@@ -18,23 +21,24 @@ public record MicroscopeGameClientbound(GameState state) implements IModPacket {
         CLEAR
     }
 
-    @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeEnum(state());
+    public static final Type<MicroscopeGameClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_game_clientbound"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeGameClientbound> STREAM_CODEC = StreamCodec.of(MicroscopeGameClientbound::encode, MicroscopeGameClientbound::decode);
+
+    private static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameClientbound payload) {
+        buf.writeEnum(payload.state);
     }
 
-    public static MicroscopeGameClientbound decode(FriendlyByteBuf buf) {
+    private static MicroscopeGameClientbound decode(FriendlyByteBuf buf) {
         return new MicroscopeGameClientbound(buf.readEnum(GameState.class));
     }
 
-    public static void handle(MicroscopeGameClientbound packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MicroscopeGameClientbound.handlePacket(packet, ctx))
-        );
-        ctx.get().setPacketHandled(true);
+    public static void handle(MicroscopeGameClientbound packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            if (FMLLoader.getDist().isClient()) MicroscopeGameClientbound.handlePacket(packet, ctx);
+        });
     }
 
-    public static void handlePacket(MicroscopeGameClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handlePacket(MicroscopeGameClientbound packet, IPayloadContext ctx) {
         if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
             //ComplicatedBees.LOGGER.debug("got packet with state {}", packet.state);
             GameState state = packet.state();
@@ -49,5 +53,10 @@ public record MicroscopeGameClientbound(GameState state) implements IModPacket {
                     break;
             }
         }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

@@ -1,8 +1,0 @@
-{
-  "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:magma_cream"
-  },
-  "temp_change": "UP_1",
-  "use_chance": 0.25
-}

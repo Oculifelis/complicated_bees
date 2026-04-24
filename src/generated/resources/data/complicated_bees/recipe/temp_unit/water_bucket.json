@@ -1,0 +1,8 @@
+{
+  "type": "complicated_bees:temp_unit",
+  "input": {
+    "item": "minecraft:water_bucket"
+  },
+  "temp_change": "down_1",
+  "use_chance": 0.05
+}

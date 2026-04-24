@@ -11,8 +11,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class GyrofugeLogic {
             while (!controller.outputBuffer.empty()) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), controller.outputBuffer.pop());
             }
-            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }

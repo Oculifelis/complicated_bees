@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:root",
+  "criteria": {
+    "nest_broken": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#complicated_bees:bee"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.first_bee.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:queen"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.first_bee.title"
+    }
+  },
+  "requirements": [
+    [
+      "nest_broken"
+    ]
+  ]
+}

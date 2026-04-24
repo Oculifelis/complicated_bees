@@ -2,12 +2,11 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
 import com.accbdd.complicated_bees.screen.MicroscopeMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,12 +27,18 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class MicroscopeBlock extends BaseEntityBlock {
+    private static final MapCodec<MicroscopeBlock> CODEC = simpleCodec(props -> new MicroscopeBlock());
+
     public MicroscopeBlock() {
         super(Properties.of().noOcclusion());
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -63,7 +68,7 @@ public class MicroscopeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof MicroscopeBlockEntity microscope) {
@@ -82,7 +87,7 @@ public class MicroscopeBlock extends BaseEntityBlock {
                         return new MicroscopeMenu(windowId, playerEntity, pos);
                     }
                 };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+                player.openMenu(containerProvider, be.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }

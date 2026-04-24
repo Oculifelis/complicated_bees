@@ -14,11 +14,10 @@ import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -42,14 +41,14 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     private final ItemStackHandler frameItems = new ItemStackHandler(0);
 
 
-    private final LazyOptional<IItemHandlerModifiable> beeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(beeItems) {
+    private final IItemHandlerModifiable beeItemHandler = new AdaptedItemHandler(beeItems) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
-    });
+    };
 
-    private final LazyOptional<IItemHandlerModifiable> outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+    private final IItemHandlerModifiable outputItemHandler = new AdaptedItemHandler(outputItems) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return stack;
@@ -59,9 +58,9 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return false;
         }
-    });
+    };
 
-    private final LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> new CombinedInvWrapper(beeItemHandler.resolve().get(), outputItemHandler.resolve().get()));
+    private final IItemHandlerModifiable itemHandler = new CombinedInvWrapper(beeItemHandler, outputItemHandler);
 
     public MellariumControllerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         this(pPos, pBlockState, null);
@@ -131,23 +130,23 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getItemHandler() {
+    public IItemHandlerModifiable getItemHandler() {
         return itemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getBeeItemHandler() {
+    public IItemHandlerModifiable getBeeItemHandler() {
         return beeItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getOutputItemHandler() {
+    public IItemHandlerModifiable getOutputItemHandler() {
         return outputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getFrameItemHandler() {
-        return LazyOptional.empty();
+    public IItemHandlerModifiable getFrameItemHandler() {
+        return null;
     }
 
     @Override
@@ -246,7 +245,7 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
         return list;
     }
 
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
-        return LazyOptional.of(() -> getMellariumLogic().getEnergyStorage());
+    public IEnergyStorage getEnergyHandler() {
+        return getMellariumLogic().getEnergyStorage();
     }
 }

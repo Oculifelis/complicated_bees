@@ -57,13 +57,13 @@ public class MutatorRecipeCategory implements IRecipeCategory<MutatorRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, MutatorRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 12)
                 .setSlotName("input")
-                .addIngredients(recipe.getInput());
+                .addIngredients(recipe.input());
     }
 
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, MutatorRecipe recipe, IFocusGroup focuses) {
         IRecipeCategory.super.createRecipeExtras(builder, recipe, focuses);
-        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.getMutationModifier() + "x"), 81, 14);
+        var widget = builder.addText(Component.translatable("jei.complicated_bees.modifier", recipe.mutationModifier() + "x"), 81, 14);
         widget.setPosition(59, 5, 81, 31, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget.setTextAlignment(HorizontalAlignment.CENTER);
         widget.setTextAlignment(VerticalAlignment.CENTER);

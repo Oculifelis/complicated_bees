@@ -5,6 +5,8 @@ import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class BeeStaffProjectile extends Projectile implements ItemSupplier {
     public double speedX;
@@ -45,7 +48,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
     }
 
     public void tick() {
@@ -54,7 +57,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
             super.tick();
 
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
 
@@ -102,7 +105,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity p_entity) {
         Entity entity = this.getOwner();
         int i = entity == null ? 0 : entity.getId();
         return new ClientboundAddEntityPacket(

@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
 
 public class FurnaceGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     public static final int BASE_GENERATE = ServerConfig.SERVER_CONFIG.furnaceGeneratorBaseEnergy.get();
@@ -18,11 +17,11 @@ public class FurnaceGeneratorBlockEntity extends BaseGeneratorBlockEntity {
 
     @Override
     public boolean isValidInput(ItemStack stack) {
-        return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+        return stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 
     @Override
     public int getBurnTime(ItemStack stack) {
-        return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING);
+        return stack.getBurnTime(RecipeType.SMELTING);
     }
 }

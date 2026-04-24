@@ -1,17 +1,17 @@
 package com.accbdd.complicated_bees.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class CommonConfig {
-    public static ForgeConfigSpec CONFIG_SPEC;
+    public static ModConfigSpec CONFIG_SPEC;
     public static CommonConfig COMMON_CONFIG;
 
-    public final ForgeConfigSpec.ConfigValue<Boolean> frame, waxedFrame, honeyFrame, twistingFrame, soothingFrame, coldFrame, hotFrame, dryFrame, wetFrame, deadlyFrame, restrictiveFrame;
-    public final ForgeConfigSpec.ConfigValue<Boolean> honeyBread, honeyPorkchop, ambrosia;
-    public final ForgeConfigSpec.ConfigValue<Boolean> beeStaff;
+    public final ModConfigSpec.ConfigValue<Boolean> frame, waxedFrame, honeyFrame, twistingFrame, soothingFrame, coldFrame, hotFrame, dryFrame, wetFrame, deadlyFrame, restrictiveFrame;
+    public final ModConfigSpec.ConfigValue<Boolean> honeyBread, honeyPorkchop, ambrosia;
+    public final ModConfigSpec.ConfigValue<Boolean> beeStaff;
 
-    CommonConfig(ForgeConfigSpec.Builder builder) {
+    CommonConfig(ModConfigSpec.Builder builder) {
         builder.push("items");
         builder.push("frames");
         frame = builder.comment("Enable the basic frame").define("frameEnabled", true);
@@ -39,7 +39,7 @@ public class CommonConfig {
     }
 
     static {
-        Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+        Pair<CommonConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(CommonConfig::new);
 
         CONFIG_SPEC = pair.getRight();
         COMMON_CONFIG = pair.getLeft();

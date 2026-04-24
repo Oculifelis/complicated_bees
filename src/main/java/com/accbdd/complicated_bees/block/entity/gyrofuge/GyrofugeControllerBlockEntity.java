@@ -13,13 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,22 +37,22 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     public static final int BASE_IDLE_USAGE = ServerConfig.SERVER_CONFIG.gyrofugeBaseIdleUsage.get();
     public static final int BASE_MAX_PROGRESS = ServerConfig.SERVER_CONFIG.gyrofugeBaseSpeed.get();
 
-    private final LazyOptional<IItemHandler> inputItemHandler;
-    private final LazyOptional<IItemHandler> outputItemHandler;
-    public final LazyOptional<IItemHandler> upgradeItemHandler;
-    private final LazyOptional<IItemHandler> itemHandler;
-    private final LazyOptional<IEnergyStorage> energyHandler;
+    private final IItemHandler inputItemHandler;
+    private final IItemHandler outputItemHandler;
+    public final IItemHandler upgradeItemHandler;
+    private IItemHandler itemHandler;
+    private IEnergyStorage energyHandler;
 
     public GyrofugeControllerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), pos, blockState);
         setActiveEnergyUsage(BASE_USAGE);
-        this.inputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(inputItems) {
+        this.inputItemHandler = new AdaptedItemHandler(inputItems) {
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
                 return ItemStack.EMPTY;
             }
-        });
-        this.outputItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(outputItems) {
+        };
+        this.outputItemHandler = new AdaptedItemHandler(outputItems) {
             @Override
             public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return stack;
@@ -63,15 +62,13 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return false;
             }
-        });
-        this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+        };
+        this.upgradeItemHandler = new AdaptedItemHandler(upgradeItems) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.getItem() instanceof UpgradeItem;
             }
-        });
-        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(getGyrofugeLogic().getEnergyStorage()));
-        this.itemHandler = LazyOptional.of(() -> new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler.resolve().get(), (IItemHandlerModifiable) inputItemHandler.resolve().get()));
+        };
     }
 
     @Override
@@ -85,6 +82,8 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
         setActiveEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
         setIdleEnergyUsage(BASE_IDLE_USAGE + gyrofugeLogic.getIdleUsage());
         energyStorage = gyrofugeLogic.getEnergyStorage();
+        this.energyHandler = new AdaptedEnergyStorage(gyrofugeLogic.getEnergyStorage());
+        this.itemHandler = new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler, (IItemHandlerModifiable) inputItemHandler);
     }
 
     public GyrofugeLogic getGyrofugeLogic() {
@@ -188,27 +187,27 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     }
 
     @Override
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getInputItemHandler() {
+    public IItemHandler getInputItemHandler() {
         return inputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getOutputItemHandler() {
+    public IItemHandler getOutputItemHandler() {
         return outputItemHandler;
     }
 
     @Override
-    public LazyOptional<IItemHandler> getUpgradeItemHandler() {
+    public IItemHandler getUpgradeItemHandler() {
         return upgradeItemHandler;
     }
 
     @Override
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+    public IEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 

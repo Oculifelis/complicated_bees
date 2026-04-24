@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["biomesoplenty:field", "biomesoplenty:grassland", "biomesoplenty:highland", "biomesoplenty:lavender_field", "biomesoplenty:moor"],
+  "features": "complicated_bees:biomesoplenty/plains_bee_nest",
+  "step": "vegetal_decoration"
+}

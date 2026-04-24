@@ -8,6 +8,7 @@ import com.accbdd.complicated_bees.compat.jei.ingredient.*;
 import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
+import cpw.mods.util.Lazy;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -16,10 +17,11 @@ import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -49,21 +51,21 @@ public class ComplicatedBeesJEI implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().getConnection().getRecipeManager();
-        registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()));
-        registration.addRecipes(BeeProduceRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().stream().toList());
-        registration.addRecipes(MutationRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get().stream().toList());
-        registration.addRecipes(FlowerTypeRecipeCategory.TYPE, Minecraft.getInstance().getConnection().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().stream().toList());
-        registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()));
-        registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()));
-        registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()));
-        registration.addRecipes(HoneyGeneratorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get()));
+        registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(BeeProduceRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(MutationRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(FlowerTypeRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(HoneyGeneratorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HONEY_GENERATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         IIngredientSubtypeInterpreter<ItemStack> speciesInterpreter = (stack, context) -> {
             Lazy<Species> species = Lazy.of(() -> ((GeneSpecies) GeneticHelper.getChromosome(stack, true).getGene(GeneSpecies.ID)).get());
-            ResourceLocation key = GeneticHelper.getRegistryAccess().registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get().getKey(species.get());
+            ResourceLocation key = GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species.get());
             if (key == null) {
                 return "invalid";
             }
@@ -75,7 +77,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
             return comb.get() == null ? Comb.NULL.toString() : comb.get().toString();
         };
 
-        IIngredientSubtypeInterpreter<ItemStack> nestInterpreter = (stack, context) -> stack.getOrCreateTag().getCompound("BlockEntityTag").getString("species");
+        IIngredientSubtypeInterpreter<ItemStack> nestInterpreter = (stack, context) -> stack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe().getString("species");
 
         registration.registerSubtypeInterpreter(ItemsRegistration.DRONE.get(), speciesInterpreter);
         registration.registerSubtypeInterpreter(ItemsRegistration.QUEEN.get(), speciesInterpreter);
@@ -107,7 +109,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
 
     @Override public void registerIngredients(IModIngredientRegistration registration) {
         registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer());
-        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer());
+        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer());
         IModPlugin.super.registerIngredients(registration);
     }
 

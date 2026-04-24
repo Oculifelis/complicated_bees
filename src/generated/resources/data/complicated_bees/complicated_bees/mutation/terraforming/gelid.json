@@ -2,7 +2,7 @@
   "chance": 0.12,
   "conditions": {
     "complicated_bees:biome": {
-      "biome": "#forge:is_snowy"
+      "biome": "#c:is_snowy"
     }
   },
   "first": "complicated_bees:primordial",

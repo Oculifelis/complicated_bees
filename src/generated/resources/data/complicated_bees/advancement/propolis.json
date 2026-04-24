@@ -1,0 +1,31 @@
+{
+  "parent": "complicated_bees:root",
+  "criteria": {
+    "has_propolis": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:propolis"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": "",
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:propolis"
+    },
+    "show_toast": false,
+    "title": ""
+  },
+  "requirements": [
+    [
+      "has_propolis"
+    ]
+  ]
+}

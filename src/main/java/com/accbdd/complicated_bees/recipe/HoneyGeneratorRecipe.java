@@ -1,57 +1,53 @@
 package com.accbdd.complicated_bees.recipe;
 
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.google.gson.JsonObject;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
-public class HoneyGeneratorRecipe implements Recipe<Container> {
-    private final ResourceLocation id;
-    private final Ingredient input;
-    private final int burnTime;
+public record HoneyGeneratorRecipe(Ingredient input, int burnTime) implements Recipe<RecipeInput> {
+    public static class Serializer implements RecipeSerializer<HoneyGeneratorRecipe> {
+        private static final MapCodec<HoneyGeneratorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> 
+                instance.group(
+                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(HoneyGeneratorRecipe::input),
+                        ExtraCodecs.NON_NEGATIVE_INT.fieldOf("burn_time").forGetter(HoneyGeneratorRecipe::burnTime)
+                ).apply(instance, HoneyGeneratorRecipe::new)
+        );
+        private static final StreamCodec<RegistryFriendlyByteBuf, HoneyGeneratorRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-    public static final RecipeSerializer<HoneyGeneratorRecipe> SERIALIZER = new RecipeSerializer<>() {
         @Override
-        public HoneyGeneratorRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
-            Ingredient input = Ingredient.fromJson(json.getAsJsonObject("input"), false);
-            int burnTime = json.get("burn_time").getAsInt();
-            return new HoneyGeneratorRecipe(pRecipeId, input, burnTime);
+        public MapCodec<HoneyGeneratorRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public @Nullable HoneyGeneratorRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-            return new HoneyGeneratorRecipe(pRecipeId, Ingredient.fromNetwork(pBuffer), pBuffer.readInt());
+        public StreamCodec<RegistryFriendlyByteBuf, HoneyGeneratorRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
 
-        @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, HoneyGeneratorRecipe pRecipe) {
-            pRecipe.getInput().toNetwork(pBuffer);
-            pBuffer.writeInt(pRecipe.getBurnTime());
+        private static HoneyGeneratorRecipe fromNetwork(RegistryFriendlyByteBuf pBuffer) {
+            return new HoneyGeneratorRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(pBuffer), pBuffer.readInt());
         }
-    };
 
-    public HoneyGeneratorRecipe(ResourceLocation id, Ingredient input, int burnTime) {
-        this.id = id;
-        this.input = input;
-        this.burnTime = burnTime;
+        private static void toNetwork(RegistryFriendlyByteBuf pBuffer, HoneyGeneratorRecipe pRecipe) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(pBuffer, pRecipe.input);
+            pBuffer.writeInt(pRecipe.burnTime);
+        }
     }
 
     @Override
-    public boolean matches(Container pContainer, Level pLevel) {
+    public boolean matches(RecipeInput pContainer, Level pLevel) {
         return input.test(pContainer.getItem(0));
     }
 
     @Override
-    public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
+    public ItemStack assemble(RecipeInput pContainer, HolderLookup.Provider pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
@@ -61,30 +57,17 @@ public class HoneyGeneratorRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistryAccess) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return EsotericRegistration.HONEY_GENERATOR_RECIPE_SERIALIZER.get();
     }
 
     @Override
     public RecipeType<?> getType() {
         return EsotericRegistration.HONEY_GENERATOR_RECIPE.get();
-    }
-
-    public Ingredient getInput() {
-        return input;
-    }
-
-    public int getBurnTime() {
-        return burnTime;
     }
 }

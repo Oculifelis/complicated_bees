@@ -11,7 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneProductivity extends Gene<EnumProductivity> {
     public static final String TAG = "productivity";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneProductivity() {
         this(EnumProductivity.SLOWEST, true);

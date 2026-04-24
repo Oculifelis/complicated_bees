@@ -5,14 +5,15 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.client.DiscoverToast;
 import com.accbdd.complicated_bees.client.ResearchToast;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.item.BeeItem;
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -22,10 +23,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -91,7 +92,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     public void discoverIndividual(ItemStack stack) {
         if (stack.is(ItemTagGenerator.BEE)) {
             discover(GeneticHelper.getSpecies(stack, true));
-            if (stack.getOrCreateTag().getBoolean(BeeItem.ANALYZED_TAG)) {
+            if (stack.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).analyzed()) {
                 discover(GeneticHelper.getSpecies(stack, false));
             }
         }
@@ -146,17 +147,16 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     public void syncToPlayer() {
-        PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())),
-                new TrackerSyncClientbound(this));
+        PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerSyncClientbound(this));
     }
 
     public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
         if (ServerLifecycleHooks.getCurrentServer() != null && ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()) != null)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID())), new TrackerUpdateClientbound(type, loc));
+            PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerUpdateClientbound(type, loc));
     }
 
     @Override
-    public CompoundTag save(CompoundTag pCompoundTag) {
+    public CompoundTag save(CompoundTag pCompoundTag, HolderLookup.Provider registries) {
         pCompoundTag.putUUID(UUID_KEY, playerId);
         writeListToNBT(pCompoundTag, discoveredSpecies, SPECIES_KEY);
         writeListToNBT(pCompoundTag, discoveredMutations, MUTATIONS_KEY);
@@ -164,7 +164,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         return pCompoundTag;
     }
 
-    public static BreedingTracker load(CompoundTag tag) {
+    public static BreedingTracker load(CompoundTag tag, HolderLookup.Provider registries) {
         if (!tag.contains(UUID_KEY))
             throw new NullPointerException("tried to load breeding tracker with no uuid!");
         BreedingTracker tracker = new BreedingTracker(tag.getUUID(UUID_KEY));
@@ -211,12 +211,12 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         if (ServerLifecycleHooks.getCurrentServer() == null)
             return CLIENT_INSTANCE;
         DimensionDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
-        return storage.computeIfAbsent(BreedingTracker::load, () -> new BreedingTracker(uuid), "complicated_bees." + uuid.toString());
+        return storage.computeIfAbsent(new Factory<BreedingTracker>(() -> new BreedingTracker(uuid), BreedingTracker::load), "complicated_bees." + uuid.toString());
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void updateFromPacket(TrackerUpdateClientbound packet) {
-        switch (packet.type()) {
+        switch (packet.updateType()) {
             case SPECIES -> {
                 CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
                 Minecraft.getInstance().getToasts().addToast(new DiscoverToast(SpeciesRegistration.getFromResourceLocation(packet.loc())));

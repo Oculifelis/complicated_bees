@@ -1,11 +1,12 @@
 package com.accbdd.complicated_bees.bees.effect;
 
 import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.network.Filterable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.WrittenBookContent;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 
@@ -41,11 +42,13 @@ public class EssayistEffect extends BeeEffect {
 
     private ItemStack generateBook() {
         ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
-        book.addTagElement("title", StringTag.valueOf("Book"));
-        book.addTagElement("author", StringTag.valueOf("a bee"));
-        ListTag pages = new ListTag();
-        pages.add(StringTag.valueOf(Component.Serializer.toJson(generatePage())));
-        book.addTagElement("pages", pages);
+        book.set(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(
+                Filterable.passThrough("Book"),
+                "a bee",
+                0,
+                List.of(Filterable.passThrough(generatePage())),
+                true
+        ));
         return book;
     }
 

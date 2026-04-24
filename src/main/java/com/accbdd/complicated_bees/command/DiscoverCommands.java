@@ -1,10 +1,12 @@
 package com.accbdd.complicated_bees.command;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.bees.Genome;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.brigadier.Command;
@@ -29,9 +31,6 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
 
-import static com.accbdd.complicated_bees.bees.GeneticHelper.CHROMOSOME_A;
-import static com.accbdd.complicated_bees.bees.GeneticHelper.CHROMOSOME_B;
-
 public class DiscoverCommands implements Command<CommandSourceStack> {
     public static void register(LiteralArgumentBuilder<CommandSourceStack> root, CommandDispatcher<CommandSourceStack> pDispatcher, CommandBuildContext buildContext) {
         pDispatcher.register(root
@@ -40,15 +39,15 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                                 .then(Commands.literal("species")
                                         .then(Commands.literal("clear").executes(context -> clearSpecies(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.literal("grant")
-                                                .then(Commands.argument("species", ResourceArgument.resource(buildContext, SpeciesRegistration.SPECIES_REGISTRY_KEY)).executes(context -> discoverSpecies(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "species", SpeciesRegistration.SPECIES_REGISTRY_KEY).get()))))
+                                                .then(Commands.argument("species", ResourceArgument.resource(buildContext, SpeciesRegistration.SPECIES_REGISTRY_KEY)).executes(context -> discoverSpecies(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "species", SpeciesRegistration.SPECIES_REGISTRY_KEY).value()))))
                                 ).then(Commands.literal("mutation")
                                         .then(Commands.literal("clear").executes(context -> clearMutations(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.literal("grant")
-                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverMutation(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).get()))))
+                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverMutation(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).value()))))
                                 ).then(Commands.literal("research")
                                         .then(Commands.literal("clear").executes(context -> clearResearch(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.literal("grant")
-                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).get()))))
+                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).value()))))
                 )))
                 .then(Commands.literal("setgene").requires(context -> context.hasPermission(2))
                         .then(Commands.argument("primary", BoolArgumentType.bool())
@@ -62,8 +61,9 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             return 0;
         ItemStack held = source.getPlayer().getMainHandItem();
         if (held.is(ItemTagGenerator.BEE)) {
-            if (held.hasTag() && held.getTag().contains(primary ? CHROMOSOME_A : CHROMOSOME_B)) {
-                CompoundTag chromosome = held.getTag().getCompound(primary ? CHROMOSOME_A : CHROMOSOME_B);
+            if (held.has(EsotericRegistration.BEE)) {
+                Genome genome = held.get(EsotericRegistration.BEE).genome();
+                CompoundTag chromosome = primary ? genome.primary().serialize() : genome.secondary().serialize();
                 if (chromosome.contains(geneTag)) {
                     var oldGeneTag = chromosome.getCompound(geneTag);
                     if (data.getAllKeys().equals(oldGeneTag.getAllKeys())) {

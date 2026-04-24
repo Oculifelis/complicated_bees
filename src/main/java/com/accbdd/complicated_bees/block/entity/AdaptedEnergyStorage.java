@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.block.entity;
 
 
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public class AdaptedEnergyStorage implements IEnergyStorage {
 

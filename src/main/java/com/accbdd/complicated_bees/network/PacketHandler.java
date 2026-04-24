@@ -1,50 +1,22 @@
 package com.accbdd.complicated_bees.network;
 
 import com.accbdd.complicated_bees.network.packet.*;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
-
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class PacketHandler {
     private static final String VERSION = "1.0.0";
-    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(MODID, "main"),
-            () -> VERSION,
-            VERSION::equals,
-            VERSION::equals
-    );
 
-    public static void register() {
-        PacketRegistry registry = new PacketRegistry(CHANNEL);
+    public static void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar(VERSION);
 
         //surely there is a better way to do this
-        registry.register(MicroscopeGameServerbound.class, MicroscopeGameServerbound::decode, MicroscopeGameServerbound::handle);
-        registry.register(MicroscopeGameClientbound.class, MicroscopeGameClientbound::decode, MicroscopeGameClientbound::handle);
-        registry.register(MicroscopeHintServerbound.class, MicroscopeHintServerbound::decode, MicroscopeHintServerbound::handle);
-        registry.register(MicroscopeHintClientbound.class, MicroscopeHintClientbound::decode, MicroscopeHintClientbound::handle);
-        registry.register(TrackerSyncClientbound.class, TrackerSyncClientbound::decode, TrackerSyncClientbound::handle);
-        registry.register(TrackerUpdateClientbound.class, TrackerUpdateClientbound::decode, TrackerUpdateClientbound::handle);
-        registry.register(UpdateSorterServerbound.class, UpdateSorterServerbound::decode, UpdateSorterServerbound::handle);
-    }
-
-    private static final class PacketRegistry {
-        private final SimpleChannel channel;
-        private int packetId;
-
-        private PacketRegistry(SimpleChannel channel) {
-            this.channel = channel;
-        }
-
-        public <P extends IModPacket> void register(Class<P> packetClass, Function<FriendlyByteBuf, P> decoder, BiConsumer<P, Supplier<NetworkEvent.Context>> context) {
-            channel.registerMessage(packetId++, packetClass, P::encode, decoder, context);
-        }
+        registrar.playToServer(MicroscopeGameServerbound.TYPE, MicroscopeGameServerbound.STREAM_CODEC, MicroscopeGameServerbound::handle);
+        registrar.playToClient(MicroscopeGameClientbound.TYPE, MicroscopeGameClientbound.STREAM_CODEC, MicroscopeGameClientbound::handle);
+        registrar.playToServer(MicroscopeHintServerbound.TYPE, MicroscopeHintServerbound.STREAM_CODEC, MicroscopeHintServerbound::handle);
+        registrar.playToClient(MicroscopeHintClientbound.TYPE, MicroscopeHintClientbound.STREAM_CODEC, MicroscopeHintClientbound::handle);
+        registrar.playToClient(TrackerSyncClientbound.TYPE, TrackerSyncClientbound.STREAM_CODEC, TrackerSyncClientbound::handle);
+        registrar.playToClient(TrackerUpdateClientbound.TYPE, TrackerUpdateClientbound.STREAM_CODEC, TrackerUpdateClientbound::handle);
+        registrar.playToServer(UpdateSorterServerbound.TYPE, UpdateSorterServerbound.STREAM_CODEC, UpdateSorterServerbound::handle);
     }
 }

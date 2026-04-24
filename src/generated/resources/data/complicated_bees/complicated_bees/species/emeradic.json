@@ -65,17 +65,17 @@
   "products": [
     {
       "chance": 0.3,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:rocky"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:rocky"
+      },
+      "item": "complicated_bees:comb"
     },
     {
       "chance": 0.1,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:emerald"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:emerald"
+      },
+      "item": "complicated_bees:comb"
     }
   ]
 }

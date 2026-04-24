@@ -1,30 +1,31 @@
 package com.accbdd.complicated_bees.network.packet;
 
-
 import com.accbdd.complicated_bees.screen.MicroscopeMenu;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public record MicroscopeHintServerbound() implements IModPacket {
-    @Override
-    public void encode(FriendlyByteBuf buf) {
+public record MicroscopeHintServerbound() implements CustomPacketPayload {
+    public static final Type<MicroscopeHintServerbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_hint_serverbound"));
+    public static final MicroscopeHintServerbound INSTANCE = new MicroscopeHintServerbound();
+    public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeHintServerbound> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
-    }
-
-    public static MicroscopeHintServerbound decode(FriendlyByteBuf buffer) {
-        return new MicroscopeHintServerbound();
-    }
-
-    public static void handle(MicroscopeHintServerbound packet, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            ServerPlayer sender = context.get().getSender();
+    public static void handle(MicroscopeHintServerbound packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            ServerPlayer sender = (ServerPlayer) context.player();
             if (sender.containerMenu instanceof MicroscopeMenu microscopeMenu) {
                 microscopeMenu.trySendHint();
             }
         });
-        context.get().setPacketHandled(true);
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

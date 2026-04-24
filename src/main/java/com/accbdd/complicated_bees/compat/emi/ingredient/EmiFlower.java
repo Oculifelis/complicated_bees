@@ -10,7 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -37,7 +37,7 @@ public class EmiFlower extends EmiStack {
     @Override
     public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
         if (!stacks.isEmpty()) {
-            stacks.get(0).render(draw, x, y, delta, flags);
+            stacks.getFirst().render(draw, x, y, delta, flags);
             RenderSystem.disableDepthTest();
             RenderSystem.enableBlend();
             draw.blit(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), x, y, 0, 0, 16, 16, 16, 16);
@@ -52,8 +52,8 @@ public class EmiFlower extends EmiStack {
     }
 
     @Override
-    public CompoundTag getNbt() {
-        return null;
+    public DataComponentPatch getComponentChanges() {
+        return DataComponentPatch.EMPTY;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EmiFlower extends EmiStack {
 
     @Override
     public ResourceLocation getId() {
-        return GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get().getKey(flower);
+        return GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
     }
 
     @Override

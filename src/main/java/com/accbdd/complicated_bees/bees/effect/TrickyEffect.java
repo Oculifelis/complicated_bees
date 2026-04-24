@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class TrickyEffect extends BeeEffect {
     public static Random rand = new Random();
-    public static List<SoundEvent> sounds = List.of(SoundEvents.CREEPER_PRIMED, SoundEvents.GRAVEL_STEP, SoundEvents.SKELETON_AMBIENT, SoundEvents.AMBIENT_CAVE.get());
+    public static List<SoundEvent> sounds = List.of(SoundEvents.CREEPER_PRIMED, SoundEvents.GRAVEL_STEP, SoundEvents.SKELETON_AMBIENT, SoundEvents.AMBIENT_CAVE.value());
 
     @Override
     public void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress) {

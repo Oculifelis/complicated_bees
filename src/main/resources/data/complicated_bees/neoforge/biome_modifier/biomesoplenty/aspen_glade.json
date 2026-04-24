@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["biomesoplenty:aspen_glade"],
+  "features": "complicated_bees:biomesoplenty/aspen_tree",
+  "step": "vegetal_decoration"
+}

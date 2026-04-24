@@ -11,7 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneLifespan extends Gene<EnumLifespan> {
     public static final String TAG = "lifespan";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneLifespan() {
         this(EnumLifespan.SHORTEST, true);

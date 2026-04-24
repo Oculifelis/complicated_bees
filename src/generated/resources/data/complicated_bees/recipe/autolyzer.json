@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "complicated_bees:analyzer"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "pattern": [
+    "III",
+    "IAI",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:autolyzer"
+  }
+}

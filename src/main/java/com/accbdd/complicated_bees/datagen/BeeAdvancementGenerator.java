@@ -3,13 +3,13 @@ package com.accbdd.complicated_bees.datagen;
 import com.accbdd.complicated_bees.datagen.advancement.SubAdvancementGenerator;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class BeeAdvancementGenerator extends ForgeAdvancementProvider {
+public class BeeAdvancementGenerator extends AdvancementProvider {
     private static final List<AdvancementGenerator> entries = List.of(
             new SubAdvancementGenerator()
     );

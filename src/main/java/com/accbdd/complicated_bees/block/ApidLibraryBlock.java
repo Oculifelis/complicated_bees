@@ -4,7 +4,6 @@ import com.accbdd.complicated_bees.screen.LibraryMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class ApidLibraryBlock extends Block {
@@ -58,9 +56,9 @@ public class ApidLibraryBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
         if (!pLevel.isClientSide && pPlayer instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openScreen(serverPlayer, pState.getMenuProvider(pLevel, pPos));
+            serverPlayer.openMenu(pState.getMenuProvider(pLevel, pPos));
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }

@@ -12,9 +12,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.client.model.generators.*;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.*;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -204,7 +204,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredAssembledBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
+    private void poweredAssembledBlock(DeferredBlock<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex, ResourceLocation poweredTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
@@ -222,11 +222,11 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void poweredAssembledBlock(RegistryObject<? extends Block> block, String path) {
+    private void poweredAssembledBlock(DeferredBlock<? extends Block> block, String path) {
         poweredAssembledBlock(block, modLoc(path), modLoc(path + "_assembled"), modLoc(path + "_powered"));
     }
 
-    private void assembleableBlock(RegistryObject<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex) {
+    private void assembleableBlock(DeferredBlock<? extends Block> block, ResourceLocation tex, ResourceLocation assembledTex) {
         VariantBlockStateBuilder builder = getVariantBuilder(block.get());
         BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
         BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
@@ -237,18 +237,18 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void assembleableBlock(RegistryObject<? extends Block> block, String path) {
+    private void assembleableBlock(DeferredBlock<? extends Block> block, String path) {
         assembleableBlock(block, modLoc(path), modLoc(path + "_assembled"));
     }
 
     private void baseMellariumBlock() {
-        List<RegistryObject<MellariumBlock>> blocks = List.of(BlocksRegistration.MELLARIUM_BASE, BlocksRegistration.MELLARIUM_CONTROLLER);
+        List<DeferredBlock<MellariumBlock>> blocks = List.of(BlocksRegistration.MELLARIUM_BASE, BlocksRegistration.MELLARIUM_CONTROLLER);
         ResourceLocation tex = modLoc("block/mellarium/mellarium_base");
         ResourceLocation assembledTex = modLoc("block/mellarium/mellarium_base_assembled");
         ResourceLocation assembledTop = modLoc("block/mellarium/mellarium_base_assembled_top");
         ResourceLocation assembledTopSide = modLoc("block/mellarium/mellarium_base_assembled_top_side");
 
-        for (RegistryObject<MellariumBlock> block : blocks) {
+        for (DeferredBlock<MellariumBlock> block : blocks) {
             BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
             BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
             BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);
@@ -267,13 +267,13 @@ public class BlockStateGenerator extends BlockStateProvider {
     }
 
     private void baseGyrofugeBlock() {
-        List<RegistryObject<GyrofugeBlock>> blocks = List.of(BlocksRegistration.GYROFUGE_BASE, BlocksRegistration.GYROFUGE_CONTROLLER);
+        List<DeferredBlock<GyrofugeBlock>> blocks = List.of(BlocksRegistration.GYROFUGE_BASE, BlocksRegistration.GYROFUGE_CONTROLLER);
         ResourceLocation tex = modLoc("block/gyrofuge/gyrofuge_base");
         ResourceLocation assembledTex = modLoc("block/gyrofuge/gyrofuge_base_assembled");
         ResourceLocation assembledTop = modLoc("block/gyrofuge/gyrofuge_base_assembled_top");
         ResourceLocation assembledTopSide = modLoc("block/gyrofuge/gyrofuge_base_assembled_top_side");
 
-        for (RegistryObject<GyrofugeBlock> block : blocks) {
+        for (DeferredBlock<GyrofugeBlock> block : blocks) {
             BlockModelBuilder modelUnassembled = models().cubeAll(block.getId().getPath(), tex);
             BlockModelBuilder modelAssembled = models().cubeAll(block.getId().getPath() + "_assembled", assembledTex);
             BlockModelBuilder modelAssembledTop = models().cube(block.getId().getPath() + "_assembled_top", assembledTex, assembledTop, assembledTopSide, assembledTopSide, assembledTopSide, assembledTopSide).texture("particle", assembledTex);

@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
-    public static final ResourceLocation GUI = new ResourceLocation(MODID, "textures/gui/library.png");
+    public static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/library.png");
     private LibraryMutationWidget mutationWidget;
     private LibraryInfoWidget infoWidget;
 
@@ -36,7 +36,6 @@ public class LibraryScreen extends AbstractContainerScreen<LibraryMenu> {
 
     @Override
     protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(graphics);
         graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 

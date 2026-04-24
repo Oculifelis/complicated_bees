@@ -13,7 +13,7 @@ public class MellariumFrameHousingScreen extends AbstractContainerScreen<Mellari
 
     public MellariumFrameHousingScreen(MellariumFrameHousingMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.GUI = new ResourceLocation(MODID, "textures/gui/mellarium_frame"+(menu.slots.size()-36)+".png");
+        this.GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/mellarium_frame"+(menu.slots.size()-36)+".png");
         this.imageHeight = 143;
         this.imageWidth = 176;
         this.inventoryLabelY = this.imageHeight - 10000;
@@ -27,7 +27,6 @@ public class MellariumFrameHousingScreen extends AbstractContainerScreen<Mellari
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        renderBackground(graphics);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
         graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);

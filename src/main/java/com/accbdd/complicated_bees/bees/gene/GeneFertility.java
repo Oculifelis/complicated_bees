@@ -11,7 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneFertility extends Gene<Integer> {
     public static final String TAG = "fertility";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneFertility() {
         this(2, true);

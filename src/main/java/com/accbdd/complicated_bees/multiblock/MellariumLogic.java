@@ -14,10 +14,13 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class MellariumLogic {
     private final Level level;
@@ -61,7 +64,7 @@ public class MellariumLogic {
                 if (stack.is(ItemTagGenerator.BEE))
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
             }
-            IItemHandler handler = controller.getItemHandler().orElseThrow(() -> new RuntimeException("no item handler found!"));
+            IItemHandler handler = controller.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
             }

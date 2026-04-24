@@ -5,10 +5,7 @@ import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.DisplayInfo;
-import net.minecraft.advancements.FrameType;
+import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,101 +16,110 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class SubAdvancementGenerator implements ForgeAdvancementProvider.AdvancementGenerator {
-    private static final Advancement ROOT = advancement()
-            .display(ItemsRegistration.SCOOP.get(),
-                    Component.translatable("advancements.complicated_bees.root.title"),
-                    Component.translatable("advancements.complicated_bees.root.description"),
-                    loc("textures/gui/advancement/background.png"),
-                    FrameType.TASK,
-                    true,
-                    true,
-                    false)
-            .addCriterion("has_scoop", hasItem(ItemTagGenerator.SCOOP_TOOL))
-            .build(loc("root"));
+public class SubAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
+    private AdvancementHolder root;
 
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<Advancement> saver, ExistingFileHelper ex) {
-        saver.accept(ROOT);
+    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper ex) {
+        this.root = advancement()
+                .display(ItemsRegistration.SCOOP.get(),
+                        Component.translatable("advancements.complicated_bees.root.title"),
+                        Component.translatable("advancements.complicated_bees.root.description"),
+                        loc("textures/gui/advancement/background.png"),
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false)
+                .addCriterion("has_scoop", hasItem(ItemTagGenerator.SCOOP_TOOL))
+                .save(saver, loc("root"), ex);
 
         hiddenHas(ItemsRegistration.BEESWAX.get(), "beeswax", saver, ex);
         hiddenHas(ItemsRegistration.ROYAL_JELLY.get(), "royal_jelly", saver, ex);
         hiddenHas(ItemsRegistration.PROPOLIS.get(), "propolis", saver, ex);
         hiddenHas(ItemsRegistration.POLLEN.get(), "pollen", saver, ex);
 
-        Advancement firstBee = advancement(ItemsRegistration.QUEEN.get(), "first_bee")
-                .parent(ROOT)
+        AdvancementHolder firstBee = advancement(ItemsRegistration.QUEEN.get(), "first_bee")
+                .parent(this.root)
                 .addCriterion("nest_broken", hasItem(ItemTagGenerator.BEE))
                 .save(saver, loc("first_bee"), ex);
 
-        Advancement apiary = simpleHas(ItemsRegistration.APIARY.get(), firstBee, saver, ex);
-        Advancement meter = simpleHas(ItemsRegistration.METER.get(), firstBee, saver, ex);
+        AdvancementHolder apiary = simpleHas(ItemsRegistration.APIARY.get(), firstBee, saver, ex);
+        AdvancementHolder meter = simpleHas(ItemsRegistration.METER.get(), firstBee, saver, ex);
 
-        Advancement processing = advancement(ItemsRegistration.CENTRIFUGE.get(), "processing")
+        AdvancementHolder processing = advancement(ItemsRegistration.CENTRIFUGE.get(), "processing")
                 .parent(apiary)
                 .addCriterion("furnace_generator", hasItem(ItemsRegistration.FURNACE_GENERATOR.get()))
                 .addCriterion("centrifuge", hasItem(ItemsRegistration.CENTRIFUGE.get()))
                 .save(saver, loc("processing"), ex);
-        Advancement frame = advancement(ItemsRegistration.FRAME.get(), "frame")
+        AdvancementHolder frame = advancement(ItemsRegistration.FRAME.get(), "frame")
                 .parent(apiary)
                 .addCriterion("has_frame", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ItemTagGenerator.FRAME).build()))
                 .save(saver, loc("frame"), ex);
 
-        Advancement honey_droplet = simpleHas(ItemsRegistration.HONEY_DROPLET.get(), processing, saver, ex);
+        AdvancementHolder honey_droplet = simpleHas(ItemsRegistration.HONEY_DROPLET.get(), processing, saver, ex);
 
-        Advancement advanced_products = advancement(ItemsRegistration.ROYAL_JELLY.get(), "advanced_products")
+        AdvancementHolder advanced_products = advancement(ItemsRegistration.ROYAL_JELLY.get(), "advanced_products")
                 .parent(honey_droplet)
                 .addCriterion("royal_jelly", hasItem(ItemsRegistration.ROYAL_JELLY.get()))
                 .addCriterion("pollen", hasItem(ItemsRegistration.POLLEN.get()))
                 .save(saver, loc("advanced_products"), ex);
 
-        Advancement analyzer = simpleHas(ItemsRegistration.ANALYZER.get(), honey_droplet, saver, ex);
+        AdvancementHolder analyzer = simpleHas(ItemsRegistration.ANALYZER.get(), honey_droplet, saver, ex);
 
-        Advancement microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, ex);
-        Advancement apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, ex);
+        AdvancementHolder microscope = simpleUse(BlocksRegistration.MICROSCOPE.get(), analyzer, saver, ex);
+        AdvancementHolder apid_library = simpleUse(BlocksRegistration.APID_LIBRARY.get(), analyzer, saver, ex);
 
-        Advancement mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
+        AdvancementHolder mellarium = advancement(ItemsRegistration.MELLARIUM_BASE.get(), "mellarium")
                 .parent(advanced_products)
-                .addCriterion("use_mellarium", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                .addCriterion("use_mellarium_top", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
                         LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
                                 StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+                        ).of(BlockTagGenerator.MELLARIUM)),
+                        ItemPredicate.Builder.item()))
+                .addCriterion("use_mellarium_side", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-                                        .build()
-                        ).of(BlockTagGenerator.MELLARIUM).build()),
+                        ).of(BlockTagGenerator.MELLARIUM)),
                         ItemPredicate.Builder.item()))
                 .display(ItemsRegistration.MELLARIUM_BASE.get(),
                         Component.translatable("advancements.complicated_bees.mellarium.title"),
                         Component.translatable("advancements.complicated_bees.mellarium.description"),
                         null,
-                        FrameType.GOAL,
+                        AdvancementType.GOAL,
                         true,
                         true,
                         false)
                 .save(saver, loc("mellarium"), ex);
 
-        Advancement gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
+        AdvancementHolder gyrofuge = advancement(ItemsRegistration.GYROFUGE_BASE.get(), "gyrofuge")
                 .parent(advanced_products)
-                .addCriterion("use_gyrofuge", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                .addCriterion("use_gyrofuge_top", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
                         LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
                                 StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.top)
+                        ).of(BlockTagGenerator.GYROFUGE)),
+                        ItemPredicate.Builder.item()))
+                .addCriterion("use_gyrofuge_side", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().setProperties(
+                                StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(EsotericRegistration.ASSEMBLED, EsotericRegistration.AssembledStatus.side)
-                                        .build()
-                        ).of(BlockTagGenerator.GYROFUGE).build()),
+                        ).of(BlockTagGenerator.GYROFUGE)),
                         ItemPredicate.Builder.item()))
                 .display(ItemsRegistration.GYROFUGE_BASE.get(),
                         Component.translatable("advancements.complicated_bees.gyrofuge.title"),
                         Component.translatable("advancements.complicated_bees.gyrofuge.description"),
                         null,
-                        FrameType.GOAL,
+                        AdvancementType.GOAL,
                         true,
                         true,
                         false)
@@ -133,8 +139,8 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
         return new DisplayInfo(new ItemStack(item),
                 Component.translatable("advancements.complicated_bees."+translationId+".title"),
                 Component.translatable("advancements.complicated_bees."+translationId+".description"),
-                null,
-                FrameType.TASK,
+                Optional.empty(),
+                AdvancementType.TASK,
                 true,
                 true,
                 false);
@@ -144,15 +150,15 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
         return ResourceLocation.tryBuild(MODID, path);
     }
 
-    private static CriterionTriggerInstance hasItem(TagKey<Item> tag) {
+    private static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(TagKey<Item> tag) {
         return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(tag).build());
     }
 
-    private static CriterionTriggerInstance hasItem(ItemLike... items) {
+    private static Criterion<InventoryChangeTrigger.TriggerInstance> hasItem(ItemLike... items) {
         return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(items).build());
     }
 
-    private static Advancement simpleHas(ItemLike item, Advancement parent, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
+    private static AdvancementHolder simpleHas(ItemLike item, AdvancementHolder parent, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
         return advancement(item, id)
                 .parent(parent)
@@ -160,22 +166,29 @@ public class SubAdvancementGenerator implements ForgeAdvancementProvider.Advance
                 .save(saver, loc(id), existingFileHelper);
     }
 
-    private static Advancement simpleUse(Block block, Advancement parent, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
+    private static AdvancementHolder simpleUse(Block block, AdvancementHolder parent, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         String id = BuiltInRegistries.ITEM.getKey(block.asItem()).getPath();
         return advancement(block, id)
                 .parent(parent)
                 .addCriterion("use_"+id, ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
-                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(block).build()),
+                        LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(block)),
                         ItemPredicate.Builder.item()))
                 .save(saver, loc(id), existingFileHelper);
     }
 
-    private static Advancement hiddenHas(ItemLike item, String translationId, Consumer<Advancement> saver, ExistingFileHelper existingFileHelper) {
+    private AdvancementHolder hiddenHas(ItemLike item, String translationId, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         String id = BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
         return advancement(item, id)
-                .display(null)
                 .addCriterion("has_"+id, hasItem(item))
-                .parent(ROOT)
+                .display(item,
+                        Component.empty(),
+                        Component.empty(),
+                        null,
+                        AdvancementType.TASK,
+                        false,
+                        false,
+                        true)
+                .parent(this.root)
                 .save(saver, loc(id), existingFileHelper);
     }
 }

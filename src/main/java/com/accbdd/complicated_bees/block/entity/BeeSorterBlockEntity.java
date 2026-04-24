@@ -10,19 +10,17 @@ import com.accbdd.complicated_bees.screen.widget.BeeTypeWidget;
 import com.accbdd.complicated_bees.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     private byte[] typeFilters; //down, up, north, south, east, west
     private String[] speciesFilters;
     private final ItemStackHandler item;
-    private final List<LazyOptional<IItemHandler>> handlers;
+    private final List<IItemHandler> handlers;
     private int transferCooldown;
 
     public BeeSorterBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -50,18 +48,15 @@ public class BeeSorterBlockEntity extends BlockEntity {
         transferCooldown = TRANSFER_TICKS;
     }
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-            return side == null ? handlers.get(0).cast() : handlers.get(side.ordinal()).cast();
-        return super.getCapability(cap, side);
+    public IItemHandler getHandlerCapability(Direction side) {
+        return side == null ? handlers.getFirst() : handlers.get(side.ordinal());
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
         pTag.putByteArray(TYPES, typeFilters);
-        pTag.put("item", item.serializeNBT());
+        pTag.put("item", item.serializeNBT(registries));
         CompoundTag filterTag = new CompoundTag();
         for (int i = 0; i < 36; i++) {
             if (speciesFilters[i] != null)
@@ -71,12 +66,12 @@ public class BeeSorterBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         if (pTag.contains(TYPES) && pTag.getByteArray(TYPES).length == 6)
             typeFilters = pTag.getByteArray(TYPES);
         if (pTag.contains("item"))
-            item.deserializeNBT(pTag.getCompound("item"));
+            item.deserializeNBT(registries, pTag.getCompound("item"));
         if (pTag.contains("filters")) {
             CompoundTag filterTag = pTag.getCompound("filters");
             for (String key : filterTag.getAllKeys()) {
@@ -130,7 +125,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     private Optional<IItemHandler> getHandler(Direction dir) {
         BlockEntity transferTo = getLevel().getBlockEntity(getBlockPos().relative(dir));
         if (transferTo != null) {
-            return transferTo.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve();
+            return Optional.ofNullable(getLevel().getCapability(Capabilities.ItemHandler.BLOCK, transferTo.getBlockPos(), transferTo.getBlockState(), transferTo, dir.getOpposite()));
         }
         return Optional.empty();
     }
@@ -173,8 +168,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
         };
     }
 
-    private LazyOptional<IItemHandler> createFilterHandler(int index) {
-        return LazyOptional.of(() -> new AdaptedItemHandler(item) {
+    private IItemHandler createFilterHandler(int index) {
+        return new AdaptedItemHandler(item) {
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if (filterSpecificity(Direction.values()[index]) > 0) {
@@ -182,7 +177,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
                 }
                 return ItemStack.EMPTY;
             }
-        });
+        };
     }
 
     private boolean matchFilter(String species, String filter) {

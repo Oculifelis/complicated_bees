@@ -64,10 +64,10 @@
   "products": [
     {
       "chance": 0.4,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:simmering"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:simmering"
+      },
+      "item": "complicated_bees:comb"
     }
   ],
   "specialty_products": [

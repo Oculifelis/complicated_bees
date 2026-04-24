@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:gyrofuge_panel"
+    },
+    "A": {
+      "item": "complicated_bees:gyrofuge_base"
+    },
+    "D": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:copper_ingot"
+    },
+    "S": {
+      "item": "minecraft:bookshelf"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "RAR",
+    "#D#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:gyrofuge_basic_efficiency_unit"
+  }
+}

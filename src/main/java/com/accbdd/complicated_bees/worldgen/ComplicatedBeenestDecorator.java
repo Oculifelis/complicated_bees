@@ -5,6 +5,7 @@ import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class ComplicatedBeenestDecorator extends TreeDecorator {
     private final float probability;
     private final String speciesKey;
 
-    public static final Codec<ComplicatedBeenestDecorator> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<ComplicatedBeenestDecorator> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter(ComplicatedBeenestDecorator::getProbability),
                     Codec.STRING.fieldOf("species").forGetter(ComplicatedBeenestDecorator::getSpeciesKey)
@@ -59,8 +60,8 @@ public class ComplicatedBeenestDecorator extends TreeDecorator {
             List<BlockPos> leaves = context.leaves();
             List<BlockPos> logs = context.logs();
             int i = !leaves.isEmpty()
-                    ? Math.max(leaves.get(0).getY() - 1, logs.get(0).getY() + 1)
-                    : Math.min(logs.get(0).getY() + 1 + rand.nextInt(3), logs.get(logs.size() - 1).getY());
+                    ? Math.max(leaves.getFirst().getY() - 1, logs.getFirst().getY() + 1)
+                    : Math.min(logs.getFirst().getY() + 1 + rand.nextInt(3), logs.getLast().getY());
             List<BlockPos> list2 = logs.stream()
                     .filter(pos -> pos.getY() == i)
                     .flatMap(pos -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative))

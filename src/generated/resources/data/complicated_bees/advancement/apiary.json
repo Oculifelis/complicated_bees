@@ -1,0 +1,32 @@
+{
+  "parent": "complicated_bees:first_bee",
+  "criteria": {
+    "has_apiary": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:apiary"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.apiary.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:apiary"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.apiary.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_apiary"
+    ]
+  ]
+}

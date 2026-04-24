@@ -7,9 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,10 +17,10 @@ import java.util.concurrent.CompletableFuture;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-    public static final TagKey<Block> SCOOPABLE = BlockTags.create(ResourceLocation.parse("complicated_bees:mineable/scoop_tool"));
-    public static final TagKey<Block> MELLARIUM = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/mellarium"));
-    public static final TagKey<Block> GYROFUGE = BlockTags.create(ResourceLocation.parse("complicated_bees:multiblock/gyrofuge"));
-    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(ResourceLocation.parse("complicated_bees:flowers/desert"));
+    public static final TagKey<Block> SCOOPABLE = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "mineable/scoop_tool"));
+    public static final TagKey<Block> MELLARIUM = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "multiblock/mellarium"));
+    public static final TagKey<Block> GYROFUGE = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "multiblock/gyrofuge"));
+    public static final TagKey<Block> DESERT_FLOWER = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "flowers/desert"));
 
     public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MODID, existingFileHelper);

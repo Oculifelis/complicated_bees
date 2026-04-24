@@ -11,10 +11,10 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneFlower extends Gene<ResourceLocation> {
     public static final String TAG = "flower";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneFlower() {
-        super(new ResourceLocation(MODID, "invalid"), true);
+        super(ResourceLocation.fromNamespaceAndPath(MODID, "invalid"), true);
     }
 
     public GeneFlower(ResourceLocation flower, boolean dominant) {

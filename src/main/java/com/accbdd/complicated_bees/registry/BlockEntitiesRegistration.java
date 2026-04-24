@@ -3,9 +3,9 @@ package com.accbdd.complicated_bees.registry;
 import com.accbdd.complicated_bees.block.entity.*;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.*;
 import com.accbdd.complicated_bees.block.entity.mellarium.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlockEntitiesRegistration {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
 
     public static final Supplier<BlockEntityType<SignBlockEntityCB>> CB_SIGN_ENTITY = BLOCK_ENTITIES.register("sign_cb",
             () -> BlockEntityType.Builder.of(SignBlockEntityCB::new, BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get()).build(null));

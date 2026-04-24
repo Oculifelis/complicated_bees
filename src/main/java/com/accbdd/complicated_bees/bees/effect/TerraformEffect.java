@@ -41,7 +41,7 @@ public class TerraformEffect extends BeeEffect {
                         BoundingBox boundingBox = BoundingBox.fromCorners(quantize(pos.offset(-2, -2, -2)), quantize(pos.offset(2, 2, 2)));
                         chunkaccess.fillBiomesFromNoise(makeResolver(chunkaccess,
                                 boundingBox,
-                                GeneticHelper.getRegistryAccess().registry(Registries.BIOME).get().getHolder(biome).get()), level.getChunkSource().randomState().sampler());
+                                GeneticHelper.getRegistryAccess().registryOrThrow(Registries.BIOME).getHolder(biome).orElseThrow()), level.getChunkSource().randomState().sampler());
                         chunkaccess.setUnsaved(true);
                         if (apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
                             level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunkaccess));

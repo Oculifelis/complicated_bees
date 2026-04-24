@@ -57,13 +57,13 @@ public class HoneyGeneratorRecipeCategory implements IRecipeCategory<HoneyGenera
     public void setRecipe(IRecipeLayoutBuilder builder, HoneyGeneratorRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 12)
                 .setSlotName("input")
-                .addIngredients(recipe.getInput());
+                .addIngredients(recipe.input());
     }
 
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, HoneyGeneratorRecipe recipe, IFocusGroup focuses) {
         IRecipeCategory.super.createRecipeExtras(builder, recipe, focuses);
-        var widget = builder.addText(Component.translatable("jei.complicated_bees.burn_time", recipe.getBurnTime()), 81, 14);
+        var widget = builder.addText(Component.translatable("jei.complicated_bees.burn_time", recipe.burnTime()), 81, 14);
         widget.setPosition(59, 20, 81, 14, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         widget.setTextAlignment(HorizontalAlignment.CENTER);
         widget.setTextAlignment(VerticalAlignment.CENTER);

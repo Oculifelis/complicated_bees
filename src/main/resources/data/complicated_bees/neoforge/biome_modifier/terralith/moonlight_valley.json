@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "terralith"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["terralith:moonlight_valley"],
+  "features": "complicated_bees:terralith/moonlight_tree",
+  "step": "vegetal_decoration"
+}

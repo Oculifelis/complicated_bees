@@ -7,16 +7,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntity implements IMellariumTickable {
-    private LazyOptional<IItemHandlerModifiable> mellariumOutput;
+    private IItemHandlerModifiable mellariumOutput;
     private int tickCount;
 
     public MellariumOutputHatchBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -31,7 +27,7 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
                 this.mellariumOutput = controller.getOutputItemHandler()
             );
         else
-            this.mellariumOutput = LazyOptional.empty();
+            this.mellariumOutput = null;
     }
 
     @Override
@@ -41,8 +37,8 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
                 if (blockEntity == null || blockEntity instanceof AbstractMellariumBlockEntity || blockEntity instanceof MellariumControllerBlockEntity)
                     continue;
-                IItemHandler itemCap = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve().orElse(null);
-                IItemHandler output = mellariumOutput.resolve().orElse(null);
+                IItemHandler itemCap = getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
+                IItemHandler output = mellariumOutput;
                 if (itemCap != null && output != null) {
                     Util.moveInventoryItems(output, itemCap);
                 }

@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -40,7 +40,7 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     }
 
     private String getRegistryNameForBlock(Block ingredient) {
-        ResourceLocation rl = ForgeRegistries.BLOCKS.getKey(ingredient);
+        ResourceLocation rl = BuiltInRegistries.BLOCK.getKey(ingredient);
         if (null == rl) {
             throw new NullPointerException("Blocks must be registered before being used as ingredients.");
         }

@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.item.UpgradeItem;
 import com.accbdd.complicated_bees.util.UpgradeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.world.item.ItemStack;
@@ -11,13 +12,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -39,32 +38,14 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
 
     private final ItemStackHandler items;
     private final ItemStackHandler upgradeItems;
-    private final LazyOptional<IItemHandler> itemHandler;
-    private final LazyOptional<IItemHandler> upgradeItemHandler;
+    private final IItemHandler itemHandler;
+    private final IItemHandler upgradeItemHandler;
 
     private final EnergyStorage energy;
-    private final LazyOptional<IEnergyStorage> energyHandler;
+    private final IEnergyStorage energyHandler;
 
     private int burnTime;
     private int maxBurnTime;
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        itemHandler.invalidate();
-        upgradeItemHandler.invalidate();
-        energyHandler.invalidate();
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-            return getItemHandler().cast();
-        if (cap == ForgeCapabilities.ENERGY)
-            return getEnergyHandler().cast();
-
-        return super.getCapability(cap, side);
-    }
 
     public BaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int baseGenerate, int baseStorage) {
         super(type, pos, state);
@@ -72,16 +53,16 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         this.baseStorage = baseStorage;
         this.generate = baseGenerate;
         this.items = createItemHandler();
-        this.itemHandler = LazyOptional.of(() -> new AdaptedItemHandler(items));
+        this.itemHandler = new AdaptedItemHandler(items);
         this.upgradeItems = createUpgradeHandler(3);
-        this.upgradeItemHandler = LazyOptional.of(() -> new AdaptedItemHandler(upgradeItems) {
+        this.upgradeItemHandler = new AdaptedItemHandler(upgradeItems) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.getItem() instanceof UpgradeItem;
             }
-        });
+        };
         this.energy = createEnergyStorage();
-        this.energyHandler = LazyOptional.of(() -> new AdaptedEnergyStorage(energy) {
+        this.energyHandler = new AdaptedEnergyStorage(energy) {
             @Override
             public int receiveEnergy(int maxReceive, boolean simulate) {
                 return 0;
@@ -91,7 +72,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
             public boolean canReceive() {
                 return false;
             }
-        });
+        };
     }
 
     public void tickServer() {
@@ -143,7 +124,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         for (Direction direction : Direction.values()) {
             BlockEntity be = getLevel().getBlockEntity(getBlockPos().relative(direction));
             if (be != null) {
-                IEnergyStorage energy = be.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(null);
+                IEnergyStorage energy = getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, be.getBlockPos(), be.getBlockState(), be, direction.getOpposite());
                 if (energy != null) {
                     int received = energy.receiveEnergy(this.energy.getEnergyStored(), false);
                     this.energy.extractEnergy(received, false);
@@ -166,25 +147,25 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(ITEMS_TAG, items.serializeNBT());
-        tag.put(UPGRADES_TAG, upgradeItems.serializeNBT());
-        tag.put(ENERGY_TAG, energy.serializeNBT());
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put(ITEMS_TAG, items.serializeNBT(registries));
+        tag.put(UPGRADES_TAG, upgradeItems.serializeNBT(registries));
+        tag.put(ENERGY_TAG, energy.serializeNBT(registries));
         tag.put(BURN_TIME_TAG, IntTag.valueOf(burnTime));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_TAG)) {
-            items.deserializeNBT(tag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, tag.getCompound(ITEMS_TAG));
         }
         if (tag.contains(UPGRADES_TAG)) {
-            upgradeItems.deserializeNBT(tag.getCompound(UPGRADES_TAG));
+            upgradeItems.deserializeNBT(registries, tag.getCompound(UPGRADES_TAG));
         }
         if (tag.contains(ENERGY_TAG)) {
-            energy.deserializeNBT(tag.get(ENERGY_TAG));
+            energy.deserializeNBT(registries, tag.get(ENERGY_TAG));
         }
         calculateUpgradeStats();
         if (tag.contains(BURN_TIME_TAG)) {
@@ -229,15 +210,15 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         return new EnergyStorage(baseStorage);
     }
 
-    public LazyOptional<IItemHandler> getItemHandler() {
+    public IItemHandler getItemHandler() {
         return itemHandler;
     }
 
-    public LazyOptional<IItemHandler> getUpgradeItemHandler() {
+    public IItemHandler getUpgradeItemHandler() {
         return upgradeItemHandler;
     }
 
-    public LazyOptional<IEnergyStorage> getEnergyHandler() {
+    public IEnergyStorage getEnergyHandler() {
         return energyHandler;
     }
 

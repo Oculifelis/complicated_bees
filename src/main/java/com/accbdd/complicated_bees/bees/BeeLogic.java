@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,20 +98,20 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
-        if (!checkRain() && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "weatherproof")).get()) {
+        if (!checkRain() && !(boolean) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
         if (!checkSky()
-                && !(boolean) chromosome.getGene(new ResourceLocation(MODID, "cave_dwelling")).get()) {
+                && !(boolean) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;
         } else {
             removeError(EnumErrorCodes.UNDERGROUND);
         }
-        if (!checkActiveTime((GeneActiveTime) chromosome.getGene(new ResourceLocation(MODID, "active_time")))) {
+        if (!checkActiveTime((GeneActiveTime) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "active_time")))) {
             addError(EnumErrorCodes.WRONG_TIME);
             queenSatisfied = false;
         } else {
@@ -236,7 +236,7 @@ public class BeeLogic {
     }
 
     private void checkFlowerCache() {
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
+        Flower flower = GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
         Level level = getLevel();
         if (flower == null || level == null) {
@@ -259,7 +259,7 @@ public class BeeLogic {
 
     public void rebuildFlowerCache() {
         clearFlowerCache();
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).get()
+        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
 
         if (flower == null) {

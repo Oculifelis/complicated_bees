@@ -15,7 +15,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneEffect extends Gene<IBeeEffect> {
     public static final String TAG = "effect";
-    public static final ResourceLocation ID = new ResourceLocation(MODID, TAG);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
 
     public GeneEffect() {
         super(null, true);
@@ -37,7 +37,7 @@ public class GeneEffect extends Gene<IBeeEffect> {
     @Override
     public GeneEffect deserialize(CompoundTag tag) {
         String effectKeyString = tag.getString(DATA);
-        return new GeneEffect(effectKeyString.equals("INVALID") ? null : ComplicatedBees.BEE_EFFECT_REGISTRY.get().getValue(ResourceLocation.tryParse(effectKeyString)), tag.getBoolean(DOMINANT));
+        return new GeneEffect(effectKeyString.equals("INVALID") ? null : ComplicatedBees.BEE_EFFECT_REGISTRY.get().get(ResourceLocation.tryParse(effectKeyString)), tag.getBoolean(DOMINANT));
     }
 
     @Override

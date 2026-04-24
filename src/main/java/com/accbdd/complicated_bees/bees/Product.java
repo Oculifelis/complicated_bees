@@ -7,15 +7,17 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.RecordBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -26,28 +28,29 @@ import java.util.Random;
 public class Product {
 
     public static final Codec<Product> CODEC = Codec.of(Product::encode, Product::decode);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Product> STREAM_CODEC = StreamCodec.of((buf, val) -> val.toNetwork(buf), Product::fromNetwork);
 
     public static final List<Product> EMPTY = List.of(new Product(Items.AIR.getDefaultInstance(), 0));
     public static final Random rand = new Random();
 
     private final Item item;
     private final int count;
-    private final CompoundTag nbt;
+    private final DataComponentPatch components;
     private final TagKey<Item> tag;
     private final float chance;
 
     private ItemStack cachedStack;
 
-    public Product(Item item, int count, @Nullable CompoundTag nbt, @Nullable TagKey<Item> tag, float chance) {
+    public Product(Item item, int count, @Nullable DataComponentPatch components, @Nullable TagKey<Item> tag, float chance) {
         this.item = item;
         this.count = count;
-        this.nbt = nbt;
+        this.components = components;
         this.tag = tag;
         this.chance = chance;
     }
 
     public Product(ItemStack stack, float chance) {
-        this(stack.getItem(), stack.getCount(), stack.getTag(), null, chance);
+        this(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), null, chance);
     }
 
     public boolean isTagProduct() {
@@ -75,10 +78,7 @@ public class Product {
         } else {
             resolvedItem = item;
         }
-        ItemStack stack = new ItemStack(resolvedItem, count);
-        if (nbt != null)
-            stack.setTag(nbt.copy());
-        cachedStack = stack;
+		cachedStack = new ItemStack(resolvedItem.builtInRegistryHolder(), count, components);
         return cachedStack.copy();
     }
 
@@ -99,35 +99,32 @@ public class Product {
         return stack;
     }
 
-    public void toNetwork(FriendlyByteBuf buf) {
+    public void toNetwork(RegistryFriendlyByteBuf buf) {
         buf.writeBoolean(isTagProduct());
         buf.writeInt(count);
         buf.writeFloat(chance);
-        buf.writeNbt(nbt);
+        DataComponentPatch.STREAM_CODEC.encode(buf, components);
 
         if (isTagProduct()) {
             buf.writeResourceLocation(tag.location());
         } else {
-            buf.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, item);
+            ByteBufCodecs.registry(Registries.ITEM).encode(buf, item);
         }
     }
 
-    public static Product fromNetwork(FriendlyByteBuf buf) {
+    public static Product fromNetwork(RegistryFriendlyByteBuf buf) {
         boolean isTag = buf.readBoolean();
         int count = buf.readInt();
         float chance = buf.readFloat();
-        CompoundTag nbt = buf.readNbt();
+        DataComponentPatch components = DataComponentPatch.STREAM_CODEC.decode(buf);
 
         if (isTag) {
             ResourceLocation tagId = buf.readResourceLocation();
             TagKey<Item> tag = TagKey.create(BuiltInRegistries.ITEM.key(), tagId);
-            return new Product(Items.AIR, count, nbt, tag, chance);
+            return new Product(Items.AIR, count, components, tag, chance);
         } else {
-            Item item = buf.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
-            ItemStack stack = new ItemStack(item, count);
-            if (nbt != null) {
-                stack.setTag(nbt);
-            }
+            Item item = ByteBufCodecs.registry(Registries.ITEM).decode(buf);
+            ItemStack stack = new ItemStack(item.builtInRegistryHolder(), count, components);
             return new Product(stack, chance);
         }
     }
@@ -141,8 +138,8 @@ public class Product {
             builder.add("item", BuiltInRegistries.ITEM.byNameCodec().encodeStart(ops, item));
         }
 
-        if (nbt != null && !nbt.isEmpty())
-            builder.add("nbt", CompoundTag.CODEC.encodeStart(ops, nbt).result().orElseThrow());
+        if (components != null && !components.isEmpty())
+            builder.add("components", DataComponentPatch.CODEC.encodeStart(ops, components).result().orElseThrow());
         if (count > 1)
             builder.add("count", ops.createInt(count));
         if (chance != 1.0f)
@@ -156,16 +153,14 @@ public class Product {
         Optional<T> tag = ops.get(input, "tag").result();
         int count = ops.get(input, "count").flatMap(data -> Codec.INT.parse(ops, data)).result().orElse(1);
         float chance = ops.get(input, "chance").flatMap(data -> Codec.FLOAT.parse(ops, data)).result().orElse(1.0f);
-        CompoundTag nbt = ops.get(input, "nbt").flatMap(data -> CompoundTag.CODEC.parse(ops, data)).result().orElse(new CompoundTag());
+        DataComponentPatch components = ops.get(input, "components").flatMap(data -> DataComponentPatch.CODEC.parse(ops, data)).result().orElse(DataComponentPatch.EMPTY);
 
         if (item.isEmpty() && tag.isEmpty()) {
             return DataResult.error(() -> "Expected either 'item' or 'tag' field");
         }
         if (item.isPresent()) {
             return BuiltInRegistries.ITEM.byNameCodec().parse(ops, item.get()).map(i -> {
-                ItemStack stack = new ItemStack(i, count);
-                if (!nbt.isEmpty())
-                    stack.setTag(nbt);
+                ItemStack stack = new ItemStack(i.builtInRegistryHolder(), count, components);
                 return Pair.of(new Product(stack, chance), input);
             });
         }
@@ -174,9 +169,6 @@ public class Product {
         return ResourceLocation.CODEC.xmap(
                 loc -> TagKey.create(BuiltInRegistries.ITEM.key(), loc),
                 TagKey::location
-        ).parse(ops, tag.get()).flatMap(tagKey -> {
-            CompoundTag copyNbt = nbt.isEmpty() ? null : nbt.copy();
-            return DataResult.success(Pair.of(new Product(Items.AIR, count, copyNbt, tagKey, chance), input));
-        });
+        ).parse(ops, tag.get()).flatMap(tagKey -> DataResult.success(Pair.of(new Product(Items.AIR, count, components, tagKey, chance), input)));
     }
 }

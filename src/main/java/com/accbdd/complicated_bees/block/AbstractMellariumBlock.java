@@ -8,8 +8,6 @@ import com.accbdd.complicated_bees.screen.MellariumMenu;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractMellariumBlock extends BaseEntityBlock {
@@ -59,7 +56,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide) {
             if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {
@@ -81,7 +78,7 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
                     }
                 };
 
-                NetworkHooks.openScreen((ServerPlayer) pPlayer, containerProvider, pPos);
+                pPlayer.openMenu(containerProvider, pPos);
             }
         }
         return InteractionResult.sidedSuccess(pLevel.isClientSide());

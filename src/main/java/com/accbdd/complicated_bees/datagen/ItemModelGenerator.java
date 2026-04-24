@@ -7,10 +7,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
@@ -162,17 +162,17 @@ public class ItemModelGenerator extends ItemModelProvider {
                 .texture("layer1", comb_inner);
     }
 
-    private void wallItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
+    private void wallItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/wall_inventory"))
                 .texture("wall", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }
 
-    private void fenceItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
+    private void fenceItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/fence_inventory"))
                 .texture("texture", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }
 
-    private void buttonItem(RegistryObject<?> block, RegistryObject<Block> baseBlock) {
+    private void buttonItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))
                 .texture("texture", ResourceLocation.tryBuild(MODID, "block/" + baseBlock.getId().getPath()));
     }

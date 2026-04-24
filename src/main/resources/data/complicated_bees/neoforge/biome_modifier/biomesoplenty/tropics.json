@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ],
+  "type": "neoforge:add_features",
+  "biomes": ["biomesoplenty:tropics"],
+  "features": "complicated_bees:biomesoplenty/palm_tree",
+  "step": "vegetal_decoration"
+}

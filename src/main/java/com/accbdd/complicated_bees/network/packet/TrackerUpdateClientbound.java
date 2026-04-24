@@ -2,44 +2,50 @@ package com.accbdd.complicated_bees.network.packet;
 
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public record TrackerUpdateClientbound(UpdateType type, ResourceLocation loc) implements IModPacket {
+public record TrackerUpdateClientbound(UpdateType updateType, ResourceLocation loc) implements CustomPacketPayload {
     public enum UpdateType {
         SPECIES,
         MUTATION,
         RESEARCH
     }
 
-    @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeEnum(type);
-        buf.writeResourceLocation(loc);
+    public static final Type<TrackerUpdateClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "tracker_update_clientbound"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, TrackerUpdateClientbound> STREAM_CODEC = StreamCodec.of(TrackerUpdateClientbound::encode, TrackerUpdateClientbound::decode);
+
+    private static void encode(RegistryFriendlyByteBuf buf, TrackerUpdateClientbound payload) {
+        buf.writeEnum(payload.updateType);
+        buf.writeResourceLocation(payload.loc);
     }
 
-    public static TrackerUpdateClientbound decode(FriendlyByteBuf buf) {
+    private static TrackerUpdateClientbound decode(RegistryFriendlyByteBuf buf) {
         return new TrackerUpdateClientbound(buf.readEnum(UpdateType.class), buf.readResourceLocation());
     }
 
-    public static void handle(TrackerUpdateClientbound packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TrackerUpdateClientbound.handlePacket(packet, ctx))
-        );
-        ctx.get().setPacketHandled(true);
+    public static void handle(TrackerUpdateClientbound packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            if (FMLLoader.getDist().isClient()) TrackerUpdateClientbound.handlePacket(packet, ctx);
+        });
     }
 
-    public static void handlePacket(TrackerUpdateClientbound packet, Supplier<NetworkEvent.Context> ctx) {
+    public static void handlePacket(TrackerUpdateClientbound packet, IPayloadContext ctx) {
         if (Minecraft.getInstance().player == null)
             throw new IllegalStateException("received update packet on side with null player");
         if (BreedingTracker.CLIENT_INSTANCE == null)
             BreedingTracker.CLIENT_INSTANCE = new BreedingTracker(Minecraft.getInstance().player.getUUID());
         BreedingTracker.updateFromPacket(packet);
+    }
 
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

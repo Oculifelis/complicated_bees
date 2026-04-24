@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addSlot(new SlotItemHandler(controller.getInputItems(), 2, 15, 44));
             addSlot(new SlotItemHandler(controller.getInputItems(), 3, 33, 44));
             for (int i = 0; i < 9; i++) {
-                addSlot(new SlotItemHandler(controller.getOutputItemHandler().resolve().get(),
+                addSlot(new SlotItemHandler(controller.getOutputItemHandler(),
                         i,
                         91 + (18 * (i % 3)),
                         17 + (18 * (i / 3))));
@@ -59,9 +59,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().
-                            map(iEnergyStorage -> iEnergyStorage.getEnergyStored() & 0xffff).
-                            orElse(0);
+                    return controller.getEnergyHandler().getEnergyStored() & 0xffff;
                 }
 
                 @Override
@@ -72,9 +70,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().
-                            map(iEnergyStorage -> (iEnergyStorage.getEnergyStored() >> 16) & 0xffff).
-                            orElse(0);
+                    return (controller.getEnergyHandler().getEnergyStored() >> 16) & 0xffff;
                 }
 
                 @Override
@@ -85,9 +81,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().
-                            map(iEnergyStorage -> iEnergyStorage.getMaxEnergyStored() & 0xffff).
-                            orElse(0);
+                    return controller.getEnergyHandler().getMaxEnergyStored() & 0xffff;
                 }
 
                 @Override
@@ -98,9 +92,7 @@ public class GyrofugeMenu extends AbstractBaseInventoryMenu {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
-                    return controller.getEnergyHandler().resolve().
-                            map(iEnergyStorage -> (iEnergyStorage.getMaxEnergyStored() >> 16) & 0xffff).
-                            orElse(0);
+                    return (controller.getEnergyHandler().getMaxEnergyStored() >> 16) & 0xffff;
                 }
 
                 @Override

@@ -19,10 +19,10 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class DumpCommands implements Command<CommandSourceStack> {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Biome> biomes = registryAccess.registry(ForgeRegistries.Keys.BIOMES).get();
+        Registry<Biome> biomes = registryAccess.registryOrThrow(Registries.BIOME);
         biomes.stream().forEach(entry ->
                 player.sendSystemMessage(Component.literal(biomes.getKey(entry) + ": " + EnumTemperature.getFromValue(entry.getModifiedClimateSettings().temperature()) + ", " + EnumHumidity.getFromValue(entry.getModifiedClimateSettings().downfall()))));
         return 1;
@@ -57,7 +57,7 @@ public class DumpCommands implements Command<CommandSourceStack> {
         if (player == null)
             return 0;
 
-        ComplicatedBees.BEE_EFFECT_REGISTRY.get().getEntries().forEach(entry ->
+        ComplicatedBees.BEE_EFFECT_REGISTRY.get().entrySet().forEach(entry ->
                 player.sendSystemMessage(Component.translatable("effect.complicated_bees." + entry.getKey().location()).append(": ").append(Component.translatable("effect.complicated_bees." + entry.getKey().location() + ".desc"))));
         return 1;
     }
@@ -68,7 +68,7 @@ public class DumpCommands implements Command<CommandSourceStack> {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Species> speciesRegistry = registryAccess.registry(SpeciesRegistration.SPECIES_REGISTRY_KEY).get();
+        Registry<Species> speciesRegistry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
         speciesRegistry.stream().forEach(species -> {
             Chromosome chromosome = species.getDefaultChromosome();
             player.sendSystemMessage(GeneticHelper.getTranslationKey(species)

@@ -10,8 +10,8 @@ import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,13 +20,13 @@ import java.util.concurrent.CompletableFuture;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class ItemTagGenerator extends ItemTagsProvider {
-    public static final TagKey<Item> SCOOP_TOOL = ItemTags.create(new ResourceLocation(MODID, "scoop_tool"));
-    public static final TagKey<Item> BEE = ItemTags.create(new ResourceLocation(MODID, "bee"));
-    public static final TagKey<Item> ROYAL = ItemTags.create(new ResourceLocation(MODID, "royal"));
-    public static final TagKey<Item> FRAME = ItemTags.create(new ResourceLocation(MODID, "frame"));
-    public static final TagKey<Item> ANALYZER_FUEL = ItemTags.create(new ResourceLocation(MODID, "analyzer_fuel"));
-    public static final TagKey<Item> RESEARCH_MATERIAL = ItemTags.create(new ResourceLocation(MODID, "research_material"));
-    public static final TagKey<Item> COMB = ItemTags.create(new ResourceLocation(MODID, "comb"));
+    public static final TagKey<Item> SCOOP_TOOL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "scoop_tool"));
+    public static final TagKey<Item> BEE = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "bee"));
+    public static final TagKey<Item> ROYAL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "royal"));
+    public static final TagKey<Item> FRAME = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "frame"));
+    public static final TagKey<Item> ANALYZER_FUEL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "analyzer_fuel"));
+    public static final TagKey<Item> RESEARCH_MATERIAL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "research_material"));
+    public static final TagKey<Item> COMB = ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "comb"));
 
     public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(output, provider, blockTagProvider, MODID, existingFileHelper);

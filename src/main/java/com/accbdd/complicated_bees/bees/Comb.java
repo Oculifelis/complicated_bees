@@ -3,17 +3,16 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
-import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING;
+import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
 
 public class Comb {
     public static final Codec<Comb> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    HEX_STRING.fieldOf("outer_color").forGetter(Comb::getOuterColor),
-                    HEX_STRING.fieldOf("inner_color").forGetter(Comb::getInnerColor)
+                    HEX_STRING_CODEC.fieldOf("outer_color").forGetter(Comb::getOuterColor),
+                    HEX_STRING_CODEC.fieldOf("inner_color").forGetter(Comb::getInnerColor)
             ).apply(instance, Comb::new)
     );
 
@@ -30,11 +29,11 @@ public class Comb {
     public ResourceLocation getId() {
         ResourceLocation id;
         try {
-            id = Minecraft.getInstance().getConnection().registryAccess().registry(CombRegistration.COMB_REGISTRY_KEY).get().getKey(this);
+            id = GeneticHelper.getRegistryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).getKeyOrNull(this);
         } catch (NullPointerException e) {
-            return new ResourceLocation(MODID, "null");
+            return ResourceLocation.fromNamespaceAndPath(MODID, "null");
         }
-        return id == null ? new ResourceLocation(MODID, "null") : id;
+        return id == null ? ResourceLocation.fromNamespaceAndPath(MODID, "null") : id;
     }
 
     public int getOuterColor() {

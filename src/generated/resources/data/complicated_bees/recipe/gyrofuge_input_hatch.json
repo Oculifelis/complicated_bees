@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "complicated_bees:gyrofuge_panel"
+    },
+    "A": {
+      "item": "complicated_bees:gyrofuge_base"
+    },
+    "B": {
+      "item": "minecraft:powered_rail"
+    },
+    "C": {
+      "tag": "c:chests"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "pattern": [
+    "#H#",
+    "BAB",
+    "#C#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:gyrofuge_input_hatch"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "complicated_bees:item_enabled",
+      "item": "complicated_bees:dry_frame"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "O": {
+      "item": "complicated_bees:waxed_stick"
+    },
+    "X": {
+      "tag": "minecraft:sand"
+    }
+  },
+  "pattern": [
+    "OOO",
+    "OXO",
+    "OOO"
+  ],
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:dry_frame"
+  }
+}

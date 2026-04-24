@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "complicated_bees:smooth_wax"
+  },
+  "result": {
+    "count": 1,
+    "id": "complicated_bees:chiseled_wax"
+  }
+}

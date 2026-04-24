@@ -1,0 +1,41 @@
+{
+  "parent": "complicated_bees:analyzer",
+  "criteria": {
+    "use_apid_library": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "complicated_bees:apid_library"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {}
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.apid_library.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:apid_library"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.apid_library.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_apid_library"
+    ]
+  ]
+}

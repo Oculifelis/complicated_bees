@@ -1,0 +1,31 @@
+{
+  "parent": "complicated_bees:root",
+  "criteria": {
+    "has_beeswax": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:beeswax"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": "",
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:beeswax"
+    },
+    "show_toast": false,
+    "title": ""
+  },
+  "requirements": [
+    [
+      "has_beeswax"
+    ]
+  ]
+}

@@ -4,7 +4,8 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.gene.Gene;
 import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
-import com.accbdd.complicated_bees.item.BeeItem;
+import com.accbdd.complicated_bees.component.Bee;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
-import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING;
+import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
 
 /**
  * Defines the color and products of a bee, as well as the default genes for things like JEI display and world drops.
@@ -36,21 +37,21 @@ public class Species {
     public ResourceLocation builderOverride; //used in datagen, ignore otherwise
 
     public static List<ResourceLocation> DEFAULT_MODELS = new ArrayList<>() {{
-        add(new ResourceLocation(MODID, "bee/base_drone"));
-        add(new ResourceLocation(MODID, "bee/base_princess"));
-        add(new ResourceLocation(MODID, "bee/base_queen"));
+        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_drone"));
+        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_princess"));
+        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_queen"));
     }};
     public static final Species INVALID = new Species();
 
-    public static final Codec<Species> SPECIES_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<Species> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("dominant", true).forGetter(Species::isDominant),
             Codec.BOOL.optionalFieldOf("foil", false).forGetter(Species::isFoil),
             ResourceLocation.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
-            HEX_STRING.optionalFieldOf("color", -1).forGetter(Species::getColor),
-            HEX_STRING.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
+            HEX_STRING_CODEC.optionalFieldOf("color", -1).forGetter(Species::getColor),
+            HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
             Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
             Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
-            CompoundTag.CODEC.optionalFieldOf("default_chromosome", new Chromosome().serialize()).forGetter(species -> species.getDefaultChromosome().serialize())
+            Chromosome.CODEC.optionalFieldOf("default_chromosome", new Chromosome()).forGetter(Species::getDefaultChromosome)
     ).apply(instance, Species::new));
 
     public Species() {
@@ -108,7 +109,7 @@ public class Species {
 
     public ItemStack toStack(Item item) {
         ItemStack stack = new ItemStack(item);
-        stack.getOrCreateTag().putBoolean(BeeItem.ANALYZED_TAG, true);
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withAnalyzed(true));
         return GeneticHelper.setGenome(stack, new Genome(getDefaultChromosome(), getDefaultChromosome()));
     }
 

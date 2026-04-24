@@ -61,19 +61,19 @@
   "products": [
     {
       "chance": 0.5,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:dripping"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:dripping"
+      },
+      "item": "complicated_bees:comb"
     }
   ],
   "specialty_products": [
     {
       "chance": 0.4,
-      "item": "complicated_bees:comb",
-      "nbt": {
-        "comb_type": "complicated_bees:royal"
-      }
+      "components": {
+        "complicated_bees:comb_type": "complicated_bees:royal"
+      },
+      "item": "complicated_bees:comb"
     }
   ]
 }

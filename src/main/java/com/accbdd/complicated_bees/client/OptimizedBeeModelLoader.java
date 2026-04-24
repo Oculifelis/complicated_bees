@@ -21,10 +21,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
+import net.neoforged.neoforge.client.model.BakedModelWrapper;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.IdentityHashMap;
@@ -34,7 +34,7 @@ import java.util.function.Function;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeModelLoader.BeeGeometry> {
-    public static final ResourceLocation ID = ResourceLocation.tryBuild(MODID, "optimized_bee_model");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "optimized_bee_model");
     @Override
     public BeeGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         return new BeeGeometry(deserializationContext.deserialize(jsonObject.get("base_model"), BlockModel.class));
@@ -51,8 +51,8 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
         }
 
         @Override
-        public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-            BakedModel bakedModel = model.bake(baker, spriteGetter, modelState, modelLocation);
+        public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides itemOverrides) {
+            BakedModel bakedModel = model.bake(baker, spriteGetter, modelState);
             return new BeeOverrideModel(bakedModel);
         }
 
@@ -134,7 +134,7 @@ public class OptimizedBeeModelLoader implements IGeometryLoader<OptimizedBeeMode
                         beeModels[i] = bakedModel;
                         continue;
                     }
-                    beeModels[i] = new BeeModel(Minecraft.getInstance().getModelManager().getModel(species.getModels().get(i)));
+                    beeModels[i] = new BeeModel(Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(species.getModels().get(i))));
                 }
                 return new Variant(beeModels[0], beeModels[1], beeModels[2]);
             });

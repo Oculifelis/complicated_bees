@@ -4,14 +4,11 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
+import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;
-import com.accbdd.complicated_bees.registry.BlocksRegistration;
-import com.accbdd.complicated_bees.registry.MenuRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
-import com.accbdd.complicated_bees.registry.SpeciesRegistration;
+import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -23,7 +20,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -142,7 +139,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
                 }
             }
             byte index = unguessed.get(rand.nextInt(unguessed.size())).byteValue();
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeHintClientbound(index, researchCode[index]));
+            PacketDistributor.sendToPlayer(serverPlayer, new MicroscopeHintClientbound(index, researchCode[index]));
         }
     }
 
@@ -161,7 +158,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
 
     private void clearGame() {
         if (player instanceof ServerPlayer serverPlayer)
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.CLEAR));
+            PacketDistributor.sendToPlayer(serverPlayer, new MicroscopeGameClientbound(MicroscopeGameClientbound.GameState.CLEAR));
         this.setState(MicroscopeGameClientbound.GameState.CLEAR);
     }
 
@@ -189,8 +186,8 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             researchedMutationsCount = -1;
             return;
         }
-        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
-        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
+        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
+        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY);
         List<Mutation> mutations = mutationRegistry.stream().filter(
                 mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
         ).toList();
@@ -213,8 +210,8 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         if (bee.isEmpty())
             return;
         BreedingTracker tracker = BreedingTracker.getTracker(this.player);
-        ResourceLocation species = ResourceLocation.tryParse(bee.getTag().getString(GeneticHelper.SPECIES));
-        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registry(MutationRegistration.MUTATION_REGISTRY_KEY).get();
+        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
+        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY);
         Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
                 location -> {
                     if (mutationRegistry.get(location) == null)

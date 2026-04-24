@@ -2,11 +2,10 @@ package com.accbdd.complicated_bees.block;
 
 import com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity;
 import com.accbdd.complicated_bees.screen.CentrifugeMenu;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,8 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +40,11 @@ public class CentrifugeBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
+    @Override
     public @NotNull RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
@@ -53,7 +56,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof CentrifugeBlockEntity) {
@@ -68,7 +71,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
                         return new CentrifugeMenu(windowId, player, pos, ((CentrifugeBlockEntity) be).getData());
                     }
                 };
-                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+                player.openMenu(containerProvider, be.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }
@@ -111,11 +114,11 @@ public class CentrifugeBlock extends BaseEntityBlock {
             while (!centrifuge.outputBuffer.empty()) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), centrifuge.outputBuffer.pop());
             }
-            IItemHandler handler = centrifuge.getItemHandler().orElseThrow(() -> new RuntimeException("item handler not found!"));
+            IItemHandler handler = centrifuge.getItemHandler();
             for (int i = 0; i < handler.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), handler.getStackInSlot(i));
             }
-            IItemHandler upgrades = centrifuge.getUpgradeItemHandler().orElseThrow(() -> new RuntimeException("no upgrade item handler found!"));
+            IItemHandler upgrades = centrifuge.getUpgradeItemHandler();
             for (int i = 0; i < upgrades.getSlots(); i++) {
                 Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), upgrades.getStackInSlot(i));
             }

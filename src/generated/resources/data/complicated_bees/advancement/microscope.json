@@ -1,0 +1,41 @@
+{
+  "parent": "complicated_bees:analyzer",
+  "criteria": {
+    "use_microscope": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "complicated_bees:microscope"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {}
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.complicated_bees.microscope.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "complicated_bees:microscope"
+    },
+    "title": {
+      "translate": "advancements.complicated_bees.microscope.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_microscope"
+    ]
+  ]
+}
