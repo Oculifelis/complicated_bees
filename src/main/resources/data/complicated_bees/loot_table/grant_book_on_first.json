@@ -15,8 +15,10 @@
           "name": "patchouli:guide_book",
           "functions": [
             {
-              "function": "set_nbt",
-              "tag": "{\"patchouli:book\": \"complicated_bees:field_guide\"}"
+              "function": "set_components",
+              "components": {
+                "patchouli:book": "complicated_bees:field_guide"
+              }
             }
           ]
         }
