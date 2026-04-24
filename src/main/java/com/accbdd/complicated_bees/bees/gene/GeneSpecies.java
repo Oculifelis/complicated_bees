@@ -30,7 +30,9 @@ public class GeneSpecies extends Gene<Species> {
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
-        if (this.get().builderOverride != null) {
+        if (this.get() == null) {
+            tag.put(DATA, StringTag.valueOf("complicated_bees:invalid"));
+        } else if (this.get().builderOverride != null) {
             tag.put(DATA, StringTag.valueOf(this.get().builderOverride.toString()));
         } else {
             if (registryAccess == null || registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()) == null) {

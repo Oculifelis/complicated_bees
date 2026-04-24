@@ -276,7 +276,12 @@ public class GeneticHelper {
         Genome eggs = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).mate();
 
         Genome genome = getGenome(bee);
-        Genome mate = new Genome(eggs.primary(), eggs.secondary());
+        Genome mate;
+        if (eggs.primary().getGenes().isEmpty()) { //no mate set, e.g. spawned in
+            mate = genome;
+        } else {
+            mate = new Genome(eggs.primary(), eggs.secondary());
+        }
         if (!eggs.equals(new Genome(new Chromosome(), new Chromosome()))) {
             setGenome(result, mixGenomes(genome, mate, level, pos, mutationModifiers));
         } else {
