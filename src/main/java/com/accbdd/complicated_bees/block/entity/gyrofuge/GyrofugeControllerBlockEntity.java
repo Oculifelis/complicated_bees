@@ -40,8 +40,8 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
     private final IItemHandler inputItemHandler;
     private final IItemHandler outputItemHandler;
     public final IItemHandler upgradeItemHandler;
-    private final IItemHandler itemHandler;
-    private final IEnergyStorage energyHandler;
+    private IItemHandler itemHandler;
+    private IEnergyStorage energyHandler;
 
     public GyrofugeControllerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), pos, blockState);
@@ -69,8 +69,6 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
                 return stack.getItem() instanceof UpgradeItem;
             }
         };
-        this.energyHandler = new AdaptedEnergyStorage(getGyrofugeLogic().getEnergyStorage());
-        this.itemHandler = new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler, (IItemHandlerModifiable) inputItemHandler);
     }
 
     @Override
@@ -84,6 +82,8 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
         setActiveEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
         setIdleEnergyUsage(BASE_IDLE_USAGE + gyrofugeLogic.getIdleUsage());
         energyStorage = gyrofugeLogic.getEnergyStorage();
+        this.energyHandler = new AdaptedEnergyStorage(gyrofugeLogic.getEnergyStorage());
+        this.itemHandler = new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler, (IItemHandlerModifiable) inputItemHandler);
     }
 
     public GyrofugeLogic getGyrofugeLogic() {
