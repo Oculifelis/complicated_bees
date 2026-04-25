@@ -1,6 +1,8 @@
 package com.accbdd.complicated_bees.registry;
 
 import com.accbdd.complicated_bees.bees.gene.*;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -11,8 +13,8 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneRegistration {
-    public static final ResourceLocation GENE_REGISTRY_LOCATION = new ResourceLocation(MODID, "gene");
-    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = RegistryBuilder.of(GENE_REGISTRY_LOCATION);
+    public static final ResourceKey<Registry<IGene<?>>> GENE_REGISTRY_LOCATION = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "gene"));
+    public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = RegistryBuilder.of(GENE_REGISTRY_LOCATION.location());
 
     //every registered gene should be registered as a 'default' value
     public static final DeferredRegister<IGene<?>> GENES = DeferredRegister.create(GENE_REGISTRY_LOCATION, MODID);
