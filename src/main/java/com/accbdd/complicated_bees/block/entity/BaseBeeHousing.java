@@ -139,8 +139,11 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
-            if (!stack.isEmpty())
-                bufferTag.add(stack.save(registries));
+            while (!stack.isEmpty() && stack.getCount() > 0) {
+                int toPull = Math.min(stack.getCount(), stack.getMaxStackSize());
+                stack.shrink(toPull);
+                bufferTag.add(stack.copyWithCount(toPull).save(registries));
+            }
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
@@ -267,15 +270,20 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     @Override
     public void beeTick() {
         ItemStack top_stack = getBeeItems().getStackInSlot(0);
-        ageQueen(top_stack);
-        generateProduce(top_stack);
+        ageQueenAndGenerateProduce(top_stack);
         damageFrames();
     }
 
-    public void generateProduce(ItemStack bee) {
+    /**
+     * Generates produce for a bee.
+     * @param bee the bee to generate produce for
+     * @param partialTicks the amount of bee ticks to generate produce for
+     */
+    public void generateProduce(ItemStack bee, float partialTicks) {
         Species species = (Species) GeneticHelper.getGeneValue(bee, GeneSpecies.ID, true);
         float housingModifiers = getHousingModifiers().stream().map(BeeHousingModifier::getProductivityMod).reduce(1f, (cur, next) -> cur * next);
         housingModifiers = (MAX_MULT * housingModifiers) / (housingModifiers + MAX_MULT);
+        housingModifiers *= partialTicks;
         for (Product product : species.getProducts()) {
             getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
         }
@@ -287,13 +295,20 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         setChanged();
     }
 
-    public void ageQueen(ItemStack queen) {
-        float ageFactor = 1;
+    /**
+     * Age a queen and generate produce based on housing modifiers.
+     * @param queen the queen to age
+     */
+    public void ageQueenAndGenerateProduce(ItemStack queen) {
+        float ageBy = 1;
         for (BeeHousingModifier mod : getHousingModifiers()) {
-            ageFactor /= mod.getLifespanMod();
+            ageBy /= mod.getLifespanMod();
         }
-        BeeItem.setAge(queen, BeeItem.getAge(queen) + ageFactor);
-        if (BeeItem.getAge(queen) >= ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value) {
+        BeeItem.setAge(queen, BeeItem.getAge(queen) + ageBy);
+        int maxAge = ((EnumLifespan) GeneticHelper.getGeneValue(queen, GeneLifespan.ID, true)).value;
+        float fractionLived = BeeItem.getAge(queen) < maxAge ? 1 : 1f - ((BeeItem.getAge(queen) - maxAge) / ageBy); //reduce production if over max life
+        generateProduce(queen, fractionLived);
+        if (BeeItem.getAge(queen) >= maxAge) {
             produceOffspring(queen, getBlockPos());
         }
     }
