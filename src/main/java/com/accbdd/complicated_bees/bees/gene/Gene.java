@@ -4,6 +4,8 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 
+import java.util.Objects;
+
 public abstract class Gene<T> implements IGene<T> {
     public static final String DATA = "data";
     public static final String DOMINANT = "dominant";
@@ -44,5 +46,17 @@ public abstract class Gene<T> implements IGene<T> {
         tag.put(DATA, StringTag.valueOf(geneData.toString()));
         tag.put(DOMINANT, ByteTag.valueOf(dominant));
         return tag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Gene<?> gene)) return false;
+        return isDominant() == gene.isDominant() && Objects.equals(geneData, gene.geneData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isDominant(), geneData);
     }
 }

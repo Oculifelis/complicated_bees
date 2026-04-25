@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.Objects;
+
 public record Genome(Chromosome primary, Chromosome secondary) {
     public static final Codec<Genome> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
@@ -30,5 +32,17 @@ public record Genome(Chromosome primary, Chromosome secondary) {
 
     public Chromosome secondary() {
         return secondary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genome genome)) return false;
+        return Objects.equals(primary, genome.primary) && Objects.equals(secondary, genome.secondary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(primary, secondary);
     }
 }

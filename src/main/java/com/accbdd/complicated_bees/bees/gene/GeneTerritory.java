@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Arrays;
+
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneTerritory extends Gene<int[]> {
@@ -44,5 +46,12 @@ public class GeneTerritory extends Gene<int[]> {
     @Override
     public MutableComponent getTranslationKey() {
         return Component.translatable("gene.complicated_bees.territory_value", get()[0] * 2 + 1, get()[1] * 2 + 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GeneTerritory gene)) return false;
+        return isDominant() == gene.isDominant() && Arrays.equals(get(), gene.get());
     }
 }

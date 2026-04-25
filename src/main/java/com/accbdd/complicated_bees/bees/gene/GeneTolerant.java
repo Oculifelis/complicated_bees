@@ -5,6 +5,8 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 
+import java.util.Objects;
+
 public abstract class GeneTolerant<T extends Enum<T>> extends Gene<T> {
     public static final String TOLERANCE = "tolerance";
 
@@ -42,5 +44,17 @@ public abstract class GeneTolerant<T extends Enum<T>> extends Gene<T> {
     @Override
     public abstract GeneTolerant<T> deserialize(CompoundTag tag);
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GeneTolerant<?> that)) return false;
+        return getTolerance() == that.getTolerance()
+                && Objects.equals(get(), that.get())
+                && isDominant() == that.isDominant();
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getTolerance());
+    }
 }

@@ -102,4 +102,16 @@ public class Chromosome {
         }
         return new Chromosome(genes);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Chromosome that)) return false;
+        return Objects.equals(getGenes(), that.getGenes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getGenes());
+    }
 }

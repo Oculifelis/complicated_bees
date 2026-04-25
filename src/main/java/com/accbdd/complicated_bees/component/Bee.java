@@ -9,6 +9,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Objects;
+
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public record Bee(float age, boolean analyzed, int generation, Genome genome, Genome mate, ResourceLocation species) {
@@ -63,4 +65,21 @@ public record Bee(float age, boolean analyzed, int generation, Genome genome, Ge
 	public Bee withSpecies(ResourceLocation species) {
 		return new Bee(this.age, this.analyzed, this.generation, this.genome, this.mate, species);
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bee bee)) return false;
+        return Float.compare(age, bee.age) == 0
+                && analyzed == bee.analyzed
+                && generation == bee.generation
+                && Objects.equals(genome, bee.genome)
+                && Objects.equals(mate, bee.mate)
+                && Objects.equals(species, bee.species);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(age, analyzed, generation, genome, mate, species);
+    }
 }
