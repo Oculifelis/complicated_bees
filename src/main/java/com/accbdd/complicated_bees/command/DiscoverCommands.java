@@ -1,11 +1,11 @@
 package com.accbdd.complicated_bees.command;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
-import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.brigadier.Command;
@@ -24,6 +24,7 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.CompoundTagArgument;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -57,8 +58,11 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                 )))
                 .then(Commands.literal("setgene").requires(context -> context.hasPermission(2))
                         .then(Commands.argument("primary", BoolArgumentType.bool())
-                                .then(Commands.argument("gene_name", ResourceArgument.resource(buildContext, GeneRegistration.GENE_REGISTRY_LOCATION))
-                                        .then(Commands.argument("data", CompoundTagArgument.compoundTag()).suggests(DiscoverCommands::getGeneSuggest).executes(context -> setGeneData(context.getSource(), BoolArgumentType.getBool(context, "primary"), ResourceArgument.getResource(context, "gene_name", GeneRegistration.GENE_REGISTRY_LOCATION).key().location(), CompoundTagArgument.getCompoundTag(context, "data"))))))
+                                .then(Commands.argument("gene_name", ResourceLocationArgument.id())
+                                .suggests((context, builder) -> SharedSuggestionProvider.suggestResource(ComplicatedBees.GENE_REGISTRY.get().getKeys(), builder))
+                                        .then(Commands.argument("data", CompoundTagArgument.compoundTag())
+                                        .suggests(DiscoverCommands::getGeneSuggest)
+                                        .executes(context -> setGeneData(context.getSource(), BoolArgumentType.getBool(context, "primary"), ResourceLocationArgument.getId(context, "gene_name"), CompoundTagArgument.getCompoundTag(context, "data"))))))
         ));
     }
 
@@ -66,7 +70,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         String[] suggestion = new String[] {""};
         if (context.getSource().getPlayer() != null) {
             ItemStack held = context.getSource().getPlayer().getMainHandItem();
-            String geneTag = ResourceArgument.getResource(context, "gene_name", GeneRegistration.GENE_REGISTRY_LOCATION).key().location().toString();
+            String geneTag = ResourceLocationArgument.getId(context, "gene_name").toString();
             if (held.hasTag() && !held.getTag().isEmpty()) {
                 CompoundTag chromosome = BoolArgumentType.getBool(context, "primary") ? held.getTag().getCompound(CHROMOSOME_A) : held.getTag().getCompound(CHROMOSOME_B);
                 if (chromosome.contains(geneTag)) {
