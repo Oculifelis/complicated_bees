@@ -20,4 +20,5 @@ tradeoffs in terms of frame usage.
 
 ## Fixed
 * Low lifespan produces no specialty products - #121
+* Queens not working for recipe lookup in EMI
 
