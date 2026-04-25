@@ -88,7 +88,7 @@ public class ApiaryScreen extends AbstractContainerScreen<ApiaryMenu> {
                 List<Component> errors = new ArrayList<>();
                 for (EnumErrorCodes errorCode : EnumErrorCodes.values()) {
                     if ((errorFlags & errorCode.value) != 0)
-                        errors.add(Component.translatable("gui.complicated_bees.error." + errorCode.name, errorCode.detailGetter.apply(menu.getQueen())));
+                        errors.add(errorCode.detailGetter.apply(menu.getQueen(), menu.getConditions()));
                 }
                 pGuiGraphics.renderTooltip(this.font, errors, Optional.empty(), pX, pY);
             } else {

@@ -61,6 +61,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     private int matingProgress = 0;
     private int maxMatingProgress = 20;
     private int errorState = 0;
+    private int tempOrdinal = 0;
+    private int humidityOrdinal = 0;
 
     private final BeeLogic beeLogic;
 
@@ -74,6 +76,8 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
                     case 0 -> matingProgress;
                     case 1 -> maxMatingProgress;
                     case 2 -> errorState;
+                    case 3 -> tempOrdinal;
+                    case 4 -> humidityOrdinal;
                     default -> 0;
                 };
             }
@@ -84,12 +88,14 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
                     case 0 -> matingProgress = value;
                     case 1 -> maxMatingProgress = value;
                     case 2 -> errorState = value;
+                    case 3 -> tempOrdinal = value;
+                    case 4 -> humidityOrdinal = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 3;
+                return 5;
             }
         };
     }
@@ -209,7 +215,10 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             if (top_stack.getItem() instanceof QueenItem) {
                 getLogic().setQueen(top_stack);
                 getLogic().checkConditions();
+                tempOrdinal = getLogic().getTemperature().ordinal();
+                humidityOrdinal = getLogic().getHumidity().ordinal();
                 satisfyCycleProgress = 0;
+                setChanged();
             }
         } else {
             satisfyCycleProgress++;

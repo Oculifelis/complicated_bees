@@ -1,5 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import com.accbdd.complicated_bees.block.entity.mellarium.AbstractMellariumBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
@@ -34,7 +36,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
     private MellariumLogic logic;
 
     public MellariumMenu(int windowId, Player player, BlockPos pos) {
-        this(windowId, player, pos, new SimpleContainerData(3));
+        this(windowId, player, pos, new SimpleContainerData(5));
     }
 
     public MellariumMenu(int windowId, Player player, BlockPos pos, ContainerData data) {
@@ -152,5 +154,9 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
 
     public int getMaxPower() {
         return maxPower;
+    }
+
+    public EnumErrorCodes.Conditions getConditions() {
+        return new EnumErrorCodes.Conditions(EnumTemperature.values()[data.get(3)], EnumHumidity.values()[data.get(4)]);
     }
 }
