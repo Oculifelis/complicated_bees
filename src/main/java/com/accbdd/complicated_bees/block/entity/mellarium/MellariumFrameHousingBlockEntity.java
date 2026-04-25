@@ -28,6 +28,12 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return stack.getItem() instanceof FrameItem;
             }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                getLogic().getController().ifPresent(controller -> controller.getLogic().checkConditions());
+                super.onContentsChanged(slot);
+            }
         };
         frameItemHandler = new AdaptedItemHandler(frameItems);
     }

@@ -126,7 +126,7 @@ public class ApiaryBlockEntity extends BaseBeeHousing {
             @Override
             protected void onContentsChanged(int slot) {
                 setChanged();
-                getLogic().clearConditionCache();
+                getLogic().checkConditions();
             }
         };
     }
