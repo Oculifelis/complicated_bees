@@ -1,5 +1,7 @@
 package com.accbdd.complicated_bees.screen;
 
+import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
@@ -25,7 +27,7 @@ public class ApiaryMenu extends AbstractBaseInventoryMenu {
     private static final int INV_Y = 105;
 
     public ApiaryMenu(int windowId, Player player, BlockPos pos) {
-        this(windowId, player, pos, new SimpleContainerData(3));
+        this(windowId, player, pos, new SimpleContainerData(5));
     }
 
     public ApiaryMenu(int windowId, Player player, BlockPos pos, ContainerData data) {
@@ -83,5 +85,9 @@ public class ApiaryMenu extends AbstractBaseInventoryMenu {
 
     public boolean hasQueue() {
         return data.get(2) == EnumErrorCodes.OUTPUT_FULL.value;
+    }
+
+    public EnumErrorCodes.Conditions getConditions() {
+        return new EnumErrorCodes.Conditions(EnumTemperature.values()[data.get(3)], EnumHumidity.values()[data.get(4)]);
     }
 }
