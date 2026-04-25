@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.block.entity;
 
+import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.*;
 import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.*;
@@ -139,10 +140,11 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
             tag.putUUID(OWNER_TAG, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
+            stack = stack.copy();
             while (!stack.isEmpty() && stack.getCount() > 0) {
                 int toPull = Math.min(stack.getCount(), stack.getMaxStackSize());
-                stack.shrink(toPull);
                 bufferTag.add(stack.copyWithCount(toPull).save(registries));
+                stack.shrink(toPull);
             }
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
@@ -215,7 +217,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
         //do queen cycle
         if (top_stack.getItem() instanceof QueenItem) {
-            if (getLogic().isQueenSatisfied()) {
+            if (getLogic().isQueenSatisfied() && getOutputBuffer().empty()) {
                 doBeeEffect();
                 if (cycleProgress < CYCLE_LENGTH) {
                     cycleProgress++;
@@ -285,11 +287,15 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         housingModifiers = (MAX_MULT * housingModifiers) / (housingModifiers + MAX_MULT);
         housingModifiers *= partialTicks;
         for (Product product : species.getProducts()) {
-            getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
+            ItemStack stackResult = product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
+            getOutputBuffer().add(stackResult);
+            ComplicatedBees.LOGGER.debug("added " + stackResult + " to output, modifier " + housingModifiers);
         }
         if (getErrors() == EnumErrorCodes.ECSTATIC.value) {
             for (Product special : species.getSpecialtyProducts()) {
-                getOutputBuffer().add(special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
+                ItemStack stackResult = special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
+                getOutputBuffer().add(stackResult);
+                ComplicatedBees.LOGGER.debug("added " + stackResult + " to specialty output, modifier " + housingModifiers);
             }
         }
         setChanged();
@@ -316,9 +322,9 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public void produceOffspring(ItemStack queen, BlockPos pos) {
         errorState = 0;
         float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
-        getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), pos, mutationMod));
+        getOutputBuffer().push(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), pos, mutationMod));
         for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
-            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), pos, mutationMod));
+            getOutputBuffer().push(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), pos, mutationMod));
         }
         getBeeItems().extractItem(BEE_SLOT, 1, false);
         setChanged();
