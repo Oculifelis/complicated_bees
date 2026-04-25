@@ -12,8 +12,8 @@ tradeoffs in terms of frame usage.
 ## Changed
 
 * ~~Bee production now takes into account 'partial' ticks~~
-* ~~Made missing flower type message more clear~~
-* ~~Made wrong temperature type more clear~~
+* Made missing flower type message more clear
+* Made wrong temperature type more clear
 * Queens now recheck conditions as soon as frames change
 
 
