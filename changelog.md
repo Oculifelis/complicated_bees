@@ -1,6 +1,6 @@
 # Complicated Bees 4.0.0
 
-First off, shoutout unilock for doing the lions share of porting this mod to 1.21.1!
+First off, shoutout unilock for doing the overwhelming majority of the work to port this mod to 1.21.1!
 Secondly, a nerf (?) to the Mellarium, meaning you can't just spam 30 something honeyed frames to produce infinite
 resources for free: bee production now takes into account 'partial' ticks - if a bee lives for only part of a bee tick,
 it produces proportionally fewer products. This makes lifespan actually worth breeding for, and adds some interesting
