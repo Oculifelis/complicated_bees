@@ -148,12 +148,12 @@ dependencies {
     if (runtime_biome_test == "bop") {
         localRuntime "curse.maven:biomes-o-plenty-220318:${bop_id}"
         localRuntime "curse.maven:glitchcore-955399:${glitchcore_id}"
-        localRuntime "curse.maven:terrablender-563928:${terrablender_id}"
+        localRuntime "curse.maven:terrablender-940057:${terrablender_id}"
     } else if (runtime_biome_test == "tl") {
         localRuntime "curse.maven:terralith-513688:${terralith_id}"
     } else if (runtime_biome_test == "bwg") {
         localRuntime "curse.maven:oh-the-biomes-weve-gone-1070751:${bwg_id}"
-        localRuntime "curse.maven:terrablender-563928:${terrablender_id}"
+        localRuntime "curse.maven:terrablender-940057:${terrablender_id}"
         localRuntime "curse.maven:corgilib-693313:7773534"
         localRuntime "curse.maven:geckolib-388172:7707149"
         localRuntime "curse.maven:oh-the-trees-youll-grow-962544:7864151"

@@ -51,10 +51,8 @@
       "base_height": 6,
       "bend_length": {
         "type": "minecraft:uniform",
-        "value": {
-          "min_inclusive": 1,
-          "max_inclusive": 3
-        }
+        "min_inclusive": 1,
+        "max_inclusive": 3
       },
       "height_rand_a": 4,
       "height_rand_b": 0,
