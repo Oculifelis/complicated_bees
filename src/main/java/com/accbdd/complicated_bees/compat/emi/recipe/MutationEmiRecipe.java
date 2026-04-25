@@ -56,8 +56,7 @@ public class MutationEmiRecipe implements EmiRecipe {
         ));
         lookups = EmiIngredient.of(Ingredient.of(
                 mutation.getFirstSpecies().toStack(ItemsRegistration.QUEEN.get()),
-                mutation.getSecondSpecies().toStack(ItemsRegistration.QUEEN.get()),
-                mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())
+                mutation.getSecondSpecies().toStack(ItemsRegistration.QUEEN.get())
         ));
     }
 
@@ -73,12 +72,14 @@ public class MutationEmiRecipe implements EmiRecipe {
 
     @Override
     public List<EmiIngredient> getInputs() {
-        return List.of(first, second);
+        return List.of(first, second, lookups);
     }
 
     @Override
     public List<EmiStack> getOutputs() {
-        return result.getEmiStacks();
+        List<EmiStack> emiStacks = new ArrayList<>(result.getEmiStacks());
+        emiStacks.add(EmiStack.of(mutation.getResultSpecies().toStack(ItemsRegistration.QUEEN.get())));
+        return emiStacks;
     }
 
     @Override
