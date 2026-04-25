@@ -1,4 +1,4 @@
-# Complicated Bees 3.2.0
+# Complicated Bees 3.4.0
 
 First off, shoutout unilock for doing the overwhelming majority of the work to port this mod to 1.21.1!
 Secondly, a nerf (?) to the Mellarium, meaning you can't just spam 30 something honeyed frames to produce infinite
