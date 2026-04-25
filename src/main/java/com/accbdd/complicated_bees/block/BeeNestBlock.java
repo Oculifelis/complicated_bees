@@ -44,7 +44,10 @@ public class BeeNestBlock extends BaseEntityBlock {
     }
 
     public static ItemStack stackNest(ItemStack stack, Species species) {
-        stack.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> tag.putString("species", SpeciesRegistration.getResourceLocation(species).toString())));
+        stack.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> {
+            tag.putString("species", SpeciesRegistration.getResourceLocation(species).toString());
+            tag.putString("id", "complicated_bees:bee_nest");
+        }));
         return stack;
     }
 
@@ -83,7 +86,10 @@ public class BeeNestBlock extends BaseEntityBlock {
         ItemStack nest = new ItemStack(ItemsRegistration.BEE_NEST.get());
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BeeNestBlockEntity ne)
-            nest.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> tag.putString("species", SpeciesRegistration.getResourceLocation(ne.getSpecies()).toString())));
+            nest.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> {
+                tag.putString("species", SpeciesRegistration.getResourceLocation(ne.getSpecies()).toString());
+                tag.putString("id", "complicated_bees:bee_nest");
+            }));
         return nest;
     }
 }
