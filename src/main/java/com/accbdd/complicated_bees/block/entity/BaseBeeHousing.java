@@ -240,7 +240,7 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
 
         //do queen cycle
         if (top_stack.getItem() instanceof QueenItem) {
-            if (getLogic().isQueenSatisfied()) {
+            if (getLogic().isQueenSatisfied() && getOutputBuffer().empty()) {
                 doBeeEffect();
                 if (cycleProgress < CYCLE_LENGTH) {
                     cycleProgress++;
@@ -310,11 +310,13 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         housingModifiers = (MAX_MULT * housingModifiers) / (housingModifiers + MAX_MULT);
         housingModifiers *= partialTicks;
         for (Product product : species.getProducts()) {
-            getOutputBuffer().add(product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
+            ItemStack stackResult = product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
+            getOutputBuffer().add(stackResult);
         }
         if (getErrors() == EnumErrorCodes.ECSTATIC.value) {
             for (Product special : species.getSpecialtyProducts()) {
-                getOutputBuffer().add(special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers));
+                ItemStack stackResult = special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
+                getOutputBuffer().add(stackResult);
             }
         }
         setChanged();
@@ -341,9 +343,9 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     public void produceOffspring(ItemStack queen, BlockPos pos) {
         errorState = 0;
         float mutationMod = getHousingModifiers().stream().map(BeeHousingModifier::getMutationMod).reduce(1f, (a, b) -> a * b);
-        getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), pos, mutationMod));
+        getOutputBuffer().push(GeneticHelper.getOffspring(queen, ItemsRegistration.PRINCESS.get(), getLevel(), pos, mutationMod));
         for (int i = 0; i < (int) GeneticHelper.getGeneValue(queen, GeneFertility.ID, true); i++) {
-            getOutputBuffer().add(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), pos, mutationMod));
+            getOutputBuffer().push(GeneticHelper.getOffspring(queen, ItemsRegistration.DRONE.get(), getLevel(), pos, mutationMod));
         }
         getBeeItems().extractItem(BEE_SLOT, 1, false);
         setChanged();

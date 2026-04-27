@@ -200,11 +200,6 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
-    public void generateProduce(ItemStack bee) {
-        super.generateProduce(bee);
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         if (mellariumLogic == null && MultiblockHelper.isValidMellarium(getLevel(), getBlockPos())) {
