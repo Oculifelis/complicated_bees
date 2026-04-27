@@ -1,24 +1,6 @@
-# Complicated Bees 3.4.0
-
-First off, shoutout unilock for doing the overwhelming majority of the work to port this mod to 1.21.1!
-Secondly, a nerf (?) to the Mellarium, meaning you can't just spam 30 something honeyed frames to produce infinite
-resources for free: bee production now takes into account 'partial' ticks - if a bee lives for only part of a bee tick,
-it produces proportionally fewer products. This makes lifespan actually worth breeding for, and adds some interesting
-tradeoffs in terms of frame usage.
-
-## Added
-
-* Ported to 1.21.1 - thank you @unilock!!!
-* `/combees setgene` command completion
+# Complicated Bees 3.4.1
 
 ## Changed
 
-* Bee production now takes into account 'partial' ticks
-* Made missing flower type message more clear
-* Made wrong temperature type more clear
-
-
-## Fixed
-* Low lifespan produces no specialty products - #121
-* Queens not working for recipe lookup in EMI
+* Updated zh_cn translation (thank you @ChuijkYahus!)
 
