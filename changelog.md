@@ -1,6 +1,6 @@
-# Complicated Bees 3.4.1
+# Complicated Bees 3.4.2
 
-## Changed
+## Fixed
 
-* Updated zh_cn translation (thank you @ChuijkYahus!)
+* JEI lookup crash - #126
 

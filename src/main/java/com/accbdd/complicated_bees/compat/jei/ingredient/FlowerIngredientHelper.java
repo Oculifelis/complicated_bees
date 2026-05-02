@@ -22,6 +22,11 @@ public class FlowerIngredientHelper implements IIngredientHelper<Flower> {
 
     @Override
     public String getUniqueId(Flower ingredient, UidContext context) {
+        return getUid(ingredient, context);
+    }
+
+    @Override
+    public String getUid(Flower ingredient, UidContext context) {
         return getResourceLocation(ingredient).toString();
     }
 

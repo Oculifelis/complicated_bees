@@ -35,6 +35,11 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
 
     @Override
     public String getUniqueId(Block ingredient, UidContext context) {
+        return getUid(ingredient, context);
+    }
+
+    @Override
+    public String getUid(Block ingredient, UidContext context) {
 
         return "Block:" + getRegistryNameForBlock(ingredient);
     }

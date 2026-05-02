@@ -1,27 +1,22 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
 import com.accbdd.complicated_bees.compat.jei.ingredient.*;
-import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
-import cpw.mods.util.Lazy;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -30,7 +25,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class ComplicatedBeesJEI implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return ResourceLocation.tryBuild(MODID, "jei_plugin");
+        return ResourceLocation.fromNamespaceAndPath(MODID, "jei_plugin");
     }
 
     @Override
@@ -63,21 +58,11 @@ public class ComplicatedBeesJEI implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        IIngredientSubtypeInterpreter<ItemStack> speciesInterpreter = (stack, context) -> {
-            Lazy<Species> species = Lazy.of(() -> ((GeneSpecies) GeneticHelper.getChromosome(stack, true).getGene(GeneSpecies.ID)).get());
-            ResourceLocation key = GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species.get());
-            if (key == null) {
-                return "invalid";
-            }
-            return key.toString();
-        };
+        ISubtypeInterpreter<ItemStack> speciesInterpreter = new BeeSubtypeInterpreter();
 
-        IIngredientSubtypeInterpreter<ItemStack> combInterpreter = (stack, context) -> {
-            Lazy<Comb> comb = Lazy.of(() -> CombItem.getComb(stack));
-            return comb.get() == null ? Comb.NULL.toString() : comb.get().toString();
-        };
+        ISubtypeInterpreter<ItemStack> combInterpreter = new CombSubtypeInterpreter();
 
-        IIngredientSubtypeInterpreter<ItemStack> nestInterpreter = (stack, context) -> stack.get(DataComponents.BLOCK_ENTITY_DATA).getUnsafe().getString("species");
+        ISubtypeInterpreter<ItemStack> nestInterpreter = new NestSubtypeInterpreter();
 
         registration.registerSubtypeInterpreter(ItemsRegistration.DRONE.get(), speciesInterpreter);
         registration.registerSubtypeInterpreter(ItemsRegistration.QUEEN.get(), speciesInterpreter);
@@ -108,8 +93,8 @@ public class ComplicatedBeesJEI implements IModPlugin {
     }
 
     @Override public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer());
-        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer());
+        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer(), Block.CODEC.codec());
+        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer(), FlowerRegistration.CODEC);
         IModPlugin.super.registerIngredients(registration);
     }
 

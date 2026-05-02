@@ -21,7 +21,6 @@ public class CombItem extends Item {
     }
 
     public static Comb getComb(ItemStack stack) {
-        //get comb string from nbt, return comb from registry
         return GeneticHelper.getRegistryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).get(stack.get(EsotericRegistration.COMB_TYPE));
     }
 
