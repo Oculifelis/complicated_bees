@@ -43,7 +43,7 @@ public class BeeLogic {
     }
 
     public ItemStack getQueen() {
-        return queen;
+        return queen == null ? ItemStack.EMPTY : queen;
     }
 
     public void setQueen(ItemStack queen) {
@@ -236,6 +236,11 @@ public class BeeLogic {
     }
 
     private void checkFlowerCache() {
+        if (getQueen().isEmpty()) {
+            flowerCache.clear();
+            flowerCache.add(getPos());
+            return;
+        }
         Flower flower = GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
         Level level = getLevel();
