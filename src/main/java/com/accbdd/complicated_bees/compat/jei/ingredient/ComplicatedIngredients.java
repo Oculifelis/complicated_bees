@@ -9,7 +9,7 @@ public class ComplicatedIngredients {
     public static final IIngredientType<Block> BLOCK = new IIngredientType<>() {
         @Override
         public String getUid() {
-            return "block";
+            return "bee_block";
         }
 
         @Override
@@ -21,7 +21,7 @@ public class ComplicatedIngredients {
     public static final IIngredientType<Flower> FLOWER = new IIngredientType<>() {
         @Override
         public String getUid() {
-            return "flower";
+            return "bee_flower";
         }
 
         @Override
