@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -93,7 +92,7 @@ public class ComplicatedBeesJEI implements IModPlugin {
     }
 
     @Override public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer(), Block.CODEC.codec());
+        registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer(), BlockWrapper.CODEC.codec());
         registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer(), FlowerRegistration.CODEC);
         IModPlugin.super.registerIngredients(registration);
     }

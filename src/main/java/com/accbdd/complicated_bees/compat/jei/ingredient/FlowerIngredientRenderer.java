@@ -18,7 +18,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 public class FlowerIngredientRenderer implements IIngredientRenderer<Flower> {
     @Override
     public void render(GuiGraphics guiGraphics, Flower ingredient) {
-        BlockIngredientRenderer.INSTANCE.render(guiGraphics, ingredient.getAllFlowerBlocks().stream().findAny().get());
+        BlockIngredientRenderer.INSTANCE.render(guiGraphics, ingredient.getAllFlowerBlocks().stream().map(BlockWrapper::new).findAny().get());
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), 0, 0, 0, 0, 16, 16, 16, 16);

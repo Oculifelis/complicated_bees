@@ -2,6 +2,7 @@ package com.accbdd.complicated_bees.compat.jei;
 
 import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
+import com.accbdd.complicated_bees.compat.jei.ingredient.BlockWrapper;
 import com.accbdd.complicated_bees.compat.jei.ingredient.ComplicatedIngredients;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -54,7 +55,7 @@ public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
     public void setRecipe(IRecipeLayoutBuilder builder, Flower flower, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.CATALYST, 117, 12)
                 .setSlotName("flower_blocks")
-                .addIngredients(ComplicatedIngredients.BLOCK, flower.getAllFlowerBlocks().stream().toList());
+                .addIngredients(ComplicatedIngredients.BLOCK, flower.getAllFlowerBlocks().stream().map(BlockWrapper::new).toList());
 
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
                 .addIngredients(ComplicatedIngredients.FLOWER, List.of(flower));

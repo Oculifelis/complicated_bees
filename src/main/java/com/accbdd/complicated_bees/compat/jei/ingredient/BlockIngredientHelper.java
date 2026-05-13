@@ -21,31 +21,31 @@ import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 @MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
-public class BlockIngredientHelper implements IIngredientHelper<Block> {
+public class BlockIngredientHelper implements IIngredientHelper<BlockWrapper> {
 
     @Override
-    public IIngredientType<Block> getIngredientType() {
+    public IIngredientType<BlockWrapper> getIngredientType() {
         return ComplicatedIngredients.BLOCK;
     }
 
     @Override
-    public String getDisplayName(Block ingredient) {
-        return "Block: " + ingredient.getName().getString();
+    public String getDisplayName(BlockWrapper ingredient) {
+        return "Block: " + ingredient.block().getName().getString();
     }
 
     @Override
-    public String getUniqueId(Block ingredient, UidContext context) {
+    public String getUniqueId(BlockWrapper ingredient, UidContext context) {
         return getUid(ingredient, context);
     }
 
     @Override
-    public String getUid(Block ingredient, UidContext context) {
+    public String getUid(BlockWrapper ingredient, UidContext context) {
 
         return "Block:" + getRegistryNameForBlock(ingredient);
     }
 
-    private String getRegistryNameForBlock(Block ingredient) {
-        ResourceLocation rl = BuiltInRegistries.BLOCK.getKey(ingredient);
+    private String getRegistryNameForBlock(BlockWrapper ingredient) {
+        ResourceLocation rl = BuiltInRegistries.BLOCK.getKey(ingredient.block());
         if (null == rl) {
             throw new NullPointerException("Blocks must be registered before being used as ingredients.");
         }
@@ -53,12 +53,12 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     }
 
     @Override
-    public ResourceLocation getResourceLocation(Block ingredient) {
+    public ResourceLocation getResourceLocation(BlockWrapper ingredient) {
         return ResourceLocation.parse(getRegistryNameForBlock(ingredient));
     }
 
     @Override
-    public Block copyIngredient(Block ingredient) {
+    public BlockWrapper copyIngredient(BlockWrapper ingredient) {
         // Blocks are singletons, so the only way to copy this would be to create
         // an unregistered copy, and creating unregistered blocks is generally a bad idea.
         // Let's hope there are no mutations.
@@ -66,7 +66,7 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     }
 
     @Override
-    public String getErrorInfo(@Nullable Block block) {
+    public String getErrorInfo(@Nullable BlockWrapper block) {
         if (block == null) {
             return "Block ingredient is null";
         }
@@ -75,18 +75,18 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     }
 
     @Override
-    public ItemStack getCheatItemStack(Block block) {
+    public ItemStack getCheatItemStack(BlockWrapper wrapper) {
         // This try catch probably isn't necessary, and both paths should spit out an air stack (effectively nothing)
         // if the BlockItem doesn't exist.
         try {
-            return new ItemStack(block.asItem());
+            return new ItemStack(wrapper.block().asItem());
         } catch (IllegalArgumentException e) {
             return ItemStack.EMPTY;
         }
     }
 
     @Override
-    public boolean isHiddenFromRecipeViewersByTags(Block ingredient) {
+    public boolean isHiddenFromRecipeViewersByTags(BlockWrapper ingredient) {
         // While showing blocktags is a useful utility, it's kind of weird to have every block show up twice
         // in JEI. Better to hide these from the search panel. Can be turned into a config option if desired.
         return true;
@@ -95,7 +95,7 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
     /**
      * @return a list of all blocks that are in flower datapack entries
      */
-    public static List<Block> createList() {
+    public static List<BlockWrapper> createList() {
 
         Set<Block> blocks = new HashSet<>();
         GeneticHelper.getRegistryAccess().registry(FlowerRegistration.FLOWER_REGISTRY_KEY).orElseThrow()
@@ -103,6 +103,6 @@ public class BlockIngredientHelper implements IIngredientHelper<Block> {
 
         LOGGER.debug("Added {} flower blocks to the JEI ingredient list", blocks.size());
 
-        return blocks.stream().toList();
+        return blocks.stream().map(BlockWrapper::new).toList();
     }
 }
