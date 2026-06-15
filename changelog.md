@@ -1,6 +1,5 @@
-# Complicated Bees 3.4.4
+# Complicated Bees 3.4.5
 
 ## Fixed
-
-* Actually fix incompatibility with other mods that add block ingredients - #128
-
+* Various NPEs associated with unconstructed mellariums
+* Tribute effect crashing in mellariums
