@@ -1,6 +1,6 @@
 package com.accbdd.complicated_bees.bees.effect;
 
-import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
+import com.accbdd.complicated_bees.block.entity.BaseBeeHousing;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,19 +16,19 @@ import java.util.ArrayList;
 
 public class TributeEffect extends BeeEffect {
     @Override
-    public void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress) {
-        if (apiary.getLevel() == null) return;
+    public void runEffect(BlockEntity be, ItemStack queen, int cycleProgress) {
+        if (be.getLevel() == null) return;
 
-        if (cycleProgress == 0) {
+        if (cycleProgress == 0 && be instanceof BaseBeeHousing housing) {
             ArrayList<LivingEntity> list = new ArrayList<>();
-            for (Entity entity : getTerritoryEntities(apiary, queen)) {
+            for (Entity entity : getTerritoryEntities(housing, queen)) {
                 if (entity instanceof LivingEntity living && living instanceof Animal) {
                     list.add(living);
                 }
             }
 
-            if (!list.isEmpty() && apiary.getLevel().random.nextFloat() < 0.1f) {
-                LivingEntity collectFrom = list.get(apiary.getLevel().random.nextInt(list.size()));
+            if (!list.isEmpty() && housing.getLevel().random.nextFloat() < 0.1f) {
+                LivingEntity collectFrom = list.get(housing.getLevel().random.nextInt(list.size()));
                 ServerLevel level = (ServerLevel) collectFrom.level();
                 LootTable lootTable = level.getServer().getLootData().getLootTable(collectFrom.getLootTable());
                 LootParams params = new LootParams.Builder(level)
@@ -37,7 +37,7 @@ public class TributeEffect extends BeeEffect {
                         .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic()).create(LootContextParamSets.ENTITY);
                 ItemStack stack = lootTable.getRandomItems(params).get(0);
                 stack.setCount(1);
-                ((ApiaryBlockEntity) apiary).addToOutput(stack);
+                housing.addToOutput(stack);
             }
         }
     }

@@ -8,9 +8,9 @@ public interface IBeeEffect {
     /**
      * Runs a bee effect.
      *
-     * @param apiary        the BlockEntity generating this effect
+     * @param housing        the BlockEntity generating this effect
      * @param queen         the queen generating this effect
      * @param cycleProgress the number of ticks since the last bee cycle
      */
-    void runEffect(BlockEntity apiary, ItemStack queen, int cycleProgress);
+    void runEffect(BlockEntity housing, ItemStack queen, int cycleProgress);
 }
