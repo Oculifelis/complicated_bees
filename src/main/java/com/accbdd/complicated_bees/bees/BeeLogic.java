@@ -43,7 +43,7 @@ public class BeeLogic {
     }
 
     public ItemStack getQueen() {
-        return queen;
+        return queen == null ? ItemStack.EMPTY : queen;
     }
 
     public void setQueen(ItemStack queen) {

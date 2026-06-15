@@ -32,3 +32,4 @@ forge*changelog.txt
 /libs/
 /test_resources/*
 /test_resources/
+/src/test/*

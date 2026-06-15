@@ -34,7 +34,9 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
 
             @Override
             protected void onContentsChanged(int slot) {
-                getLogic().getController().ifPresent(controller -> controller.getLogic().checkConditions());
+                if (getLogic() != null) {
+                    getLogic().getController().ifPresent(controller -> controller.getLogic().checkConditions());
+                }
                 super.onContentsChanged(slot);
             }
         };
