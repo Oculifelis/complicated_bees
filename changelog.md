@@ -1,5 +1,4 @@
-# Complicated Bees 3.4.5
+# Complicated Bees 3.4.6
 
 ## Fixed
-* Various NPEs associated with unconstructed mellariums
-* Tribute effect crashing in mellariums
+* EMI plugin being annoying with ingredient lookup

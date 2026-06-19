@@ -13,6 +13,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,7 +48,12 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
             return test;
         }).toList();
         catalysts = new ArrayList<>();
-        catalysts.addAll(species.toMembers().stream().map(EmiStack::of).toList());
+        catalysts.add(EmiIngredient.of(Ingredient.of(
+                species.toStack(ItemsRegistration.PRINCESS.get()),
+                species.toStack(ItemsRegistration.DRONE.get()))));
+        catalysts.add(EmiIngredient.of(Ingredient.of(
+                species.toStack(ItemsRegistration.DRONE.get()),
+                species.toStack(ItemsRegistration.PRINCESS.get()))));
     }
 
     @Override
