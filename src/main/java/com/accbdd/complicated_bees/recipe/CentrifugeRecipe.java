@@ -67,7 +67,7 @@ public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implement
 
     @Override
     public ItemStack assemble(RecipeInput pContainer, HolderLookup.Provider pRegistryAccess) {
-        ComplicatedBees.LOGGER.debug("tried to use assemble on a CentrifugeRecipe! Use getOutputs instead");
+        ComplicatedBees.LOGGER.warn("tried to use assemble on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
     }
 
@@ -78,7 +78,7 @@ public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implement
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider pRegistryAccess) {
-        ComplicatedBees.LOGGER.debug("tried to use getResultItem on a CentrifugeRecipe! Use getOutputs instead");
+        ComplicatedBees.LOGGER.warn("tried to use getResultItem on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
     }
 

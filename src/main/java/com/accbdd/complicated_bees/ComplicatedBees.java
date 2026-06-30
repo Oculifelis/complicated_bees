@@ -298,7 +298,6 @@ public class ComplicatedBees {
                     String path = entry.getKey().getPath(); // e.g. models/item/custom/fire_wand.json
                     String modelPath = path.substring("models/".length(), path.length() - ".json".length());
                     event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), modelPath)));
-                    ComplicatedBees.LOGGER.debug("Loaded bee model: " + entry.getKey());
                 }
             } catch (Exception e) {
                 ComplicatedBees.LOGGER.error("Failed to read bee models: " + e);

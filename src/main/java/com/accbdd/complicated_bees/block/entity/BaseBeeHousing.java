@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.block.entity;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.*;
 import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.*;
@@ -298,13 +297,11 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         for (Product product : species.getProducts()) {
             ItemStack stackResult = product.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
             getOutputBuffer().add(stackResult);
-            ComplicatedBees.LOGGER.debug("added " + stackResult + " to output, modifier " + housingModifiers);
         }
         if (getErrors() == EnumErrorCodes.ECSTATIC.value) {
             for (Product special : species.getSpecialtyProducts()) {
                 ItemStack stackResult = special.getStackResult(((EnumProductivity) GeneticHelper.getGeneValue(bee, GeneProductivity.ID, true)).value, housingModifiers);
                 getOutputBuffer().add(stackResult);
-                ComplicatedBees.LOGGER.debug("added " + stackResult + " to specialty output, modifier " + housingModifiers);
             }
         }
         setChanged();
