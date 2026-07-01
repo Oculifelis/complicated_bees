@@ -11,14 +11,12 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -33,7 +31,6 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     public static final String ITEMS_INPUT_TAG = "input_items";
     public static final String ITEMS_OUTPUT_TAG = "output_items";
     public static final String ITEMS_UPGRADE_TAG = "upgrade_items";
-    public static final String ENERGY_TAG = "energy";
 
     protected ItemStackHandler inputItems = createInputHandler();
     protected ItemStackHandler outputItems = createOutputHandler();
@@ -95,7 +92,9 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         tag.put(ITEMS_UPGRADE_TAG, upgradeItems.serializeNBT(registries));
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : outputBuffer) {
-            bufferTag.add(stack.save(registries));
+            if (!stack.isEmpty()) {
+                bufferTag.add(stack.save(registries));
+            }
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
     }
@@ -160,10 +159,10 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         while (!outputBuffer.empty()) {
             ItemStack next = outputBuffer.pop();
             next = ItemHandlerHelper.insertItem(outputItems, next, false);
-            if (next == ItemStack.EMPTY || next.is(Items.AIR)) {
+            if (next.isEmpty()) {
                 setChanged();
             } else {
-                outputBuffer.push(next);
+                addToOutputBuffer(next);
                 break;
             }
         }
@@ -172,7 +171,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     @Nullable
     public CentrifugeRecipe getRecipe(ItemStack stack) {
         Optional<RecipeHolder<CentrifugeRecipe>> recipeCheck = quickCheck.getRecipeFor(getWrapper(stack), getLevel());
-        return recipeCheck.isPresent() ? recipeCheck.get().value() : null;
+        return recipeCheck.map(RecipeHolder::value).orElse(null);
     }
 
     /**
@@ -186,29 +185,18 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         stack.shrink(1);
 
         for (Product product : products) {
-            outputBuffer.push(product.getStackResult(getOutputMod()));
+            addToOutputBuffer(product.getStackResult(getOutputMod()));
         }
     }
 
+
     /**
-     * @param stack the stack to test
-     * @return whether the CentrifugeRecipe given by the stack's primary output can be output to the centrifuge's output slots.
+     * @param stack a stack to add to the output buffer
      */
-    private boolean canInsertIntoOutput(ItemStack stack) {
-        CentrifugeRecipe recipe = getRecipe(stack);
-        if (recipe == null)
-            return true;
-        ItemStack primary = ItemStack.EMPTY;
-        if (!recipe.outputs().isEmpty()) {
-            primary = recipe.outputs().getFirst().getStack();
+    private void addToOutputBuffer(@Nullable ItemStack stack) {
+        if (stack != null && !stack.isEmpty()) {
+            outputBuffer.push(stack);
         }
-        boolean canInsert = false;
-        int stackCount = primary.getCount();
-        for (int i = 0; i < outputItems.getSlots(); i++) {
-            primary = this.outputItems.insertItem(i, primary, true);
-            canInsert = canInsert || (primary.getCount() < stackCount);
-        }
-        return canInsert;
     }
 
     public RecipeWrapper getWrapper(ItemStack stack) {
@@ -233,7 +221,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     /**
      * @return the internal handler for energy storage
      */
-    protected abstract EnergyStorage createEnergyStorage();
+    protected abstract IEnergyStorage createEnergyStorage();
 
     /**
      * @return a list of stacks this centrifuge is currently processing. should be empty if there are no recipes found
