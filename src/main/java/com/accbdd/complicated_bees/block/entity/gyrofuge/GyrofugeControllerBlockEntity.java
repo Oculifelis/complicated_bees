@@ -81,7 +81,7 @@ public class GyrofugeControllerBlockEntity extends AbstractCentrifugeBlockEntity
         this.modifier = logic.getMachineModifier();
         setActiveEnergyUsage(Math.round(BASE_USAGE / modifier.getEfficiencyMod()));
         setIdleEnergyUsage(BASE_IDLE_USAGE + gyrofugeLogic.getIdleUsage());
-        energyStorage = gyrofugeLogic.getEnergyStorage();
+        this.energyStorage = gyrofugeLogic.getEnergyStorage();
         this.energyHandler = new AdaptedEnergyStorage(gyrofugeLogic.getEnergyStorage());
         this.itemHandler = new CombinedInvWrapper((IItemHandlerModifiable) outputItemHandler, (IItemHandlerModifiable) inputItemHandler);
     }
