@@ -1,4 +1,4 @@
-# Complicated Bees 3.4.6
+# Complicated Bees 3.4.7
 
 ## Fixed
-* EMI plugin being annoying with ingredient lookup
+* Occasional failure to save centrifuges
