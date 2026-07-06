@@ -1,4 +1,4 @@
-# Complicated Bees 3.4.7
+# Complicated Bees 3.4.8
 
 ## Fixed
-* Occasional failure to save centrifuges
+* Bee textures breaking on resource pack reloads

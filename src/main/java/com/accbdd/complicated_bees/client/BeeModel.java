@@ -32,7 +32,12 @@ import java.util.function.Function;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeModel implements IUnbakedGeometry<BeeModel> {
-    public static HashMap<ResourceLocation, Variant> cacheMap = new HashMap<ResourceLocation, Variant>();
+    public static HashMap<ResourceLocation, Variant> cacheMap = new HashMap<>();
+
+    public static void clearCaches() {
+        cacheMap.clear();
+        Baked.OverrideList.stackCache.clear();
+    }
 
     @Override
     public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {

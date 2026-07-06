@@ -9,6 +9,7 @@ import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
+import com.accbdd.complicated_bees.block.entity.BeeSorterBlockEntity;
 import com.accbdd.complicated_bees.block.entity.gyrofuge.GyrofugeControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlockEntity;
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
@@ -46,7 +47,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -91,7 +91,7 @@ public class ComplicatedBees {
             .icon(() -> ItemsRegistration.DRONE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 for (DeferredItem<?> item : ItemsRegistration.CREATIVE_TAB_ITEMS) {
-                    output.accept((Item) item.get());
+                    output.accept(item.get());
                 }
                 RegistryAccess access = GeneticHelper.getRegistryAccess();
                 if (access != null) {
@@ -170,7 +170,7 @@ public class ComplicatedBees {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_SKYBOX_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_TEMPORAL_SIMULATOR_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.BEE_SORTER_BLOCK_ENTITY.get(), (be, ctx) -> be.getHandlerCapability(ctx));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.BEE_SORTER_BLOCK_ENTITY.get(), BeeSorterBlockEntity::getHandlerCapability);
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASE_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
@@ -315,6 +315,11 @@ public class ComplicatedBees {
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.MICROSCOPE_BLOCK_ENTITY.get(), MicroscopeBlockEntityRenderer::new);
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_SIGN_ENTITY.get(), SignRenderer::new);
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_HANGING_SIGN_ENTITY.get(), HangingSignRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void clearTextureCache(ModelEvent.ModifyBakingResult event) {
+            BeeModel.clearCaches();
         }
     }
 }
