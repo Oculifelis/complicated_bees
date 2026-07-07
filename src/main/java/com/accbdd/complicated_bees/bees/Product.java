@@ -49,6 +49,14 @@ public class Product {
         this.chance = chance;
     }
 
+    public Product(Item item, int count, float chance) {
+        this(item, count, null, null, chance);
+    }
+
+    public Product(Item item, float chance) {
+        this(item, 1, null, null, chance);
+    }
+
     public Product(ItemStack stack, float chance) {
         this(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), null, chance);
     }

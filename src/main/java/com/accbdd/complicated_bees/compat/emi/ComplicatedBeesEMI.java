@@ -3,6 +3,7 @@ package com.accbdd.complicated_bees.compat.emi;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.ingredient.EmiFlower;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
+import com.accbdd.complicated_bees.item.CombItem;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
@@ -16,6 +17,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -48,7 +50,14 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         registry.setDefaultComparison(ItemsRegistration.DRONE.get(), COMPARE_BEE);
         registry.setDefaultComparison(ItemsRegistration.PRINCESS.get(), COMPARE_BEE);
         registry.setDefaultComparison(ItemsRegistration.QUEEN.get(), COMPARE_BEE);
-        //registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.compareData(s -> CombItem.getComb(s.getItemStack())));
+        registry.setDefaultComparison(ItemsRegistration.COMB.get(), Comparison.of((a, b) -> {
+            ItemStack firstStack = a.getItemStack();
+            ItemStack secondStack = b.getItemStack();
+            if (CombItem.getComb(firstStack) == null || CombItem.getComb(secondStack) == null) {
+                return true;
+            }
+            return CombItem.getComb(firstStack).equals(CombItem.getComb(secondStack));
+        }));
         registry.setDefaultComparison(ItemsRegistration.BEE_NEST.get(), Comparison.compareData(s -> {
             CustomData customData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA);
             if (customData == null)

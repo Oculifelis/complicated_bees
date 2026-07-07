@@ -3,13 +3,12 @@ package com.accbdd.complicated_bees.datagen.builtin;
 import com.accbdd.complicated_bees.bees.Comb;
 import net.minecraft.resources.ResourceKey;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 import static com.accbdd.complicated_bees.datagen.builtin.BuiltIn.comb;
 
 public class Combs {
-    public static final Map.Entry<ResourceKey<Comb>, Comb> AMETHYST = new AbstractMap.SimpleEntry<>(comb("amethyst", 0xafad9c, 0xa86df9));
+    public static final Map.Entry<ResourceKey<Comb>, Comb> AMETHYST = (comb("amethyst", 0xafad9c, 0xa86df9));
     public static final Map.Entry<ResourceKey<Comb>, Comb> COAL = comb("coal", 0xafad9c, 0x3f3f3f);
     public static final Map.Entry<ResourceKey<Comb>, Comb> COPPER = comb("copper", 0xafad9c, 0xd37a5a);
     public static final Map.Entry<ResourceKey<Comb>, Comb> DIAMOND = comb("diamond", 0xafad9c, 0x79caec);

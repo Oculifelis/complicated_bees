@@ -1,0 +1,24 @@
+{
+  "type": "complicated_bees:centrifuge",
+  "input": {
+    "type": "neoforge:components",
+    "components": {
+      "complicated_bees:comb_type": "complicated_bees:gold"
+    },
+    "items": "complicated_bees:comb"
+  },
+  "outputs": [
+    {
+      "chance": 0.5,
+      "item": "complicated_bees:beeswax"
+    },
+    {
+      "chance": 0.3,
+      "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "chance": 0.25,
+      "item": "minecraft:raw_gold"
+    }
+  ]
+}

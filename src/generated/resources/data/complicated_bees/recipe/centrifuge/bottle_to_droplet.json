@@ -1,0 +1,12 @@
+{
+  "type": "complicated_bees:centrifuge",
+  "input": {
+    "item": "minecraft:honey_bottle"
+  },
+  "outputs": [
+    {
+      "count": 3,
+      "item": "complicated_bees:honey_droplet"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "complicated_bees:centrifuge",
+  "input": {
+    "type": "neoforge:components",
+    "components": {
+      "complicated_bees:comb_type": "complicated_bees:silky"
+    },
+    "items": "complicated_bees:comb"
+  },
+  "outputs": [
+    {
+      "chance": 0.1,
+      "item": "complicated_bees:beeswax"
+    },
+    {
+      "chance": 0.5,
+      "item": "complicated_bees:honey_droplet"
+    },
+    {
+      "chance": 0.7,
+      "item": "complicated_bees:propolis"
+    }
+  ]
+}

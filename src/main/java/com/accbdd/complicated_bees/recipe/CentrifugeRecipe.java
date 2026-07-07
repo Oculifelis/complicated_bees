@@ -9,20 +9,17 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implements Recipe<RecipeInput> {
+public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implements Recipe<RecipeInput> {
     public static class Serializer implements RecipeSerializer<CentrifugeRecipe> {
         private static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> 
                 instance.group(
-                        ItemStack.STRICT_CODEC.fieldOf("input").forGetter(CentrifugeRecipe::input),
+                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(CentrifugeRecipe::input),
                         Product.CODEC.listOf().fieldOf("outputs").forGetter(CentrifugeRecipe::outputs)
                 ).apply(instance, CentrifugeRecipe::new)
         );
@@ -39,7 +36,7 @@ public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implement
         }
 
         private static CentrifugeRecipe fromNetwork(RegistryFriendlyByteBuf pBuffer) {
-            ItemStack input = ItemStack.STREAM_CODEC.decode(pBuffer);
+            Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(pBuffer);
             List<Product> outputs = new ArrayList<>();
             int listSize = pBuffer.readInt();
             for (int i = 0; i < listSize; i++) {
@@ -49,7 +46,7 @@ public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implement
         }
 
         private static void toNetwork(RegistryFriendlyByteBuf pBuffer, CentrifugeRecipe pRecipe) {
-            ItemStack.STREAM_CODEC.encode(pBuffer, pRecipe.input);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(pBuffer, pRecipe.input);
             pBuffer.writeInt(pRecipe.outputs.size());
             for (Product prod : pRecipe.outputs) {
                 prod.toNetwork(pBuffer);
@@ -60,9 +57,7 @@ public record CentrifugeRecipe(ItemStack input, List<Product> outputs) implement
     @Override
     public boolean matches(RecipeInput pContainer, Level pLevel) {
         ItemStack containerInput = pContainer.getItem(0);
-        boolean itemComponentMatch = ItemStack.isSameItemSameComponents(containerInput, input);
-        boolean countMatch = input.getCount() <= containerInput.getCount();
-        return (countMatch && itemComponentMatch);
+        return input.test(containerInput);
     }
 
     @Override

@@ -2,10 +2,8 @@ package com.accbdd.complicated_bees.compat.emi.recipe;
 
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
 import com.accbdd.complicated_bees.recipe.CentrifugeRecipe;
-import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
@@ -24,10 +22,7 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
     public CentrifugeEmiRecipe(ResourceLocation id, CentrifugeRecipe recipe) {
         this.id = id;
 
-        if (recipe.input().is(ItemsRegistration.COMB.get()))
-            this.input = EmiStack.of(recipe.input()).comparison(Comparison.compareComponents());
-        else
-            this.input = EmiStack.of(recipe.input());
+        this.input = EmiIngredient.of(recipe.input());
 
         this.outputs = recipe.outputs()
                 .stream()

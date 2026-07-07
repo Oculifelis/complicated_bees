@@ -139,7 +139,7 @@ dependencies {
     } else if (runtime_recipe_viewer == "rei") {
         localRuntime "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
     } else if (runtime_recipe_viewer == "emi") {
-        localRuntime "dev.emi:emi-forge:${emi_version}"
+        localRuntime "dev.emi:emi-neoforge:${emi_version}"
     } else if (runtime_recipe_viewer == "emi+") {
         localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
         localRuntime "dev.emi:emi-neoforge:${emi_version}"

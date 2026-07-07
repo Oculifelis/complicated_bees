@@ -55,7 +55,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     public void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 15, 24)
                 .setSlotName("input")
-                .addIngredient(VanillaTypes.ITEM_STACK, recipe.input());
+                .addIngredients(recipe.input());
 
         for (int i = 0; i < recipe.outputs().size(); i++) {
             Product product = recipe.outputs().get(i);

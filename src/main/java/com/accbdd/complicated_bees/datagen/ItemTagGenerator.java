@@ -9,6 +9,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -38,7 +39,7 @@ public class ItemTagGenerator extends ItemTagsProvider {
         tag(ROYAL).add(ItemsRegistration.PRINCESS.get(), ItemsRegistration.QUEEN.get());
         tag(BEE).add(ItemsRegistration.PRINCESS.get(), ItemsRegistration.QUEEN.get(), ItemsRegistration.DRONE.get());
         tag(ANALYZER_FUEL).add(ItemsRegistration.HONEY_DROPLET.get(), ItemsRegistration.ROYAL_JELLY.get());
-        tag(COMB).add(ItemsRegistration.COMB.get());
+        tag(COMB).add(ItemsRegistration.COMB.get(), Items.HONEYCOMB);
         tag(FRAME).add(
                 ItemsRegistration.FRAME.get(),
                 ItemsRegistration.DEADLY_FRAME.get(),

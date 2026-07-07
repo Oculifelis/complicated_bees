@@ -1,19 +1,20 @@
 package com.accbdd.complicated_bees.datagen;
 
+import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
+import com.accbdd.complicated_bees.datagen.builtin.Combs;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
-import com.accbdd.complicated_bees.recipe.HoneyGeneratorRecipe;
-import com.accbdd.complicated_bees.recipe.HydroRecipe;
-import com.accbdd.complicated_bees.recipe.MutatorRecipe;
-import com.accbdd.complicated_bees.recipe.TempUnitRecipe;
+import com.accbdd.complicated_bees.recipe.*;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -22,7 +23,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -628,6 +632,154 @@ public class RecipeGenerator extends RecipeProvider {
         honeyGeneratorRecipe(output, "propolis", Ingredient.of(ItemsRegistration.PROPOLIS.get()), 200);
         honeyGeneratorRecipe(output, "pollen", Ingredient.of(ItemsRegistration.POLLEN.get()), 800);
         honeyGeneratorRecipe(output, "royal_jelly", Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), 1600);
+
+        centrifugeRecipe(output,
+                "amethyst_comb",
+                combIngredient(Combs.AMETHYST),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.AMETHYST_SHARD, 0.25f));
+        centrifugeRecipe(output,
+                "bottle_to_droplet",
+                Ingredient.of(Items.HONEY_BOTTLE),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 3, 1f));
+        centrifugeRecipe(output,
+                "coal_comb",
+                combIngredient(Combs.COAL),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.COAL, 0.25f));
+        centrifugeRecipe(output,
+                "copper_comb",
+                combIngredient(Combs.COPPER),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.RAW_COPPER, 0.25f));
+        centrifugeRecipe(output,
+                "diamond_comb",
+                combIngredient(Combs.DIAMOND),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.DIAMOND, 0.25f));
+        centrifugeRecipe(output,
+                "dripping_comb",
+                combIngredient(Combs.DRIPPING),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.3f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.85f));
+        centrifugeRecipe(output,
+                "dusty_comb",
+                combIngredient(Combs.DUSTY),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.3f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.5f));
+        centrifugeRecipe(output,
+                "emerald_comb",
+                combIngredient(Combs.EMERALD),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.EMERALD, 0.25f));
+        centrifugeRecipe(output,
+                "glowstone_comb",
+                combIngredient(Combs.GLOWSTONE),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.GLOWSTONE_DUST, 0.25f));
+        centrifugeRecipe(output,
+                "gold_comb",
+                combIngredient(Combs.GOLD),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.RAW_GOLD, 0.25f));
+        centrifugeRecipe(output,
+                "honey_comb",
+                combIngredient(Combs.HONEY),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.4f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.7f));
+        centrifugeRecipe(output,
+                "iron_comb",
+                combIngredient(Combs.IRON),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.RAW_IRON, 0.25f));
+        centrifugeRecipe(output,
+                "lapis_comb",
+                combIngredient(Combs.LAPIS),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.LAPIS_LAZULI, 0.25f));
+        centrifugeRecipe(output,
+                "mysterious_comb",
+                combIngredient(Combs.MYSTERIOUS),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.5f),
+                new Product(ItemsRegistration.PEARL_SHARD.get(), 0.1f));
+        centrifugeRecipe(output,
+                "netherite_comb",
+                combIngredient(Combs.NETHERITE),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.NETHERITE_SCRAP, 0.25f));
+        centrifugeRecipe(output,
+                "propolis",
+                Ingredient.of(ItemsRegistration.PROPOLIS),
+                new Product(ItemsRegistration.SILK_WISP.get(), 0.6f),
+                new Product(Items.SLIME_BALL, 0.1f));
+        centrifugeRecipe(output,
+                "quartz_comb",
+                combIngredient(Combs.QUARTZ),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.QUARTZ, 0.25f));
+        centrifugeRecipe(output,
+                "redstone_comb",
+                combIngredient(Combs.REDSTONE),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.5f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.3f),
+                new Product(Items.REDSTONE, 0.25f));
+        centrifugeRecipe(output,
+                "rocky_comb",
+                combIngredient(Combs.ROCKY),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.8f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.4f));
+        centrifugeRecipe(output,
+                "rotten_comb",
+                combIngredient(Combs.ROTTEN),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.6f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.2f),
+                new Product(Items.BONE_MEAL, 0.3f),
+                new Product(Items.ROTTEN_FLESH, 0.1f));
+        centrifugeRecipe(output,
+                "royal_comb",
+                combIngredient(Combs.ROYAL),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.2f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.9f),
+                new Product(ItemsRegistration.ROYAL_JELLY.get(), 0.2f));
+        centrifugeRecipe(output,
+                "silky_comb",
+                combIngredient(Combs.SILKY),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.1f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.5f),
+                new Product(ItemsRegistration.PROPOLIS.get(), 0.7f));
+        centrifugeRecipe(output,
+                "simmering_comb",
+                combIngredient(Combs.SIMMERING),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.2f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.75f),
+                new Product(ItemsRegistration.PROPOLIS.get(), 0.1f));
+        centrifugeRecipe(output,
+                "spectral_comb",
+                combIngredient(Combs.SPECTRAL),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.3f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.65f));
+        centrifugeRecipe(output,
+                "stringy_comb",
+                combIngredient(Combs.STRINGY),
+                new Product(ItemsRegistration.BEESWAX.get(), 0.2f),
+                new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.5f),
+                new Product(ItemsRegistration.PROPOLIS.get(), 0.6f));
+    }
+
+    protected static Ingredient combIngredient(Map.Entry<ResourceKey<Comb>, Comb> comb) {
+        return DataComponentIngredient.of(false, EsotericRegistration.COMB_TYPE, comb.getKey().location(), ItemsRegistration.COMB.get());
     }
 
     protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside) {
@@ -660,6 +812,12 @@ public class RecipeGenerator extends RecipeProvider {
                 new HoneyGeneratorRecipe(input, burnTime),
                 null
         );
+    }
+
+    protected static void centrifugeRecipe(RecipeOutput output, String name, Ingredient input, Product... outputs) {
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "centrifuge/" + name),
+                new CentrifugeRecipe(input, Arrays.stream(outputs).toList()),
+                null);
     }
 
     protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside, ItemLike unlockedBy) {
