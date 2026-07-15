@@ -100,7 +100,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         lineBreak();
 
         drawGeneValues(graphics, Component.translatable("gene.complicated_bees.species_label"), bee, GeneRegistration.SPECIES.get());
-        drawGeneValues(graphics, Component.translatable("gene.complicated_bees.lifespan_label"), bee, GeneRegistration.LIFESPAN.get());
+        drawGeneValues(graphics, Component.translatable("gene.complicated_bees.lifespan_label.short"), bee, GeneRegistration.LIFESPAN.get());
         drawGeneValues(graphics, Component.translatable("gene.complicated_bees.productivity_label"), bee, GeneRegistration.PRODUCTIVITY.get());
         drawGeneValues(graphics, Component.translatable("gene.complicated_bees.flower_label"), bee, GeneRegistration.FLOWER.get());
         lineBreak();
