@@ -41,4 +41,9 @@ public class GeneActiveTime extends Gene<EnumActiveTime> {
     public MutableComponent getTranslationKey() {
         return geneData.getTranslationKey();
     }
+
+    @Override
+    public IGene<EnumActiveTime> copy() {
+        return new GeneActiveTime(this.get(), this.isDominant());
+    }
 }

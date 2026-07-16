@@ -38,4 +38,9 @@ public class GeneFertility extends Gene<Integer> {
     public MutableComponent getTranslationKey() {
         return Component.literal(geneData.toString());
     }
+
+    @Override
+    public IGene<Integer> copy() {
+        return new GeneFertility(this.get(), this.isDominant());
+    }
 }

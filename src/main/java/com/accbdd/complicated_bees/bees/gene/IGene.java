@@ -46,4 +46,9 @@ public interface IGene<T> {
      * @return a translation key for the value inside this gene
      */
     MutableComponent getTranslationKey();
+
+    /**
+     * @return a copy of this gene
+     */
+    IGene<T> copy();
 }

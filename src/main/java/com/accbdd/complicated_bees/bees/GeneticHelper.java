@@ -190,8 +190,8 @@ public class GeneticHelper {
 
         for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {
             ResourceLocation key = geneEntry.getKey();
-            IGene<?> geneA = (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key);
-            IGene<?> geneB = (rand.nextFloat() < 0.5 ? right.primary() : right.secondary()).getGene(key);
+            IGene<?> geneA = (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key).copy();
+            IGene<?> geneB = (rand.nextFloat() < 0.5 ? right.primary() : right.secondary()).getGene(key).copy();
 
             if (geneEntry.getValue() instanceof GeneTolerant) {
                 EnumTolerance toleranceA = ((GeneTolerant<?>) (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key)).getTolerance();

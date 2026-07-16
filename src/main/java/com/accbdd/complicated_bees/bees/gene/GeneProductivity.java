@@ -38,4 +38,9 @@ public class GeneProductivity extends Gene<EnumProductivity> {
     public MutableComponent getTranslationKey() {
         return geneData.getTranslationKey();
     }
+
+    @Override
+    public IGene<EnumProductivity> copy() {
+        return new GeneProductivity(this.get(), this.isDominant());
+    }
 }

@@ -29,4 +29,9 @@ public class GeneTemperature extends GeneTolerant<EnumTemperature> {
     public MutableComponent getTranslationKey() {
         return geneData.getTranslationKey();
     }
+
+    @Override
+    public IGene<EnumTemperature> copy() {
+        return new GeneTemperature(this.get(), this.getTolerance(), this.isDominant());
+    }
 }

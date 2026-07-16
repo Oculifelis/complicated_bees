@@ -23,7 +23,7 @@ public record Genome(Chromosome primary, Chromosome secondary) {
     );
 
     public Genome(Chromosome chromosome) {
-        this(chromosome, chromosome);
+        this(chromosome.copy(), chromosome.copy());
     }
 
     public Chromosome primary() {

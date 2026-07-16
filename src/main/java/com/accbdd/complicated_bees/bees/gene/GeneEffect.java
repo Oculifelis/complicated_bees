@@ -53,4 +53,9 @@ public class GeneEffect extends Gene<IBeeEffect> {
                 ? null
                 : Component.translatable("effect.complicated_bees." + ComplicatedBees.BEE_EFFECT_REGISTRY.get().getKey(geneData) + ".desc");
     }
+
+    @Override
+    public IGene<IBeeEffect> copy() {
+        return new GeneEffect(this.get(), this.isDominant());
+    }
 }

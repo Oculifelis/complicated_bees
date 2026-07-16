@@ -38,4 +38,9 @@ public class GeneLifespan extends Gene<EnumLifespan> {
     public MutableComponent getTranslationKey() {
         return geneData.getTranslationKey();
     }
+
+    @Override
+    public IGene<EnumLifespan> copy() {
+        return new GeneLifespan(this.get(), this.isDominant());
+    }
 }

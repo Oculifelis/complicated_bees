@@ -54,4 +54,9 @@ public class GeneTerritory extends Gene<int[]> {
         if (!(o instanceof GeneTerritory gene)) return false;
         return isDominant() == gene.isDominant() && Arrays.equals(get(), gene.get());
     }
+
+    @Override
+    public IGene<int[]> copy() {
+        return new GeneTerritory(this.get(), this.isDominant());
+    }
 }

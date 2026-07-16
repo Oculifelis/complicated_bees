@@ -27,4 +27,9 @@ public class GeneBoolean extends Gene<Boolean> {
     public MutableComponent getTranslationKey() {
         return geneData ? Component.translatable("gui.complicated_bees.boolean.true") : Component.translatable("gui.complicated_bees.boolean.false");
     }
+
+    @Override
+    public IGene<Boolean> copy() {
+        return new GeneBoolean(this.get(), this.isDominant());
+    }
 }

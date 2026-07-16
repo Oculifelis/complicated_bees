@@ -38,4 +38,9 @@ public class GeneFlower extends Gene<ResourceLocation> {
     public MutableComponent getTranslationKey() {
         return Component.translatable("flower.complicated_bees." + geneData.toString());
     }
+
+    @Override
+    public IGene<ResourceLocation> copy() {
+        return new GeneFlower(this.get(), this.isDominant());
+    }
 }

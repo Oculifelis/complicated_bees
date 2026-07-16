@@ -60,4 +60,9 @@ public class GeneSpecies extends Gene<Species> {
     public MutableComponent getTranslationKey() {
         return Component.translatable("species.complicated_bees." + SpeciesRegistration.getResourceLocation(geneData));
     }
+
+    @Override
+    public IGene<Species> copy() {
+        return new GeneSpecies(this.get(), this.isDominant());
+    }
 }

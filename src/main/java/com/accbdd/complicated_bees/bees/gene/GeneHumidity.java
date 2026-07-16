@@ -29,4 +29,9 @@ public class GeneHumidity extends GeneTolerant<EnumHumidity> {
     public MutableComponent getTranslationKey() {
         return geneData.getTranslationKey();
     }
+
+    @Override
+    public IGene<EnumHumidity> copy() {
+        return new GeneHumidity(this.get(), this.getTolerance(), this.isDominant());
+    }
 }
