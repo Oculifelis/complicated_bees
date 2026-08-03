@@ -150,7 +150,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.discover.research.no_change")).create();
         else {
             int finalI = i;
-            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research", mutation.id(), finalI), true);
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research", mutation.id().toString(), finalI), true);
         }
         return i;
     }
@@ -189,7 +189,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.discover.mutation.no_change")).create();
         else {
             int finalI = i;
-            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.mutation", mutation.id(), finalI), true);
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.mutation", mutation.id().toString(), finalI), true);
         }
         return i;
     }
