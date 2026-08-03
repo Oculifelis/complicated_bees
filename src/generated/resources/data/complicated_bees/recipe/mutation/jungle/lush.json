@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.08,
+  "first": "complicated_bees:tangle",
+  "result": "complicated_bees:lush",
+  "second": "complicated_bees:robust"
+}

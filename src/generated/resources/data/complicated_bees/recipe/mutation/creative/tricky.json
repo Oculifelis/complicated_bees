@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.1,
+  "first": "complicated_bees:fiendish",
+  "result": "complicated_bees:tricky",
+  "second": "complicated_bees:rotten"
+}

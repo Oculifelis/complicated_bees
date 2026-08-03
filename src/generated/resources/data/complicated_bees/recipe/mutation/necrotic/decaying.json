@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.1,
+  "first": "complicated_bees:cursed",
+  "result": "complicated_bees:decaying",
+  "second": "complicated_bees:outcast"
+}

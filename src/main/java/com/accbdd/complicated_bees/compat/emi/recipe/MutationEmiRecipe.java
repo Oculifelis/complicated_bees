@@ -1,12 +1,11 @@
 package com.accbdd.complicated_bees.compat.emi.recipe;
 
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.compat.emi.ComplicatedBeesEMI;
 import com.accbdd.complicated_bees.config.ServerConfig;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
+import com.accbdd.complicated_bees.recipe.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -24,24 +23,17 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MutationEmiRecipe implements EmiRecipe {
-    private final Mutation mutation;
+    private final MutationRecipe mutation;
     private final ResourceLocation id;
     private final EmiIngredient first;
     private final EmiIngredient second;
     private final EmiIngredient result;
     private final EmiIngredient lookups;
 
-    public MutationEmiRecipe(Mutation mutation) {
+    public MutationEmiRecipe(ResourceLocation id, MutationRecipe mutation) {
         this.mutation = mutation;
+        this.id = id;
 
-        id = ResourceLocation.tryBuild(MODID,
-                "/mutation/first/" +
-                        mutation.getFirst().toString().replace(":", "/") +
-                        "/second/" +
-                        mutation.getSecond().toString().replace(":", "/") +
-                        "/result/" +
-                        mutation.getResult().toString().replace(":", "/")
-        );
         first = EmiIngredient.of(Ingredient.of(
                 mutation.getFirstSpecies().toStack(ItemsRegistration.DRONE.get()),
                 mutation.getFirstSpecies().toStack(ItemsRegistration.PRINCESS.get())
@@ -110,7 +102,7 @@ public class MutationEmiRecipe implements EmiRecipe {
 
         double chance = mutation.getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
-            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(id) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }
 
         String chanceString = mutation.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);

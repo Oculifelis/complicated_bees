@@ -1,10 +1,8 @@
 package com.accbdd.complicated_bees.registry;
 
-import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.bees.mutation.condition.*;
+import com.accbdd.complicated_bees.recipe.mutation.condition.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -19,8 +17,6 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MutationRegistration {
-    public static final ResourceKey<Registry<Mutation>> MUTATION_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "mutation"));
-
     public static final ResourceKey<Registry<IMutationCondition>> MUTATION_CONDITION_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "mutation_condition"));
     public static final RegistryBuilder<IMutationCondition> MUTATION_CONDITION_REGISTRY = new RegistryBuilder<>(MUTATION_CONDITION_KEY);
 
@@ -36,12 +32,4 @@ public class MutationRegistration {
     public static final Supplier<IMutationCondition> DIMENSION = MUTATION_CONDITIONS.register(DimensionCondition.ID, () -> new DimensionCondition(ResourceLocation.tryParse("minecraft:overworld")));
     public static final Supplier<IMutationCondition> BIOME = MUTATION_CONDITIONS.register(BiomeCondition.ID, () -> new BiomeCondition(Biomes.PLAINS));
     public static final Supplier<IMutationCondition> BLOCK_TAG_UNDER = MUTATION_CONDITIONS.register(BlockTagUnderCondition.ID, () -> new BlockTagUnderCondition(BlockTags.DIRT));
-
-    public static ResourceLocation getResourceLocation(Mutation mutation) {
-        return GeneticHelper.getRegistryAccess().registryOrThrow(MUTATION_REGISTRY_KEY).getKey(mutation);
-    }
-
-    public static Mutation getFromResourceLocation(ResourceLocation loc) {
-        return GeneticHelper.getRegistryAccess().registryOrThrow(MUTATION_REGISTRY_KEY).get(loc);
-    }
 }

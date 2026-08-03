@@ -1,6 +1,6 @@
 {
   "blocks": [
-    "minecraft:dripstone_block",
-    "minecraft:pointed_dripstone"
+    "minecraft:pointed_dripstone",
+    "minecraft:dripstone_block"
   ]
 }

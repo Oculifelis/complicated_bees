@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.client;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
@@ -20,11 +20,11 @@ public class ResearchToast implements Toast {
     private static final long DISPLAY_TIME = 5000L;
     private static final Component TITLE_TEXT = Component.translatable("toast.complicated_bees.research");
     private final Component descriptionText;
-    private final Mutation mutation;
+    private final MutationRecipe mutation;
     private long lastChanged;
     private boolean changed;
 
-    public ResearchToast(Mutation mutation) {
+    public ResearchToast(MutationRecipe mutation) {
         this.mutation = mutation;
         descriptionText = GeneticHelper.getTranslationKey(this.mutation.getResultSpecies());
     }

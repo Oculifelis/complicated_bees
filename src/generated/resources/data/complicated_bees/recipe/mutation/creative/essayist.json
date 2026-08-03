@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.1,
+  "first": "complicated_bees:jazzy",
+  "result": "complicated_bees:essayist",
+  "second": "complicated_bees:desert"
+}

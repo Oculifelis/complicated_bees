@@ -2,7 +2,10 @@ package com.accbdd.complicated_bees.compat.jei;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.jei.ingredient.*;
-import com.accbdd.complicated_bees.registry.*;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -47,8 +50,8 @@ public class ComplicatedBeesJEI implements IModPlugin {
         RecipeManager manager = Minecraft.getInstance().getConnection().getRecipeManager();
         registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()).stream().map(RecipeHolder::value).toList());
         registration.addRecipes(BeeProduceRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).stream().toList());
-        registration.addRecipes(MutationRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY).stream().toList());
         registration.addRecipes(FlowerTypeRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(MutationRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get()));
         registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()).stream().map(RecipeHolder::value).toList());
         registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());
         registration.addRecipes(HydroRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.HYDROREGULATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());

@@ -90,4 +90,10 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
         }
         analyzer.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
     }
+
+    @Override
+    public boolean isBeeAnalyzed() {
+        ItemStack bee = handler.getStackInSlot(1);
+        return bee.is(ItemTagGenerator.BEE) && bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).analyzed();
+    }
 }

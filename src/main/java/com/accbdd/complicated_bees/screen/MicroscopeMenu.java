@@ -1,17 +1,19 @@
 package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.entity.MicroscopeBlockEntity;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.network.packet.MicroscopeHintClientbound;
-import com.accbdd.complicated_bees.registry.*;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
+import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.MenuRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,10 +22,13 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MicroscopeMenu extends AbstractBaseInventoryMenu {
     public static int SLOT_COUNT = 6;
@@ -37,9 +42,9 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
     private byte[] guessCode;
     private MicroscopeGameClientbound.GameState state;
     protected int difficulty;
-    protected List<Mutation> possibleMutations = List.of();
+    protected List<RecipeHolder<MutationRecipe>> possibleMutations = List.of();
     protected int possibleMutationsCount = -1;
-    protected List<Mutation> researchedMutations = List.of();
+    protected List<RecipeHolder<MutationRecipe>> researchedMutations = List.of();
     protected  int researchedMutationsCount = -1;
 
     public MicroscopeMenu(int windowId, Player player, BlockPos pos) {
@@ -147,7 +152,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         if (getSlot(0).getItem().isEmpty())
             this.difficulty = 1;
         else
-            this.difficulty = (int) (5 * Math.log10(SpeciesRegistration.getComplexity(GeneticHelper.getSpecies(getSlot(0).getItem(), true))) + 3);
+            this.difficulty = (int) (5 * Math.log10(SpeciesRegistration.getComplexity(GeneticHelper.getSpecies(getSlot(0).getItem(), true), player.level())) + 3);
         this.difficulty = Math.min(difficulty, 8);
         this.researchCode = new byte[difficulty];
         for (byte i = 0; i < difficulty; i++) {
@@ -180,29 +185,20 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             return;
         ItemStack bee = getSlot(0).getItem();
         if (bee.isEmpty()) {
-            possibleMutations = List.of();
-            possibleMutationsCount = -1;
-            researchedMutations = List.of();
-            researchedMutationsCount = -1;
+            this.possibleMutations = List.of();
+            this.possibleMutationsCount = -1;
+            this.researchedMutations = List.of();
+            this.researchedMutationsCount = -1;
             return;
         }
         ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
-        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY);
-        List<Mutation> mutations = mutationRegistry.stream().filter(
-                mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
-        ).toList();
-        List<Mutation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> {
-                    if (mutationRegistry.get(location) == null)
-                        return false;
-                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
-                }
-        ).map(mutationRegistry::get).toList();
-
-        possibleMutations = mutations;
-        possibleMutationsCount = mutations.size();
-        researchedMutations = researched;
-        researchedMutationsCount = researched.size();
+        List<RecipeHolder<MutationRecipe>> mutationRecipes = player.level().getRecipeManager().getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get());
+        this.possibleMutations = mutationRecipes.stream().filter(holder ->
+                holder.value() instanceof MutationRecipe mutation && (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))).toList();
+        this.possibleMutationsCount = this.possibleMutations.size();
+        this.researchedMutations = this.possibleMutations.stream().filter(holder ->
+                tracker.getResearchedMutations().contains(holder.id())).toList();
+        this.researchedMutationsCount = this.researchedMutations.size();
     }
 
     public void research() {
@@ -211,17 +207,8 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             return;
         BreedingTracker tracker = BreedingTracker.getTracker(this.player);
         ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
-        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY);
-        Set<ResourceLocation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> {
-                    if (mutationRegistry.get(location) == null)
-                        return false;
-                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
-                }
-        ).collect(Collectors.toSet());
-        List<Mutation> mutationsToDiscover = mutationRegistry.stream().filter(
-                mutation -> (!researched.contains(mutationRegistry.getKey(mutation)) && ((mutation.getFirst().equals(species) || mutation.getSecond().equals(species))))
-        ).toList();
+        List<RecipeHolder<MutationRecipe>> mutationsToDiscover = new ArrayList<>(List.copyOf(this.possibleMutations));
+        mutationsToDiscover.removeAll(this.researchedMutations);
 
         if (!mutationsToDiscover.isEmpty()) {
             tracker.research(mutationsToDiscover.get(rand.nextInt(mutationsToDiscover.size())));

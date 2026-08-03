@@ -2,15 +2,14 @@ package com.accbdd.complicated_bees.bees.tracking;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.client.DiscoverToast;
 import com.accbdd.complicated_bees.client.ResearchToast;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +20,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.neoforged.api.distmarker.Dist;
@@ -80,13 +80,13 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     @Override
-    public boolean isDiscovered(Mutation mutation) {
-        return discoveredMutations.contains(MutationRegistration.getResourceLocation(mutation));
+    public boolean isDiscovered(RecipeHolder<MutationRecipe> mutation) {
+        return discoveredMutations.contains(mutation.id());
     }
 
     @Override
-    public boolean isResearched(Mutation mutation) {
-        return researchedMutations.contains(MutationRegistration.getResourceLocation(mutation));
+    public boolean isResearched(RecipeHolder<MutationRecipe> mutation) {
+        return researchedMutations.contains(mutation.id());
     }
 
     public void discoverIndividual(ItemStack stack) {
@@ -109,9 +109,9 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     @Override
-    public void discover(Mutation mutation) {
+    public void discover(RecipeHolder<MutationRecipe> mutation) {
         if (!isDiscovered(mutation)) {
-            ResourceLocation loc = MutationRegistration.getResourceLocation(mutation);
+            ResourceLocation loc = mutation.id();
             discoveredMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.MUTATION, loc);
@@ -119,9 +119,9 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     @Override
-    public void research(Mutation mutation) {
+    public void research(RecipeHolder<MutationRecipe> mutation) {
         if (!isResearched(mutation)) {
-            ResourceLocation loc = MutationRegistration.getResourceLocation(mutation);
+            ResourceLocation loc = mutation.id();
             researchedMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.RESEARCH, loc);
@@ -224,7 +224,11 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
             case MUTATION -> CLIENT_INSTANCE.discoveredMutations.add(packet.loc());
             case RESEARCH -> {
                 CLIENT_INSTANCE.researchedMutations.add(packet.loc());
-                Minecraft.getInstance().getToasts().addToast(new ResearchToast(MutationRegistration.getFromResourceLocation(packet.loc())));
+                Minecraft.getInstance().level.getRecipeManager().byKey(packet.loc()).ifPresent(holder -> {
+                    if (holder.value() instanceof MutationRecipe mutation) {
+                        Minecraft.getInstance().getToasts().addToast(new ResearchToast(mutation));
+                    }
+                });
             }
         }
     }

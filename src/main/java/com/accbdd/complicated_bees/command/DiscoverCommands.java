@@ -5,13 +5,12 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Genome;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.gene.IGene;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -29,12 +28,14 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.CompoundTagArgument;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -51,11 +52,11 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                                 ).then(Commands.literal("mutation")
                                         .then(Commands.literal("clear").executes(context -> clearMutations(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.literal("grant")
-                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverMutation(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).value()))))
+                                            .then(Commands.argument("mutation", ResourceLocationArgument.id()).suggests(DiscoverCommands::getMutationSuggest).executes(context -> discoverMutation(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceLocationArgument.getRecipe(context, "mutation")))))
                                 ).then(Commands.literal("research")
                                         .then(Commands.literal("clear").executes(context -> clearResearch(context.getSource(), EntityArgument.getEntities(context, "targets"))))
                                         .then(Commands.literal("grant")
-                                            .then(Commands.argument("mutation", ResourceArgument.resource(buildContext, MutationRegistration.MUTATION_REGISTRY_KEY)).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceArgument.getResource(context, "mutation", MutationRegistration.MUTATION_REGISTRY_KEY).value()))))
+                                            .then(Commands.argument("mutation", ResourceLocationArgument.id()).suggests(DiscoverCommands::getMutationSuggest).executes(context -> discoverResearch(context.getSource(), EntityArgument.getEntities(context, "targets"), ResourceLocationArgument.getRecipe(context, "mutation")))))
                 )))
                 .then(Commands.literal("setgene").requires(context -> context.hasPermission(2))
                         .then(Commands.argument("primary", BoolArgumentType.bool())
@@ -73,6 +74,14 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
                 IGene<?> gene = chromosome.getGene(ResourceArgument.getResource(context, "gene_name", GeneRegistration.GENE_REGISTRY_LOCATION).key().location());
                 suggestion[0] = gene.serialize().toString();
             }
+        }
+        return SharedSuggestionProvider.suggest(suggestion, builder);
+    }
+
+    private static CompletableFuture<Suggestions> getMutationSuggest(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) throws CommandSyntaxException {
+        String[] suggestion = new String[] {""};
+        if (context.getSource().getPlayer() != null) {
+            return SharedSuggestionProvider.suggest(context.getSource().getPlayer().level().getRecipeManager().getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get()).stream().map(holder -> holder.id().toString()), builder);
         }
         return SharedSuggestionProvider.suggest(suggestion, builder);
     }
@@ -124,14 +133,16 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         return i;
     }
 
-    private static int discoverResearch(CommandSourceStack source, Collection<? extends Entity> targets, Mutation mutation) throws CommandSyntaxException {
+    private static int discoverResearch(CommandSourceStack source, Collection<? extends Entity> targets, RecipeHolder<?> mutation) throws CommandSyntaxException {
         int i = 0;
-        for (Entity entity : targets) {
-            if (entity instanceof Player player) {
-                var tracker = BreedingTracker.getTracker(player);
-                if (!tracker.isResearched(mutation)) {
-                    ++i;
-                    BreedingTracker.getTracker(player).research(mutation);
+        if (mutation.value() instanceof MutationRecipe) {
+            for (Entity entity : targets) {
+                if (entity instanceof Player player) {
+                    var tracker = BreedingTracker.getTracker(player);
+                    if (!tracker.isResearched((RecipeHolder<MutationRecipe>) mutation)) {
+                        ++i;
+                        BreedingTracker.getTracker(player).research((RecipeHolder<MutationRecipe>) mutation);
+                    }
                 }
             }
         }
@@ -139,7 +150,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.discover.research.no_change")).create();
         else {
             int finalI = i;
-            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research", MutationRegistration.getResourceLocation(mutation), finalI), true);
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.research", mutation.id().toString(), finalI), true);
         }
         return i;
     }
@@ -161,14 +172,16 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
         return i;
     }
 
-    private static int discoverMutation(CommandSourceStack source, Collection<? extends Entity> targets, Mutation mutation) throws CommandSyntaxException {
+    private static int discoverMutation(CommandSourceStack source, Collection<? extends Entity> targets, RecipeHolder<?> mutation) throws CommandSyntaxException {
         int i = 0;
-        for (Entity entity : targets) {
-            if (entity instanceof Player player) {
-                var tracker = BreedingTracker.getTracker(player);
-                if (!tracker.isDiscovered(mutation)) {
-                    ++i;
-                    BreedingTracker.getTracker(player).discover(mutation);
+        if (mutation.value() instanceof MutationRecipe) {
+            for (Entity entity : targets) {
+                if (entity instanceof Player player) {
+                    var tracker = BreedingTracker.getTracker(player);
+                    if (!tracker.isDiscovered((RecipeHolder<MutationRecipe>) mutation)) {
+                        ++i;
+                        BreedingTracker.getTracker(player).discover((RecipeHolder<MutationRecipe>) mutation);
+                    }
                 }
             }
         }
@@ -176,7 +189,7 @@ public class DiscoverCommands implements Command<CommandSourceStack> {
             throw new SimpleCommandExceptionType(Component.translatable("command.complicated_bees.discover.mutation.no_change")).create();
         else {
             int finalI = i;
-            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.mutation", MutationRegistration.getResourceLocation(mutation), finalI), true);
+            source.sendSuccess(() -> Component.translatable("command.complicated_bees.discover.mutation", mutation.id().toString(), finalI), true);
         }
         return i;
     }

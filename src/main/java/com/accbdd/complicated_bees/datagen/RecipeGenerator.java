@@ -2,10 +2,15 @@ package com.accbdd.complicated_bees.datagen;
 
 import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.Product;
+import com.accbdd.complicated_bees.bees.Species;
+import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
+import com.accbdd.complicated_bees.datagen.builtin.BuiltInSpecies;
 import com.accbdd.complicated_bees.datagen.builtin.Combs;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.recipe.*;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
+import com.accbdd.complicated_bees.recipe.mutation.condition.*;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
@@ -16,16 +21,19 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -776,6 +784,86 @@ public class RecipeGenerator extends RecipeProvider {
                 new Product(ItemsRegistration.BEESWAX.get(), 0.2f),
                 new Product(ItemsRegistration.HONEY_DROPLET.get(), 0.5f),
                 new Product(ItemsRegistration.PROPOLIS.get(), 0.6f));
+
+
+        List<Map.Entry<ResourceKey<Species>, Species>> commonMutators = List.of(BuiltInSpecies.FOREST, BuiltInSpecies.PLAINS, BuiltInSpecies.JUNGLE, BuiltInSpecies.DESERT, BuiltInSpecies.ROCKY);
+        List<Map.Entry<ResourceKey<Species>, Species>> cultivatedMutators = List.of(BuiltInSpecies.FOREST, BuiltInSpecies.PLAINS);
+
+        for (int i = 0; i < commonMutators.size()-1; i++) {
+            for (int j = i+1; j < commonMutators.size(); j++) {
+                var first = commonMutators.get(i);
+                var second = commonMutators.get(j);
+                mutationRecipe(output, "apis/" + first.getKey().location().getPath() + "_" + second.getKey().location().getPath() + "_common", first.getKey(), second.getKey(), BuiltInSpecies.COMMON.getKey(), 0.15f);
+            }
+        }
+
+        for (Map.Entry<ResourceKey<Species>, Species> entry : cultivatedMutators) {
+            mutationRecipe(output, "apis/" + entry.getKey().location().getPath() + "_cultivated", entry.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), 0.12f);
+        }
+
+        mutationRecipe(output, "noble/noble", BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.NOBLE.getKey(), 0.10f);
+        mutationRecipe(output, "noble/majestic", BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.MAJESTIC.getKey(), 0.10f);
+        mutationRecipe(output, "noble/imperial", BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.IMPERIAL.getKey(), 0.08f);
+
+        mutationRecipe(output, "desert/outcast", BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.NOBLE.getKey(), BuiltInSpecies.OUTCAST.getKey(), 0.10f);
+        mutationRecipe(output, "desert/bandit", BuiltInSpecies.OUTCAST.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.BANDIT.getKey(), 0.08f);
+
+        mutationRecipe(output, "jungle/tangle", BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.TANGLE.getKey(), 0.10f);
+        mutationRecipe(output, "jungle/lush", BuiltInSpecies.TANGLE.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.LUSH.getKey(), 0.08f);
+
+        mutationRecipe(output, "ender/surreal", BuiltInSpecies.ENDER.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.SURREAL.getKey(), 0.10f, new DimensionCondition(ResourceLocation.tryParse("minecraft:the_end")));
+        mutationRecipe(output, "ender/enigmatic", BuiltInSpecies.SURREAL.getKey(), BuiltInSpecies.INTREPID.getKey(), BuiltInSpecies.ENIGMATIC.getKey(), 0.10f, new DimensionCondition(ResourceLocation.tryParse("minecraft:the_end")));
+
+        mutationRecipe(output, "heroic/explorer", BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.EXPLORER.getKey(), 0.12f);
+        mutationRecipe(output, "heroic/intrepid", BuiltInSpecies.EXPLORER.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.INTREPID.getKey(), 0.10f);
+        mutationRecipe(output, "heroic/champion", BuiltInSpecies.INTREPID.getKey(), BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.CHAMPION.getKey(), 0.08f);
+
+        mutationRecipe(output, "industrious/diligent", BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.DILIGENT.getKey(), 0.12f);
+        mutationRecipe(output, "industrious/tireless", BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.TIRELESS.getKey(), 0.10f);
+        mutationRecipe(output, "industrious/industrious", BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.INDUSTRIOUS.getKey(), 0.08f);
+
+        mutationRecipe(output, "infernal/cursed", BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.CURSED.getKey(), 0.12f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutationRecipe(output, "infernal/fiendish", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.FIENDISH.getKey(), 0.10f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutationRecipe(output, "infernal/devilish", BuiltInSpecies.FIENDISH.getKey(), BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.DEVILISH.getKey(), 0.08f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutationRecipe(output, "infernal/infernal", BuiltInSpecies.DEVILISH.getKey(), BuiltInSpecies.BANDIT.getKey(), BuiltInSpecies.INFERNAL.getKey(), 0.08f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutationRecipe(output, "infernal/haunted", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.HAUNTED.getKey(), 0.12f, new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH), new BlockUnderCondition(Blocks.SOUL_SAND));
+        mutationRecipe(output, "infernal/ghostly", BuiltInSpecies.HAUNTED.getKey(), BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.GHOSTLY.getKey(), 0.10f);
+        mutationRecipe(output, "infernal/spectral", BuiltInSpecies.GHOSTLY.getKey(), BuiltInSpecies.DEVILISH.getKey(), BuiltInSpecies.SPECTRAL.getKey(), 0.08f);
+
+        mutationRecipe(output, "metallic/cuprous", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.CUPROUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.WAXED_COPPER_BLOCK));
+        mutationRecipe(output, "metallic/precious", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.MAJESTIC.getKey(), BuiltInSpecies.PRECIOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.GOLD_BLOCK));
+        mutationRecipe(output, "metallic/ferrous", BuiltInSpecies.CUPROUS.getKey(), BuiltInSpecies.PRECIOUS.getKey(), BuiltInSpecies.FERROUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.IRON_BLOCK));
+        mutationRecipe(output, "metallic/adamantine", BuiltInSpecies.FERROUS.getKey(), BuiltInSpecies.LUMINOUS.getKey(), BuiltInSpecies.ADAMANTINE.getKey(), 0.06f, new BlockUnderCondition(Blocks.NETHERITE_BLOCK));
+
+        mutationRecipe(output, "mineral/bituminous", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.COAL_BLOCK));
+        mutationRecipe(output, "mineral/conductive", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.TIRELESS.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), 0.10f, new BlockUnderCondition(Blocks.REDSTONE_BLOCK));
+        mutationRecipe(output, "mineral/lapic", BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.LAPIC.getKey(), 0.10f, new BlockUnderCondition(Blocks.LAPIS_BLOCK));
+        mutationRecipe(output, "mineral/amethyst", BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.BITUMINOUS.getKey(), BuiltInSpecies.AMETHYST.getKey(), 0.10f, new BlockUnderCondition(Blocks.AMETHYST_BLOCK));
+        mutationRecipe(output, "mineral/dimantic", BuiltInSpecies.LAPIC.getKey(), BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.DIMANTIC.getKey(), 0.06f, new BlockUnderCondition(Blocks.DIAMOND_BLOCK));
+        mutationRecipe(output, "mineral/emeradic", BuiltInSpecies.AMETHYST.getKey(), BuiltInSpecies.CONDUCTIVE.getKey(), BuiltInSpecies.EMERADIC.getKey(), 0.08f, new BlockUnderCondition(Blocks.EMERALD_BLOCK));
+        mutationRecipe(output, "mineral/quartz", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.CRIMSON.getKey(), BuiltInSpecies.QUARTZ.getKey(), 0.10f, new BlockUnderCondition(Blocks.QUARTZ_BLOCK), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+        mutationRecipe(output, "mineral/luminous", BuiltInSpecies.QUARTZ.getKey(), BuiltInSpecies.HAUNTED.getKey(), BuiltInSpecies.LUMINOUS.getKey(), 0.10f, new BlockUnderCondition(Blocks.GLOWSTONE), new TemperatureCondition(EnumTemperature.HELLISH, EnumTemperature.HELLISH));
+
+        mutationRecipe(output, "necrotic/decaying", BuiltInSpecies.CURSED.getKey(), BuiltInSpecies.OUTCAST.getKey(), BuiltInSpecies.DECAYING.getKey(), 0.10f);
+        mutationRecipe(output, "necrotic/rotten", BuiltInSpecies.DECAYING.getKey(), BuiltInSpecies.TANGLE.getKey(), BuiltInSpecies.ROTTEN.getKey(), 0.10f);
+        mutationRecipe(output, "necrotic/necromantic", BuiltInSpecies.ROTTEN.getKey(), BuiltInSpecies.LUSH.getKey(), BuiltInSpecies.NECROMANTIC.getKey(), 0.08f, new NighttimeCondition(), new TemperatureCondition(EnumTemperature.FROZEN, EnumTemperature.COLD));
+
+        mutationRecipe(output, "rocky/robust", BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.DILIGENT.getKey(), BuiltInSpecies.ROBUST.getKey(), 0.12f);
+        mutationRecipe(output, "rocky/resilient", BuiltInSpecies.ROBUST.getKey(), BuiltInSpecies.ROCKY.getKey(), BuiltInSpecies.RESILIENT.getKey(), 0.08f);
+
+        mutationRecipe(output, "creative/jazzy", BuiltInSpecies.CULTIVATED.getKey(), BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.JAZZY.getKey(), 0.10f);
+        mutationRecipe(output, "creative/essayist", BuiltInSpecies.JAZZY.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.ESSAYIST.getKey(), 0.10f);
+        mutationRecipe(output, "creative/tricky", BuiltInSpecies.FIENDISH.getKey(), BuiltInSpecies.ROTTEN.getKey(), BuiltInSpecies.TRICKY.getKey(), 0.10f);
+
+        mutationRecipe(output, "terraforming/primordial", BuiltInSpecies.ENIGMATIC.getKey(), BuiltInSpecies.NECROMANTIC.getKey(), BuiltInSpecies.PRIMORDIAL.getKey(), 0.08f, new BiomeCondition(BiomeTags.IS_END));
+        mutationRecipe(output, "terraforming/campestral", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.PLAINS.getKey(), BuiltInSpecies.CAMPESTRAL.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_PLAINS));
+        mutationRecipe(output, "terraforming/sylvan", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.FOREST.getKey(), BuiltInSpecies.SYLVAN.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_FOREST));
+        mutationRecipe(output, "terraforming/boreal", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.COMMON.getKey(), BuiltInSpecies.BOREAL.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_TAIGA));
+        mutationRecipe(output, "terraforming/tropic", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.JUNGLE.getKey(), BuiltInSpecies.TROPIC.getKey(), 0.12f, new BiomeCondition(BiomeTags.IS_JUNGLE));
+        mutationRecipe(output, "terraforming/paludal", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.DECAYING.getKey(), BuiltInSpecies.PALUDAL.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_SWAMP));
+        mutationRecipe(output, "terraforming/gelid", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.NECROMANTIC.getKey(), BuiltInSpecies.GELID.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_SNOWY));
+        mutationRecipe(output, "terraforming/mycelic", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.WARPED.getKey(), BuiltInSpecies.MYCELIC.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_MUSHROOM));
+        mutationRecipe(output, "terraforming/xeric", BuiltInSpecies.PRIMORDIAL.getKey(), BuiltInSpecies.DESERT.getKey(), BuiltInSpecies.XERIC.getKey(), 0.12f, new BiomeCondition(Tags.Biomes.IS_DESERT));
     }
 
     protected static Ingredient combIngredient(Map.Entry<ResourceKey<Comb>, Comb> comb) {
@@ -784,6 +872,13 @@ public class RecipeGenerator extends RecipeProvider {
 
     protected static void frameRecipe(RecipeOutput output, ItemLike result, Ingredient center, Ingredient outside) {
         frameRecipe(output, result, center, outside, ItemsRegistration.APIARY.get());
+    }
+
+    protected static void mutationRecipe(RecipeOutput output, String path, ResourceKey<Species> first, ResourceKey<Species> second, ResourceKey<Species> result, float chance, IMutationCondition... conditions) {
+        output.accept(ResourceLocation.fromNamespaceAndPath(MODID, "mutation/" + path), 
+                new MutationRecipe(first.location(), second.location(), result.location(), chance, Arrays.stream(conditions).toList()),
+                null
+        );
     }
 
     protected static void mutatorRecipe(RecipeOutput output, String name, Ingredient input, float modifier) {

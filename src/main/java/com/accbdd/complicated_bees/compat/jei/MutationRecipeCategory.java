@@ -1,12 +1,12 @@
 package com.accbdd.complicated_bees.compat.jei;
 
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.config.ServerConfig;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
+import com.accbdd.complicated_bees.recipe.mutation.condition.IMutationCondition;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -28,10 +28,10 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
+public class MutationRecipeCategory implements IRecipeCategory<RecipeHolder<MutationRecipe>> {
 
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/mutation");
-    public static final RecipeType<Mutation> TYPE = new RecipeType<>(ID, Mutation.class);
+    public static final RecipeType<RecipeHolder<MutationRecipe>> TYPE = RecipeType.createRecipeHolderType(ID);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.mutations");
 
@@ -39,32 +39,32 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
     public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 143, 40);
 
     @Override
-    public RecipeType<Mutation> getRecipeType() {
+    public RecipeType<RecipeHolder<MutationRecipe>> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public void draw(Mutation recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<MutationRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
-        double chance = recipe.getChance() * 100;
+        double chance = recipe.value().getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
-            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(MutationRegistration.getResourceLocation(recipe)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
+            chance += BreedingTracker.CLIENT_INSTANCE.getResearchedMutations().contains(getRegistryName(recipe)) ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0;
         }
         chance = Math.min(100, chance);
-        String chanceString = recipe.getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);
+        String chanceString = recipe.value().getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);
         guiGraphics.drawCenteredString(Minecraft.getInstance().font, chanceString, 95, 1, 0xFFFFFF);
     }
 
     @Override
-    public List<Component> getTooltipStrings(Mutation recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public void getTooltip(ITooltipBuilder tooltip, RecipeHolder<MutationRecipe> recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         List<Component> tips = new ArrayList<>();
-        if (mouseX >= 81 && mouseX <= 106 && mouseY >= 1 && mouseY <= 10 && !recipe.getConditions().isEmpty()) {
+        if (mouseX >= 81 && mouseX <= 106 && mouseY >= 1 && mouseY <= 10 && !recipe.value().getConditions().isEmpty()) {
             tips.add(Component.translatable("gui.complicated_bees.mutations.has_conditions"));
-            for (IMutationCondition condition : recipe.getConditions()) {
+            for (IMutationCondition condition : recipe.value().getConditions()) {
                 tips.add(condition.getDescription());
             }
         }
-        return tips;
+        tooltip.addAll(tips);
     }
 
     @Override
@@ -83,22 +83,17 @@ public class MutationRecipeCategory implements IRecipeCategory<Mutation> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, Mutation mutation, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MutationRecipe> mutation, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 12)
                 .setSlotName("first_species")
-                .addIngredients(VanillaTypes.ITEM_STACK, mutation.getFirstSpecies().toMembers());
+                .addIngredients(VanillaTypes.ITEM_STACK, mutation.value().getFirstSpecies().toMembers());
 
         builder.addSlot(RecipeIngredientRole.INPUT, 59, 12)
                 .setSlotName("second_species")
-                .addIngredients(VanillaTypes.ITEM_STACK, mutation.getSecondSpecies().toMembers());
+                .addIngredients(VanillaTypes.ITEM_STACK, mutation.value().getSecondSpecies().toMembers());
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 12)
                 .setSlotName("output_species")
-                .addIngredients(VanillaTypes.ITEM_STACK, mutation.getResultSpecies().toMembers());
-    }
-
-    @Override
-    public @Nullable ResourceLocation getRegistryName(Mutation recipe) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, Integer.toHexString(recipe.hashCode()));
+                .addIngredients(VanillaTypes.ITEM_STACK, mutation.value().getResultSpecies().toMembers());
     }
 }
