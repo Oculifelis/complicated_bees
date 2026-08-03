@@ -4,15 +4,19 @@ import com.accbdd.complicated_bees.bees.gene.GeneSpecies;
 import com.accbdd.complicated_bees.bees.gene.GeneTolerant;
 import com.accbdd.complicated_bees.bees.gene.IGene;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.config.ServerConfig;
 import com.accbdd.complicated_bees.item.BeeItem;
 import com.accbdd.complicated_bees.item.PrincessItem;
 import com.accbdd.complicated_bees.item.QueenItem;
-import com.accbdd.complicated_bees.registry.*;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipeInput;
+import com.accbdd.complicated_bees.recipe.mutation.condition.IMutationCondition;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
@@ -22,6 +26,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLLoader;
@@ -181,7 +186,7 @@ public class GeneticHelper {
         for (float f : mutationModifiers) {
             mutationChanceMod *= f;
         }
-        List<Mutation> possibleMutations = new ArrayList<>();
+        List<RecipeHolder<MutationRecipe>> possibleMutations = new ArrayList<>();
         BreedingTracker tracker = null;
 
         if (level.getBlockEntity(pos) instanceof IBeeHousing housing && housing.getOwner() != null) {
@@ -201,18 +206,18 @@ public class GeneticHelper {
             } else if (geneEntry.getValue() instanceof GeneSpecies) {
                 Species speciesA = (Species) geneA.get();
                 Species speciesB = (Species) geneB.get();
-                for (Mutation mutation : getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)) {
-                    if ((mutation.getFirstSpecies() == speciesA && mutation.getSecondSpecies() == speciesB) || (mutation.getSecondSpecies() == speciesA && mutation.getFirstSpecies() == speciesB)) {
-                        boolean canMutate = true;
-                        for (IMutationCondition condition : mutation.getConditions())
-                            canMutate = canMutate && condition.check(level, pos);
-                        if (canMutate) {
-                            double mod = 0;
-                            if (tracker != null && tracker.isResearched(mutation))
-                                mod = ServerConfig.SERVER_CONFIG.researchBonus.get();
-                            if (rand.nextFloat() < (mutation.getChance() * mutationChanceMod) + mod)
-                                possibleMutations.add(mutation);
-                        }
+                MutationRecipeInput inputs = new MutationRecipeInput(speciesA, speciesB);
+                for (RecipeHolder<MutationRecipe> mutation : level.getRecipeManager().getRecipesFor(EsotericRegistration.MUTATION_RECIPE.get(), inputs, level).stream().toList()) {
+                    boolean canMutate = true;
+                    for (IMutationCondition condition : mutation.value().getConditions()) {
+                        canMutate = canMutate && condition.check(level, pos);
+                    }
+                    if (canMutate) {
+                        double mod = 0;
+                        if (tracker != null && tracker.isResearched(mutation))
+                            mod = ServerConfig.SERVER_CONFIG.researchBonus.get();
+                        if (rand.nextFloat() < (mutation.value().getChance() * mutationChanceMod) + mod)
+                            possibleMutations.add(mutation);
                     }
                 }
             }
@@ -223,10 +228,11 @@ public class GeneticHelper {
 
         //pick a random possible mutation, and assign it to a chromosome, rolling again to see if we double mutate
         if (!possibleMutations.isEmpty()) {
-            Mutation selected = possibleMutations.get(rand.nextInt(possibleMutations.size()));
+            RecipeHolder<MutationRecipe> selectedHolder = possibleMutations.get(rand.nextInt(possibleMutations.size()));
+            MutationRecipe selected = selectedHolder.value();
             boolean doubleMutate = (rand.nextFloat() < (selected.getChance() * mutationChanceMod));
             if (tracker != null)
-                tracker.discover(selected);
+                tracker.discover(selectedHolder);
 
             if (rand.nextFloat() < 0.5) {
                 chromosome_a = selected.getResultSpecies().getDefaultChromosome().copy();

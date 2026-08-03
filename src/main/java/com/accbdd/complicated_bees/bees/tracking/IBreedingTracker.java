@@ -1,8 +1,9 @@
 package com.accbdd.complicated_bees.bees.tracking;
 
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -36,16 +37,16 @@ public interface IBreedingTracker {
     boolean isDiscovered(Species species);
 
     /**
-     * @param mutation the mutation to query
+     * @param mutation the mutation recipe to query
      * @return whether the player has discovered this mutation
      */
-    boolean isDiscovered(Mutation mutation);
+    boolean isDiscovered(RecipeHolder<MutationRecipe> mutation);
 
     /**
-     * @param mutation the mutation to query
+     * @param mutation the mutation recipe to query
      * @return whether the player has researched this mutation
      */
-    boolean isResearched(Mutation mutation);
+    boolean isResearched(RecipeHolder<MutationRecipe> mutation);
 
     /**
      * @param species the species to mark as discovered
@@ -55,10 +56,10 @@ public interface IBreedingTracker {
     /**
      * @param mutation the mutation to mark as discovered
      */
-    void discover(Mutation mutation);
+    void discover(RecipeHolder<MutationRecipe> mutation);
 
     /**
      * @param mutation the mutation to mark as researched
      */
-    void research(Mutation mutation);
+    void research(RecipeHolder<MutationRecipe> mutation);
 }

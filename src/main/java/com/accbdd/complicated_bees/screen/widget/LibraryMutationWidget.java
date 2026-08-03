@@ -1,23 +1,21 @@
 package com.accbdd.complicated_bees.screen.widget;
 
-import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.component.Bee;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
-import com.accbdd.complicated_bees.registry.MutationRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.LibraryMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractScrollWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.List;
 
@@ -25,8 +23,8 @@ import static com.accbdd.complicated_bees.screen.LibraryScreen.GUI;
 
 public class LibraryMutationWidget extends AbstractScrollWidget {
     LibraryMenu menu;
-    protected List<Mutation> possibleMutations = List.of();
-    protected List<Mutation> researchedMutations = List.of();
+    protected List<RecipeHolder<MutationRecipe>> possibleMutations = List.of();
+    protected List<RecipeHolder<MutationRecipe>> researchedMutations = List.of();
     protected BreedingTracker tracker;
     protected LibraryInfoWidget infoWidget;
     public ItemStack hoveredStack = null;
@@ -47,8 +45,8 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         this.selected = getMutationIndexAt(pMouseX - getX(), pMouseY - getY());
         if (selected != -1) {
-            this.selectedDiscovered = tracker.getDiscoveredMutations().contains(MutationRegistration.getResourceLocation(possibleMutations.get(selected)));
-            this.selectedResearched = tracker.getResearchedMutations().contains(MutationRegistration.getResourceLocation(possibleMutations.get(selected)));
+            this.selectedDiscovered = tracker.getDiscoveredMutations().contains(possibleMutations.get(selected).id());
+            this.selectedResearched = tracker.getResearchedMutations().contains(possibleMutations.get(selected).id());
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
@@ -113,13 +111,14 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
         }
     }
 
-    private void renderEquation(GuiGraphics graphics, Mutation mutation, int pX, int pY) {
-        boolean flag = tracker.getResearchedMutations().contains(MutationRegistration.getResourceLocation(mutation));
-        drawSpecies(graphics, mutation.getFirstSpecies(), pX, pY, flag);
+    private void renderEquation(GuiGraphics graphics, RecipeHolder<MutationRecipe> mutation, int pX, int pY) {
+        boolean flag = tracker.getResearchedMutations().contains(mutation.id());
+        MutationRecipe recipe = mutation.value();
+        drawSpecies(graphics, recipe.getFirstSpecies(), pX, pY, flag);
         drawPlus(graphics, pX + 16, pY);
-        drawSpecies(graphics, mutation.getSecondSpecies(), pX + 32, pY, flag);
+        drawSpecies(graphics, recipe.getSecondSpecies(), pX + 32, pY, flag);
         drawEquals(graphics, pX + 48, pY);
-        drawSpecies(graphics, mutation.getResultSpecies(), pX + 64, pY, flag);
+        drawSpecies(graphics, recipe.getResultSpecies(), pX + 64, pY, flag);
     }
 
     private void drawQuestionMark(GuiGraphics graphics, int pX, int pY) {
@@ -162,19 +161,11 @@ public class LibraryMutationWidget extends AbstractScrollWidget {
             return;
         }
         ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
-        Registry<Mutation> mutationRegistry = GeneticHelper.getRegistryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY);
-        List<Mutation> mutations = mutationRegistry.stream().filter(
-                mutation -> (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))
-        ).toList();
-        List<Mutation> researched = tracker.getResearchedMutations().stream().filter(
-                location -> {
-                    if (mutationRegistry.get(location) == null)
-                        return false;
-                    return mutationRegistry.get(location).getFirst().equals(species) || mutationRegistry.get(location).getSecond().equals(species);
-                }
-        ).map(mutationRegistry::get).toList();
+        List<RecipeHolder<MutationRecipe>> mutationRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get());
 
-        possibleMutations = mutations;
-        researchedMutations = researched;
+        possibleMutations = mutationRecipes.stream().filter(holder ->
+                holder.value() instanceof MutationRecipe mutation && (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))).toList();
+        researchedMutations = possibleMutations.stream().filter(holder ->
+                tracker.getResearchedMutations().contains(holder.id())).toList();
     }
 }

@@ -1,7 +1,7 @@
 package com.accbdd.complicated_bees.screen.widget;
 
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
 import com.accbdd.complicated_bees.config.ServerConfig;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.screen.LibraryMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
@@ -47,7 +47,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                     Component.translatable("gui.complicated_bees.library.tutorial"));
             innerHeight = getHeight() - 8;
         } else if (mutationWidget.selected != -1 && mutationWidget.selected < mutationWidget.possibleMutations.size()) {
-            renderMutationInfo(pGuiGraphics, mutationWidget.possibleMutations.get(mutationWidget.selected));
+            renderMutationInfo(pGuiGraphics, mutationWidget.possibleMutations.get(mutationWidget.selected).value());
         } else if (mutationWidget.possibleMutations.isEmpty()) {
             GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
                     infoPanelX,
@@ -70,7 +70,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
             innerHeight = getHeight() - 8;
         }
     }
-    private void renderMutationInfo(GuiGraphics graphics, Mutation mutation) {
+    private void renderMutationInfo(GuiGraphics graphics, MutationRecipe mutation) {
         int nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
                 infoPanelX,
                 infoPanelY,
@@ -101,25 +101,27 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                 0xFFFFFF,
                 0xFFFFFF,
                 Component.translatable("jei.complicated_bees.chance"),
-                Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).getChance() * 100) + (mutationWidget.selectedResearched ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0)))));
-        nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
-                infoPanelX,
-                nextY,
-                0xFFFFFF,
-                12,
-                98,
-                3,
-                Component.translatable("gui.complicated_bees.library.conditions").withStyle(ChatFormatting.UNDERLINE));
-        nextY -= 6;
-        nextY = GuiHelper.drawWrappedText(graphics,
-                getX(),
-                nextY,
-                0xFFFFFF,
-                12,
-                98,
-                3,
-                mutationWidget.possibleMutations.get(mutationWidget.selected).getConditions().stream().map(iMutationCondition -> Component.literal("⏵ ").append(iMutationCondition.getDescription())).toArray(Component[]::new));
-        innerHeight = nextY - getY();
+                Component.literal(String.format("%.0f%%", Math.min(100, (mutationWidget.possibleMutations.get(mutationWidget.selected).value().getChance() * 100) + (mutationWidget.selectedResearched ? ServerConfig.SERVER_CONFIG.researchBonus.get() * 100 : 0)))));
+        if (!mutationWidget.possibleMutations.get(mutationWidget.selected).value().getConditions().isEmpty()) {
+            nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
+                    infoPanelX,
+                    nextY,
+                    0xFFFFFF,
+                    12,
+                    98,
+                    3,
+                    Component.translatable("gui.complicated_bees.library.conditions").withStyle(ChatFormatting.UNDERLINE));
+            nextY -= 6;
+            nextY = GuiHelper.drawWrappedText(graphics,
+                    getX(),
+                    nextY,
+                    0xFFFFFF,
+                    12,
+                    98,
+                    3,
+                    mutationWidget.possibleMutations.get(mutationWidget.selected).value().getConditions().stream().map(iMutationCondition -> Component.literal("⏵ ").append(iMutationCondition.getDescription())).toArray(Component[]::new));
+            innerHeight = nextY - getY();
+        }
     }
 
     private int drawTextAndValue(GuiGraphics graphics, int y, int leftColor, int rightColor, Component left, Component right) {

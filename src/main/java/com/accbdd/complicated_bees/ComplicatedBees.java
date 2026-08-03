@@ -5,8 +5,6 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.effect.IBeeEffect;
 import com.accbdd.complicated_bees.bees.gene.IGene;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.bees.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.BeeSorterBlockEntity;
@@ -28,6 +26,7 @@ import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.network.PacketHandler;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
 import com.accbdd.complicated_bees.particle.BeeParticle;
+import com.accbdd.complicated_bees.recipe.mutation.condition.IMutationCondition;
 import com.accbdd.complicated_bees.registry.*;
 import com.accbdd.complicated_bees.screen.*;
 import com.mojang.logging.LogUtils;
@@ -206,12 +205,6 @@ public class ComplicatedBees {
         );
 
         event.dataPackRegistry(
-                MutationRegistration.MUTATION_REGISTRY_KEY,
-                Mutation.MUTATION_CODEC,
-                Mutation.MUTATION_CODEC
-        );
-
-        event.dataPackRegistry(
                 FlowerRegistration.FLOWER_REGISTRY_KEY,
                 FlowerRegistration.CODEC,
                 FlowerRegistration.CODEC
@@ -241,7 +234,6 @@ public class ComplicatedBees {
     public void serverStarted(ServerStartedEvent event) {
         LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).size());
         LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).size());
-        LOGGER.info("Registered {} mutations", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY).size());
         LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).size());
     }
 

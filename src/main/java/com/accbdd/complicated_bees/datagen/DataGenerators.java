@@ -4,9 +4,14 @@ import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.Comb;
 import com.accbdd.complicated_bees.bees.Flower;
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.bees.mutation.Mutation;
-import com.accbdd.complicated_bees.datagen.builtin.*;
-import com.accbdd.complicated_bees.registry.*;
+import com.accbdd.complicated_bees.datagen.builtin.BuiltIn;
+import com.accbdd.complicated_bees.datagen.builtin.BuiltInSpecies;
+import com.accbdd.complicated_bees.datagen.builtin.Combs;
+import com.accbdd.complicated_bees.datagen.builtin.Flowers;
+import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import com.accbdd.complicated_bees.registry.CombRegistration;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.BlockFamily;
@@ -74,7 +79,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
         //instantiate utility classes for datagen
-        ComplicatedBees.LOGGER.info("combs: {}, flowers: {}, species: {}, mutations: {}", new Combs(), new Flowers(), new BuiltInSpecies(), new Mutations());
+        ComplicatedBees.LOGGER.info("combs: {}, flowers: {}, species: {}", new Combs(), new Flowers(), new BuiltInSpecies());
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(
                 CombRegistration.COMB_REGISTRY_KEY,
                 bootstrap -> {
@@ -101,17 +106,6 @@ public class DataGenerators {
                                 entry.getKey(),
                                 entry.getValue()
                         );
-                }
-        ).add(
-                MutationRegistration.MUTATION_REGISTRY_KEY,
-                bootstrap -> {
-                    Mutations.generateMutations();
-                    for (Map.Entry<ResourceKey<Mutation>, Mutation> entry : BuiltIn.MUTATIONS.entrySet()) {
-                        bootstrap.register(
-                                entry.getKey(),
-                                entry.getValue()
-                        );
-                    }
                 }
         ), Set.of(MODID)));
     }

@@ -4,6 +4,7 @@ import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.loot.InheritHiveCombFunction;
 import com.accbdd.complicated_bees.loot.InheritHiveSpeciesFunction;
 import com.accbdd.complicated_bees.recipe.*;
+import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.worldgen.ComplicatedBeenestDecorator;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeature;
 import com.accbdd.complicated_bees.worldgen.ComplicatedHiveFeatureConfiguration;
@@ -72,6 +73,8 @@ public class EsotericRegistration {
             () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(MODID, "hydroregulator")));
     public static final DeferredHolder<RecipeType<?>, RecipeType<HoneyGeneratorRecipe>> HONEY_GENERATOR_RECIPE = RECIPE_TYPE_REGISTER.register("honey_generator",
             () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(MODID, "honey_generator")));
+    public static final DeferredHolder<RecipeType<?>, RecipeType<MutationRecipe>> MUTATION_RECIPE = RECIPE_TYPE_REGISTER.register("mutation",
+            () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(MODID, "mutation")));
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CentrifugeRecipe>> CENTRIFUGE_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("centrifuge",
             CentrifugeRecipe.Serializer::new);
@@ -83,6 +86,8 @@ public class EsotericRegistration {
             HydroRecipe.Serializer::new);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<HoneyGeneratorRecipe>> HONEY_GENERATOR_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("honey_generator",
             HoneyGeneratorRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MutationRecipe>> MUTATION_RECIPE_SERIALIZER = RECIPE_SERIALIZER_REGISTER.register("mutation",
+            MutationRecipe.Serializer::new);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Bee>> BEE = DATA_COMPONENT_TYPE.registerComponentType("bee",
             builder -> builder.persistent(Bee.CODEC).networkSynchronized(Bee.STREAM_CODEC).cacheEncoding());

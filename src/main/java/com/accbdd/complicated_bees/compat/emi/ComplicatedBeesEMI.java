@@ -4,7 +4,10 @@ import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.compat.emi.ingredient.EmiFlower;
 import com.accbdd.complicated_bees.compat.emi.recipe.*;
 import com.accbdd.complicated_bees.item.CombItem;
-import com.accbdd.complicated_bees.registry.*;
+import com.accbdd.complicated_bees.registry.EsotericRegistration;
+import com.accbdd.complicated_bees.registry.FlowerRegistration;
+import com.accbdd.complicated_bees.registry.ItemsRegistration;
+import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.BeeSorterScreen;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
@@ -116,9 +119,9 @@ public class ComplicatedBeesEMI implements EmiPlugin {
                 .map(holder -> new HoneyGeneratorEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
-        registryAccess.registryOrThrow(MutationRegistration.MUTATION_REGISTRY_KEY)
+        manager.getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get())
                 .stream()
-                .map(MutationEmiRecipe::new)
+                .map(holder -> new MutationEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
         registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY)

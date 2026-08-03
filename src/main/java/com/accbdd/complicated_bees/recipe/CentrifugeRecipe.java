@@ -1,6 +1,5 @@
 package com.accbdd.complicated_bees.recipe;
 
-import com.accbdd.complicated_bees.ComplicatedBees;
 import com.accbdd.complicated_bees.bees.Product;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.mojang.serialization.MapCodec;
@@ -60,9 +59,9 @@ public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implemen
         return input.test(containerInput);
     }
 
+    // use outputs instead
     @Override
     public ItemStack assemble(RecipeInput pContainer, HolderLookup.Provider pRegistryAccess) {
-        ComplicatedBees.LOGGER.warn("tried to use assemble on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
     }
 
@@ -71,9 +70,9 @@ public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implemen
         return pWidth * pHeight >= 1;
     }
 
+    // use outputs instead
     @Override
     public ItemStack getResultItem(HolderLookup.Provider pRegistryAccess) {
-        ComplicatedBees.LOGGER.warn("tried to use getResultItem on a CentrifugeRecipe! Use getOutputs instead");
         return ItemStack.EMPTY;
     }
 
