@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.1,
+  "first": "complicated_bees:diligent",
+  "result": "complicated_bees:tireless",
+  "second": "complicated_bees:common"
+}

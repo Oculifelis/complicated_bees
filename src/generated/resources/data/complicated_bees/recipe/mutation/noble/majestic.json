@@ -1,0 +1,7 @@
+{
+  "type": "complicated_bees:mutation",
+  "chance": 0.1,
+  "first": "complicated_bees:noble",
+  "result": "complicated_bees:majestic",
+  "second": "complicated_bees:cultivated"
+}
