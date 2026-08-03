@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.recipe.mutation.condition;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +36,7 @@ public class BlockTagUnderCondition extends MutationCondition {
     @Override
     public Component getDescription() {
         return Component.translatable("gui.complicated_bees.mutations.block_under",
-                Component.literal("#" + blockTag.location()));
+                Component.literal("#" + blockTag.location()).withStyle(ChatFormatting.GOLD));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.recipe.mutation.condition;
 
 import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -34,9 +35,9 @@ public class HumidityCondition extends MutationCondition {
     @Override
     public Component getDescription() {
         if (humidityMax.equals(humidityMin))
-            return Component.translatable("gui.complicated_bees.mutations.humidity", humidityMin.getTranslationKey());
+            return Component.translatable("gui.complicated_bees.mutations.humidity", humidityMin.getTranslationKey().withStyle(ChatFormatting.GOLD));
         else
-            return Component.translatable("gui.complicated_bees.mutations.humidity_range", humidityMin.getTranslationKey(), humidityMax.getTranslationKey());
+            return Component.translatable("gui.complicated_bees.mutations.humidity_range", humidityMin.getTranslationKey().withStyle(ChatFormatting.GOLD), humidityMax.getTranslationKey().withStyle(ChatFormatting.GOLD));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.recipe.mutation.condition;
 
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -34,9 +35,9 @@ public class TemperatureCondition extends MutationCondition {
     @Override
     public Component getDescription() {
         if (tempMax.equals(tempMin))
-            return Component.translatable("gui.complicated_bees.mutations.temperature", tempMin.getTranslationKey());
+            return Component.translatable("gui.complicated_bees.mutations.temperature", tempMin.getTranslationKey().withStyle(ChatFormatting.GOLD));
         else
-            return Component.translatable("gui.complicated_bees.mutations.temperature_range", tempMin.getTranslationKey(), tempMax.getTranslationKey());
+            return Component.translatable("gui.complicated_bees.mutations.temperature_range", tempMin.getTranslationKey().withStyle(ChatFormatting.GOLD), tempMax.getTranslationKey().withStyle(ChatFormatting.GOLD));
     }
 
     @Override

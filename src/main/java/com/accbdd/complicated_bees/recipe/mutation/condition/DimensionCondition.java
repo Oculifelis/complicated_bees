@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.recipe.mutation.condition;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -29,7 +30,7 @@ public class DimensionCondition extends MutationCondition {
 
     @Override
     public Component getDescription() {
-        return Component.translatable("gui.complicated_bees.mutations.dimension", dimension);
+        return Component.translatable("gui.complicated_bees.mutations.dimension", Component.literal(dimension.toString()).withStyle(ChatFormatting.GOLD));
     }
 
     @Override

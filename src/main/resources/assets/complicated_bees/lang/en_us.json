@@ -313,7 +313,7 @@
   "gui.complicated_bees.mutations.humidity_range": "Requires an external humidity between %s and %s",
   "gui.complicated_bees.mutations.dimension": "Requires the %s dimension",
   "gui.complicated_bees.mutations.biome": "Requires the %s biome",
-  "gui.complicated_bees.mutations.biome_tag": "Requires the #%s biome tag",
+  "gui.complicated_bees.mutations.biome_tag": "Requires the %s biome tag",
 
   "gui.complicated_bees.microscope.sequence.lose": "SEQUENCE FAILED",
   "gui.complicated_bees.microscope.sequence.win": "SEQUENCE COMPLETE",

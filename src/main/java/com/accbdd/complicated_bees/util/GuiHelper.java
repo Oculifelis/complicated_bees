@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -25,14 +26,12 @@ public class GuiHelper {
     public static int drawWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
         int curY = y;
         for (Component component : components) {
-            String[] linebroken = component.getString().split("\\r?\\n");
-            for (String prewrap : linebroken) {
-                List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), maxWidth - padding * 2);
-                for (FormattedCharSequence line : lines) {
-                    graphics.drawString(Minecraft.getInstance().font, line, x + padding, curY, color);
-                    curY += lineHeight;
-                }
+            List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(component, maxWidth - padding * 2);
+            for (FormattedCharSequence line : lines) {
+                graphics.drawString(Minecraft.getInstance().font, line, x + padding, curY, color);
+                curY += lineHeight;
             }
+
             curY += lineHeight / 2;
         }
         return curY;
@@ -52,25 +51,30 @@ public class GuiHelper {
      * @return a y coordinate for the next line of text, spaced accordingly
      */
     public static int drawCenteredWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
-        int curY = y + Minecraft.getInstance().font.lineHeight / 2;
+        Font font = Minecraft.getInstance().font;
+        int wrapWidth = maxWidth - (padding * 2);
         List<List<FormattedCharSequence>> paragraphs = new ArrayList<>();
+
+        int totalLines = 0;
         for (Component component : components) {
             if (component == null)
                 continue;
-            List<FormattedCharSequence> paragraphLines = new ArrayList<>();
-            String[] linebroken = component.getString().split("\\r?\\n");
-            for (String prewrap : linebroken) {
-                List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), maxWidth - padding * 2);
-                paragraphLines.addAll(lines);
-            }
-            paragraphs.add(paragraphLines);
-            curY -= paragraphLines.size() * (lineHeight / 2);
+
+            List<FormattedCharSequence> lines = font.split(component, wrapWidth);
+            paragraphs.add(lines);
+            totalLines += lines.size();
         }
-        curY -= (paragraphs.size() - 1) * (lineHeight / 4);
+
+        if (paragraphs.isEmpty()) {
+            return y;
+        }
+
+        int totalTextHeight = (totalLines * lineHeight) + ((paragraphs.size() - 1) * (lineHeight / 2));
+        int curY = y - (totalTextHeight / 2) + (font.lineHeight / 2);
 
         for (List<FormattedCharSequence> paragraph : paragraphs) {
             for (FormattedCharSequence line : paragraph) {
-                graphics.drawCenteredString(Minecraft.getInstance().font, line, x, curY, color);
+                graphics.drawCenteredString(font, line, x, curY, color);
                 curY += lineHeight;
             }
             curY += lineHeight / 2;
@@ -92,23 +96,17 @@ public class GuiHelper {
      * @return a y coordinate for the next line of text, spaced accordingly
      */
     public static int drawTopAlignedCenteredWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
+        Font font = Minecraft.getInstance().font;
         int curY = y;
-        List<List<FormattedCharSequence>> paragraphs = new ArrayList<>();
+        int wrapWidth = maxWidth - (padding * 2);
+
         for (Component component : components) {
             if (component == null)
                 continue;
-            List<FormattedCharSequence> paragraphLines = new ArrayList<>();
-            String[] linebroken = component.getString().split("\\r?\\n");
-            for (String prewrap : linebroken) {
-                List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(Component.literal(prewrap).withStyle(component.getStyle()), maxWidth - padding * 2);
-                paragraphLines.addAll(lines);
-            }
-            paragraphs.add(paragraphLines);
-        }
 
-        for (List<FormattedCharSequence> paragraph : paragraphs) {
-            for (FormattedCharSequence line : paragraph) {
-                graphics.drawCenteredString(Minecraft.getInstance().font, line, x, curY, color);
+            List<FormattedCharSequence> lines = font.split(component, wrapWidth);
+            for (FormattedCharSequence line : lines) {
+                graphics.drawCenteredString(font, line, x, curY, color);
                 curY += lineHeight;
             }
             curY += lineHeight / 2;

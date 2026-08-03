@@ -1,5 +1,6 @@
 package com.accbdd.complicated_bees.recipe.mutation.condition;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +39,9 @@ public class BiomeCondition extends MutationCondition {
 
     @Override
     public Component getDescription() {
-        return biomeTag == null ? Component.translatable("gui.complicated_bees.mutations.biome", Component.translatable("biome."+biome.location().getNamespace()+"."+biome.location().getPath())) : Component.translatable("gui.complicated_bees.mutations.biome_tag", biomeTag.location().toString());
+        if (biomeTag == null)
+            return Component.translatable("gui.complicated_bees.mutations.biome", Component.translatable(biome.location().toLanguageKey("biome")).withStyle(ChatFormatting.GOLD));
+        return Component.translatable("gui.complicated_bees.mutations.biome_tag", Component.literal("#").withStyle(ChatFormatting.GOLD).append(Component.literal(biomeTag.location().toString()).withStyle(ChatFormatting.GOLD)));
     }
 
     @Override
