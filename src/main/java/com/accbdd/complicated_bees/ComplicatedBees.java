@@ -239,7 +239,6 @@ public class ComplicatedBees {
 
     @SubscribeEvent
     public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        LOGGER.info("syncing tracker to {}", event.getEntity().getName());
         PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(event.getEntity().getUUID()), new TrackerSyncClientbound(BreedingTracker.getTracker(event.getEntity())));
     }
 

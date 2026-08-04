@@ -13,6 +13,6 @@ public class GyrofugeEfficiencyUnitBlockEntity extends AbstractGyrofugePoweredMo
                 pPos,
                 pBlockState,
                 MODIFIER,
-                25);
+                15);
     }
 }

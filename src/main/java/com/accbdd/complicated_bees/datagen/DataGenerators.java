@@ -78,6 +78,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableGenerator>) pOutput -> new LootTableGenerator(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new RecipeGenerator(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new BeeAdvancementGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DataMapGenerator(packOutput, lookupProvider));
         //instantiate utility classes for datagen
         ComplicatedBees.LOGGER.info("combs: {}, flowers: {}, species: {}", new Combs(), new Flowers(), new BuiltInSpecies());
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, new RegistrySetBuilder().add(

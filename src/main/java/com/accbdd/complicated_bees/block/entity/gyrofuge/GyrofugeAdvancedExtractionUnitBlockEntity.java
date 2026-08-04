@@ -6,13 +6,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GyrofugeAdvancedExtractionUnitBlockEntity extends AbstractGyrofugePoweredModifierBlockEntity {
-    public static final MachineModifier MODIFIER = new MachineModifier.Builder().output(1.5f).speed(0.8f).efficiency(0.7f).build();
+    public static final MachineModifier MODIFIER = new MachineModifier.Builder().output(2f).speed(0.8f).efficiency(0.85f).build();
 
     public GyrofugeAdvancedExtractionUnitBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT_BLOCK_ENTITY.get(),
                 pPos,
                 pBlockState,
                 MODIFIER,
-                100);
+                50);
     }
 }

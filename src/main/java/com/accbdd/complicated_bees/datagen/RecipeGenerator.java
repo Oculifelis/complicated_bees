@@ -640,6 +640,9 @@ public class RecipeGenerator extends RecipeProvider {
         honeyGeneratorRecipe(output, "propolis", Ingredient.of(ItemsRegistration.PROPOLIS.get()), 200);
         honeyGeneratorRecipe(output, "pollen", Ingredient.of(ItemsRegistration.POLLEN.get()), 800);
         honeyGeneratorRecipe(output, "royal_jelly", Ingredient.of(ItemsRegistration.ROYAL_JELLY.get()), 1600);
+        honeyGeneratorRecipe(output, "drone", Ingredient.of(ItemsRegistration.DRONE.get()), 800);
+        honeyGeneratorRecipe(output, "princess", Ingredient.of(ItemsRegistration.PRINCESS.get()), 4800);
+        honeyGeneratorRecipe(output, "queen", Ingredient.of(ItemsRegistration.QUEEN.get()), 9600);
 
         centrifugeRecipe(output,
                 "amethyst_comb",

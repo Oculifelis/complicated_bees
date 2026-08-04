@@ -81,5 +81,11 @@ public class ItemTagGenerator extends ItemTagsProvider {
                 ItemsRegistration.SMOOTH_WAX_WALL.get(),
                 ItemsRegistration.WAX_BRICK_WALL.get()
         );
+        tag(ItemTags.DURABILITY_ENCHANTABLE).addTag(FRAME);
+        tag(ItemTags.HEAD_ARMOR).add(ItemsRegistration.APIARIST_HELMET.get());
+        tag(ItemTags.CHEST_ARMOR).add(ItemsRegistration.APIARIST_CHESTPLATE.get());
+        tag(ItemTags.LEG_ARMOR).add(ItemsRegistration.APIARIST_LEGGINGS.get());
+        tag(ItemTags.FOOT_ARMOR).add(ItemsRegistration.APIARIST_BOOTS.get());
+        tag(ItemTags.DURABILITY_ENCHANTABLE).add(ItemsRegistration.BEE_STAFF.get());
     }
 }

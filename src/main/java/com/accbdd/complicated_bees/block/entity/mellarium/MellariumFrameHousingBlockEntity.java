@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumTickable {
+public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEntity implements IMellariumModifier, IMellariumFrameHolder {
     private final ItemStackHandler frameItems;
     private final IItemHandler frameItemHandler;
 
@@ -56,19 +57,6 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     }
 
     @Override
-    public void onBeeTick() {
-        damageFrames();
-    }
-
-    public void damageFrames() {
-        if (level instanceof ServerLevel serverLevel) {
-            for (int i = 0; i < frameItems.getSlots(); i++) {
-                frameItems.getStackInSlot(i).hurtAndBreak(1, serverLevel, null, item -> {});
-            }
-        }
-    }
-
-    @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.saveAdditional(pTag, registries);
         pTag.put("frame_items", frameItems.serializeNBT(registries));
@@ -79,5 +67,33 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
         super.loadAdditional(pTag, registries);
         if (pTag.contains("frame_items"))
             frameItems.deserializeNBT(registries, pTag.getCompound("frame_items"));
+    }
+
+    @Override
+    public List<ItemStack> getFrames() {
+        ArrayList<ItemStack> frames = new ArrayList<>();
+        for (int i = 0; i < frameItems.getSlots(); i++) {
+            frames.add(frameItems.getStackInSlot(i));
+        }
+        return frames;
+    }
+
+    @Override
+    public void damageFrames(int damageAmount) {
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < frameItems.getSlots(); i++) {
+                frameItems.getStackInSlot(i).hurtAndBreak(damageAmount, serverLevel, null, itemOnBreak -> {});
+            }
+        }
+    }
+
+    @Override
+    public void damageFrames(Item item, int damageAmount) {
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < frameItems.getSlots(); i++) {
+                if (frameItems.getStackInSlot(i).is(item))
+                    frameItems.getStackInSlot(i).hurtAndBreak(damageAmount, serverLevel, null, itemOnBreak -> {});
+            }
+        }
     }
 }

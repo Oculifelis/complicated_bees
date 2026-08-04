@@ -12,6 +12,7 @@ import com.accbdd.complicated_bees.multiblock.MellariumLogic;
 import com.accbdd.complicated_bees.registry.BlockEntitiesRegistration;
 import com.accbdd.complicated_bees.util.MultiblockHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -20,9 +21,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Stack;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MellariumControllerBlockEntity extends BaseBeeHousing {
@@ -223,7 +222,22 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
 
     @Override
     public void damageFrames() {
-        //no frames by default! mellarium frame logic is in IMellariumTickable
+        Map<Item, Integer> frameMap = new HashMap<>();
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumFrameHolder frameHolder) {
+                frameHolder.getFrames().stream().forEach(stack -> {
+                    frameMap.computeIfAbsent(stack.getItem(), k -> 0);
+                    frameMap.put(stack.getItem(), frameMap.get(stack.getItem()) + 1);
+                });
+            }
+        });
+
+        // damage each frame by modified square of duplicates
+        getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumFrameHolder frameHolder) {
+                frameMap.forEach((item, damageAmount) -> frameHolder.damageFrames(item, (int) Math.max(1, damageAmount * damageAmount / 2)));
+            }
+        });
     }
 
     @Override
