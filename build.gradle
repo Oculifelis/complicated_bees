@@ -155,8 +155,8 @@ dependencies {
         localRuntime "curse.maven:oh-the-biomes-weve-gone-1070751:${bwg_id}"
         localRuntime "curse.maven:terrablender-940057:${terrablender_id}"
         localRuntime "curse.maven:corgilib-693313:7773534"
-        localRuntime "curse.maven:geckolib-388172:7707149"
-        localRuntime "curse.maven:oh-the-trees-youll-grow-962544:7864151"
+        localRuntime "curse.maven:geckolib-388172:8350073"
+        localRuntime "curse.maven:oh-the-trees-youll-grow-962544:8096180"
     }
 
     // For more info:
