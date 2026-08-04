@@ -25,4 +25,4 @@ unfortunately, any mutation research data a player already has will be wiped. Yo
 * Frames not enchantable
 * Apiarist set not tagged/enchantable
 * Bee staff not enchantable
-* BWG compat broken
+* BWG compat broken - #129
