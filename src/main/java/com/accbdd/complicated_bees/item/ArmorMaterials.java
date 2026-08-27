@@ -34,8 +34,7 @@ public class ArmorMaterials {
             0,
             () -> Ingredient.of(ItemsRegistration.WOVEN_MESH.get()),
             List.of(
-                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MODID, "apiarist"), "", false),
-                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MODID, "apiarist"), "_overlay", false)
+                    new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(MODID, "apiarist"), "", false)
             )
     );
 
@@ -46,7 +45,7 @@ public class ArmorMaterials {
             Holder<SoundEvent> equipSound,
             float toughness,
             float knockbackResistance,
-            Supplier<Ingredient> repairIngridient,
+            Supplier<Ingredient> repairIngredient,
             List<ArmorMaterial.Layer> layers
     ) {
         EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
@@ -58,7 +57,7 @@ public class ArmorMaterials {
         return Registry.registerForHolder(
                 BuiltInRegistries.ARMOR_MATERIAL,
                 ResourceLocation.fromNamespaceAndPath(MODID, name),
-                new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance)
+                new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngredient, layers, toughness, knockbackResistance)
         );
     }
 }
