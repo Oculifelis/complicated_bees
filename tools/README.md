@@ -1,0 +1,3 @@
+These Python scripts are historical, one-time migration notes from the combined Complicated Bees + Genetic Industry port (the private working repository that this fork was split from). They expect that repository's layout (`complicated_bees/`, `genetic_industry/`, `reference/` checkouts of the original sources) and must not be rerun on the finished source. Normal builds use Gradle and do not execute them.
+
+The scripts that touched only Genetic Industry, and the validation/packaging tools, are in the Genetic Industry fork. `migrate_resources.py` and `prepare_port.py` worked on both mods and are copied into both forks.

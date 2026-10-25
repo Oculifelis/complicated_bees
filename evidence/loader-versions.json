@@ -1,0 +1,8 @@
+{
+  "source": "https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml",
+  "latest_per_target": {
+    "26.2": "26.2.0.93",
+    "26.1.2": "26.1.2.122"
+  },
+  "checked_utc": "2026-10-18T03:55:14.2911134Z"
+}

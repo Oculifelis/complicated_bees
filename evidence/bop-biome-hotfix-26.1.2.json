@@ -1,0 +1,56 @@
+{
+  "recordedAt": "2026-10-19T03:02:17.426189+00:00",
+  "artifact": {
+    "file": "complicated_bees-neoforge-3.6.2+26.1.2-port.2.jar",
+    "path": "H:\\AI_MC_Modding\\ComplicatedBees\\dist\\neoforge-26.1.2\\complicated_bees-neoforge-3.6.2+26.1.2-port.2.jar",
+    "target": "neoforge-26.1.2",
+    "modId": "complicated_bees",
+    "kind": "playable-mod",
+    "version": "3.6.2+26.1.2-port.2",
+    "minecraft": "26.1.2",
+    "loader": "NeoForge 26.1.2.122",
+    "java": "25",
+    "size": 1662617,
+    "sha256": "5dd9e4acec5d484b5e23648d1427d67f35657f13e2e9f9d954b76d297d2ed564"
+  },
+  "implementation": {
+    "sourceProject": "H:\\AI_MC_Modding\\ComplicatedBees",
+    "previousPath": "H:\\AI_MC_Modding\\ComplicatedBees\\dist\\neoforge-26.1.2\\complicated_bees-neoforge-3.6.2+26.1.2-port.1.jar",
+    "previousSha256": "05b793c79303fc578584d443b86aba5932750accdc1f9466859d85c87ffd76c2",
+    "cause": "Biomes O' Plenty 26.1.2.0.21 no longer registers biomesoplenty:aspen_glade, biomesoplenty:grassland or biomesoplenty:jacaranda_glade. Three neoforge:add_features biome modifiers referenced them directly, so biome registry freeze failed with 'Unbound values in registry minecraft:worldgen/biome' and world creation hung at 'Preparing for world creation' in Simply NeoForged (latest.log 2026-10-18 22:54).",
+    "changedEntries": [
+      "META-INF/neoforge.mods.toml",
+      "data/complicated_bees/neoforge/biome_modifier/biomesoplenty/aspen_glade.json",
+      "data/complicated_bees/neoforge/biome_modifier/biomesoplenty/jacaranda_glade.json",
+      "data/complicated_bees/neoforge/biome_modifier/biomesoplenty/plains_bee_nest.json"
+    ],
+    "removedEntries": [
+      "data/complicated_bees/neoforge/biome_modifier/biomesoplenty/aspen_glade.json",
+      "data/complicated_bees/neoforge/biome_modifier/biomesoplenty/jacaranda_glade.json"
+    ],
+    "allOtherEntriesByteIdentical": true,
+    "sourceFilesChanged": [
+      "complicated_bees/src/main/resources/data/complicated_bees/neoforge/biome_modifier/biomesoplenty/plains_bee_nest.json",
+      "build.gradle (base mod version -> port.2)"
+    ],
+    "sourceFilesRemoved": [
+      "complicated_bees/src/main/resources/data/complicated_bees/neoforge/biome_modifier/biomesoplenty/aspen_glade.json",
+      "complicated_bees/src/main/resources/data/complicated_bees/neoforge/biome_modifier/biomesoplenty/jacaranda_glade.json"
+    ],
+    "otherBiomeReferencesValidated": "every other active biome_modifier biome id resolved against vanilla 26.1.2 and the installed Simply NeoForged jars",
+    "gradleBuildRun": false,
+    "gameLaunched": false,
+    "testsRun": false,
+    "otherTarget26_2": "Shared source corrected; no replacement 26.2 package built in this task"
+  },
+  "installation": {
+    "id": "complicated_bees",
+    "version": "3.6.2+26.1.2-port.2",
+    "path": "%USERPROFILE%\\AppData\\Roaming\\PrismLauncher\\instances\\Simply NeoForged\\minecraft\\mods\\complicated_bees-neoforge-3.6.2+26.1.2-port.2.jar",
+    "sha256": "5dd9e4acec5d484b5e23648d1427d67f35657f13e2e9f9d954b76d297d2ed564",
+    "status": "installed 2026-10-18; sha256 verified after copy",
+    "previousBackup": "H:\\AI_MC_Modding\\ComplicatedBees\\dist\\backups\\bop-biome-hotfix-port1\\05b793c79303fc578584d443b86aba5932750accdc1f9466859d85c87ffd76c2\\complicated_bees-neoforge-3.6.2+26.1.2-port.1.jar",
+    "previousSha256": "05b793c79303fc578584d443b86aba5932750accdc1f9466859d85c87ffd76c2"
+  },
+  "replacementWorldCreationObserved": false
+}

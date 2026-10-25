@@ -1,0 +1,5 @@
+[23:56:16] [modloading-sync-worker/INFO] [sn.ja.Jade/]: com.accbdd.complicated_bees.compat.jade.ComplicatedBeesJade loaded: 2.463 ms
+[23:56:23] [Render thread/INFO] [me.je.li.lo.PluginCallerTimerRunnable/]: Registering recipes: complicated_bees:jei_plugin took 44.17 milliseconds
+[23:56:23] [Render thread/INFO] [me.je.li.lo.PluginCallerTimerRunnable/]: Registering recipes: genindustry_bees:jei_plugin took 148.8 milliseconds
+[23:56:24] [Render thread/INFO] [me.je.co.ut.LoggedTimer/]: Starting JEI took 1.035 seconds
+[23:56:37] [Render thread/INFO] [co.ac.co.ComplicatedBees/]: BEES_CLIENT_VALIDATION_PASS: 7 assertions

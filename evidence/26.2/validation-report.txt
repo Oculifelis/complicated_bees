@@ -1,0 +1,131 @@
+PASS 130
+species datapack registry populated: 59
+comb datapack registry populated
+mutation recipes loaded
+centrifuge recipes loaded
+bee native item codec preserves genome, age, analysis, generation and species
+sample codec: complicated_bees:fertility
+template crafting matches: complicated_bees:fertility
+sample codec: complicated_bees:active_time
+template crafting matches: complicated_bees:active_time
+sample codec: complicated_bees:effect
+template crafting matches: complicated_bees:effect
+sample codec: complicated_bees:productivity
+template crafting matches: complicated_bees:productivity
+sample codec: complicated_bees:territory
+template crafting matches: complicated_bees:territory
+sample codec: complicated_bees:cave_dwelling
+template crafting matches: complicated_bees:cave_dwelling
+sample codec: complicated_bees:lifespan
+template crafting matches: complicated_bees:lifespan
+sample codec: complicated_bees:species
+template crafting matches: complicated_bees:species
+sample codec: complicated_bees:weatherproof
+template crafting matches: complicated_bees:weatherproof
+sample codec: complicated_bees:humidity
+template crafting matches: complicated_bees:humidity
+sample codec: complicated_bees:flower
+template crafting matches: complicated_bees:flower
+sample codec: complicated_bees:temperature
+template crafting matches: complicated_bees:temperature
+assembled template contains every registered gene
+template recipe rejects blank samples and unrelated ingredients
+template native codec preserves all genes
+both addon block entities create in a server world
+native transactional energy capability exposed
+energy insertion accepts power
+aborted energy transaction rolls back
+committed energy transaction persists
+native transactional inventory capability exposes output and input slots
+blank sample insertion reaches correct input slot
+aborted inventory transaction rolls back
+registered imprinter ticker produces a bee
+imprinting writes primary chromosome
+imprinting writes secondary chromosome
+imprinting consumes one bee and retains the template
+registered extractor ticker produces a sample with a real gene
+extraction consumes bee and blank sample
+advanced labware takes one durability damage
+block entity native Value I/O preserves gene samples
+block entity native Value I/O preserves energy
+breaking extractor drops inventory through native removal hook
+block placement: complicated_bees:bee_nest
+block placement: complicated_bees:apiary
+block placement: complicated_bees:centrifuge
+block placement: complicated_bees:furnace_generator
+block placement: complicated_bees:honey_generator
+block placement: complicated_bees:microscope
+block placement: complicated_bees:bee_sorter
+block placement: complicated_bees:autolyzer
+block placement: complicated_bees:mellarium_base
+block placement: complicated_bees:mellarium_temp_unit
+block placement: complicated_bees:mellarium_frame_housing_1
+block placement: complicated_bees:mellarium_frame_housing_2
+block placement: complicated_bees:mellarium_frame_housing_3
+block placement: complicated_bees:mellarium_rain_shield
+block placement: complicated_bees:mellarium_mutator
+block placement: complicated_bees:mellarium_hydroregulator
+block placement: complicated_bees:mellarium_energy_cell
+block placement: complicated_bees:mellarium_skybox
+block placement: complicated_bees:mellarium_temporal_simulator
+block placement: complicated_bees:mellarium_output_hatch
+block placement: complicated_bees:mellarium_controller
+block placement: complicated_bees:gyrofuge_base
+block placement: complicated_bees:gyrofuge_controller
+block placement: complicated_bees:gyrofuge_energy_cell
+block placement: complicated_bees:gyrofuge_basic_processing_unit
+block placement: complicated_bees:gyrofuge_processing_unit
+block placement: complicated_bees:gyrofuge_advanced_processing_unit
+block placement: complicated_bees:gyrofuge_speed_unit
+block placement: complicated_bees:gyrofuge_efficiency_unit
+block placement: complicated_bees:gyrofuge_extraction_unit
+block placement: complicated_bees:gyrofuge_output_hatch
+block placement: complicated_bees:gyrofuge_input_hatch
+block placement: complicated_bees:gyrofuge_basic_speed_unit
+block placement: complicated_bees:gyrofuge_advanced_speed_unit
+block placement: complicated_bees:gyrofuge_basic_efficiency_unit
+block placement: complicated_bees:gyrofuge_advanced_efficiency_unit
+block placement: complicated_bees:gyrofuge_basic_extraction_unit
+block placement: complicated_bees:gyrofuge_advanced_extraction_unit
+block placement: complicated_bees:apid_library
+block placement: complicated_bees:wax_block
+block placement: complicated_bees:wax_block_stairs
+block placement: complicated_bees:wax_block_slab
+block placement: complicated_bees:wax_block_wall
+block placement: complicated_bees:smooth_wax
+block placement: complicated_bees:smooth_wax_stairs
+block placement: complicated_bees:smooth_wax_slab
+block placement: complicated_bees:smooth_wax_wall
+block placement: complicated_bees:wax_bricks
+block placement: complicated_bees:wax_brick_stairs
+block placement: complicated_bees:wax_brick_slab
+block placement: complicated_bees:wax_brick_wall
+block placement: complicated_bees:chiseled_wax
+block placement: complicated_bees:honeyed_planks
+block placement: complicated_bees:honeyed_stairs
+block placement: complicated_bees:honeyed_slab
+block placement: complicated_bees:honeyed_fence
+block placement: complicated_bees:honeyed_fence_gate
+block placement: complicated_bees:honeyed_button
+block placement: complicated_bees:honeyed_pressure_plate
+block placement: complicated_bees:honeyed_door
+block placement: complicated_bees:honeyed_trapdoor
+block placement: complicated_bees:honeyed_sign
+block placement: complicated_bees:honeyed_wall_sign
+block placement: complicated_bees:honeyed_wall_hanging_sign
+block placement: complicated_bees:honeyed_hanging_sign
+registered apiary ticker mates princess and drone into queen
+apiary mating consumes exactly one drone
+apiary queen retains maternal and paternal diploid genomes
+apiary native persistence retains queen and mate genomes
+registered centrifuge ticker processes native honey-bottle recipe into three droplets
+centrifuge consumes input and energy
+native worldgen feature places a bee nest
+worldgen nest stores configured species
+native nest persistence retains configured species
+mellarium shell assembles through block placement callback
+mellarium shell blocks link to controller logic
+mellarium deconstructs when a shell block is broken through native removal
+gyrofuge shell assembles through block placement callback
+gyrofuge shell blocks link to controller logic
+gyrofuge deconstructs when a shell block is broken through native removal

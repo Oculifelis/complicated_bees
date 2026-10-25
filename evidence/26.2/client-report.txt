@@ -1,0 +1,8 @@
+PASS 7
+machine recipes synchronized to a real connected client
+sample component synchronized in player inventory
+gallery includes all bee castes, combs, machines and addon items: 313
+imprinter opens through native block interaction and menu packet
+extractor opens through native block interaction and menu packet
+apiary opens through native block interaction and menu packet
+native client raycast targets apiary for optional Jade tooltip capture
