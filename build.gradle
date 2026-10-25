@@ -1,206 +1,71 @@
+// Complicated Bees, unofficial NeoForge 26.x port.
+// Build one Minecraft target per invocation: -PmcTarget=26.1.2 (default) or -PmcTarget=26.2.
+// build-port.ps1 builds both targets with separate project caches.
 plugins {
     id 'java-library'
-    id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
-    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.148'
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
-}
+def mcTarget = providers.gradleProperty('mcTarget').getOrElse('26.1.2')
+if (!(mcTarget in ['26.1.2', '26.2'])) throw new GradleException("Unsupported target: ${mcTarget}")
+def neoVersion = mcTarget == '26.1.2' ? '26.1.2.122' : '26.2.0.93'
+def jeiVersion = mcTarget == '26.1.2' ? '29.47.0.111' : '30.42.0.237'
+def jadeVersion = mcTarget == '26.1.2' ? '26.1.12+neoforge' : '26.2.10+neoforge'
 
-version = mod_version
-group = mod_group_id
+group = 'com.accbdd.complicated_bees'
+version = "3.6.2+${mcTarget}-port.2"
+base.archivesName = 'complicated_bees-neoforge'
+layout.buildDirectory = file("build/${mcTarget}")
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
-base {
-    archivesName = mod_id + "-" + minecraft_version
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-sourceSets.main.resources {
-    srcDir('src/generated/resources')
-    exclude("src/generated/**/.cache")
-}
-sourceSets.test.resources {
-    srcDir('test_resources')
-}
-
-neoForge {
-    version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-            // gameDirectory = project.file('run-data')
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-            sourceSet(sourceSets.test)
-        }
-    }
-}
+sourceSets.main.resources.srcDir 'src/generated/resources'
+sourceSets.main.resources.srcDir "src/targets/${mcTarget}/resources"
+sourceSets.main.java.srcDir "src/targets/${mcTarget}/java"
+sourceSets.main.resources.exclude '**/.cache/**'
+// EMI integration is kept as source but not compiled: no EMI release exists for these targets.
+sourceSets.main.java.exclude 'com/accbdd/complicated_bees/compat/emi/**'
 
 repositories {
-    maven {
-        // JEI
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        // EMI
-        name = "TerraformersMC"
-        url = "https://maven.terraformersmc.com/"
-    }
-    maven {
-        // REI
-        url "https://maven.shedaniel.me/"
-    }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "CurseForge"
-                url = "https://www.cursemaven.com/"
-            }
-        }
-        filter {
-            includeGroup "curse.maven"
-        }
-    }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven/"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
-    mavenLocal()
-    flatDir {
-        dir 'libs'
-    }
+    maven { url = 'https://maven.blamejared.com/' }
+    maven { url = 'https://api.modrinth.com/maven' }
 }
 
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
+configurations { runtimeClasspath.extendsFrom localRuntime }
+
+neoForge {
+    version = neoVersion
+    runs {
+        client { client(); gameDirectory = file("run/${mcTarget}/client"); jvmArgument '-Xmx2G'; jvmArgument '-XX:ActiveProcessorCount=4'; programArguments.addAll '--width', '1280', '--height', '900' }
+        server { server(); programArgument '--nogui'; gameDirectory = file("run/${mcTarget}/server"); jvmArgument '-Xmx2G'; jvmArgument '-XX:ActiveProcessorCount=4' }
+        configureEach { logLevel = org.slf4j.event.Level.INFO }
+    }
+    mods {
+        complicated_bees { sourceSet(sourceSets.main) }
+    }
 }
 
 dependencies {
-    implementation "curse.maven:jade-324717:${jade_id}"
-
-    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
-
-    localRuntime "curse.maven:appleskin-248787:${appleskin_id}"
-    localRuntime "curse.maven:patchouli-306770:${patchouli_id}"
-    localRuntime "curse.maven:pipez-443900:5757713"
-    localRuntime "curse.maven:mekanism-268560:7904058"
-    localRuntime "curse.maven:mekanism-generators-268566:7904061"
-
-    // We add the full version to localRuntime so that we do not publish a dependency on it
-    if (runtime_recipe_viewer == "jei") {
-        localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    } else if (runtime_recipe_viewer == "rei") {
-        localRuntime "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
-    } else if (runtime_recipe_viewer == "emi") {
-        localRuntime "dev.emi:emi-neoforge:${emi_version}"
-    } else if (runtime_recipe_viewer == "emi+") {
-        localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-        localRuntime "dev.emi:emi-neoforge:${emi_version}"
-    }
-
-    if (runtime_biome_test == "bop") {
-        localRuntime "curse.maven:biomes-o-plenty-220318:${bop_id}"
-        localRuntime "curse.maven:glitchcore-955399:${glitchcore_id}"
-        localRuntime "curse.maven:terrablender-940057:${terrablender_id}"
-    } else if (runtime_biome_test == "tl") {
-        localRuntime "curse.maven:terralith-513688:${terralith_id}"
-    } else if (runtime_biome_test == "bwg") {
-        localRuntime "curse.maven:oh-the-biomes-weve-gone-1070751:${bwg_id}"
-        localRuntime "curse.maven:terrablender-940057:${terrablender_id}"
-        localRuntime "curse.maven:corgilib-693313:7773534"
-        localRuntime "curse.maven:geckolib-388172:8350073"
-        localRuntime "curse.maven:oh-the-trees-youll-grow-962544:8096180"
-    }
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-}
-
-
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
-            neo_version         : neo_version, neo_version_range: neo_version_range,
-            loader_version_range: loader_version_range,
-            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: mod_description,
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-sourceSets.main.resources.srcDir generateModMetadata
-neoForge.ideSyncTask generateModMetadata
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
+    compileOnly "mezz.jei:jei-${mcTarget}-common-api:${jeiVersion}"
+    compileOnly "mezz.jei:jei-${mcTarget}-neoforge-api:${jeiVersion}"
+    compileOnly "maven.modrinth:jade:${jadeVersion}"
+    if (providers.gradleProperty('withJei').isPresent()) localRuntime "mezz.jei:jei-${mcTarget}-neoforge:${jeiVersion}"
+    if (providers.gradleProperty('withJade').isPresent()) localRuntime "maven.modrinth:jade:${jadeVersion}"
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xmaxerrs', '3000', '-Xlint:-removal']
 }
 
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
+tasks.named('processResources') {
+    // A file under src/targets/<minecraft>/resources replaces the shared file at the same path.
+    eachFile { entry ->
+        def overlay = file("src/targets/${mcTarget}/resources/${entry.path}")
+        if (overlay.isFile() && entry.file.canonicalFile != overlay.canonicalFile) entry.exclude()
+    }
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand mod_version: project.version, minecraft_version: mcTarget, neo_version: neoVersion
     }
 }
+
+tasks.named('jar') { from('LICENSE.txt') }
