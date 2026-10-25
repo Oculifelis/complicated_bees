@@ -10,13 +10,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneSpecies extends Gene<Species> {
     public static final String TAG = "species";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneSpecies() {
         super(Species.INVALID, true);
@@ -35,10 +35,10 @@ public class GeneSpecies extends Gene<Species> {
         } else if (this.get().builderOverride != null) {
             tag.put(DATA, StringTag.valueOf(this.get().builderOverride.toString()));
         } else {
-            if (registryAccess == null || registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()) == null) {
+            if (registryAccess == null || registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()) == null) {
                 tag.put(DATA, StringTag.valueOf("complicated_bees:invalid"));
             } else {
-                tag.put(DATA, StringTag.valueOf(registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()).toString()));
+                tag.put(DATA, StringTag.valueOf(registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(this.get()).toString()));
             }
         }
 
@@ -51,14 +51,14 @@ public class GeneSpecies extends Gene<Species> {
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
         if (registryAccess == null)
             return new GeneSpecies();
-        Registry<Species> registry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
+        Registry<Species> registry = registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
 
-        return new GeneSpecies(registry.get(ResourceLocation.tryParse(tag.getString(DATA))), tag.getBoolean(DOMINANT));
+        return new GeneSpecies(registry.getValue(Identifier.tryParse(tag.getStringOr(DATA, ""))), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override
     public MutableComponent getTranslationKey() {
-        return Component.translatable("species.complicated_bees." + SpeciesRegistration.getResourceLocation(geneData));
+        return Component.translatable("species.complicated_bees." + SpeciesRegistration.getIdentifier(geneData));
     }
 
     @Override

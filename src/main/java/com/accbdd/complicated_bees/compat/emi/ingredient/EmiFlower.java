@@ -7,12 +7,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.emi.emi.api.render.EmiTooltipComponents;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +35,12 @@ public class EmiFlower extends EmiStack {
     }
 
     @Override
-    public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
+    public void extractRenderState(GuiGraphicsExtractor draw, int x, int y, float delta, int flags) {
         if (!stacks.isEmpty()) {
             stacks.getFirst().render(draw, x, y, delta, flags);
             RenderSystem.disableDepthTest();
             RenderSystem.enableBlend();
-            draw.blit(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), x, y, 0, 0, 16, 16, 16, 16);
+            com.accbdd.complicated_bees.port.PortGui.blit(draw,Identifier.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), x, y, 0, 0, 16, 16, 16, 16);
             RenderSystem.disableBlend();
             RenderSystem.enableDepthTest();
         }
@@ -62,8 +62,8 @@ public class EmiFlower extends EmiStack {
     }
 
     @Override
-    public ResourceLocation getId() {
-        return GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
+    public Identifier getId() {
+        return GeneticHelper.getRegistryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower);
     }
 
     @Override

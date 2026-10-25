@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,27 +19,27 @@ public class Chromosome {
     public static final Codec<Chromosome> CODEC = CompoundTag.CODEC.xmap(Chromosome::deserialize, Chromosome::serialize);
     public static final StreamCodec<ByteBuf, Chromosome> STREAM_CODEC = ByteBufCodecs.COMPOUND_TAG.map(Chromosome::deserialize, Chromosome::serialize);
 
-    private Map<ResourceLocation, IGene<?>> genes;
+    private Map<Identifier, IGene<?>> genes;
 
     public Chromosome() {
         this.genes = new HashMap<>();
         if (ComplicatedBees.GENE_REGISTRY.get() != null)
             for (Map.Entry<ResourceKey<IGene<?>>, IGene<?>> entry : ComplicatedBees.GENE_REGISTRY.get().entrySet()) {
-                genes.put(entry.getKey().location(), ComplicatedBees.GENE_REGISTRY.get().get(entry.getKey().location()));
+                genes.put(entry.getKey().identifier(), ComplicatedBees.GENE_REGISTRY.get().getValue(entry.getKey().identifier()));
             }
     }
 
     public Chromosome(CompoundTag genomeAsTag) {
         this.genes = new HashMap<>();
         for (Map.Entry<ResourceKey<IGene<?>>, IGene<?>> entry : ComplicatedBees.GENE_REGISTRY.get().entrySet()) {
-            ResourceLocation geneLocation = entry.getKey().location();
+            Identifier geneLocation = entry.getKey().identifier();
             if (genomeAsTag.contains(geneLocation.toString())) {
-                CompoundTag serializedGene = genomeAsTag.getCompound(geneLocation.toString());
+                CompoundTag serializedGene = genomeAsTag.getCompoundOrEmpty(geneLocation.toString());
                 if (!serializedGene.contains(Gene.DOMINANT))
                     serializedGene.putBoolean(Gene.DOMINANT, true);
                 genes.put(geneLocation, entry.getValue().deserialize(serializedGene));
             } else {
-                genes.put(entry.getKey().location(), ComplicatedBees.GENE_REGISTRY.get().get(entry.getKey().location()));
+                genes.put(entry.getKey().identifier(), ComplicatedBees.GENE_REGISTRY.get().getValue(entry.getKey().identifier()));
             }
         }
     }
@@ -48,11 +48,11 @@ public class Chromosome {
         this.genes = species.getDefaultChromosome().getGenes();
     }
 
-    public Chromosome(Map<ResourceLocation, IGene<?>> genes) {
+    public Chromosome(Map<Identifier, IGene<?>> genes) {
         this.genes = genes;
     }
 
-    public Map<ResourceLocation, IGene<?>> getGenes() {
+    public Map<Identifier, IGene<?>> getGenes() {
         return genes;
     }
 
@@ -60,43 +60,43 @@ public class Chromosome {
         return new Chromosome(this.serialize());
     }
 
-    public Chromosome setGenes(Map<ResourceLocation, IGene<?>> genes) {
+    public Chromosome setGenes(Map<Identifier, IGene<?>> genes) {
         this.genes = genes;
         return this;
     }
 
-    public IGene<?> getGene(ResourceLocation id) {
-        return this.genes.getOrDefault(id, ComplicatedBees.GENE_REGISTRY.get().get(id));
+    public IGene<?> getGene(Identifier id) {
+        return this.genes.getOrDefault(id, ComplicatedBees.GENE_REGISTRY.get().getValue(id));
     }
 
-    public Chromosome setGene(ResourceLocation id, IGene<?> gene) {
+    public Chromosome setGene(Identifier id, IGene<?> gene) {
         this.genes.put(id, gene);
         return this;
     }
 
-    public Chromosome removeGene(ResourceLocation id) {
+    public Chromosome removeGene(Identifier id) {
         this.genes.remove(id);
         return this;
     }
 
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
-        Map<ResourceLocation, IGene<?>> genes = this.getGenes();
-        for (ResourceLocation key : genes.keySet()) {
+        Map<Identifier, IGene<?>> genes = this.getGenes();
+        for (Identifier key : genes.keySet()) {
             tag.put(key.toString(), genes.get(key).serialize());
         }
         return tag;
     }
 
     public static Chromosome deserialize(CompoundTag tag) {
-        Map<ResourceLocation, IGene<?>> genes = new HashMap<>();
+        Map<Identifier, IGene<?>> genes = new HashMap<>();
         for (Map.Entry<ResourceKey<IGene<?>>, IGene<?>> entry : ComplicatedBees.GENE_REGISTRY.get().entrySet()) {
-            ResourceLocation id = entry.getKey().location();
-            CompoundTag geneData = tag.getCompound(id.toString());
+            Identifier id = entry.getKey().identifier();
+            CompoundTag geneData = tag.getCompoundOrEmpty(id.toString());
             if (!geneData.equals(new CompoundTag())) {
                 if (!geneData.contains(Gene.DOMINANT))
                     geneData.putBoolean(Gene.DOMINANT, true);
-                genes.put(id, Objects.requireNonNull(ComplicatedBees.GENE_REGISTRY.get().get(id)).deserialize(geneData));
+                genes.put(id, Objects.requireNonNull(ComplicatedBees.GENE_REGISTRY.get().getValue(id)).deserialize(geneData));
 
             }
         }

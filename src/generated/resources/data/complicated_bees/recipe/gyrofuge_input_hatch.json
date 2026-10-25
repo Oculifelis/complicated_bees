@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_base"
-    },
-    "B": {
-      "item": "minecraft:powered_rail"
-    },
-    "C": {
-      "tag": "c:chests"
-    },
-    "H": {
-      "item": "minecraft:hopper"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_base",
+    "B": "minecraft:powered_rail",
+    "C": "#c:chests",
+    "H": "minecraft:hopper"
   },
   "pattern": [
     "#H#",

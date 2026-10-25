@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:mellarium_panel"
-    },
-    "A": {
-      "item": "complicated_bees:mellarium_base"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "G": {
-      "item": "minecraft:glowstone"
-    },
-    "L": {
-      "item": "minecraft:redstone_lamp"
-    }
+    "#": "complicated_bees:mellarium_panel",
+    "A": "complicated_bees:mellarium_base",
+    "D": "minecraft:diamond",
+    "G": "minecraft:glowstone",
+    "L": "minecraft:redstone_lamp"
   },
   "pattern": [
     "#L#",

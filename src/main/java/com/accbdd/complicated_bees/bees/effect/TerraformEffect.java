@@ -35,14 +35,14 @@ public class TerraformEffect extends BeeEffect {
             BlockPosSpiralIterator iterator = new BlockPosSpiralIterator(apiary.getBlockPos(), territory[0], territory[1]);
             while (iterator.hasNext()) {
                 BlockPos pos = iterator.next();
-                if (pos.getY() - 1 > apiary.getLevel().getMinBuildHeight() & !apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
+                if (pos.getY() - 1 > apiary.getLevel().getMinY() & !apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
                     ChunkAccess chunkaccess = level.getChunk(pos);
                     if (chunkaccess != null) {
                         BoundingBox boundingBox = BoundingBox.fromCorners(quantize(pos.offset(-2, -2, -2)), quantize(pos.offset(2, 2, 2)));
                         chunkaccess.fillBiomesFromNoise(makeResolver(chunkaccess,
                                 boundingBox,
-                                GeneticHelper.getRegistryAccess().registryOrThrow(Registries.BIOME).getHolder(biome).orElseThrow()), level.getChunkSource().randomState().sampler());
-                        chunkaccess.setUnsaved(true);
+                                GeneticHelper.getRegistryAccess().lookupOrThrow(Registries.BIOME).get(biome).orElseThrow()), level.getChunkSource().randomState().sampler());
+                        chunkaccess.markUnsaved();
                         if (apiary.getLevel().getBiome(quantize(pos)).is(biome)) {
                             level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunkaccess));
                             break;

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "complicated_bees:furnace_generator"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "P": {
-      "item": "complicated_bees:propolis"
-    },
-    "W": {
-      "item": "complicated_bees:smooth_wax"
-    }
+    "F": "complicated_bees:furnace_generator",
+    "G": "#c:glass_blocks",
+    "I": "minecraft:iron_ingot",
+    "P": "complicated_bees:propolis",
+    "W": "complicated_bees:smooth_wax"
   },
   "pattern": [
     "IGI",

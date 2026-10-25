@@ -12,12 +12,12 @@ public class MellariumUpgradeBlockItem extends BlockItem {
     public final List<Component> tooltip;
 
     public MellariumUpgradeBlockItem(Block pBlock, List<Component> tooltip) {
-        super(pBlock, new Properties());
+        super(pBlock, com.accbdd.complicated_bees.port.RegistrationContext.itemProperties());
         this.tooltip = tooltip;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.addAll(tooltip);
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, java.util.function.Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        tooltip.forEach(tooltipComponents);
     }
 }

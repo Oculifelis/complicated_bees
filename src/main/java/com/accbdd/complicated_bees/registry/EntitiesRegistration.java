@@ -14,5 +14,5 @@ public class EntitiesRegistration {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
 
     public static final Supplier<EntityType<BeeStaffProjectile>> BEE_STAFF_MOUNT = ENTITY_TYPE.register("bee_staff_mount",
-            () -> EntityType.Builder.<BeeStaffProjectile>of(BeeStaffProjectile::new, MobCategory.MISC).sized(0.5f, 0.5f).build("bee_staff_mount"));
+            () -> EntityType.Builder.<BeeStaffProjectile>of(BeeStaffProjectile::new, MobCategory.MISC).sized(0.5f, 0.5f).build(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.ENTITY_TYPE, net.minecraft.resources.Identifier.fromNamespaceAndPath(MODID,"bee_staff_mount"))));
 }

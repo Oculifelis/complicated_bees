@@ -8,15 +8,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "H": {
-      "item": "complicated_bees:honey_droplet"
-    },
-    "P": {
-      "item": "complicated_bees:pollen"
-    },
-    "R": {
-      "item": "complicated_bees:royal_jelly"
-    }
+    "H": "complicated_bees:honey_droplet",
+    "P": "complicated_bees:pollen",
+    "R": "complicated_bees:royal_jelly"
   },
   "pattern": [
     "HHH",

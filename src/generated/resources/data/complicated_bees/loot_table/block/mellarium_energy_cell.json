@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_custom_data",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "energy",
+                  "target": "BlockEntityTag.energy"
+                }
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "complicated_bees:mellarium_energy_cell"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "complicated_bees:blocks/mellarium_energy_cell"
+}

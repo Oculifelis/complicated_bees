@@ -8,18 +8,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "J": {
-      "item": "complicated_bees:royal_jelly"
-    },
-    "L": {
-      "item": "complicated_bees:pollen"
-    },
-    "P": {
-      "item": "complicated_bees:propolis"
-    },
-    "Z": {
-      "item": "minecraft:blaze_rod"
-    }
+    "J": "complicated_bees:royal_jelly",
+    "L": "complicated_bees:pollen",
+    "P": "complicated_bees:propolis",
+    "Z": "minecraft:blaze_rod"
   },
   "pattern": [
     " LJ",

@@ -11,20 +11,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.BlockAndLightGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BeeNestBlockEntity extends BlockEntity {
+public class BeeNestBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     private Species species;
 
     public BeeNestBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.BEE_NEST_ENTITY.get(), pPos, pBlockState);
     }
 
-    public static int getNestColor(BlockState state, BlockAndTintGetter level, BlockPos pos, int index) {
+    public static int getNestColor(BlockState state, BlockAndLightGetter level, BlockPos pos, int index) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BeeNestBlockEntity) {
             return ((BeeNestBlockEntity) be).getSpecies().getNestColor();
@@ -36,17 +36,17 @@ public class BeeNestBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
-        if (registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()) == null) {
+        if (registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()) == null) {
             tag.put("species", StringTag.valueOf("complicated_bees:invalid"));
         } else {
-            tag.put("species", StringTag.valueOf(registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()).toString()));
+            tag.put("species", StringTag.valueOf(registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(getSpecies()).toString()));
         }
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.species = SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(tag.getString("species")));
+        this.species = SpeciesRegistration.getFromIdentifier(Identifier.tryParse(tag.getStringOr("species", "")));
     }
 
     public Species getSpecies() {
@@ -71,9 +71,9 @@ public class BeeNestBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+    public void onDataPacket(Connection net, net.minecraft.world.level.storage.ValueInput input) {
         if (level != null)
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_IMMEDIATE);
-        loadAdditional(pkt.getTag(), lookupProvider);
+        loadWithComponents(input);
     }
 }

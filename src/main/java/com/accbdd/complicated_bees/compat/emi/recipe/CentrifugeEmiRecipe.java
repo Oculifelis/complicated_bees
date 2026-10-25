@@ -7,7 +7,7 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class CentrifugeEmiRecipe implements EmiRecipe {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final EmiIngredient input;
     private final List<EmiStack> outputs;
 
-    public CentrifugeEmiRecipe(ResourceLocation id, CentrifugeRecipe recipe) {
+    public CentrifugeEmiRecipe(Identifier id, CentrifugeRecipe recipe) {
         this.id = id;
 
         this.input = EmiIngredient.of(recipe.input());
@@ -36,7 +36,7 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return id;
     }
 
@@ -62,7 +62,7 @@ public class CentrifugeEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 0, 0, 128, 64, 128, 64);
+        widgets.addTexture(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 0, 0, 128, 64, 128, 64);
 
         widgets.addSlot(input, 14, 23);
 

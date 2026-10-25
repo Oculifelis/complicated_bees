@@ -1,7 +1,5 @@
 {
   "type": "complicated_bees:honey_generator",
   "burn_time": 200,
-  "input": {
-    "item": "complicated_bees:propolis"
-  }
+  "input": "complicated_bees:propolis"
 }

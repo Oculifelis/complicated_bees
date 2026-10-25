@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.compat.jade;
 import com.accbdd.complicated_bees.block.ApiaryBlock;
 import com.accbdd.complicated_bees.block.BeeNestBlock;
 import com.accbdd.complicated_bees.block.entity.ApiaryBlockEntity;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -14,12 +14,12 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 @WailaPlugin
 public class ComplicatedBeesJade implements IWailaPlugin {
 
-    public static ResourceLocation ERRORS_CONFIG = ResourceLocation.fromNamespaceAndPath(MODID, "show_errors");
-    public static ResourceLocation CYCLE_CONFIG = ResourceLocation.fromNamespaceAndPath(MODID, "show_cycle_ticks");
+    public static Identifier ERRORS_CONFIG = Identifier.fromNamespaceAndPath(MODID, "show_errors");
+    public static Identifier CYCLE_CONFIG = Identifier.fromNamespaceAndPath(MODID, "show_cycle_ticks");
 
     @Override
     public void register(IWailaCommonRegistration registration) {
-        registration.registerBlockDataProvider(ApiaryComponentProvider.INSTANCE, ApiaryBlockEntity.class);
+        registration.registerBlockDataProvider(ApiaryDataProvider.INSTANCE, ApiaryBlockEntity.class);
     }
 
     @Override

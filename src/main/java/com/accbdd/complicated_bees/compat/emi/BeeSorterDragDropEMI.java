@@ -8,7 +8,7 @@ import com.accbdd.complicated_bees.screen.slot.FakeSpeciesSlot;
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.inventory.Slot;
 
 public class BeeSorterDragDropEMI implements EmiDragDropHandler<BeeSorterScreen> {
@@ -26,7 +26,7 @@ public class BeeSorterDragDropEMI implements EmiDragDropHandler<BeeSorterScreen>
     }
 
     @Override
-    public void render(BeeSorterScreen screen, EmiIngredient dragged, GuiGraphics draw, int mouseX, int mouseY, float delta) {
+    public void extractRenderState(BeeSorterScreen screen, EmiIngredient dragged, GuiGraphicsExtractor draw, int mouseX, int mouseY, float delta) {
         for (int i = 0; i < 36; i++) {
             Slot slot = screen.getMenu().getSlot(i);
             draw.fill(screen.getGuiLeft() + slot.x, screen.getGuiTop() + slot.y, screen.getGuiLeft() + slot.x + 16, screen.getGuiTop() + slot.y + 16, 0x8822BB33);

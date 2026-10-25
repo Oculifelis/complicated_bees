@@ -2,7 +2,7 @@ package com.accbdd.complicated_bees.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
@@ -13,7 +13,7 @@ public class GuiHelper {
     /**
      * draws a number of components as wrapped paragraphs, with each component getting spaced by lineHeight / 2
      *
-     * @param graphics   a GuiGraphics
+     * @param graphics   a GuiGraphicsExtractor
      * @param x          the x coordinate of the top left line
      * @param y          the y coordinate of the top left line
      * @param color      a color for text
@@ -23,12 +23,12 @@ public class GuiHelper {
      * @param components a number of components
      * @return a y coordinate for the next line of text, spaced accordingly
      */
-    public static int drawWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
+    public static int drawWrappedText(GuiGraphicsExtractor graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
         int curY = y;
         for (Component component : components) {
             List<FormattedCharSequence> lines = Minecraft.getInstance().font.split(component, maxWidth - padding * 2);
             for (FormattedCharSequence line : lines) {
-                graphics.drawString(Minecraft.getInstance().font, line, x + padding, curY, color);
+                graphics.text(Minecraft.getInstance().font, line, x + padding, curY, color);
                 curY += lineHeight;
             }
 
@@ -40,7 +40,7 @@ public class GuiHelper {
     /**
      * draws a number of components as wrapped center-aligned paragraphs, with each component getting spaced by lineHeight / 2
      *
-     * @param graphics   a GuiGraphics
+     * @param graphics   a GuiGraphicsExtractor
      * @param x          the x coordinate of the center of all lines
      * @param y          the y coordinate of the center of all lines
      * @param color      a color for text
@@ -50,7 +50,7 @@ public class GuiHelper {
      * @param components a number of components
      * @return a y coordinate for the next line of text, spaced accordingly
      */
-    public static int drawCenteredWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
+    public static int drawCenteredWrappedText(GuiGraphicsExtractor graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
         Font font = Minecraft.getInstance().font;
         int wrapWidth = maxWidth - (padding * 2);
         List<List<FormattedCharSequence>> paragraphs = new ArrayList<>();
@@ -74,7 +74,7 @@ public class GuiHelper {
 
         for (List<FormattedCharSequence> paragraph : paragraphs) {
             for (FormattedCharSequence line : paragraph) {
-                graphics.drawCenteredString(font, line, x, curY, color);
+                graphics.centeredText(font, line, x, curY, color);
                 curY += lineHeight;
             }
             curY += lineHeight / 2;
@@ -85,7 +85,7 @@ public class GuiHelper {
     /**
      * draws a number of components as wrapped center-aligned paragraphs, with each component getting spaced by lineHeight / 2
      *
-     * @param graphics   a GuiGraphics
+     * @param graphics   a GuiGraphicsExtractor
      * @param x          the x coordinate of the center of the topmost line
      * @param y          the y coordinate of the top of the topmost line
      * @param color      a color for text
@@ -95,7 +95,7 @@ public class GuiHelper {
      * @param components a number of components
      * @return a y coordinate for the next line of text, spaced accordingly
      */
-    public static int drawTopAlignedCenteredWrappedText(GuiGraphics graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
+    public static int drawTopAlignedCenteredWrappedText(GuiGraphicsExtractor graphics, int x, int y, int color, int lineHeight, int maxWidth, int padding, Component... components) {
         Font font = Minecraft.getInstance().font;
         int curY = y;
         int wrapWidth = maxWidth - (padding * 2);
@@ -106,7 +106,7 @@ public class GuiHelper {
 
             List<FormattedCharSequence> lines = font.split(component, wrapWidth);
             for (FormattedCharSequence line : lines) {
-                graphics.drawCenteredString(font, line, x, curY, color);
+                graphics.centeredText(font, line, x, curY, color);
                 curY += lineHeight;
             }
             curY += lineHeight / 2;
@@ -117,14 +117,14 @@ public class GuiHelper {
     /**
      * draws a component right-aligned
      *
-     * @param graphics  a GuiGraphics
+     * @param graphics  a GuiGraphicsExtractor
      * @param x         the x coordinate of the right side of the line
      * @param y         the y coordinate of the line
      * @param color     the color of the text
      * @param component the component to write
      */
-    public static void drawRightAlignedText(GuiGraphics graphics, int x, int y, int color, Component component) {
-        graphics.drawString(Minecraft.getInstance().font, component, x - Minecraft.getInstance().font.width(component), y, color);
+    public static void drawRightAlignedText(GuiGraphicsExtractor graphics, int x, int y, int color, Component component) {
+        graphics.text(Minecraft.getInstance().font, component, x - Minecraft.getInstance().font.width(component), y, color);
     }
 
     /**
@@ -139,7 +139,7 @@ public class GuiHelper {
      * @param borderColor
      * @param fillColor
      */
-    public static void drawBorderedRectangle(GuiGraphics graphics, int pX, int pY, int pWidth, int pHeight, int borderWidth, int borderColor, int fillColor) {
+    public static void drawBorderedRectangle(GuiGraphicsExtractor graphics, int pX, int pY, int pWidth, int pHeight, int borderWidth, int borderColor, int fillColor) {
         graphics.fill(pX, pY, pX + pWidth, pY + borderWidth, borderColor);
         graphics.fill(pX, pY + pHeight - borderWidth, pX + pWidth, pY + pHeight, borderColor);
         graphics.fill(pX, pY + borderWidth, pX + borderWidth, pY + pHeight - borderWidth, borderColor);

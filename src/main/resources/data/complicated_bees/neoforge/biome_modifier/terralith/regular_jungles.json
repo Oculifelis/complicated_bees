@@ -6,7 +6,11 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["terralith:jungle_mountains", "terralith:rocky_jungle", "terralith:tropical_jungle"],
+  "biomes": [
+    "terralith:jungle_mountains",
+    "terralith:rocky_jungle",
+    "terralith:tropical_jungle"
+  ],
   "features": "complicated_bees:terralith/jungle_bee_nest",
   "step": "vegetal_decoration"
 }

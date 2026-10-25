@@ -25,18 +25,18 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class AutolyzerBlock extends BaseEntityBlock {
+public class AutolyzerBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     private static final MapCodec<AutolyzerBlock> CODEC = simpleCodec(props -> new AutolyzerBlock());
 
     public AutolyzerBlock() {
-        super(Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -48,7 +48,7 @@ public class AutolyzerBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof AutolyzerBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {

@@ -4,6 +4,7 @@ package com.accbdd.complicated_bees.block.entity;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public class AdaptedEnergyStorage implements IEnergyStorage {
+    public IEnergyStorage getInternalStorage() { return storage; }
 
     private final IEnergyStorage storage;
 

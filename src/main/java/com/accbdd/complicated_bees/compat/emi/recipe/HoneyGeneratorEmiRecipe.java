@@ -9,7 +9,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class HoneyGeneratorEmiRecipe implements EmiRecipe {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final EmiIngredient input;
     private final int burnTime;
 
-    public HoneyGeneratorEmiRecipe(ResourceLocation id, HoneyGeneratorRecipe recipe) {
+    public HoneyGeneratorEmiRecipe(Identifier id, HoneyGeneratorRecipe recipe) {
         this.id = id;
         input = EmiIngredient.of(recipe.input());
         burnTime = recipe.burnTime();
@@ -33,7 +33,7 @@ public class HoneyGeneratorEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return id;
     }
 
@@ -59,7 +59,7 @@ public class HoneyGeneratorEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addTexture(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/single_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
         widgets.addSlot(input, 11, 11);
 
         var widget = widgets.addText(Component.translatable("jei.complicated_bees.burn_time", burnTime), 99, 20, 0xFFFFFF, true);

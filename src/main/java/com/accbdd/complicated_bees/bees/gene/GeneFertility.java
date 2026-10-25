@@ -5,13 +5,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneFertility extends Gene<Integer> {
     public static final String TAG = "fertility";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneFertility() {
         this(2, true);
@@ -31,7 +31,7 @@ public class GeneFertility extends Gene<Integer> {
 
     @Override
     public Gene<Integer> deserialize(CompoundTag tag) {
-        return new GeneFertility(tag.getInt(DATA), tag.getBoolean(DOMINANT));
+        return new GeneFertility(tag.getIntOr(DATA, 0), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

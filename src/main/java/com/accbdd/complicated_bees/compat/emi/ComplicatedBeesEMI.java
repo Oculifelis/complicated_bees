@@ -19,7 +19,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
@@ -65,7 +65,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
             CustomData customData = s.getItemStack().get(DataComponents.BLOCK_ENTITY_DATA);
             if (customData == null)
                 return "empty";
-            return customData.getUnsafe().getString("species");
+            return customData.getUnsafe().getStringOr("species", "");
         }));
 
         registry.addCategory(CENTRIFUGE_CATEGORY);
@@ -91,7 +91,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
 
         registry.addDragDropHandler(BeeSorterScreen.class, new BeeSorterDragDropEMI());
 
-        RecipeManager manager = registry.getRecipeManager();
+        RecipeManager manager = com.accbdd.complicated_bees.port.PortRecipes.manager(registry);
         RegistryAccess registryAccess = GeneticHelper.getRegistryAccess();
 
         manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get())
@@ -124,12 +124,12 @@ public class ComplicatedBeesEMI implements EmiPlugin {
                 .map(holder -> new MutationEmiRecipe(holder.id(), holder.value()))
                 .forEach(registry::addRecipe);
 
-        registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY)
+        registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY)
                 .stream()
                 .map(BeeProduceEmiRecipe::new)
                 .forEach(registry::addRecipe);
 
-        registryAccess.registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
+        registryAccess.lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
                 .stream()
                 .forEach(flower -> {
                     registry.addRecipe(new FlowerTypeEmiRecipe(flower));
@@ -141,7 +141,7 @@ public class ComplicatedBeesEMI implements EmiPlugin {
         private final Component name;
 
         public ComplicatedBeesRecipeCategory(String path, EmiRenderable icon, Component name) {
-            super(ResourceLocation.tryBuild(MODID, path), icon);
+            super(Identifier.tryBuild(MODID, path), icon);
 
             this.name = name;
         }

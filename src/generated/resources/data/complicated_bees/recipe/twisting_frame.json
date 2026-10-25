@@ -8,16 +8,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "item": "complicated_bees:waxed_stick"
-    },
+    "O": "complicated_bees:waxed_stick",
     "X": [
-      {
-        "item": "minecraft:soul_sand"
-      },
-      {
-        "item": "minecraft:soul_soil"
-      }
+      "minecraft:soul_sand",
+      "minecraft:soul_soil"
     ]
   },
   "pattern": [

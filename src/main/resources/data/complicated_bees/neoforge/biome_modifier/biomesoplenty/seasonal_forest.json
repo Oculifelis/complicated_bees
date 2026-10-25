@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:seasonal_forest"],
+  "biomes": [
+    "biomesoplenty:seasonal_forest"
+  ],
   "features": "complicated_bees:biomesoplenty/orange_maple_tree",
   "step": "vegetal_decoration"
 }

@@ -20,7 +20,7 @@ public class GeneBoolean extends Gene<Boolean> {
 
     @Override
     public GeneBoolean deserialize(CompoundTag tag) {
-        return new GeneBoolean(tag.getBoolean(DATA), tag.getBoolean(DOMINANT));
+        return new GeneBoolean(tag.getBooleanOr(DATA, false), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

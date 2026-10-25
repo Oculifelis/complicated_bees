@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.Capabilities;
+import com.accbdd.complicated_bees.port.PortCapabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 
 public class GyrofugeInputHatchBlockEntity extends AbstractGyrofugeBlockEntity implements IGyrofugeTickable {
@@ -34,7 +34,7 @@ public class GyrofugeInputHatchBlockEntity extends AbstractGyrofugeBlockEntity i
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
                 if (blockEntity == null || blockEntity instanceof AbstractGyrofugeBlockEntity)
                     continue;
-                IItemHandler itemCap = getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
+                IItemHandler itemCap = PortCapabilities.find(getLevel(),PortCapabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
                 IItemHandler input = gyrofugeInput;
                 if (itemCap != null && input != null) {
                     Util.moveInventoryItems(itemCap, input);

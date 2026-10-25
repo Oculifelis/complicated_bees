@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_furnace_generator": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:furnace_generator"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "complicated_bees:honey_generator"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_furnace_generator"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "complicated_bees:honey_generator"
+    ]
+  }
+}

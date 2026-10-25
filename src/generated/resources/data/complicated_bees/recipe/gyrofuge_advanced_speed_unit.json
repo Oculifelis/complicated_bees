@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_speed_unit"
-    },
-    "C": {
-      "item": "minecraft:redstone_lamp"
-    },
-    "G": {
-      "item": "minecraft:golden_apple"
-    },
-    "N": {
-      "item": "minecraft:netherite_ingot"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_speed_unit",
+    "C": "minecraft:redstone_lamp",
+    "G": "minecraft:golden_apple",
+    "N": "minecraft:netherite_ingot"
   },
   "pattern": [
     "#G#",

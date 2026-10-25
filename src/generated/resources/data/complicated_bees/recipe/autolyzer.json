@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "complicated_bees:analyzer"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "W": {
-      "item": "minecraft:smooth_stone"
-    }
+    "A": "complicated_bees:analyzer",
+    "I": "minecraft:iron_ingot",
+    "W": "minecraft:smooth_stone"
   },
   "pattern": [
     "III",

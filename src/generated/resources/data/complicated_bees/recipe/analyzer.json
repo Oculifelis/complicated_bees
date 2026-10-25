@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "G": {
-      "tag": "c:glass_panes"
-    },
-    "I": {
-      "item": "minecraft:gold_ingot"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    },
-    "T": {
-      "item": "minecraft:tripwire_hook"
-    },
-    "W": {
-      "item": "minecraft:diamond"
-    }
+    "G": "#c:glass_panes",
+    "I": "minecraft:gold_ingot",
+    "R": "minecraft:redstone",
+    "T": "minecraft:tripwire_hook",
+    "W": "minecraft:diamond"
   },
   "pattern": [
     "IGI",

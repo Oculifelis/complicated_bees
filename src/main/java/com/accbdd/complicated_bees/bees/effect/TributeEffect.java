@@ -27,10 +27,10 @@ public class TributeEffect extends BeeEffect {
                 }
             }
 
-            if (!list.isEmpty() && housing.getLevel().random.nextFloat() < 0.1f) {
-                LivingEntity collectFrom = list.get(housing.getLevel().random.nextInt(list.size()));
+            if (!list.isEmpty() && housing.getLevel().getRandom().nextFloat() < 0.1f) {
+                LivingEntity collectFrom = list.get(housing.getLevel().getRandom().nextInt(list.size()));
                 ServerLevel level = (ServerLevel) collectFrom.level();
-                LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(collectFrom.getLootTable());
+                LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(collectFrom.getLootTable().orElse(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,net.minecraft.resources.Identifier.withDefaultNamespace("empty"))));
                 LootParams params = new LootParams.Builder(level)
                         .withParameter(LootContextParams.THIS_ENTITY, collectFrom)
                         .withParameter(LootContextParams.ORIGIN, collectFrom.position())

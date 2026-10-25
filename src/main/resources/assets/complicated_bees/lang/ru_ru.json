@@ -4,7 +4,6 @@
   "config.jade.plugin_complicated_bees.show_errors": "Показывать Ошибки Улья",
   "config.jade.plugin_complicated_bees.show_cycle_ticks": "Показывать Такты в Цикле Улья",
   "config.jade.plugin_complicated_bees.bee_nest_type": "Пчелиное Гнездо",
-
   "advancements.complicated_bees.root.title": "Непростые Пчёлы",
   "advancements.complicated_bees.root.description": "Сделайте сачок, необходимый для разрушения гнёзд пчёл",
   "advancements.complicated_bees.first_bee.title": "Довольно Просто Оказалось",
@@ -31,10 +30,8 @@
   "advancements.complicated_bees.mellarium.description": "Соберите куб 3x3x3 из базовых блоков пасеки (или модулей) в полноценную пасеку",
   "advancements.complicated_bees.gyrofuge.title": "Большие перегрузки",
   "advancements.complicated_bees.gyrofuge.description": "Соберите куб 3x3x3 из базовых блоков Гирофуги (или модулей) в полностью функциональную Гирофугу",
-
   "toast.complicated_bees.new_species": "Новый Вид!",
   "toast.complicated_bees.research": "Мутация Исследована!",
-
   "item.complicated_bees.drone": "Пчела",
   "item.complicated_bees.princess": "Принцесса",
   "item.complicated_bees.queen": "Матка",
@@ -84,7 +81,6 @@
   "item.complicated_bees.withered_upgrade": "Иссушённое Улучшение",
   "item.complicated_bees.apiarist_guide.name": "Книга Пчеловода",
   "item.complicated_bees.apiarist_guide.landing": "Добро пожаловать в Complicated Bees!",
-
   "block.complicated_bees.bee_nest": "Пчелиное Гнездо",
   "block.complicated_bees.apiary": "Улей",
   "block.complicated_bees.centrifuge": "Центрифуга",
@@ -146,17 +142,14 @@
   "block.complicated_bees.gyrofuge_input_hatch": "Входной Порт Гирофуги",
   "block.complicated_bees.gyrofuge_output_hatch": "Выходной Порт Гирофуги",
   "block.complicated_bees.autolyzer": "Стационарный Анализатор Генома",
-
   "gui.complicated_bees.jei.centrifuge": "Центрифуга",
   "gui.complicated_bees.jei.bee_products": "Пчелиные продукты",
   "gui.complicated_bees.jei.flower_type": "Виды цветка",
   "gui.complicated_bees.jei.mutations": "Мутации",
   "gui.complicated_bees.jei.bee_flower": "Цветок пчелы",
-
   "gui.complicated_bees.primary_produce": "Продукт",
   "gui.complicated_bees.secondary_produce": "Вторичный Продукт",
   "gui.complicated_bees.specialty_produce": "Особый Продукт",
-
   "gui.complicated_bees.centrifuge": "Центрифуга",
   "gui.complicated_bees.apiary": "Улей",
   "gui.complicated_bees.furnace_generator": "Печной Генератор",
@@ -164,9 +157,7 @@
   "gui.complicated_bees.analyzer": "Анализатор Генома",
   "gui.complicated_bees.mellarium": "Пасека",
   "gui.complicated_bees.gyrofuge": "Гирофуга",
-
   "gui.complicated_bees.energy_cell": "%skFe / %skFe",
-
   "gui.complicated_bees.analyzer_line_1": "Нужны §6капли мёда §fдля работы и §6пчела §fдля анализа!",
   "gui.complicated_bees.analyzer_line_2": "Красные гены - §4доминантные§f\nСиние - §9рецессивные",
   "gui.complicated_bees.analyzer_line_3": "Для получения дополнительной информации о функции гена обратитесь к вики на §3GitHub",
@@ -182,9 +173,9 @@
   "gui.complicated_bees.genus_label": "Род",
   "gui.complicated_bees.species_taxonomy_label": "Вид",
   "gui.complicated_bees.kingdom": "Animalia",
-  "gui.complicated_bees.class":  "Insecta",
+  "gui.complicated_bees.class": "Insecta",
   "gui.complicated_bees.order": "Hymenoptera",
-  "gui.complicated_bees.family":  "Apidae",
+  "gui.complicated_bees.family": "Apidae",
   "gui.complicated_bees.no_genus": "Apis?",
   "gui.complicated_bees.no_species": "?",
   "gui.complicated_bees.no_flavor": "Об этом насекомом почти нет информации. Вам предстоит его исследовать!",
@@ -199,7 +190,6 @@
   "gui.complicated_bees.jade.cycle_ticks": "Осталось тактов в цикле: %s",
   "gui.complicated_bees.invalid_mellarium": "Пасека Неправильно Собрана!",
   "gui.complicated_bees.invalid_gyrofuge": "Гирофуга Неправильно Собрана!",
-
   "gui.complicated_bees.error.no_flower": "Требуется %s",
   "gui.complicated_bees.error.wrong_temp": "Требуется %s температура",
   "gui.complicated_bees.error.wrong_humidity": "Требуется %s влажность",
@@ -209,7 +199,6 @@
   "gui.complicated_bees.error.weather": "Непогода!",
   "gui.complicated_bees.error.ecstatic": "Пчела в экстазе!",
   "gui.complicated_bees.error.none": "Пчела довольна",
-
   "gui.complicated_bees.error.jade.no_flower": "Нет цветов!",
   "gui.complicated_bees.error.jade.wrong_temp": "Неверная температура!",
   "gui.complicated_bees.error.jade.wrong_humidity": "Неверная влажность!",
@@ -219,7 +208,6 @@
   "gui.complicated_bees.error.jade.weather": "Непогода!",
   "gui.complicated_bees.error.jade.ecstatic": "Пчела в экстазе!",
   "gui.complicated_bees.error.jade.none": "Пчела довольна",
-
   "gene.complicated_bees.species_label": "Вид",
   "gene.complicated_bees.hybrid": "Гибрид",
   "gene.complicated_bees.humidity_label": "Влажность",
@@ -243,11 +231,9 @@
   "gene.complicated_bees.temperature_label.short": "Т: %1$s / %2$s",
   "gene.complicated_bees.territory_label": "Территория",
   "gene.complicated_bees.territory_value": "%1$sx%2$sx%1$s",
-
   "gene.complicated_bees.humidity.wet": "Влажная",
   "gene.complicated_bees.humidity.normal": "Обычная",
   "gene.complicated_bees.humidity.dry": "Сухая",
-
   "gene.complicated_bees.temperature.frozen": "Морозная",
   "gene.complicated_bees.temperature.icy": "Ледяная",
   "gene.complicated_bees.temperature.cold": "Холодная",
@@ -255,7 +241,6 @@
   "gene.complicated_bees.temperature.warm": "Тёплая",
   "gene.complicated_bees.temperature.hot": "Горячая",
   "gene.complicated_bees.temperature.hellish": "Адская",
-
   "gene.complicated_bees.tolerance.none": "",
   "gene.complicated_bees.tolerance.both_5": "5",
   "gene.complicated_bees.tolerance.both_4": "4",
@@ -272,7 +257,6 @@
   "gene.complicated_bees.tolerance.up_3": "3",
   "gene.complicated_bees.tolerance.up_2": "2",
   "gene.complicated_bees.tolerance.up_1": "1",
-
   "gene.complicated_bees.lifespan.shortest": "Мимолётная",
   "gene.complicated_bees.lifespan.shorter": "Короткая",
   "gene.complicated_bees.lifespan.short": "Малая",
@@ -280,7 +264,6 @@
   "gene.complicated_bees.lifespan.long": "Большая",
   "gene.complicated_bees.lifespan.longer": "Длинная",
   "gene.complicated_bees.lifespan.longest": "Длиннейшая",
-
   "gene.complicated_bees.productivity.slowest": "Медленная",
   "gene.complicated_bees.productivity.slower": "+Медленная",
   "gene.complicated_bees.productivity.slow": "Ленивая",
@@ -288,7 +271,6 @@
   "gene.complicated_bees.productivity.fast": "Бодрая",
   "gene.complicated_bees.productivity.faster": "Быстрая",
   "gene.complicated_bees.productivity.fastest": "+Быстрая",
-
   "gene.complicated_bees.active_time.diurnal": "Дневная",
   "gene.complicated_bees.active_time.nocturnal": "Ночная",
   "gene.complicated_bees.active_time.matutinal": "Утренняя",
@@ -296,13 +278,11 @@
   "gene.complicated_bees.active_time.crepuscular": "Сумеречная",
   "gene.complicated_bees.active_time.cathemeral": "Случайная",
   "gene.complicated_bees.active_time.never_sleeps": "Всегда",
-
   "gui.complicated_bees.analyzer.active": "Активен",
   "gui.complicated_bees.analyzer.inactive": "Неактивен",
-
   "gui.complicated_bees.mutations.has_conditions": "Особые условия для мутации:",
-  "gui.complicated_bees.mutations.block_under" : "Требуется %s под жилищем",
-  "gui.complicated_bees.mutations.ecstatic" : "Королева должна быть в экстазе",
+  "gui.complicated_bees.mutations.block_under": "Требуется %s под жилищем",
+  "gui.complicated_bees.mutations.ecstatic": "Королева должна быть в экстазе",
   "gui.complicated_bees.mutations.downfall": "Требуются осадки",
   "gui.complicated_bees.mutations.daytime": "Требуется день",
   "gui.complicated_bees.mutations.nighttime": "Требуется ночь",
@@ -313,7 +293,6 @@
   "gui.complicated_bees.mutations.dimension": "Требуется измерение %s",
   "gui.complicated_bees.mutations.biome": "Требуется биом %s",
   "gui.complicated_bees.mutations.biome_tag": "Требуется тег биома #%s",
-
   "gui.complicated_bees.microscope.sequence.lose": "Неудача",
   "gui.complicated_bees.microscope.sequence.win": "Исследовано",
   "gui.complicated_bees.microscope.click": "Нажмите для продолжения...",
@@ -322,7 +301,6 @@
   "gui.complicated_bees.microscope.complete": "У этого вида больше нет мутаций для открытия.",
   "gui.complicated_bees.microscope.locked": "Микроскоп занят.",
   "gui.complicated_bees.microscope.start": "Секвенирование Генома",
-
   "gui.complicated_bees.library.discovered": "Открыто:",
   "gui.complicated_bees.library.researched": "Исследовано:",
   "gui.complicated_bees.library.conditions": "Условия",
@@ -330,18 +308,14 @@
   "gui.complicated_bees.library.detail": "Выберите мутацию слева для просмотра подробной информации.",
   "gui.complicated_bees.library.tutorial": "Поместите пчелу в слот, чтобы увидеть доступные мутации.",
   "gui.complicated_bees.library.empty": "Этот вид не может мутировать дальше.",
-
   "gui.complicated_bees.bee_sorter": "Сортировщик Пчёл",
-
   "upgrade.complicated_bees.speed_label": "Скорость",
   "upgrade.complicated_bees.efficiency_label": "Энергоэффективность",
   "upgrade.complicated_bees.output_label": "Шанс Выхода",
   "upgrade.complicated_bees.processing_label": "Количество Обработки",
-
   "frame.complicated_bees.overrides_sleep": "Игнорирует Сон",
   "frame.complicated_bees.overrides_sky": "Игнорирует Небо",
   "frame.complicated_bees.overrides_rain": "Игнорирует Погоду",
-
   "jei.complicated_bees.chance": "Шанс",
   "jei.complicated_bees.modifier": "Мод: %s",
   "jei.complicated_bees.consumption_chance": "Потребление: %s",
@@ -350,7 +324,6 @@
   "jei.complicated_bees.hydroregulator": "Модификатор Влажности",
   "jei.complicated_bees.honey_generator": "Топливо Медового Генератора",
   "jei.complicated_bees.burn_time": "Время Горения: %s",
-
   "comb.complicated_bees.invalid": "Любые",
   "comb.complicated_bees.complicated_bees:honey": "Медовые",
   "comb.complicated_bees.complicated_bees:rocky": "Каменные",
@@ -375,7 +348,6 @@
   "comb.complicated_bees.complicated_bees:netherite": "Незеритовые",
   "comb.complicated_bees.complicated_bees:quartz": "Кварцевые",
   "comb.complicated_bees.complicated_bees:redstone": "Редстоуновые",
-
   "species.complicated_bees.complicated_bees:forest": "Лесная",
   "species.complicated_bees.complicated_bees:forest.genus": "Apis",
   "species.complicated_bees.complicated_bees:forest.species_taxonomy": "A. saltus",
@@ -742,7 +714,6 @@
   "species.complicated_bees.complicated_bees:xeric.authority": "Ayse Eigh",
   "species.complicated_bees.complicated_bees:xeric.flavor_text": "Знойная жара, волнующаяся над дюнами.",
   "species.complicated_bees.complicated_bees:xeric.flavor_author": "Заря пчеловодства (2-е изд.)",
-
   "flower.complicated_bees.complicated_bees:calcite": "Кальцит",
   "flower.complicated_bees.complicated_bees:chorus": "Хорус",
   "flower.complicated_bees.complicated_bees:debris": "Обломки",
@@ -762,7 +733,6 @@
   "flower.complicated_bees.complicated_bees:skulls": "Черепа",
   "flower.complicated_bees.complicated_bees:swamp": "Болото",
   "flower.complicated_bees.complicated_bees:tuff": "Туф",
-
   "effect.complicated_bees.complicated_bees:none": "-",
   "effect.complicated_bees.complicated_bees:debug": "Дебаг",
   "effect.complicated_bees.complicated_bees:beatific": "Блаженство",
@@ -815,14 +785,12 @@
   "effect.complicated_bees.complicated_bees:mushroom_terraform.desc": "Постепенно преобразует окружающую территорию в грибной остров",
   "effect.complicated_bees.complicated_bees:desert_terraform": "Терраформ",
   "effect.complicated_bees.complicated_bees:desert_terraform.desc": "Постепенно преобразует окружающую территорию в пустыню",
-
   "tag.item.complicated_bees.analyzer_fuel": "Топливо Анализатор Генома",
   "tag.item.complicated_bees.bee": "Пчёлы",
   "tag.item.complicated_bees.frame": "Рамки",
   "tag.item.complicated_bees.research_material": "Материалы Исследования",
   "tag.item.complicated_bees.royal": "Королевские Пчёлы",
   "tag.item.complicated_bees.scoop_tool": "Инструменты-Сачки",
-
   "command.complicated_bees.discover.species.clear": "Очищены открытия видов у %s игроков",
   "command.complicated_bees.discover.species": "Открыт %s для %s игроков",
   "command.complicated_bees.discover.species.no_change": "Вид уже открыт!",
@@ -838,6 +806,5 @@
   "command.complicated_bees.set_gene.invalid_gene": "Неверное имя гена!",
   "command.complicated_bees.set_gene.invalid_data": "Неверные данные гена!",
   "command.complicated_bees.set_gene.success": "Ген пчелы успешно установлен",
-
   "tooltip.complicated_bees.slash_separated": "%s / %s"
 }

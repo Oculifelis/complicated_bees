@@ -10,10 +10,9 @@ import org.jetbrains.annotations.Nullable;
 public class NestSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
     @Override
     public @Nullable Object getSubtypeData(ItemStack nest, UidContext context) {
-        return nest.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).getUnsafe().getString("species");
+        return com.accbdd.complicated_bees.port.PortData.blockTag(nest).getStringOr("species", "");
     }
 
-    @Override
     public String getLegacyStringSubtypeInfo(ItemStack nest, UidContext context) {
         return "";
     }

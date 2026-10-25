@@ -1,8 +1,6 @@
 {
   "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:lava_bucket"
-  },
+  "input": "minecraft:lava_bucket",
   "temp_change": "up_3",
   "use_chance": 0.01
 }

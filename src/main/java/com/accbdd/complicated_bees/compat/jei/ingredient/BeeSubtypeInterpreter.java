@@ -13,7 +13,6 @@ public class BeeSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
         return bee.getOrDefault(EsotericRegistration.BEE.get(), Bee.DEFAULT).species();
     }
 
-    @Override
     public String getLegacyStringSubtypeInfo(ItemStack bee, UidContext context) {
         return "";
     }

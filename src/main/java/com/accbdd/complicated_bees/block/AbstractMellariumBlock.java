@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractMellariumBlock extends BaseEntityBlock {
+public abstract class AbstractMellariumBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     public static final String SCREEN_MELLARIUM = "gui.complicated_bees.mellarium";
 
     public AbstractMellariumBlock(Properties prop) {
@@ -57,10 +57,10 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof AbstractMellariumBlockEntity mellarium) {
                 if (mellarium.getLogic() == null) {
-                    pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_mellarium"), true);
+                    pPlayer.sendOverlayMessage(Component.translatable("gui.complicated_bees.invalid_mellarium"));
                     return InteractionResult.CONSUME;
                 }
 
@@ -81,13 +81,13 @@ public abstract class AbstractMellariumBlock extends BaseEntityBlock {
                 pPlayer.openMenu(containerProvider, pPos);
             }
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, blockEntity) -> {

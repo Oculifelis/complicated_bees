@@ -16,10 +16,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.capabilities.Capabilities;
+import com.accbdd.complicated_bees.port.PortCapabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class BeeSorterBlockEntity extends BlockEntity {
+public class BeeSorterBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     public static final String TYPES = "types";
     public static final int TRANSFER_TICKS = 5;
     private byte[] typeFilters; //down, up, north, south, east, west
@@ -68,15 +68,15 @@ public class BeeSorterBlockEntity extends BlockEntity {
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
-        if (pTag.contains(TYPES) && pTag.getByteArray(TYPES).length == 6)
-            typeFilters = pTag.getByteArray(TYPES);
+        if (pTag.contains(TYPES) && pTag.getByteArray(TYPES).orElse(new byte[6]).length == 6)
+            typeFilters = pTag.getByteArray(TYPES).orElse(new byte[6]);
         if (pTag.contains("item"))
-            item.deserializeNBT(registries, pTag.getCompound("item"));
+            item.deserializeNBT(registries, pTag.getCompoundOrEmpty("item"));
         if (pTag.contains("filters")) {
-            CompoundTag filterTag = pTag.getCompound("filters");
-            for (String key : filterTag.getAllKeys()) {
+            CompoundTag filterTag = pTag.getCompoundOrEmpty("filters");
+            for (String key : filterTag.keySet()) {
                 try {
-                    speciesFilters[Integer.parseInt(key)] = filterTag.getString(key);
+                    speciesFilters[Integer.parseInt(key)] = filterTag.getStringOr(key, "");
                 } catch (NumberFormatException e) {
                     ComplicatedBees.LOGGER.error("tried to load bee sorter with illegal filter key at position {}", getBlockPos());
                     break;
@@ -125,7 +125,7 @@ public class BeeSorterBlockEntity extends BlockEntity {
     private Optional<IItemHandler> getHandler(Direction dir) {
         BlockEntity transferTo = getLevel().getBlockEntity(getBlockPos().relative(dir));
         if (transferTo != null) {
-            return Optional.ofNullable(getLevel().getCapability(Capabilities.ItemHandler.BLOCK, transferTo.getBlockPos(), transferTo.getBlockState(), transferTo, dir.getOpposite()));
+            return Optional.ofNullable(PortCapabilities.find(getLevel(),PortCapabilities.ItemHandler.BLOCK, transferTo.getBlockPos(), transferTo.getBlockState(), transferTo, dir.getOpposite()));
         }
         return Optional.empty();
     }
@@ -202,8 +202,8 @@ public class BeeSorterBlockEntity extends BlockEntity {
             for (int i = 0; i < 3; i++) {
                 String primarySpeciesFilter = speciesFilters[dir.ordinal()*6+i*2];
                 String secondarySpeciesFilter = speciesFilters[dir.ordinal()*6+i*2+1];
-                String primarySpecies = GeneticHelper.getRaw(stack, GeneSpecies.ID, true).getString(GeneSpecies.DATA);
-                String secondarySpecies = GeneticHelper.getRaw(stack, GeneSpecies.ID, false).getString(GeneSpecies.DATA);
+                String primarySpecies = GeneticHelper.getRaw(stack, GeneSpecies.ID, true).getStringOr(GeneSpecies.DATA, "");
+                String secondarySpecies = GeneticHelper.getRaw(stack, GeneSpecies.ID, false).getStringOr(GeneSpecies.DATA, "");
                 if (primarySpecies.isEmpty() || secondarySpecies.isEmpty()) {
                     ComplicatedBees.LOGGER.error("tried filtering item with missing species tag at pos {}", getBlockPos());
                     break;

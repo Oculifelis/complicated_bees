@@ -13,7 +13,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,13 +24,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MutationEmiRecipe implements EmiRecipe {
     private final MutationRecipe mutation;
-    private final ResourceLocation id;
+    private final Identifier id;
     private final EmiIngredient first;
     private final EmiIngredient second;
     private final EmiIngredient result;
     private final EmiIngredient lookups;
 
-    public MutationEmiRecipe(ResourceLocation id, MutationRecipe mutation) {
+    public MutationEmiRecipe(Identifier id, MutationRecipe mutation) {
         this.mutation = mutation;
         this.id = id;
 
@@ -58,7 +58,7 @@ public class MutationEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return id;
     }
 
@@ -91,7 +91,7 @@ public class MutationEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.tryBuild(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addTexture(Identifier.tryBuild(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
         widgets.addSlot(first, 11, 11)
                 .drawBack(false);
         widgets.addSlot(second, 58, 11)

@@ -11,22 +11,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public record MutatorRecipe(Ingredient input, float mutationModifier) implements Recipe<RecipeInput> {
-    public static class Serializer implements RecipeSerializer<MutatorRecipe> {
+public record MutatorRecipe(Ingredient input, float mutationModifier) implements com.accbdd.complicated_bees.port.MachineRecipe<RecipeInput> {
+    public static class Serializer {
         public static final MapCodec<MutatorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(MutatorRecipe::input),
+                        Ingredient.CODEC.fieldOf("input").forGetter(MutatorRecipe::input),
                         Codec.FLOAT.fieldOf("modifier").forGetter(MutatorRecipe::mutationModifier)
                 ).apply(instance, MutatorRecipe::new)
         );
         public static final StreamCodec<RegistryFriendlyByteBuf, MutatorRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-        @Override
         public MapCodec<MutatorRecipe> codec() {
             return CODEC;
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, MutatorRecipe> streamCodec() {
             return STREAM_CODEC;
         }
@@ -62,12 +60,12 @@ public record MutatorRecipe(Ingredient input, float mutationModifier) implements
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return EsotericRegistration.MUTATOR_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return EsotericRegistration.MUTATOR_RECIPE.get();
     }
 }

@@ -5,13 +5,13 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneLifespan extends Gene<EnumLifespan> {
     public static final String TAG = "lifespan";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneLifespan() {
         this(EnumLifespan.SHORTEST, true);
@@ -31,7 +31,7 @@ public class GeneLifespan extends Gene<EnumLifespan> {
 
     @Override
     public GeneLifespan deserialize(CompoundTag tag) {
-        return new GeneLifespan(EnumLifespan.getFromString(tag.getString(DATA)), tag.getBoolean(DOMINANT));
+        return new GeneLifespan(EnumLifespan.getFromString(tag.getStringOr(DATA, "")), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

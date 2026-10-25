@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "item": "minecraft:nether_brick"
-    },
-    "X": {
-      "item": "minecraft:magma_block"
-    }
+    "O": "minecraft:nether_brick",
+    "X": "minecraft:magma_block"
   },
   "pattern": [
     "OOO",

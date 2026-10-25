@@ -12,7 +12,7 @@ import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,15 +23,15 @@ import java.util.stream.Stream;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeProduceEmiRecipe implements EmiRecipe {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final EmiIngredient beeInput;
     private final List<EmiStack> products;
     private final List<EmiStack> specialtyProducts;
     private final List<EmiIngredient> catalysts;
 
     public BeeProduceEmiRecipe(Species species) {
-        ResourceLocation speciesId = GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species);
-        this.id = ResourceLocation.fromNamespaceAndPath(ComplicatedBees.MODID, "/bee_produce/" + speciesId.toString().replace(":", "/"));
+        Identifier speciesId = GeneticHelper.getRegistryAccess().lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species);
+        this.id = Identifier.fromNamespaceAndPath(ComplicatedBees.MODID, "/bee_produce/" + speciesId.toString().replace(":", "/"));
 
         this.beeInput = EmiStack.of(species.toStack(ItemsRegistration.QUEEN.get()));
 
@@ -62,7 +62,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return id;
     }
 
@@ -93,7 +93,7 @@ public class BeeProduceEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 0, 0, 160, 64, 160, 64);
+        widgets.addTexture(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 0, 0, 160, 64, 160, 64);
 
         widgets.addSlot(beeInput, 13, 23)
                 .drawBack(false);

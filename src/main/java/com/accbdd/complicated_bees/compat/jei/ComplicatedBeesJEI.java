@@ -14,8 +14,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -26,8 +26,8 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 @JeiPlugin
 public class ComplicatedBeesJEI implements IModPlugin {
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(MODID, "jei_plugin");
+    public @NotNull Identifier getPluginUid() {
+        return Identifier.fromNamespaceAndPath(MODID, "jei_plugin");
     }
 
     @Override
@@ -47,10 +47,10 @@ public class ComplicatedBeesJEI implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager manager = Minecraft.getInstance().getConnection().getRecipeManager();
+        var manager = com.accbdd.complicated_bees.port.PortRecipes.manager(Minecraft.getInstance().level);
         registration.addRecipes(CentrifugeRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.CENTRIFUGE_RECIPE.get()).stream().map(RecipeHolder::value).toList());
-        registration.addRecipes(BeeProduceRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).stream().toList());
-        registration.addRecipes(FlowerTypeRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(BeeProduceRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).stream().toList());
+        registration.addRecipes(FlowerTypeRecipeCategory.TYPE, GeneticHelper.getRegistryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList());
         registration.addRecipes(MutationRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get()));
         registration.addRecipes(TempUnitRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.TEMP_UNIT_RECIPE.get()).stream().map(RecipeHolder::value).toList());
         registration.addRecipes(MutatorRecipeCategory.TYPE, manager.getAllRecipesFor(EsotericRegistration.MUTATOR_RECIPE.get()).stream().map(RecipeHolder::value).toList());
@@ -96,11 +96,11 @@ public class ComplicatedBeesJEI implements IModPlugin {
 
     @Override public void registerIngredients(IModIngredientRegistration registration) {
         registration.register(ComplicatedIngredients.BLOCK, BlockIngredientHelper.createList(), new BlockIngredientHelper(), new BlockIngredientRenderer(), BlockWrapper.CODEC.codec());
-        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer(), FlowerRegistration.CODEC);
+        registration.register(ComplicatedIngredients.FLOWER, GeneticHelper.getRegistryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).stream().toList(), new FlowerIngredientHelper(), new FlowerIngredientRenderer(), FlowerRegistration.CODEC);
         IModPlugin.super.registerIngredients(registration);
     }
 
-    public static IDrawable createDrawable(ResourceLocation location, int uOffset, int vOffset, int width, int height, int textureWidth, int textureHeight) {
+    public static IDrawable createDrawable(Identifier location, int uOffset, int vOffset, int width, int height, int textureWidth, int textureHeight) {
         return new IDrawable() {
             @Override
             public int getWidth() {
@@ -113,8 +113,8 @@ public class ComplicatedBeesJEI implements IModPlugin {
             }
 
             @Override
-            public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
-                guiGraphics.blit(location, xOffset, yOffset, uOffset, vOffset, getWidth(), getHeight(), textureWidth, textureHeight);
+            public void draw(GuiGraphicsExtractor guiGraphics, int xOffset, int yOffset) {
+                com.accbdd.complicated_bees.port.PortGui.blit(guiGraphics,location, xOffset, yOffset, uOffset, vOffset, getWidth(), getHeight(), textureWidth, textureHeight);
             }
         };
     }

@@ -29,7 +29,7 @@ public abstract class BeeEffect implements IBeeEffect {
      */
     protected List<Entity> getTerritoryEntities(BlockEntity be, ItemStack queen) {
         List<Entity> entities = new ArrayList<>();
-        Vec3 center = be.getBlockPos().getCenter();
+        Vec3 center = Vec3.atCenterOf(be.getBlockPos());
         float rangeModifier = 1f;
         if (be instanceof IBeeHousing housing) {
             for (BeeHousingModifier modifier : housing.getHousingModifiers()) {
@@ -64,9 +64,9 @@ public abstract class BeeEffect implements IBeeEffect {
 
     private boolean hasApiaristArmorEquipped(Player player) {
         Inventory inv = player.getInventory();
-        return inv.getArmor(0).is(ItemsRegistration.APIARIST_BOOTS.get()) &&
-                inv.getArmor(1).is(ItemsRegistration.APIARIST_LEGGINGS.get()) &&
-                inv.getArmor(2).is(ItemsRegistration.APIARIST_CHESTPLATE.get()) &&
-                inv.getArmor(3).is(ItemsRegistration.APIARIST_HELMET.get());
+        return player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.FEET).is(ItemsRegistration.APIARIST_BOOTS.get()) &&
+                player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.LEGS).is(ItemsRegistration.APIARIST_LEGGINGS.get()) &&
+                player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.CHEST).is(ItemsRegistration.APIARIST_CHESTPLATE.get()) &&
+                player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD).is(ItemsRegistration.APIARIST_HELMET.get());
     }
 }

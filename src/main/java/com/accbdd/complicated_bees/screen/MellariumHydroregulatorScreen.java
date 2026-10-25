@@ -2,10 +2,10 @@ package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.recipe.HydroRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -20,38 +20,36 @@ import java.util.Optional;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MellariumHydroregulatorScreen extends AbstractContainerScreen<MellariumHydroregulatorMenu> {
-    private final ResourceLocation GUI;
-    private final RecipeManager.CachedCheck<RecipeInput, HydroRecipe> recipeCheck = RecipeManager.createCheck(EsotericRegistration.HYDROREGULATOR_RECIPE.get());
+    private final Identifier GUI;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, HydroRecipe> recipeCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.HYDROREGULATOR_RECIPE.get());
 
     public MellariumHydroregulatorScreen(MellariumHydroregulatorMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title);
-        this.GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/mellarium_hydroregulator.png");
-        this.imageHeight = 161;
-        this.imageWidth = 176;
+        super(menu, inventory, title, 176, 161);
+        this.GUI = Identifier.fromNamespaceAndPath(MODID, "textures/gui/mellarium_hydroregulator.png");
         this.inventoryLabelY = imageHeight - 93;
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
-        graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
+        com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(this.font, this.title, this.imageWidth/2 - this.font.width(this.title)/2, this.titleLabelY, 4210752, false);
-        pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+    protected void extractLabels(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY) {
+        pGuiGraphicsExtractor.text(this.font, this.title, this.imageWidth/2 - this.font.width(this.title)/2, this.titleLabelY, 4210752, false);
+        pGuiGraphicsExtractor.text(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
         ItemStack stack = getMenu().getItems().getFirst();
         recipeCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getMenu().getLevel()).ifPresent(recipe -> {
-            graphics.blit(GUI, leftPos+82, topPos+27, recipe.value().humidityChange().up > 0 ? 176 : 183, 0, 7, 11);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, leftPos+82, topPos+27, recipe.value().humidityChange().up > 0 ? 176 : 183, 0, 7, 11);
             if (mouseX > leftPos+81 && mouseX < leftPos+81+9 && mouseY > topPos+24 && mouseY < topPos+24+15) {
-                graphics.renderTooltip(this.font,
+                com.accbdd.complicated_bees.port.PortGui.tooltip(graphics,this.font,
                         List.of(
                                 Component.translatable("jei.complicated_bees.modifier", recipe.value().humidityChange().getTranslationKey()),
                                 Component.translatable("jei.complicated_bees.consumption_chance", String.format("%.0f%%", recipe.value().useChance() * 100))
@@ -61,6 +59,6 @@ public class MellariumHydroregulatorScreen extends AbstractContainerScreen<Mella
                         mouseY);
             }
         });
-        renderTooltip(graphics, mouseX, mouseY);
+        extractTooltip(graphics, mouseX, mouseY);
     }
 }

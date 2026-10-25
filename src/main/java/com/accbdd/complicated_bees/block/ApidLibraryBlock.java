@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ApidLibraryBlock extends Block {
     public ApidLibraryBlock() {
-        super(Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(1.5f)
                 .explosionResistance(1.5f)
                 .requiresCorrectToolForDrops()
@@ -57,9 +57,9 @@ public class ApidLibraryBlock extends Block {
 
     @Override
     public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
-        if (!pLevel.isClientSide && pPlayer instanceof ServerPlayer serverPlayer) {
+        if (!pLevel.isClientSide() && pPlayer instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(pState.getMenuProvider(pLevel, pPos));
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 }

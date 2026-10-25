@@ -5,13 +5,13 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneProductivity extends Gene<EnumProductivity> {
     public static final String TAG = "productivity";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneProductivity() {
         this(EnumProductivity.SLOWEST, true);
@@ -31,7 +31,7 @@ public class GeneProductivity extends Gene<EnumProductivity> {
 
     @Override
     public GeneProductivity deserialize(CompoundTag tag) {
-        return new GeneProductivity(EnumProductivity.getFromString(tag.getString(DATA)), tag.getBoolean(DOMINANT));
+        return new GeneProductivity(EnumProductivity.getFromString(tag.getStringOr(DATA, "")), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

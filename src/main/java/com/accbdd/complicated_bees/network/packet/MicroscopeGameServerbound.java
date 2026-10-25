@@ -7,7 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public record MicroscopeGameServerbound(byte[] guesses) implements CustomPacketPayload {
-    public static final Type<MicroscopeGameServerbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_game_serverbound"));
+    public static final Type<MicroscopeGameServerbound> TYPE = new Type<>(Identifier.fromNamespaceAndPath(MODID, "microscope_game_serverbound"));
     public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeGameServerbound> STREAM_CODEC = StreamCodec.of(MicroscopeGameServerbound::encode, MicroscopeGameServerbound::decode);
 
     private static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameServerbound payload) {

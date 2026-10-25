@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.item;
 import com.accbdd.complicated_bees.screen.AnalyzerMenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +20,8 @@ public class AnalyzerItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand pUsedHand) {
-        if (!level.isClientSide && pUsedHand == InteractionHand.MAIN_HAND) {
+    public InteractionResult use(Level level, Player player, InteractionHand pUsedHand) {
+        if (!level.isClientSide() && pUsedHand == InteractionHand.MAIN_HAND) {
             MenuProvider containerProvider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
@@ -30,11 +30,11 @@ public class AnalyzerItem extends Item {
 
                 @Override
                 public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
-                    return new AnalyzerMenu(windowId, player, playerInventory.selected);
+                    return new AnalyzerMenu(windowId, player, playerInventory.getSelectedSlot());
                 }
             };
             player.openMenu(containerProvider);
         }
-        return InteractionResultHolder.sidedSuccess(player.getItemInHand(pUsedHand), true);
+        return InteractionResult.SUCCESS;
     }
 }

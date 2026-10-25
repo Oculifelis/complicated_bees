@@ -6,9 +6,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class BeeParticle extends TextureSheetParticle {
+public class BeeParticle extends SingleQuadParticle {
     protected BeeParticle(ClientLevel pLevel, double pX, double pY, double pZ, SpriteSet spriteSet, double pXSpeed, double pYSpeed, double pZSpeed) {
-        super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed);
+        super(pLevel, pX, pY, pZ, pXSpeed, pYSpeed, pZSpeed, spriteSet.get(net.minecraft.util.RandomSource.create()));
         this.lifetime = 20;
         this.xd = pXSpeed + (Math.random() * 2.0 - 1.0) * 0.4F;
         this.yd = pYSpeed + (Math.random() * 2.0 - 1.0) * 0.4F;
@@ -21,7 +21,7 @@ public class BeeParticle extends TextureSheetParticle {
         this.friction = 1;
         scale(0.25f);
         setColor(1, 0.8f, 0);
-        setSpriteFromAge(spriteSet);
+
     }
 
     @Override
@@ -41,11 +41,9 @@ public class BeeParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.OPAQUE;
     }
-
-    @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
@@ -54,7 +52,7 @@ public class BeeParticle extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, net.minecraft.util.RandomSource random) {
             return new BeeParticle(worldIn, x, y, z, spriteSet, xSpeed, ySpeed, zSpeed);
         }
     }

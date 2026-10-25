@@ -2,14 +2,14 @@ package com.accbdd.complicated_bees.compat.emi.ingredient;
 
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTextTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -55,7 +55,7 @@ public class EmiBlock extends EmiStack {
     }
 
     @Override
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
 
@@ -75,20 +75,20 @@ public class EmiBlock extends EmiStack {
     }
 
     @Override
-    public void render(GuiGraphics draw, int x, int y, float delta) {
+    public void extractRenderState(GuiGraphicsExtractor draw, int x, int y, float delta) {
         render(draw, x, y, delta, 0);
     }
 
     @Override
-    public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
+    public void extractRenderState(GuiGraphicsExtractor draw, int x, int y, float delta, int flags) {
         try {
             if (block.asItem() != Items.AIR) {
-                draw.renderFakeItem(stack, x, y);
+                draw.fakeItem(stack, x, y);
             } else {
-                ResourceLocation loc = BuiltInRegistries.BLOCK.getKeyOrNull(block);
+                Identifier loc = BuiltInRegistries.BLOCK.getKeyOrNull(block);
                 if (loc != null) {
                     TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(block.defaultBlockState()).getParticleIcon(ModelData.EMPTY);
-                    draw.blit(x, y, 0, 16, 16, sprite);
+                    com.accbdd.complicated_bees.port.PortGui.blit(draw,x, y, 0, 16, 16, sprite);
                 } else {
                     LOGGER.debug("Error parsing block: {} for EMI plugin.", block.getName().getString());
                 }

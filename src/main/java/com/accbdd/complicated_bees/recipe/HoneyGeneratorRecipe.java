@@ -11,22 +11,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public record HoneyGeneratorRecipe(Ingredient input, int burnTime) implements Recipe<RecipeInput> {
-    public static class Serializer implements RecipeSerializer<HoneyGeneratorRecipe> {
-        private static final MapCodec<HoneyGeneratorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> 
+public record HoneyGeneratorRecipe(Ingredient input, int burnTime) implements com.accbdd.complicated_bees.port.MachineRecipe<RecipeInput> {
+    public static class Serializer {
+        public static final MapCodec<HoneyGeneratorRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(HoneyGeneratorRecipe::input),
+                        Ingredient.CODEC.fieldOf("input").forGetter(HoneyGeneratorRecipe::input),
                         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("burn_time").forGetter(HoneyGeneratorRecipe::burnTime)
                 ).apply(instance, HoneyGeneratorRecipe::new)
         );
-        private static final StreamCodec<RegistryFriendlyByteBuf, HoneyGeneratorRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+        public static final StreamCodec<RegistryFriendlyByteBuf, HoneyGeneratorRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-        @Override
         public MapCodec<HoneyGeneratorRecipe> codec() {
             return CODEC;
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, HoneyGeneratorRecipe> streamCodec() {
             return STREAM_CODEC;
         }
@@ -62,12 +60,12 @@ public record HoneyGeneratorRecipe(Ingredient input, int burnTime) implements Re
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return EsotericRegistration.HONEY_GENERATOR_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return EsotericRegistration.HONEY_GENERATOR_RECIPE.get();
     }
 }

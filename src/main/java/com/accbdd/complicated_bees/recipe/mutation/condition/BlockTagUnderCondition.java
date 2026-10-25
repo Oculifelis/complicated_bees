@@ -6,7 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,8 +23,8 @@ public class BlockTagUnderCondition extends MutationCondition {
     }
 
     @Override
-    public ResourceLocation getID() {
-        return ResourceLocation.fromNamespaceAndPath(MODID, ID);
+    public Identifier getID() {
+        return Identifier.fromNamespaceAndPath(MODID, ID);
     }
 
     @Override
@@ -48,6 +48,6 @@ public class BlockTagUnderCondition extends MutationCondition {
 
     @Override
     public BlockTagUnderCondition deserialize(CompoundTag tag) {
-        return new BlockTagUnderCondition(TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.tryParse(tag.getString("tag"))));
+        return new BlockTagUnderCondition(TagKey.create(BuiltInRegistries.BLOCK.key(), Identifier.tryParse(tag.getStringOr("tag", ""))));
     }
 }

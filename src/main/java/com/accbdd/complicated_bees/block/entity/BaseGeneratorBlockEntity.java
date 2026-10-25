@@ -12,16 +12,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import com.accbdd.complicated_bees.port.PortCapabilities;
+import com.accbdd.complicated_bees.port.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public abstract class BaseGeneratorBlockEntity extends BlockEntity {
+public abstract class BaseGeneratorBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     public static final String ITEMS_TAG = "items";
     public static final String UPGRADES_TAG = "upgrades";
     public static final String ENERGY_TAG = "energy";
@@ -93,8 +93,8 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
                 if (burnTime <= 0) {
                     return;
                 }
-                if (fuel.hasCraftingRemainingItem())
-                    items.setStackInSlot(SLOT, fuel.getCraftingRemainingItem());
+                if (!fuel.getItem().getCraftingRemainder().create().isEmpty())
+                    items.setStackInSlot(SLOT, fuel.getItem().getCraftingRemainder().create());
                 else
                     items.extractItem(SLOT, 1, false);
             } else {
@@ -124,7 +124,7 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
         for (Direction direction : Direction.values()) {
             BlockEntity be = getLevel().getBlockEntity(getBlockPos().relative(direction));
             if (be != null) {
-                IEnergyStorage energy = getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, be.getBlockPos(), be.getBlockState(), be, direction.getOpposite());
+                IEnergyStorage energy = PortCapabilities.find(getLevel(),PortCapabilities.EnergyStorage.BLOCK, be.getBlockPos(), be.getBlockState(), be, direction.getOpposite());
                 if (energy != null) {
                     int received = energy.receiveEnergy(this.energy.getEnergyStored(), false);
                     this.energy.extractEnergy(received, false);
@@ -159,17 +159,17 @@ public abstract class BaseGeneratorBlockEntity extends BlockEntity {
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_TAG)) {
-            items.deserializeNBT(registries, tag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_TAG));
         }
         if (tag.contains(UPGRADES_TAG)) {
-            upgradeItems.deserializeNBT(registries, tag.getCompound(UPGRADES_TAG));
+            upgradeItems.deserializeNBT(registries, tag.getCompoundOrEmpty(UPGRADES_TAG));
         }
         if (tag.contains(ENERGY_TAG)) {
             energy.deserializeNBT(registries, tag.get(ENERGY_TAG));
         }
         calculateUpgradeStats();
         if (tag.contains(BURN_TIME_TAG)) {
-            burnTime = tag.getInt(BURN_TIME_TAG);
+            burnTime = tag.getIntOr(BURN_TIME_TAG, 0);
             maxBurnTime = burnTime;
         }
     }

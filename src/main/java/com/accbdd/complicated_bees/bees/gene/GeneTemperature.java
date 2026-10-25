@@ -4,13 +4,13 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTolerance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneTemperature extends GeneTolerant<EnumTemperature> {
     public static final String TAG = "temperature";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneTemperature() {
         super(EnumTemperature.NORMAL, EnumTolerance.NONE, true);
@@ -22,7 +22,7 @@ public class GeneTemperature extends GeneTolerant<EnumTemperature> {
 
     @Override
     public GeneTolerant<EnumTemperature> deserialize(CompoundTag tag) {
-        return new GeneTemperature(EnumTemperature.getFromString(tag.getString(DATA)), EnumTolerance.getFromString(tag.getString(TOLERANCE)), !tag.contains(DOMINANT) || tag.getBoolean(DOMINANT));
+        return new GeneTemperature(EnumTemperature.getFromString(tag.getStringOr(DATA, "")), EnumTolerance.getFromString(tag.getStringOr(TOLERANCE, "")), !tag.contains(DOMINANT) || tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

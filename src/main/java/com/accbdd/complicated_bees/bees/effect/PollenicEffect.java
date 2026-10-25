@@ -33,11 +33,11 @@ public class PollenicEffect extends BeeEffect {
                     }
                 }
                 if (!positions.isEmpty()) {
-                    BlockPos growPos = positions.get(level.random.nextInt(positions.size()));
+                    BlockPos growPos = positions.get(level.getRandom().nextInt(positions.size()));
                     BlockState state = level.getBlockState(growPos);
                     if (state.getBlock() instanceof BonemealableBlock mealable) {
-                        if (mealable.isValidBonemealTarget(level, growPos, state) && level.random.nextFloat() < 0.25) {
-                            mealable.performBonemeal(level, level.random, growPos, state);
+                        if (mealable.isValidBonemealTarget(level, growPos, state) && level.getRandom().nextFloat() < 0.25) {
+                            mealable.performBonemeal(level, level.getRandom(), growPos, state);
                             level.levelEvent(1505, growPos, 0);
                         }
                     }

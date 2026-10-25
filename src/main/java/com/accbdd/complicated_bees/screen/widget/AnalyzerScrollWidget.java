@@ -14,11 +14,11 @@ import com.accbdd.complicated_bees.screen.AbstractAnalyzerMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractScrollWidget;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import com.accbdd.complicated_bees.port.ScrollWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -27,8 +27,8 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 import static com.accbdd.complicated_bees.util.GuiHelper.drawRightAlignedText;
 import static com.accbdd.complicated_bees.util.GuiHelper.drawWrappedText;
 
-public class AnalyzerScrollWidget extends AbstractScrollWidget {
-    private static final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/analyzer.png");
+public class AnalyzerScrollWidget extends ScrollWidget {
+    private static final Identifier GUI = Identifier.tryBuild(MODID, "textures/gui/analyzer.png");
     private static final int ACTIVE_COL = 84;
     private static final int INACTIVE_COL = 150;
     private static final int INDENT = 10;
@@ -59,12 +59,12 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
     }
 
     @Override
-    protected void renderBorder(GuiGraphics pGuiGraphics, int pX, int pY, int pWidth, int pHeight) {
+    protected void renderBorder(GuiGraphicsExtractor pGuiGraphicsExtractor, int pX, int pY, int pWidth, int pHeight) {
 
     }
 
     @Override
-    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         if (menu.isBeeAnalyzed())
             drawGeneInfo(graphics, menu.getSlot(1).getItem(), mouseX, mouseY);
         else {
@@ -89,7 +89,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
 
     }
 
-    private void drawGeneInfo(GuiGraphics graphics, ItemStack bee, int mouseX, int mouseY) {
+    private void drawGeneInfo(GuiGraphicsExtractor graphics, ItemStack bee, int mouseX, int mouseY) {
         nextLine = PADDING;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
@@ -136,17 +136,17 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         drawFlavor(graphics, bee);
     }
 
-    private void drawText(GuiGraphics graphics, Component component, int x, int color) {
-        graphics.drawString(Minecraft.getInstance().font, component, x + getX(), nextLine + getY(), color, false);
+    private void drawText(GuiGraphicsExtractor graphics, Component component, int x, int color) {
+        graphics.text(Minecraft.getInstance().font, component, x + getX(), nextLine + getY(), color, false);
         nextLine += LINE_HEIGHT;
     }
 
-    private void drawText(GuiGraphics graphics, Component component, int x, int y, int color) {
-        graphics.drawString(Minecraft.getInstance().font, component, x + getX(), y + getY(), color, false);
+    private void drawText(GuiGraphicsExtractor graphics, Component component, int x, int y, int color) {
+        graphics.text(Minecraft.getInstance().font, component, x + getX(), y + getY(), color, false);
     }
 
-    private void drawTextCentered(GuiGraphics graphics, Component component, int x, int y, int color) {
-        graphics.drawCenteredString(Minecraft.getInstance().font, component, x + getX(), y + getY(), color);
+    private void drawTextCentered(GuiGraphicsExtractor graphics, Component component, int x, int y, int color) {
+        graphics.centeredText(Minecraft.getInstance().font, component, x + getX(), y + getY(), color);
     }
 
     private void lineBreak() {
@@ -161,7 +161,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         return mouseX - getX();
     }
 
-    private void drawGeneValues(GuiGraphics graphics, Component label, ItemStack bee, IGene<?> gene) {
+    private void drawGeneValues(GuiGraphicsExtractor graphics, Component label, ItemStack bee, IGene<?> gene) {
         IGene<?> active = GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), true);
         IGene<?> inactive = GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), false);
         drawText(graphics, label, PADDING, nextLine, 0xFFFFFF);
@@ -178,7 +178,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         nextLine += LINE_HEIGHT;
     }
 
-    private void drawGeneValues(GuiGraphics graphics, Component label, ItemStack bee, IGene<?> gene, int y) {
+    private void drawGeneValues(GuiGraphicsExtractor graphics, Component label, ItemStack bee, IGene<?> gene, int y) {
         IGene<?> active = GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), true);
         IGene<?> inactive = GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), false);
         drawText(graphics, label, PADDING, y, 0xFFFFFF);
@@ -186,41 +186,41 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         drawText(graphics, inactive.getTranslationKey(), INACTIVE_COL, y, inactive.isDominant() ? 0xE63225 : 0x257FE6);
     }
 
-    private void drawGeneTolerance(GuiGraphics graphics, ItemStack bee, GeneTolerant<?> gene, int x, int x2, int y) {
+    private void drawGeneTolerance(GuiGraphicsExtractor graphics, ItemStack bee, GeneTolerant<?> gene, int x, int x2, int y) {
         GeneTolerant<?> active = (GeneTolerant<?>) GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), true);
         GeneTolerant<?> inactive = (GeneTolerant<?>) GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), false);
         drawText(graphics, active.getTolerance().getTranslationKey(), x, y, active.isDominant() ? 0xE63225 : 0x257FE6);
         drawText(graphics, inactive.getTolerance().getTranslationKey(), x2, y, inactive.isDominant() ? 0xE63225 : 0x257FE6);
     }
 
-    private void drawToleranceIcons(GuiGraphics graphics, ItemStack bee, GeneTolerant<?> gene, int x, int x2, int y) {
+    private void drawToleranceIcons(GuiGraphicsExtractor graphics, ItemStack bee, GeneTolerant<?> gene, int x, int x2, int y) {
         x += getX();
         x2 += getX();
         y += getY() - 2;
         GeneTolerant<?> active = (GeneTolerant<?>) GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), true);
         GeneTolerant<?> inactive = (GeneTolerant<?>) GeneticHelper.getGene(bee, ComplicatedBees.GENE_REGISTRY.get().getKey(gene), false);
         if (active.getTolerance().down != 0 && active.getTolerance().up != 0) {
-            graphics.blit(GUI, x, y, 14, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x, y, 14, 246, 7, 10);
         } else if (active.getTolerance().down != 0) {
-            graphics.blit(GUI, x, y, 7, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x, y, 7, 246, 7, 10);
         } else if (active.getTolerance().up != 0) {
-            graphics.blit(GUI, x, y, 0, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x, y, 0, 246, 7, 10);
         } else {
-            graphics.blit(GUI, x, y, 21, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x, y, 21, 246, 7, 10);
         }
 
         if (inactive.getTolerance().down != 0 && inactive.getTolerance().up != 0) {
-            graphics.blit(GUI, x2, y, 14, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x2, y, 14, 246, 7, 10);
         } else if (inactive.getTolerance().down != 0) {
-            graphics.blit(GUI, x2, y, 7, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x2, y, 7, 246, 7, 10);
         } else if (inactive.getTolerance().up != 0) {
-            graphics.blit(GUI, x2, y, 0, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x2, y, 0, 246, 7, 10);
         } else {
-            graphics.blit(GUI, x2, y, 21, 246, 7, 10);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x2, y, 21, 246, 7, 10);
         }
     }
 
-    private void drawTolerantGeneValues(GuiGraphics graphics, Component label, ItemStack bee, GeneTolerant<?> gene) {
+    private void drawTolerantGeneValues(GuiGraphicsExtractor graphics, Component label, ItemStack bee, GeneTolerant<?> gene) {
         drawGeneValues(graphics, label, bee, gene, nextLine);
         nextLine += LINE_HEIGHT;
         drawText(graphics, Component.translatable("gene.complicated_bees.tolerance_label"), PADDING + INDENT, nextLine, 0xFFFFFF);
@@ -229,7 +229,7 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         nextLine += LINE_HEIGHT;
     }
 
-    private void drawTaxonomy(GuiGraphics graphics, ItemStack bee) {
+    private void drawTaxonomy(GuiGraphicsExtractor graphics, ItemStack bee) {
         Species species = GeneticHelper.getSpecies(bee, true);
         drawText(graphics, Component.translatable("gui.complicated_bees.taxonomy"), PADDING, 0xFFFFFF);
 
@@ -255,10 +255,10 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         nextLine += LINE_HEIGHT;
     }
 
-    private void drawFlavor(GuiGraphics graphics, ItemStack bee) {
+    private void drawFlavor(GuiGraphicsExtractor graphics, ItemStack bee) {
         Species species = GeneticHelper.getSpecies(bee, true);
-        graphics.pose().pushPose();
-        graphics.pose().translate(getX(), getY(), 0);
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(getX(), getY());
         nextLine = GuiHelper.drawWrappedText(graphics,
                 PADDING,
                 nextLine,
@@ -267,13 +267,13 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
                 getWidth(),
                 PADDING,
                 GeneticHelper.getFlavorTextKey(species).withStyle(ChatFormatting.ITALIC));
-        graphics.pose().popPose();
+        graphics.pose().popMatrix();
         nextLine -= LINE_HEIGHT / 2;
         drawRightAlignedText(graphics, getWidth() - PADDING + getX(), nextLine + getY(), 0xA4A4A4, Component.literal("-").append(GeneticHelper.getFlavorTextAuthorKey(species)));
         nextLine += LINE_HEIGHT;
     }
 
-    private void drawProducts(GuiGraphics graphics, ItemStack bee) {
+    private void drawProducts(GuiGraphicsExtractor graphics, ItemStack bee) {
         Species species = GeneticHelper.getSpecies(bee, true);
         List<Product> products = species.getProducts();
         List<Product> specProducts = species.getSpecialtyProducts();
@@ -282,8 +282,8 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         for (int i = 0; i < products.size(); i++) {
             int x = PADDING + (51 * (i % 4)) + getX();
             int y = nextLine + (21 * (i / 4)) + getY();
-            graphics.renderItem(products.get(i).getStack(), x, y);
-            graphics.drawString(Minecraft.getInstance().font, Component.literal("- " + (int) (products.get(i).getChance() * 100) + "%"), x + 18, y + 5, 0xFFFFFF);
+            graphics.item(products.get(i).getStack(), x, y);
+            graphics.text(Minecraft.getInstance().font, Component.literal("- " + (int) (products.get(i).getChance() * 100) + "%"), x + 18, y + 5, 0xFFFFFF);
             if (mouseX >= x && mouseX <= x + 16 && mouseY + scrollAmount() >= y && mouseY + scrollAmount() <= y + 16) {
                 this.hoveredStack = products.get(i).getStack();
             }
@@ -294,8 +294,8 @@ public class AnalyzerScrollWidget extends AbstractScrollWidget {
         for (int i = 0; i < specProducts.size(); i++) {
             int x = PADDING + (51 * (i % 4)) + getX();
             int y = nextLine + (21 * (i / 4)) + getY();
-            graphics.renderItem(specProducts.get(i).getStack(), x, y);
-            graphics.drawString(Minecraft.getInstance().font, Component.literal("- " + (int) (specProducts.get(i).getChance() * 100) + "%"), x + 18, y + 5, 0xFFFFFF);
+            graphics.item(specProducts.get(i).getStack(), x, y);
+            graphics.text(Minecraft.getInstance().font, Component.literal("- " + (int) (specProducts.get(i).getChance() * 100) + "%"), x + 18, y + 5, 0xFFFFFF);
             if (mouseX >= x && mouseX <= x + 16 && mouseY + scrollAmount() >= y && mouseY + scrollAmount() <= y + 16) {
                 this.hoveredStack = specProducts.get(i).getStack();
             }

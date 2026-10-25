@@ -10,7 +10,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/bee_product");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, "jei/bee_product");
     public static final RecipeType<Species> TYPE = new RecipeType<>(ID, Species.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.bee_products");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/bee_products.png"), 0, 0, 160, 64, 160, 64);
 
     @Override
     public RecipeType<Species> getRecipeType() {
@@ -36,7 +36,10 @@ public class BeeProduceRecipeCategory implements IRecipeCategory<Species> {
         return TITLE;
     }
 
-    @Override
+
+    public void draw(Species recipe, mezz.jei.api.gui.ingredient.IRecipeSlotsView slots, net.minecraft.client.gui.GuiGraphicsExtractor graphics, double mouseX, double mouseY){getBackground().draw(graphics);}
+    public int getWidth(){return getBackground().getWidth();}
+    public int getHeight(){return getBackground().getHeight();}
     public IDrawable getBackground() {
         return BACKGROUND;
     }

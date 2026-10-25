@@ -14,7 +14,7 @@ public class BeeNestBlockItem extends BlockItem {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return Component.translatable("species.complicated_bees." + pStack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).getUnsafe().getString("species"))
+        return Component.translatable("species.complicated_bees." + com.accbdd.complicated_bees.port.PortData.blockTag(pStack).getStringOr("species", ""))
                 .append(" ")
                 .append(super.getName(pStack));
     }

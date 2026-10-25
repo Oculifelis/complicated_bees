@@ -7,7 +7,7 @@ import com.accbdd.complicated_bees.screen.widget.microscope.IMicroscopeGame;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -15,7 +15,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -26,15 +26,13 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
-    private static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/microscope/base.png");
+    private static final Identifier GUI = Identifier.fromNamespaceAndPath(MODID, "textures/gui/microscope/base.png");
     private IMicroscopeGame game = null;
     private PlainTextButton startButton;
     private AnalyzeButton analyzeButton;
 
     public MicroscopeScreen(MicroscopeMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title);
-        this.imageWidth = 248;
-        this.imageHeight = 216;
+        super(menu, inventory, title, 248, 216);
     }
 
     @Override
@@ -49,7 +47,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 GUI,
                 (button) -> {
                     if (game != null && menu.canSendHint())
-                        PacketDistributor.sendToServer(MicroscopeHintServerbound.INSTANCE);
+                        net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(MicroscopeHintServerbound.INSTANCE);
                 });
         startButton = new PlainTextButton(leftPos + 8 + 215/2 - textWidth / 2,
                 topPos + 50,
@@ -62,10 +60,10 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
             private float animCount;
 
             @Override
-            public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            public void extractContents(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
                 animCount += pPartialTick;
                 animCount %= 40;
-                GuiHelper.drawBorderedRectangle(pGuiGraphics,
+                GuiHelper.drawBorderedRectangle(pGuiGraphicsExtractor,
                         this.getX(),
                         this.getY(),
                         getWidth(),
@@ -73,7 +71,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                         1,
                         isHoveredOrFocused() ? 0xFFFFFFFF : 0xFF00FF00,
                         animCount > 20 ? 0xFF00CC00 : 0x6600CC00);
-                pGuiGraphics.drawString(font, text, this.getX()+5, this.getY()+5, 16777215 | Mth.ceil(this.alpha * 255.0F) << 24);
+                pGuiGraphicsExtractor.text(font, text, this.getX()+5, this.getY()+5, 16777215 | Mth.ceil(this.alpha * 255.0F) << 24);
             }
         };
         addRenderableWidget(startButton);
@@ -81,36 +79,38 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     }
 
     @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        double pMouseX=event.x(), pMouseY=event.y(); int pButton=event.button();
         if (analyzeButton.isHovered())
             analyzeButton.clicked = true;
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+    public boolean mouseReleased(net.minecraft.client.input.MouseButtonEvent event) {
+        double pMouseX=event.x(), pMouseY=event.y(); int pButton=event.button();
         analyzeButton.clicked = false;
-        return super.mouseReleased(pMouseX, pMouseY, pButton);
+        return super.mouseReleased(event);
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
-        graphics.blit(GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mousex, int mousey, float partialTick) {
-        super.render(graphics, mousex, mousey, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mousex, int mousey, float partialTick) {
+        super.extractRenderState(graphics, mousex, mousey, partialTick);
         startButton.visible = game == null;
         renderText(graphics);
         renderSlotOverlays(graphics);
-        renderTooltip(graphics, mousex, mousey);
+        extractTooltip(graphics, mousex, mousey);
     }
 
-    public void renderText(GuiGraphics graphics) {
+    public void renderText(GuiGraphicsExtractor graphics) {
         if (game == null) {
-            graphics.pose().pushPose();
-            graphics.pose().translate(leftPos+8, topPos+8-font.lineHeight/2, 0);
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(leftPos+8, topPos+8-font.lineHeight/2);
             Component pText = null;
             if (menu.researchedMutationsCount == -1) {
                 pText = Component.translatable("gui.complicated_bees.microscope.place");
@@ -128,19 +128,19 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                     pText,
                     menu.researchedMutationsCount < menu.possibleMutationsCount ? Component.empty() : null));
             startButton.visible = pText == null;
-            graphics.pose().popPose();
+            graphics.pose().popMatrix();
         }
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int mousex, int mousey) {
+    protected void extractLabels(GuiGraphicsExtractor graphics, int mousex, int mousey) {
     }
 
-    public void renderSlotOverlays(GuiGraphics graphics) {
-        graphics.blit(GUI, leftPos + 225, topPos + 8, 0, 240, 16, 16);
+    public void renderSlotOverlays(GuiGraphicsExtractor graphics) {
+        com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, leftPos + 225, topPos + 8, 0, 240, 16, 16);
         for (int i = 0; i < 5; i++) {
             if (!(menu.difficulty < i + 2 || game == null))
-                graphics.blit(GUI, leftPos+225, topPos+40+18*i, 16, 240, 16, 16);
+                com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, leftPos+225, topPos+40+18*i, 16, 240, 16, 16);
         }
     }
 
@@ -157,8 +157,8 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics pGuiGraphics, int pX, int pY) {
-        super.renderTooltip(pGuiGraphics, pX, pY);
+    protected void extractTooltip(GuiGraphicsExtractor pGuiGraphicsExtractor, int pX, int pY) {
+        super.extractTooltip(pGuiGraphicsExtractor, pX, pY);
         if (analyzeButton.isHovered() && game != null) {
             List<Component> components = new ArrayList<>();
             components.add(Component.literal("Analyze material").withStyle(ChatFormatting.GRAY));
@@ -171,7 +171,7 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
                 materialComponent = Component.literal(Math.min(menu.difficulty, 6) - 1 + " research materials").withStyle(color);
             }
             components.add(materialComponent);
-            pGuiGraphics.renderComponentTooltip(font, components, pX, pY);
+            com.accbdd.complicated_bees.port.PortGui.tooltip(pGuiGraphicsExtractor,font, components, pX, pY);
         }
 
     }
@@ -183,27 +183,28 @@ public class MicroscopeScreen extends AbstractContainerScreen<MicroscopeMenu> {
 
     // TODO: Migrate to ImageButton and WidgetSprites
     private class AnalyzeButton extends Button {
-        private final ResourceLocation resourceLocation;
+        private final Identifier resourceLocation;
         private boolean clicked = false;
 
-        protected AnalyzeButton(int x, int y, int width, int height, ResourceLocation resourceLocation, OnPress onPress) {
+        protected AnalyzeButton(int x, int y, int width, int height, Identifier resourceLocation, OnPress onPress) {
             super(x, y, width, height, CommonComponents.EMPTY, onPress, DEFAULT_NARRATION);
             this.resourceLocation = resourceLocation;
         }
 
         @Override
-        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-            pGuiGraphics.blit(this.resourceLocation, getX(), getY(), (clicked || !menu.canSendHint() || game == null) ? 0 : isHovered ? 32 : 16, 228, 16, 12);
+        public void extractContents(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
+            com.accbdd.complicated_bees.port.PortGui.blit(pGuiGraphicsExtractor,this.resourceLocation, getX(), getY(), (clicked || !menu.canSendHint() || game == null) ? 0 : isHovered ? 32 : 16, 228, 16, 12);
         }
 
         @Override
-        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        double pMouseX=event.x(), pMouseY=event.y(); int pButton=event.button();
             if (this.active && this.visible) {
-                if (this.isValidClickButton(pButton)) {
-                    boolean flag = this.clicked(pMouseX, pMouseY);
+                if (this.isValidClickButton(event.buttonInfo())) {
+                    boolean flag = this.isMouseOver(pMouseX, pMouseY);
                     if (flag && menu.canSendHint() && game != null) {
                         this.playDownSound(Minecraft.getInstance().getSoundManager());
-                        this.onClick(pMouseX, pMouseY);
+                        this.onClick(event, doubleClick);
                         return true;
                     }
                 }

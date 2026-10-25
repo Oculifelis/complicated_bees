@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "complicated_bees:honey_droplet"
-    },
-    "S": {
-      "tag": "minecraft:planks"
-    }
+    "B": "complicated_bees:honey_droplet",
+    "S": "#minecraft:planks"
   },
   "pattern": [
     "SSS",

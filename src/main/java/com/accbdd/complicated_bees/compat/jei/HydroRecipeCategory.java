@@ -14,20 +14,20 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class HydroRecipeCategory implements IRecipeCategory<HydroRecipe> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/hydroregulator");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, "jei/hydroregulator");
     public static final RecipeType<HydroRecipe> TYPE = new RecipeType<>(ID, HydroRecipe.class);
 
     private static final Component TITLE = Component.translatable("jei.complicated_bees.hydroregulator");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 143, 40);
 
     public HydroRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.MELLARIUM_HYDROREGULATOR.get()));
@@ -43,7 +43,10 @@ public class HydroRecipeCategory implements IRecipeCategory<HydroRecipe> {
         return TITLE;
     }
 
-    @Override
+
+    public void draw(HydroRecipe recipe, mezz.jei.api.gui.ingredient.IRecipeSlotsView slots, net.minecraft.client.gui.GuiGraphicsExtractor graphics, double mouseX, double mouseY){getBackground().draw(graphics);}
+    public int getWidth(){return getBackground().getWidth();}
+    public int getHeight(){return getBackground().getHeight();}
     public IDrawable getBackground() {
         return BACKGROUND;
     }

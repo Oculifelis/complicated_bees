@@ -23,7 +23,7 @@ public class MellariumBlock extends AbstractMellariumBlock {
     }
 
     public MellariumBlock(MellariumBlockType type) {
-        this(Properties.of()
+        this(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .mapColor(DyeColor.ORANGE)
                 .sound(SoundType.WOOD)
                 .strength(1), type);
@@ -34,7 +34,7 @@ public class MellariumBlock extends AbstractMellariumBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 

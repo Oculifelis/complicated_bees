@@ -13,11 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public record HydroRecipe(Ingredient input, Product output, EnumTolerance humidityChange, float useChance) implements Recipe<RecipeInput> {
-    public static class Serializer implements RecipeSerializer<HydroRecipe> {
+public record HydroRecipe(Ingredient input, Product output, EnumTolerance humidityChange, float useChance) implements com.accbdd.complicated_bees.port.MachineRecipe<RecipeInput> {
+    public static class Serializer {
         public static final MapCodec<HydroRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(HydroRecipe::input),
+                        Ingredient.CODEC.fieldOf("input").forGetter(HydroRecipe::input),
                         Product.CODEC.fieldOf("output").forGetter(HydroRecipe::output),
                         EnumTolerance.CODEC.fieldOf("humidity_change").forGetter(HydroRecipe::humidityChange),
                         Codec.FLOAT.fieldOf("use_chance").forGetter(HydroRecipe::useChance)
@@ -25,12 +25,10 @@ public record HydroRecipe(Ingredient input, Product output, EnumTolerance humidi
         );
         public static final StreamCodec<RegistryFriendlyByteBuf, HydroRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-        @Override
         public MapCodec<HydroRecipe> codec() {
             return CODEC;
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, HydroRecipe> streamCodec() {
             return STREAM_CODEC;
         }
@@ -68,12 +66,12 @@ public record HydroRecipe(Ingredient input, Product output, EnumTolerance humidi
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return EsotericRegistration.HYDROREGULATOR_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return EsotericRegistration.HYDROREGULATOR_RECIPE.get();
     }
 }

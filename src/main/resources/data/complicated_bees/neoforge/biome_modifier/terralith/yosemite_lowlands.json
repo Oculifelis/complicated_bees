@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["terralith:yosemite_lowlands"],
+  "biomes": [
+    "terralith:yosemite_lowlands"
+  ],
   "features": "complicated_bees:terralith/birch",
   "step": "vegetal_decoration"
 }

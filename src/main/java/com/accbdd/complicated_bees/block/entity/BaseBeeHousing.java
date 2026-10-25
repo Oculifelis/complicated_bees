@@ -24,12 +24,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing {
+public abstract class BaseBeeHousing extends com.accbdd.complicated_bees.port.PortBlockEntity implements IBeeHousing {
     public static final int BEE_SLOT = 0;
     public static final int BEE_SLOT_COUNT = 2;
     public static final String ITEMS_BEES_TAG = "bee_items";
@@ -142,13 +142,13 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
         tag.put(ITEMS_OUTPUT_TAG, getOutputItems().serializeNBT(registries));
         tag.put(FRAME_SLOT_TAG, getFrameItems().serializeNBT(registries));
         if (getOwner() != null)
-            tag.putUUID(OWNER_TAG, getOwner());
+            tag.store(OWNER_TAG, net.minecraft.core.UUIDUtil.CODEC, getOwner());
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : getOutputBuffer()) {
             stack = stack.copy();
             while (!stack.isEmpty() && stack.getCount() > 0) {
                 int toPull = Math.min(stack.getCount(), stack.getMaxStackSize());
-                bufferTag.add(stack.copyWithCount(toPull).save(registries));
+                bufferTag.add(com.accbdd.complicated_bees.port.PortData.saveStack(stack.copyWithCount(toPull),registries));
                 stack.shrink(toPull);
             }
         }
@@ -158,23 +158,23 @@ public abstract class BaseBeeHousing extends BlockEntity implements IBeeHousing 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        cycleProgress = tag.getInt(CYCLE_TAG);
+        cycleProgress = tag.getIntOr(CYCLE_TAG, 0);
         if (tag.contains(ITEMS_BEES_TAG)) {
-            getBeeItems().deserializeNBT(registries, tag.getCompound(ITEMS_BEES_TAG));
+            getBeeItems().deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_BEES_TAG));
         }
         if (tag.contains(ITEMS_OUTPUT_TAG)) {
-            getOutputItems().deserializeNBT(registries, tag.getCompound(ITEMS_OUTPUT_TAG));
+            getOutputItems().deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_OUTPUT_TAG));
         }
         if (tag.contains(FRAME_SLOT_TAG)) {
-            getFrameItems().deserializeNBT(registries, tag.getCompound(FRAME_SLOT_TAG));
+            getFrameItems().deserializeNBT(registries, tag.getCompoundOrEmpty(FRAME_SLOT_TAG));
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
-            for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
-                getOutputBuffer().add(ItemStack.parseOptional(registries, (CompoundTag) itemCompound));
+            for (Tag itemCompound : tag.getListOrEmpty(OUTPUT_BUFFER_TAG)) {
+                getOutputBuffer().add(com.accbdd.complicated_bees.port.PortData.loadStack(registries, (CompoundTag) itemCompound));
             }
         }
         if (tag.contains(OWNER_TAG))
-            setOwner(tag.getUUID(OWNER_TAG));
+            setOwner(tag.read(OWNER_TAG, net.minecraft.core.UUIDUtil.CODEC).orElse(null));
         satisfyCycleProgress = new Random().nextInt(0, SATISFY_CYCLE_LENGTH);
     }
 

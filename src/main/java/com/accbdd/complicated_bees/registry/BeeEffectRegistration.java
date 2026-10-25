@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.registry;
 import com.accbdd.complicated_bees.bees.effect.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.biome.Biomes;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeEffectRegistration {
-    public static final ResourceKey<Registry<IBeeEffect>> BEE_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "bee_effect"));
+    public static final ResourceKey<Registry<IBeeEffect>> BEE_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(MODID, "bee_effect"));
     public static final RegistryBuilder<IBeeEffect> BEE_EFFECT_REGISTRY = new RegistryBuilder<>(BEE_REGISTRY_KEY);
 
     public static final DeferredRegister<IBeeEffect> EFFECTS = DeferredRegister.create(BEE_REGISTRY_KEY, MODID);

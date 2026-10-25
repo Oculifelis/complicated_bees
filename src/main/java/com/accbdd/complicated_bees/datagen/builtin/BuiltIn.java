@@ -7,7 +7,7 @@ import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +23,7 @@ public class BuiltIn {
     public static final Map<ResourceKey<Comb>, Comb> COMBS = new HashMap<>();
     public static final Map<ResourceKey<Flower>, Flower> FLOWERS = new HashMap<>();
     public static final Map<ResourceKey<Species>, Species> SPECIES = new HashMap<>();
-    public static final Map<ResourceLocation, MutationRecipe> MUTATIONS = new HashMap<>();
+    public static final Map<Identifier, MutationRecipe> MUTATIONS = new HashMap<>();
 
     public static Map.Entry<ResourceKey<Comb>, Comb> comb(String path, int outer, int inner) {
         Comb comb = new Comb(outer, inner);
@@ -33,7 +33,7 @@ public class BuiltIn {
     }
 
     public static Map.Entry<ResourceKey<Flower>, Flower> flower(String path, List<Block> blocks, List<TagKey<Block>> tags) {
-        List<ResourceLocation> blockLocations = blocks.stream().map(BuiltInRegistries.BLOCK::getKey).toList();
+        List<Identifier> blockLocations = blocks.stream().map(BuiltInRegistries.BLOCK::getKey).toList();
         Flower flower = new Flower(blockLocations, tags);
         ResourceKey<Flower> key = ResourceKey.create(FlowerRegistration.FLOWER_REGISTRY_KEY, loc(path));
         FLOWERS.put(key, flower);
@@ -47,13 +47,13 @@ public class BuiltIn {
         return new AbstractMap.SimpleEntry<>(key, species);
     }
 
-    public static ResourceLocation loc(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier loc(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
     public static ItemStack stack(Map.Entry<ResourceKey<Comb>, Comb> combEntry) {
         ItemStack stack = new ItemStack(ItemsRegistration.COMB.get(), 1);
-        stack.set(EsotericRegistration.COMB_TYPE.get(), combEntry.getKey().location());
+        stack.set(EsotericRegistration.COMB_TYPE.get(), combEntry.getKey().identifier());
         return stack;
     }
 }

@@ -7,6 +7,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
  * Combines multiple IEnergyStorages into one interface
  */
 public class CombinedEnergyStorage implements IEnergyStorage {
+    public IEnergyStorage[] getInternalStorages() { return storages.clone(); }
     private final IEnergyStorage[] storages;
 
     public CombinedEnergyStorage(IEnergyStorage... storages) {

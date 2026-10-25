@@ -13,7 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -23,12 +23,12 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MutationRecipe implements Recipe<MutationRecipeInput> {
-    private final ResourceLocation first, second, result;
+public class MutationRecipe implements com.accbdd.complicated_bees.port.MachineRecipe<MutationRecipeInput> {
+    private final Identifier first, second, result;
     private final float chance;
     private final List<IMutationCondition> conditions;
 
-    public MutationRecipe(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance, List<IMutationCondition> conditions) {
+    public MutationRecipe(Identifier first, Identifier second, Identifier result, float chance, List<IMutationCondition> conditions) {
         this.first = first;
         this.second = second;
         this.result = result;
@@ -36,40 +36,40 @@ public class MutationRecipe implements Recipe<MutationRecipeInput> {
         this.conditions = conditions;
     }
 
-    public MutationRecipe(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance, CompoundTag conditions) {
+    public MutationRecipe(Identifier first, Identifier second, Identifier result, float chance, CompoundTag conditions) {
         this(first, second, result, chance, new ArrayList<>());
         List<IMutationCondition> list = getConditions();
-        for (String key : conditions.getAllKeys()) {
-            IMutationCondition condition = ComplicatedBees.MUTATION_CONDITION_REGISTRY.get().get(ResourceLocation.tryParse(key));
+        for (String key : conditions.keySet()) {
+            IMutationCondition condition = ComplicatedBees.MUTATION_CONDITION_REGISTRY.get().getValue(Identifier.tryParse(key));
             if (condition != null)
-                list.add(condition.deserialize(conditions.getCompound(key)));
+                list.add(condition.deserialize(conditions.getCompoundOrEmpty(key)));
             else
                 ComplicatedBees.LOGGER.error("could not find condition {}", key);
         }
     }
 
-    public ResourceLocation getFirst() {
+    public Identifier getFirst() {
         return first;
     }
 
     public Species getFirstSpecies() {
-        return SpeciesRegistration.getFromResourceLocation(first);
+        return SpeciesRegistration.getFromIdentifier(first);
     }
 
-    public ResourceLocation getSecond() {
+    public Identifier getSecond() {
         return second;
     }
 
     public Species getSecondSpecies() {
-        return SpeciesRegistration.getFromResourceLocation(second);
+        return SpeciesRegistration.getFromIdentifier(second);
     }
 
-    public ResourceLocation getResult() {
+    public Identifier getResult() {
         return result;
     }
 
     public Species getResultSpecies() {
-        return SpeciesRegistration.getFromResourceLocation(result);
+        return SpeciesRegistration.getFromIdentifier(result);
     }
 
     public float getChance() {
@@ -83,7 +83,7 @@ public class MutationRecipe implements Recipe<MutationRecipeInput> {
     public static CompoundTag getSerializedConditions(List<IMutationCondition> conditions) {
         CompoundTag tag = new CompoundTag();
         for (IMutationCondition condition : conditions) {
-            ResourceLocation loc = condition.getID();
+            Identifier loc = condition.getID();
             if (loc == null) {
                 ComplicatedBees.LOGGER.error("tried to serialize mutation with no id! description: {}", condition.getDescription());
             } else {
@@ -114,41 +114,39 @@ public class MutationRecipe implements Recipe<MutationRecipeInput> {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<MutationRecipeInput>> getSerializer() {
         return EsotericRegistration.MUTATION_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<MutationRecipeInput>> getType() {
         return EsotericRegistration.MUTATION_RECIPE.get();
     }
 
-    public static class Serializer implements RecipeSerializer<MutationRecipe> {
+    public static class Serializer {
         public static final MapCodec<MutationRecipe> MUTATION_CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        ResourceLocation.CODEC.fieldOf("first").forGetter(MutationRecipe::getFirst),
-                        ResourceLocation.CODEC.fieldOf("second").forGetter(MutationRecipe::getSecond),
-                        ResourceLocation.CODEC.fieldOf("result").forGetter(MutationRecipe::getResult),
+                        Identifier.CODEC.fieldOf("first").forGetter(MutationRecipe::getFirst),
+                        Identifier.CODEC.fieldOf("second").forGetter(MutationRecipe::getSecond),
+                        Identifier.CODEC.fieldOf("result").forGetter(MutationRecipe::getResult),
                         Codec.FLOAT.fieldOf("chance").forGetter(MutationRecipe::getChance),
                         CompoundTag.CODEC.optionalFieldOf("conditions", new CompoundTag()).forGetter(mutation -> MutationRecipe.getSerializedConditions(mutation.getConditions()))
                 ).apply(instance, MutationRecipe::new)
         );
 
         public static final StreamCodec<RegistryFriendlyByteBuf, MutationRecipe> MUTATION_STREAM_CODEC = StreamCodec.composite(
-                ResourceLocation.STREAM_CODEC, MutationRecipe::getFirst,
-                ResourceLocation.STREAM_CODEC, MutationRecipe::getSecond,
-                ResourceLocation.STREAM_CODEC, MutationRecipe::getResult,
+                Identifier.STREAM_CODEC, MutationRecipe::getFirst,
+                Identifier.STREAM_CODEC, MutationRecipe::getSecond,
+                Identifier.STREAM_CODEC, MutationRecipe::getResult,
                 ByteBufCodecs.FLOAT, MutationRecipe::getChance,
                 ByteBufCodecs.COMPOUND_TAG, mutation -> MutationRecipe.getSerializedConditions(mutation.getConditions()),
                 MutationRecipe::new
         );
 
-        @Override
         public MapCodec<MutationRecipe> codec() {
             return MUTATION_CODEC;
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, MutationRecipe> streamCodec() {
             return MUTATION_STREAM_CODEC;
         }

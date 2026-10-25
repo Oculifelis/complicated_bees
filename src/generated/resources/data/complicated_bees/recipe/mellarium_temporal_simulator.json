@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:mellarium_panel"
-    },
-    "A": {
-      "item": "complicated_bees:mellarium_base"
-    },
-    "C": {
-      "item": "minecraft:clock"
-    },
-    "G": {
-      "item": "minecraft:gold_block"
-    },
-    "T": {
-      "item": "minecraft:totem_of_undying"
-    }
+    "#": "complicated_bees:mellarium_panel",
+    "A": "complicated_bees:mellarium_base",
+    "C": "minecraft:clock",
+    "G": "minecraft:gold_block",
+    "T": "minecraft:totem_of_undying"
   },
   "pattern": [
     "#C#",

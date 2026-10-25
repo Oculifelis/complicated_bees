@@ -12,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class MellariumFrameHousingBlockEntity extends AbstractMellariumBlockEnti
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains("frame_items"))
-            frameItems.deserializeNBT(registries, pTag.getCompound("frame_items"));
+            frameItems.deserializeNBT(registries, pTag.getCompoundOrEmpty("frame_items"));
     }
 
     @Override

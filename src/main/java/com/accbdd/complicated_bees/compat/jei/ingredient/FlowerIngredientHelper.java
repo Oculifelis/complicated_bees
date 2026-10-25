@@ -6,7 +6,7 @@ import com.accbdd.complicated_bees.registry.FlowerRegistration;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class FlowerIngredientHelper implements IIngredientHelper<Flower> {
@@ -20,19 +20,18 @@ public class FlowerIngredientHelper implements IIngredientHelper<Flower> {
         return GeneticHelper.getTranslationKey(flower).getString();
     }
 
-    @Override
     public String getUniqueId(Flower ingredient, UidContext context) {
         return getUid(ingredient, context);
     }
 
     @Override
     public String getUid(Flower ingredient, UidContext context) {
-        return getResourceLocation(ingredient).toString();
+        return getIdentifier(ingredient).toString();
     }
 
     @Override
-    public ResourceLocation getResourceLocation(Flower ingredient) {
-        return GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(ingredient);
+    public Identifier getIdentifier(Flower ingredient) {
+        return GeneticHelper.getRegistryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(ingredient);
     }
 
     @Override
@@ -42,6 +41,6 @@ public class FlowerIngredientHelper implements IIngredientHelper<Flower> {
 
     @Override
     public String getErrorInfo(@Nullable Flower ingredient) {
-        return ingredient != null ? getResourceLocation(ingredient)+ ": " + ingredient.getBlocksAsResourceLocs().toString() : "flower is null!";
+        return ingredient != null ? getIdentifier(ingredient)+ ": " + ingredient.getBlocksAsResourceLocs().toString() : "flower is null!";
     }
 }

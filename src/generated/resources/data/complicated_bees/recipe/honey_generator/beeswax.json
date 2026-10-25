@@ -1,7 +1,5 @@
 {
   "type": "complicated_bees:honey_generator",
   "burn_time": 150,
-  "input": {
-    "item": "complicated_bees:beeswax"
-  }
+  "input": "complicated_bees:beeswax"
 }

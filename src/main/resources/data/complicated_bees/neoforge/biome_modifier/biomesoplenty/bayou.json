@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:bayou"],
+  "biomes": [
+    "biomesoplenty:bayou"
+  ],
   "features": "complicated_bees:biomesoplenty/bayou_tree",
   "step": "vegetal_decoration"
 }

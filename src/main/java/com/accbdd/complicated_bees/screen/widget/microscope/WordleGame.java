@@ -2,7 +2,7 @@ package com.accbdd.complicated_bees.screen.widget.microscope;
 
 import com.accbdd.complicated_bees.network.packet.MicroscopeGameClientbound;
 import com.accbdd.complicated_bees.screen.MicroscopeScreen;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
 public class WordleGame extends AbstractMicroscopeGame {
@@ -19,7 +19,7 @@ public class WordleGame extends AbstractMicroscopeGame {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
 
     }
 

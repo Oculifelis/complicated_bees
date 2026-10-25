@@ -5,19 +5,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class GeneFlower extends Gene<ResourceLocation> {
+public class GeneFlower extends Gene<Identifier> {
     public static final String TAG = "flower";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneFlower() {
-        super(ResourceLocation.fromNamespaceAndPath(MODID, "invalid"), true);
+        super(Identifier.fromNamespaceAndPath(MODID, "invalid"), true);
     }
 
-    public GeneFlower(ResourceLocation flower, boolean dominant) {
+    public GeneFlower(Identifier flower, boolean dominant) {
         super(flower, dominant);
     }
 
@@ -31,7 +31,7 @@ public class GeneFlower extends Gene<ResourceLocation> {
 
     @Override
     public GeneFlower deserialize(CompoundTag tag) {
-        return new GeneFlower(ResourceLocation.tryParse(tag.getString(DATA)), tag.getBoolean(DOMINANT));
+        return new GeneFlower(Identifier.tryParse(tag.getStringOr(DATA, "")), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class GeneFlower extends Gene<ResourceLocation> {
     }
 
     @Override
-    public IGene<ResourceLocation> copy() {
+    public IGene<Identifier> copy() {
         return new GeneFlower(this.get(), this.isDominant());
     }
 }

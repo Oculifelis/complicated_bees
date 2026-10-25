@@ -22,7 +22,7 @@ public class GyrofugeBlock extends AbstractGyrofugeBlock {
     }
 
     public GyrofugeBlock(GyrofugeBlockType type) {
-        this(Properties.of()
+        this(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .mapColor(DyeColor.GRAY)
                 .sound(SoundType.METAL)
                 .strength(3.5f)
@@ -34,7 +34,7 @@ public class GyrofugeBlock extends AbstractGyrofugeBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 

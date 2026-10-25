@@ -10,7 +10,7 @@ import com.accbdd.complicated_bees.util.BlockPosBoxIterator;
 import com.accbdd.complicated_bees.util.Util;
 import com.accbdd.complicated_bees.util.enums.EnumErrorCodes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -98,20 +98,20 @@ public class BeeLogic {
         } else {
             removeError(EnumErrorCodes.NO_FLOWER);
         }
-        if (!checkRain() && !(boolean) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "weatherproof")).get()) {
+        if (!checkRain() && !(boolean) chromosome.getGene(Identifier.fromNamespaceAndPath(MODID, "weatherproof")).get()) {
             addError(EnumErrorCodes.WEATHER);
             queenSatisfied = false;
         } else {
             removeError(EnumErrorCodes.WEATHER);
         }
         if (!checkSky()
-                && !(boolean) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "cave_dwelling")).get()) {
+                && !(boolean) chromosome.getGene(Identifier.fromNamespaceAndPath(MODID, "cave_dwelling")).get()) {
             addError(EnumErrorCodes.UNDERGROUND);
             queenSatisfied = false;
         } else {
             removeError(EnumErrorCodes.UNDERGROUND);
         }
-        if (!checkActiveTime((GeneActiveTime) chromosome.getGene(ResourceLocation.fromNamespaceAndPath(MODID, "active_time")))) {
+        if (!checkActiveTime((GeneActiveTime) chromosome.getGene(Identifier.fromNamespaceAndPath(MODID, "active_time")))) {
             addError(EnumErrorCodes.WRONG_TIME);
             queenSatisfied = false;
         } else {
@@ -138,7 +138,7 @@ public class BeeLogic {
     }
 
     public void checkConditions() {
-        if (!getLevel().isClientSide) {
+        if (!getLevel().isClientSide()) {
             checkFlowerCache();
             checkQueenSatisfied();
             checkQueenEcstatic();
@@ -241,8 +241,8 @@ public class BeeLogic {
             flowerCache.add(getPos());
             return;
         }
-        Flower flower = GeneticHelper.getRegistryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
-                .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
+        Flower flower = GeneticHelper.getRegistryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
+                .getValue(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
         Level level = getLevel();
         if (flower == null || level == null) {
             //no valid flower gene or the level isn't loaded
@@ -264,8 +264,8 @@ public class BeeLogic {
 
     public void rebuildFlowerCache() {
         clearFlowerCache();
-        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
-                .get(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
+        Flower flower = ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY)
+                .getValue(((GeneFlower) GeneticHelper.getGene(getQueen(), GeneFlower.ID, true)).get());
 
         if (flower == null) {
             //no valid flower gene

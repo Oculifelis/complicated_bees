@@ -11,7 +11,11 @@
     },
     {
       "type": "patchouli:image",
-      "images": ["complicated_bees:textures/gui/patchouli/started/hiveloc_1.png", "complicated_bees:textures/gui/patchouli/started/hiveloc_2.png", "complicated_bees:textures/gui/patchouli/started/hiveloc_3.png"],
+      "images": [
+        "complicated_bees:textures/gui/patchouli/started/hiveloc_1.png",
+        "complicated_bees:textures/gui/patchouli/started/hiveloc_2.png",
+        "complicated_bees:textures/gui/patchouli/started/hiveloc_3.png"
+      ],
       "title": "Bee Nests",
       "border": true,
       "text": "Bee nests also glow, so you might find them easier at night!"

@@ -13,11 +13,11 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -26,17 +26,16 @@ import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class MutationRecipeCategory implements IRecipeCategory<RecipeHolder<MutationRecipe>> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/mutation");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, "jei/mutation");
     public static final RecipeType<RecipeHolder<MutationRecipe>> TYPE = RecipeType.createRecipeHolderType(ID);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.mutations");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/item/bee.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/mutations.png"), 0, 0, 143, 40, 143, 40);
 
     @Override
     public RecipeType<RecipeHolder<MutationRecipe>> getRecipeType() {
@@ -44,7 +43,8 @@ public class MutationRecipeCategory implements IRecipeCategory<RecipeHolder<Muta
     }
 
     @Override
-    public void draw(RecipeHolder<MutationRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<MutationRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        getBackground().draw(guiGraphics);
         IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
         double chance = recipe.value().getChance() * 100;
         if (BreedingTracker.CLIENT_INSTANCE != null) {
@@ -52,7 +52,7 @@ public class MutationRecipeCategory implements IRecipeCategory<RecipeHolder<Muta
         }
         chance = Math.min(100, chance);
         String chanceString = recipe.value().getConditions().isEmpty() ? String.format("%.0f%%", chance) : String.format("[%.0f%%]", chance);
-        guiGraphics.drawCenteredString(Minecraft.getInstance().font, chanceString, 95, 1, 0xFFFFFF);
+        guiGraphics.centeredText(Minecraft.getInstance().font, chanceString, 95, 1, 0xFFFFFF);
     }
 
     @Override
@@ -72,7 +72,8 @@ public class MutationRecipeCategory implements IRecipeCategory<RecipeHolder<Muta
         return TITLE;
     }
 
-    @Override
+    public int getWidth(){return getBackground().getWidth();}
+    public int getHeight(){return getBackground().getHeight();}
     public IDrawable getBackground() {
         return BACKGROUND;
     }

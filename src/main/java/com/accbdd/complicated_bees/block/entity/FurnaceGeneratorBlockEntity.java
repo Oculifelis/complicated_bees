@@ -17,11 +17,11 @@ public class FurnaceGeneratorBlockEntity extends BaseGeneratorBlockEntity {
 
     @Override
     public boolean isValidInput(ItemStack stack) {
-        return stack.getBurnTime(RecipeType.SMELTING) > 0;
+        return stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues()) > 0;
     }
 
     @Override
     public int getBurnTime(ItemStack stack) {
-        return stack.getBurnTime(RecipeType.SMELTING);
+        return stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues());
     }
 }

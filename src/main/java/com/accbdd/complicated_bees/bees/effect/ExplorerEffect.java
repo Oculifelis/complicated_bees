@@ -13,7 +13,7 @@ public class ExplorerEffect extends BeeEffect {
         if (cycleProgress == 0) {
             for (Entity entity : getTerritoryEntities(apiary, queen)) {
                 if (entity instanceof Player player) {
-                    player.giveExperiencePoints(apiary.getLevel().random.nextInt(1, 5));
+                    player.giveExperiencePoints(apiary.getLevel().getRandom().nextInt(1, 5));
                 }
             }
         }

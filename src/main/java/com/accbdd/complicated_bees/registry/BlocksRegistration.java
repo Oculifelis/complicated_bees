@@ -13,13 +13,13 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BlocksRegistration {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    public static final BlockBehaviour.Properties WAX_PROPERTIES = BlockBehaviour.Properties.of()
+    public static final DeferredRegister.Blocks BLOCKS = new com.accbdd.complicated_bees.port.RegistrationContext.Blocks(MODID);
+    public static final BlockBehaviour.Properties WAX_PROPERTIES = com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
             .mapColor(MapColor.COLOR_YELLOW)
             .instrument(NoteBlockInstrument.BASEDRUM)
             .requiresCorrectToolForDrops()
             .strength(1.5F, 6.0F);
-    public static final BlockBehaviour.Properties HONEYPLANK_PROPERTIES = BlockBehaviour.Properties.of()
+    public static final BlockBehaviour.Properties HONEYPLANK_PROPERTIES = com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
             .mapColor(MapColor.COLOR_YELLOW)
             .instrument(NoteBlockInstrument.BASS)
             .sound(SoundType.WOOD)
@@ -69,21 +69,21 @@ public class BlocksRegistration {
 
     public static final DeferredBlock<Block> APID_LIBRARY = BLOCKS.register("apid_library", ApidLibraryBlock::new);
 
-    public static final DeferredBlock<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES));
+    public static final DeferredBlock<Block> WAX_BLOCK = BLOCKS.register("wax_block", () -> new Block(WAX_PROPERTIES.setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey())));
     public static final DeferredBlock<StairBlock> WAX_BLOCK_STAIRS = BLOCKS.register("wax_block_stairs", () -> stair(WAX_BLOCK.get()));
     public static final DeferredBlock<SlabBlock> WAX_BLOCK_SLAB = BLOCKS.register("wax_block_slab", () -> slab(WAX_BLOCK.get()));
     public static final DeferredBlock<WallBlock> WAX_BLOCK_WALL = BLOCKS.register("wax_block_wall", () -> wall(WAX_BLOCK.get()));
-    public static final DeferredBlock<Block> SMOOTH_WAX = BLOCKS.register("smooth_wax", () -> new Block(WAX_PROPERTIES));
+    public static final DeferredBlock<Block> SMOOTH_WAX = BLOCKS.register("smooth_wax", () -> new Block(WAX_PROPERTIES.setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey())));
     public static final DeferredBlock<StairBlock> SMOOTH_WAX_STAIRS = BLOCKS.register("smooth_wax_stairs", () -> stair(SMOOTH_WAX.get()));
     public static final DeferredBlock<SlabBlock> SMOOTH_WAX_SLAB = BLOCKS.register("smooth_wax_slab", () -> slab(SMOOTH_WAX.get()));
     public static final DeferredBlock<WallBlock> SMOOTH_WAX_WALL = BLOCKS.register("smooth_wax_wall", () -> wall(SMOOTH_WAX.get()));
-    public static final DeferredBlock<Block> WAX_BRICKS = BLOCKS.register("wax_bricks", () -> new Block(WAX_PROPERTIES));
+    public static final DeferredBlock<Block> WAX_BRICKS = BLOCKS.register("wax_bricks", () -> new Block(WAX_PROPERTIES.setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey())));
     public static final DeferredBlock<StairBlock> WAX_BRICK_STAIRS = BLOCKS.register("wax_brick_stairs", () -> stair(WAX_BRICKS.get()));
     public static final DeferredBlock<SlabBlock> WAX_BRICK_SLAB = BLOCKS.register("wax_brick_slab", () -> slab(WAX_BRICKS.get()));
     public static final DeferredBlock<WallBlock> WAX_BRICK_WALL = BLOCKS.register("wax_brick_wall", () -> wall(WAX_BRICKS.get()));
-    public static final DeferredBlock<Block> CHISELED_WAX = BLOCKS.register("chiseled_wax", () -> new Block(WAX_PROPERTIES));
+    public static final DeferredBlock<Block> CHISELED_WAX = BLOCKS.register("chiseled_wax", () -> new Block(WAX_PROPERTIES.setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey())));
 
-    public static final DeferredBlock<Block> HONEYED_PLANKS = BLOCKS.register("honeyed_planks", () -> new Block(HONEYPLANK_PROPERTIES));
+    public static final DeferredBlock<Block> HONEYED_PLANKS = BLOCKS.register("honeyed_planks", () -> new Block(HONEYPLANK_PROPERTIES.setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey())));
     public static final DeferredBlock<StairBlock> HONEYED_STAIRS = BLOCKS.register("honeyed_stairs", () -> stair(HONEYED_PLANKS.get()));
     public static final DeferredBlock<SlabBlock> HONEYED_SLAB = BLOCKS.register("honeyed_slab", () -> slab(HONEYED_PLANKS.get()));
     public static final DeferredBlock<FenceBlock> HONEYED_FENCE = BLOCKS.register("honeyed_fence", () -> fence(HONEYED_PLANKS.get()));
@@ -98,54 +98,54 @@ public class BlocksRegistration {
     public static final DeferredBlock<CeilingHangingSignBlock> HONEYED_HANGING_SIGN = BLOCKS.register("honeyed_hanging_sign", () -> hangingSign(HONEYED_WOOD, HONEYED_PLANKS.get()));
 
     private static StairBlock stair(Block base) {
-        return new StairBlock(base.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(base));
+        return new StairBlock(base.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static SlabBlock slab(Block base) {
-        return new SlabBlock(BlockBehaviour.Properties.ofFullCopy(base));
+        return new SlabBlock(BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static WallBlock wall(Block base) {
-        return new WallBlock(BlockBehaviour.Properties.ofFullCopy(base));
+        return new WallBlock(BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static FenceBlock fence(Block base) {
-        return new FenceBlock(BlockBehaviour.Properties.ofFullCopy(base));
+        return new FenceBlock(BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static FenceGateBlock gate(Block base) {
-        return new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(base));
+        return new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static ButtonBlock button(BlockSetType type, int ticksToPress, Block base) {
-        return new ButtonBlock(type, ticksToPress, BlockBehaviour.Properties.ofFullCopy(base).noCollission());
+        return new ButtonBlock(type, ticksToPress, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noCollision());
     }
 
     private static PressurePlateBlock plate(BlockSetType type, Block base) {
-        return new PressurePlateBlock(type, BlockBehaviour.Properties.ofFullCopy(base));
+        return new PressurePlateBlock(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()));
     }
 
     private static DoorBlock door(BlockSetType type, Block base) {
-        return new DoorBlock(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new DoorBlock(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 
     private static TrapDoorBlock trapdoor(BlockSetType type, Block base) {
-        return new TrapDoorBlock(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new TrapDoorBlock(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 
     private static StandingSignBlock sign(WoodType type, Block base) {
-        return new StandingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new StandingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 
     private static WallSignBlock wallSign(WoodType type, Block base) {
-        return new WallSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new WallSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 
     private static WallHangingSignBlock wallHangingSign(WoodType type, Block base) {
-        return new WallHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new WallHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 
     private static CeilingHangingSignBlock hangingSign(WoodType type, Block base) {
-        return new CeilingHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).noOcclusion());
+        return new CeilingHangingSignBlockCB(type, BlockBehaviour.Properties.ofFullCopy(base).setId(com.accbdd.complicated_bees.port.RegistrationContext.blockKey()).noOcclusion());
     }
 }

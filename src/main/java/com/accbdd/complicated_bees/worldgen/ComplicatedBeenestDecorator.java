@@ -9,7 +9,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
@@ -74,7 +74,7 @@ public class ComplicatedBeenestDecorator extends TreeDecorator {
                 if (optional.isPresent()) {
                     context.setBlock(optional.get(), BlocksRegistration.BEE_NEST.get().defaultBlockState());
                     context.level().getBlockEntity(optional.get(), BlockEntitiesRegistration.BEE_NEST_ENTITY.get()).ifPresent(
-                            be -> be.setSpecies(SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(this.speciesKey))));
+                            be -> be.setSpecies(SpeciesRegistration.getFromIdentifier(Identifier.tryParse(this.speciesKey))));
                 }
             }
         }

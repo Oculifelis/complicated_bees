@@ -14,22 +14,20 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implements Recipe<RecipeInput> {
-    public static class Serializer implements RecipeSerializer<CentrifugeRecipe> {
-        private static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> 
+public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implements com.accbdd.complicated_bees.port.MachineRecipe<RecipeInput> {
+    public static class Serializer {
+        public static final MapCodec<CentrifugeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(CentrifugeRecipe::input),
+                        Ingredient.CODEC.fieldOf("input").forGetter(CentrifugeRecipe::input),
                         Product.CODEC.listOf().fieldOf("outputs").forGetter(CentrifugeRecipe::outputs)
                 ).apply(instance, CentrifugeRecipe::new)
         );
-        private static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
+        public static final StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> STREAM_CODEC = StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
-        @Override
         public MapCodec<CentrifugeRecipe> codec() {
             return CODEC;
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, CentrifugeRecipe> streamCodec() {
             return STREAM_CODEC;
         }
@@ -77,12 +75,12 @@ public record CentrifugeRecipe(Ingredient input, List<Product> outputs) implemen
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<RecipeInput>> getSerializer() {
         return EsotericRegistration.CENTRIFUGE_RECIPE_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<RecipeInput>> getType() {
         return EsotericRegistration.CENTRIFUGE_RECIPE.get();
     }
 

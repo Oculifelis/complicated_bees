@@ -5,27 +5,27 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class DimensionCondition extends MutationCondition {
     public static String ID = "dimension";
-    private final ResourceLocation dimension;
+    private final Identifier dimension;
 
-    public DimensionCondition(ResourceLocation dimension) {
+    public DimensionCondition(Identifier dimension) {
         this.dimension = dimension;
     }
 
     @Override
-    public ResourceLocation getID() {
-        return ResourceLocation.fromNamespaceAndPath(MODID, ID);
+    public Identifier getID() {
+        return Identifier.fromNamespaceAndPath(MODID, ID);
     }
 
     @Override
     public boolean check(Level level, BlockPos pos) {
-        return level.dimension().location().equals(dimension);
+        return level.dimension().identifier().equals(dimension);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class DimensionCondition extends MutationCondition {
 
     @Override
     public DimensionCondition deserialize(CompoundTag tag) {
-        return new DimensionCondition(ResourceLocation.tryParse(tag.getString("dimension")));
+        return new DimensionCondition(Identifier.tryParse(tag.getStringOr("dimension", "")));
     }
 }

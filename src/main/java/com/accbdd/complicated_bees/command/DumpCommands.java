@@ -44,9 +44,9 @@ public class DumpCommands {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Biome> biomes = registryAccess.registryOrThrow(Registries.BIOME);
-        biomes.holders().forEach(holder ->
-                player.sendSystemMessage(Component.literal(holder.getKey().location() + ": " + EnumTemperature.getFromBiome(holder) + ", " + EnumHumidity.getFromBiome(holder))));
+        Registry<Biome> biomes = registryAccess.lookupOrThrow(Registries.BIOME);
+        biomes.listElements().forEach(holder ->
+                player.sendSystemMessage(Component.literal(holder.getKey().identifier() + ": " + EnumTemperature.getFromBiome(holder) + ", " + EnumHumidity.getFromBiome(holder))));
         return 1;
     }
 
@@ -56,7 +56,7 @@ public class DumpCommands {
             return 0;
 
         ComplicatedBees.BEE_EFFECT_REGISTRY.get().entrySet().forEach(entry ->
-                player.sendSystemMessage(Component.translatable("effect.complicated_bees." + entry.getKey().location()).append(": ").append(Component.translatable("effect.complicated_bees." + entry.getKey().location() + ".desc"))));
+                player.sendSystemMessage(Component.translatable("effect.complicated_bees." + entry.getKey().identifier()).append(": ").append(Component.translatable("effect.complicated_bees." + entry.getKey().identifier() + ".desc"))));
         return 1;
     }
 
@@ -66,7 +66,7 @@ public class DumpCommands {
         if (player == null || registryAccess == null)
             return 0;
 
-        Registry<Species> speciesRegistry = registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
+        Registry<Species> speciesRegistry = registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY);
         speciesRegistry.stream().forEach(species -> {
             Chromosome chromosome = species.getDefaultChromosome();
             player.sendSystemMessage(GeneticHelper.getTranslationKey(species)

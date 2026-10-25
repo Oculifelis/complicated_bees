@@ -13,11 +13,9 @@ import com.accbdd.complicated_bees.block.entity.mellarium.MellariumControllerBlo
 import com.accbdd.complicated_bees.block.entity.renderer.MicroscopeBlockEntityRenderer;
 import com.accbdd.complicated_bees.client.BeeModel;
 import com.accbdd.complicated_bees.client.ColorHandlers;
-import com.accbdd.complicated_bees.client.OptimizedBeeModelLoader;
 import com.accbdd.complicated_bees.command.ModCommands;
 import com.accbdd.complicated_bees.config.CommonConfig;
 import com.accbdd.complicated_bees.config.ServerConfig;
-import com.accbdd.complicated_bees.datagen.DataGenerators;
 import com.accbdd.complicated_bees.datagen.condition.ItemEnabledCondition;
 import com.accbdd.complicated_bees.event.ComplicatedBeesEvents;
 import com.accbdd.complicated_bees.item.CombItem;
@@ -33,16 +31,15 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.CreativeModeTab;
@@ -56,7 +53,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.capabilities.Capabilities;
+import com.accbdd.complicated_bees.port.PortCapabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
@@ -94,12 +91,12 @@ public class ComplicatedBees {
                 }
                 RegistryAccess access = GeneticHelper.getRegistryAccess();
                 if (access != null) {
-                    Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).entrySet();
+                    Set<Map.Entry<ResourceKey<Species>, Species>> speciesSet = access.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).entrySet();
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
                         if (entry.getValue().getColor() != -1)
                             output.acceptAll(entry.getValue().toMembers());
                     }
-                    for (ResourceLocation id : access.registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).keySet()) {
+                    for (Identifier id : access.lookupOrThrow(CombRegistration.COMB_REGISTRY_KEY).keySet()) {
                         output.accept(CombItem.setComb(ItemsRegistration.COMB.get().getDefaultInstance(), id));
                     }
                     for (Map.Entry<ResourceKey<Species>, Species> entry : speciesSet) {
@@ -113,10 +110,9 @@ public class ComplicatedBees {
         modEventBus.addListener(this::registerRegistries);
         modEventBus.addListener(this::registerDatapackRegistries);
         modEventBus.addListener(this::registerCapabilities);
-        modEventBus.addListener(DataGenerators::generate);
         modEventBus.addListener(PacketHandler::registerPayloadHandlers);
 
-        if(FMLLoader.getDist().isClient()) {
+        if(FMLLoader.getCurrent().getDist().isClient()) {
             modEventBus.addListener(ColorHandlers::registerItemColorHandlers);
             modEventBus.addListener(ColorHandlers::registerBlockColorHandlers);
         }
@@ -147,48 +143,48 @@ public class ComplicatedBees {
     }
 
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.APIARY_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.FURNACE_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.FURNACE_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.AUTOLYZER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_BASE_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_TEMP_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_RAIN_SHIELD_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_MUTATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_SKYBOX_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_TEMPORAL_SIMULATOR_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.BEE_SORTER_BLOCK_ENTITY.get(), BeeSorterBlockEntity::getHandlerCapability);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASE_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.GYROFUGE_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_INPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.APIARY_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.CENTRIFUGE_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.FURNACE_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.FURNACE_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.AUTOLYZER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_BASE_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_TEMP_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_1_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_2_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_FRAME_HOUSING_3_BLOCK_ENTITY.get(), (be, ctx) -> be.getFrameItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_RAIN_SHIELD_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_MUTATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.MELLARIUM_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_SKYBOX_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_TEMPORAL_SIMULATOR_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.MELLARIUM_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(MellariumLogic::getController).map(MellariumControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.BEE_SORTER_BLOCK_ENTITY.get(), BeeSorterBlockEntity::getHandlerCapability);
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getItemHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.GYROFUGE_CONTROLLER_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASE_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.EnergyStorage.BLOCK, BlockEntitiesRegistration.GYROFUGE_ENERGY_CELL_BLOCK_ENTITY.get(), (be, ctx) -> be.getEnergyHandler());
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_PROCESSING_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_SPEED_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_EFFICIENCY_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_BASIC_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_ADVANCED_EXTRACTION_UNIT_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_INPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
+        PortCapabilities.registerBlockEntity(event,PortCapabilities.ItemHandler.BLOCK, BlockEntitiesRegistration.GYROFUGE_OUTPUT_HATCH_BLOCK_ENTITY.get(), (be, ctx) -> Optional.ofNullable(be.getLogic()).flatMap(GyrofugeLogic::getController).map(GyrofugeControllerBlockEntity::getItemHandler).orElse(null));
     }
 
     public void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
@@ -222,7 +218,7 @@ public class ComplicatedBees {
 
     public void registerSerializers(RegisterEvent event) {
         event.register(NeoForgeRegistries.CONDITION_SERIALIZERS.key(),
-                helper -> helper.register(ResourceLocation.fromNamespaceAndPath(MODID, "item_enabled"), ItemEnabledCondition.CODEC));
+                helper -> helper.register(Identifier.fromNamespaceAndPath(MODID, "item_enabled"), ItemEnabledCondition.CODEC));
     }
 
     @SubscribeEvent
@@ -232,9 +228,9 @@ public class ComplicatedBees {
 
     @SubscribeEvent
     public void serverStarted(ServerStartedEvent event) {
-        LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).size());
-        LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).size());
-        LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} species", ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} combs", ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(CombRegistration.COMB_REGISTRY_KEY).size());
+        LOGGER.info("Registered {} flowers", ServerLifecycleHooks.getCurrentServer().registryAccess().lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).size());
     }
 
     @SubscribeEvent
@@ -249,8 +245,7 @@ public class ComplicatedBees {
             EntityRenderers.register(EntitiesRegistration.BEE_STAFF_MOUNT.get(), (context) -> new ThrownItemRenderer<>(context, 1.0f, true));
 
             event.enqueueWork(() -> {
-                Sheets.addWoodType(BlocksRegistration.HONEYED_WOOD);
-                WoodType.register(BlocksRegistration.HONEYED_WOOD);
+                com.accbdd.complicated_bees.port.TargetClient.registerWood(BlocksRegistration.HONEYED_WOOD);
             });
         }
 
@@ -276,23 +271,8 @@ public class ComplicatedBees {
         }
 
         @SubscribeEvent
-        public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-            event.register(OptimizedBeeModelLoader.ID, new OptimizedBeeModelLoader());
-            event.register(BeeModel.Loader.ID, new BeeModel.Loader());
-        }
-
-        @SubscribeEvent
-        public static void registerAdditionalModels(ModelEvent.RegisterAdditional event) {
-            ResourceManager manager = Minecraft.getInstance().getResourceManager();
-            try {
-                for (Map.Entry<ResourceLocation, Resource> entry : manager.listResources("models/bee", res -> res.getPath().endsWith(".json")).entrySet()) {
-                    String path = entry.getKey().getPath(); // e.g. models/item/custom/fire_wand.json
-                    String modelPath = path.substring("models/".length(), path.length() - ".json".length());
-                    event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), modelPath)));
-                }
-            } catch (Exception e) {
-                ComplicatedBees.LOGGER.error("Failed to read bee models: " + e);
-            }
+        public static void registerItemModels(net.neoforged.neoforge.client.event.RegisterItemModelsEvent event) {
+            event.register(Identifier.fromNamespaceAndPath(MODID, "bee"), BeeModel.CODEC);
         }
 
         @SubscribeEvent
@@ -304,13 +284,10 @@ public class ComplicatedBees {
         @SubscribeEvent
         public static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.MICROSCOPE_BLOCK_ENTITY.get(), MicroscopeBlockEntityRenderer::new);
-            event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_SIGN_ENTITY.get(), SignRenderer::new);
+            event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_SIGN_ENTITY.get(), StandingSignRenderer::new);
             event.registerBlockEntityRenderer(BlockEntitiesRegistration.CB_HANGING_SIGN_ENTITY.get(), HangingSignRenderer::new);
         }
 
-        @SubscribeEvent
-        public static void clearTextureCache(ModelEvent.ModifyBakingResult event) {
-            BeeModel.clearCaches();
-        }
+
     }
 }

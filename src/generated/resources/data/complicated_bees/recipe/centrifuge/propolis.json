@@ -1,8 +1,6 @@
 {
   "type": "complicated_bees:centrifuge",
-  "input": {
-    "item": "complicated_bees:propolis"
-  },
+  "input": "complicated_bees:propolis",
   "outputs": [
     {
       "chance": 0.6,

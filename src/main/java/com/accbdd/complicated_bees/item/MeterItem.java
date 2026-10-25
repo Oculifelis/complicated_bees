@@ -4,7 +4,7 @@ import com.accbdd.complicated_bees.bees.gene.enums.EnumHumidity;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumTemperature;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,17 +16,17 @@ public class MeterItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+    public InteractionResult use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if (pLevel.isClientSide()) {
-            pPlayer.getCooldowns().addCooldown(this, 40);
+            pPlayer.getCooldowns().addCooldown(pPlayer.getItemInHand(pUsedHand), 40);
             EnumHumidity humidity = EnumHumidity.getFromPosition(pLevel, pPlayer.getOnPos());
             EnumTemperature temperature = EnumTemperature.getFromPosition(pLevel, pPlayer.getOnPos());
-            pPlayer.displayClientMessage(Component.translatable("gene.complicated_bees.humidity_label")
+            pPlayer.sendSystemMessage(Component.translatable("gene.complicated_bees.humidity_label")
                     .append(": ")
-                    .append(Component.translatable("gene.complicated_bees.humidity." + humidity.toString())), false);
-            pPlayer.displayClientMessage(Component.translatable("gene.complicated_bees.temperature_label")
+                    .append(Component.translatable("gene.complicated_bees.humidity." + humidity.toString())));
+            pPlayer.sendSystemMessage(Component.translatable("gene.complicated_bees.temperature_label")
                     .append(": ")
-                    .append(Component.translatable("gene.complicated_bees.temperature." + temperature.toString())), false);
+                    .append(Component.translatable("gene.complicated_bees.temperature." + temperature.toString())));
         }
         return super.use(pLevel, pPlayer, pUsedHand);
     }

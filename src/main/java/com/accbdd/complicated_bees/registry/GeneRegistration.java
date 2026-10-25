@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.registry;
 import com.accbdd.complicated_bees.bees.gene.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryBuilder;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneRegistration {
-    public static final ResourceKey<Registry<IGene<?>>> GENE_REGISTRY_LOCATION = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "gene"));
+    public static final ResourceKey<Registry<IGene<?>>> GENE_REGISTRY_LOCATION = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(MODID, "gene"));
     public static final RegistryBuilder<IGene<?>> GENE_REGISTRY = new RegistryBuilder<>(GENE_REGISTRY_LOCATION);
 
     //every registered gene should be registered as a 'default' value

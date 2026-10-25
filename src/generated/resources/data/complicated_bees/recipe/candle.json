@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:string"
-    },
-    "W": {
-      "item": "complicated_bees:beeswax"
-    }
+    "#": "minecraft:string",
+    "W": "complicated_bees:beeswax"
   },
   "pattern": [
     "#",

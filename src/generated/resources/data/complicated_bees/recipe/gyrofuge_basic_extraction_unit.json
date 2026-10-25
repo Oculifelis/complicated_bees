@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_base"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "R": {
-      "item": "minecraft:piston"
-    },
-    "S": {
-      "item": "minecraft:amethyst_shard"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_base",
+    "D": "minecraft:diamond",
+    "R": "minecraft:piston",
+    "S": "minecraft:amethyst_shard"
   },
   "pattern": [
     "#S#",

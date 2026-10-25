@@ -12,7 +12,6 @@ public class CombSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
         return CombItem.getComb(comb);
     }
 
-    @Override
     public String getLegacyStringSubtypeInfo(ItemStack comb, UidContext context) {
         return "";
     }

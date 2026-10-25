@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "item": "complicated_bees:waxed_stick"
-    },
-    "X": {
-      "item": "minecraft:water_bucket"
-    }
+    "O": "complicated_bees:waxed_stick",
+    "X": "minecraft:water_bucket"
   },
   "pattern": [
     "OOO",

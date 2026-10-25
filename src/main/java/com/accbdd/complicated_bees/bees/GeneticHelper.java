@@ -23,7 +23,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -71,7 +71,7 @@ public class GeneticHelper {
 
     public static RegistryAccess getRegistryAccess() {
         if (ServerLifecycleHooks.getCurrentServer() == null) {
-            if (FMLLoader.getDist().equals(Dist.DEDICATED_SERVER) || Minecraft.getInstance() == null) //datagen
+            if (FMLLoader.getCurrent().getDist().equals(Dist.DEDICATED_SERVER) || Minecraft.getInstance() == null) //datagen
                 return null;
             if (Minecraft.getInstance().level == null) {
                 return null;
@@ -85,42 +85,42 @@ public class GeneticHelper {
 
     public static MutableComponent getTranslationKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        return Component.translatable("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species));
+        return Component.translatable("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species));
     }
 
     public static MutableComponent getGenusTaxonomyKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".genus", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".genus", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_genus") : mutableComponent;
     }
 
     public static MutableComponent getSpeciesTaxonomyKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".species_taxonomy", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".species_taxonomy", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_species") : mutableComponent;
     }
 
     public static MutableComponent getFlavorTextKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_text", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_text", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_flavor") : mutableComponent;
     }
 
     public static MutableComponent getFlavorTextAuthorKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_author", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".flavor_author", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_author") : mutableComponent;
     }
 
     public static MutableComponent getAuthorityKey(Species species) {
         RegistryAccess registryAccess = getRegistryAccess();
-        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.registryOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".authority", "null");
+        MutableComponent mutableComponent = Component.translatableWithFallback("species.complicated_bees." + registryAccess.lookupOrThrow(SpeciesRegistration.SPECIES_REGISTRY_KEY).getKey(species) + ".authority", "null");
         return mutableComponent.getString().equals("null") ? Component.translatable("gui.complicated_bees.no_authority") : mutableComponent;
     }
 
     public static MutableComponent getTranslationKey(Flower flower) {
         RegistryAccess registryAccess = getRegistryAccess();
-        return Component.translatable("flower.complicated_bees." + registryAccess.registryOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower));
+        return Component.translatable("flower.complicated_bees." + registryAccess.lookupOrThrow(FlowerRegistration.FLOWER_REGISTRY_KEY).getKey(flower));
     }
 
     public static MutableComponent getSpeciesHybridName(ItemStack stack) {
@@ -140,7 +140,7 @@ public class GeneticHelper {
 
     public static void setSpeciesTag(ItemStack stack) {
         Species species = getSpecies(stack, true);
-        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withSpecies(SpeciesRegistration.getResourceLocation(species)));
+        stack.update(EsotericRegistration.BEE, Bee.DEFAULT, bee -> bee.withSpecies(SpeciesRegistration.getIdentifier(species)));
     }
 
     /**
@@ -149,18 +149,18 @@ public class GeneticHelper {
      * @param primary whether to get the primary chromosome or not
      * @return raw data in a gene
      */
-    public static CompoundTag getRaw(ItemStack stack, ResourceLocation id, boolean primary) {
+    public static CompoundTag getRaw(ItemStack stack, Identifier id, boolean primary) {
         if (stack.has(EsotericRegistration.BEE)) {
             Genome chromosomes = stack.get(EsotericRegistration.BEE).genome();
             CompoundTag chromosomeTag = primary ? chromosomes.primary().serialize() : chromosomes.secondary().serialize();
             if (chromosomeTag.contains(id.toString())) {
-                return chromosomeTag.getCompound(id.toString());
+                return chromosomeTag.getCompoundOrEmpty(id.toString());
             }
         }
         return new CompoundTag();
     }
 
-    public static IGene<?> getGene(ItemStack stack, ResourceLocation id, boolean primary) {
+    public static IGene<?> getGene(ItemStack stack, Identifier id, boolean primary) {
         return getChromosome(stack, primary).getGene(id);
     }
 
@@ -169,13 +169,13 @@ public class GeneticHelper {
         return species == null ? Species.INVALID : species;
     }
 
-    public static ResourceLocation getSpeciesLoc(ItemStack stack) {
+    public static Identifier getSpeciesLoc(ItemStack stack) {
         if (stack.has(EsotericRegistration.BEE))
             return stack.get(EsotericRegistration.BEE).species();
         return null;
     }
 
-    public static Object getGeneValue(ItemStack stack, ResourceLocation id, boolean primary) {
+    public static Object getGeneValue(ItemStack stack, Identifier id, boolean primary) {
         return getGene(stack, id, primary).get();
     }
 
@@ -193,8 +193,8 @@ public class GeneticHelper {
             tracker = BreedingTracker.getTracker(housing.getOwner());
         }
 
-        for (Map.Entry<ResourceLocation, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {
-            ResourceLocation key = geneEntry.getKey();
+        for (Map.Entry<Identifier, IGene<?>> geneEntry : chromosome_a.getGenes().entrySet()) {
+            Identifier key = geneEntry.getKey();
             IGene<?> geneA = (rand.nextFloat() < 0.5 ? left.primary() : left.secondary()).getGene(key).copy();
             IGene<?> geneB = (rand.nextFloat() < 0.5 ? right.primary() : right.secondary()).getGene(key).copy();
 
@@ -207,7 +207,7 @@ public class GeneticHelper {
                 Species speciesA = (Species) geneA.get();
                 Species speciesB = (Species) geneB.get();
                 MutationRecipeInput inputs = new MutationRecipeInput(speciesA, speciesB);
-                for (RecipeHolder<MutationRecipe> mutation : level.getRecipeManager().getRecipesFor(EsotericRegistration.MUTATION_RECIPE.get(), inputs, level).stream().toList()) {
+                for (RecipeHolder<MutationRecipe> mutation : com.accbdd.complicated_bees.port.PortRecipes.manager(level).getRecipesFor(EsotericRegistration.MUTATION_RECIPE.get(), inputs, level).stream().toList()) {
                     boolean canMutate = true;
                     for (IMutationCondition condition : mutation.value().getConditions()) {
                         canMutate = canMutate && condition.check(level, pos);
@@ -246,7 +246,7 @@ public class GeneticHelper {
         }
 
         //sort genome so that dominant genes are always in a
-        for (Map.Entry<ResourceLocation, IGene<?>> entry : chromosome_a.getGenes().entrySet()) {
+        for (Map.Entry<Identifier, IGene<?>> entry : chromosome_a.getGenes().entrySet()) {
             IGene<?> gene = entry.getValue();
             if (!entry.getValue().isDominant()) {
                 chromosome_a.setGene(entry.getKey(), chromosome_b.getGene(entry.getKey()));

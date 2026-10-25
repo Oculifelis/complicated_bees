@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "item": "complicated_bees:waxed_stick"
-    },
-    "X": {
-      "tag": "minecraft:sand"
-    }
+    "O": "complicated_bees:waxed_stick",
+    "X": "#minecraft:sand"
   },
   "pattern": [
     "OOO",

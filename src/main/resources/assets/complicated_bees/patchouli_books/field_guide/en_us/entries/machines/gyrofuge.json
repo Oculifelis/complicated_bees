@@ -16,9 +16,21 @@
       "type": "patchouli:multiblock",
       "multiblock": {
         "pattern": [
-          ["BBB","BBB","BBB"],
-          ["###","#B#","###"],
-          ["###","#0#","###"]
+          [
+            "BBB",
+            "BBB",
+            "BBB"
+          ],
+          [
+            "###",
+            "#B#",
+            "###"
+          ],
+          [
+            "###",
+            "#0#",
+            "###"
+          ]
         ],
         "mapping": {
           "B": "complicated_bees:gyrofuge_base",

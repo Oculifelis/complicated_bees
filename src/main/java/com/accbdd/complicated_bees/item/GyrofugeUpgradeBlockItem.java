@@ -15,16 +15,16 @@ public class GyrofugeUpgradeBlockItem extends BlockItem {
     public List<Component> tooltip;
 
     public GyrofugeUpgradeBlockItem(Block pBlock) {
-        super(pBlock, new Properties());
+        super(pBlock, com.accbdd.complicated_bees.port.RegistrationContext.itemProperties());
         this.tooltip = List.of();
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, java.util.function.Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
         if (this.tooltip.isEmpty() && getBlock() instanceof AbstractGyrofugePoweredBlock block && block.newBlockEntity(BlockPos.ZERO, block.defaultBlockState()) instanceof AbstractGyrofugePoweredModifierBlockEntity be) {
             this.tooltip = be.getTooltip();
         }
-        tooltipComponents.addAll(tooltip);
+        tooltip.forEach(tooltipComponents);
     }
 }

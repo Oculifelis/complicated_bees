@@ -1,82 +1,23 @@
 package com.accbdd.complicated_bees.item;
-
 import com.accbdd.complicated_bees.datagen.BlockTagGenerator;
 import com.accbdd.complicated_bees.registry.BlocksRegistration;
+import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-
-public class ScoopItem extends DiggerItem {
-
-    public ScoopItem(Properties pProperties) {
-        super(new Tier() {
-                    @Override
-                    public int getUses() {
-                        return 50;
-                    }
-        
-                    @Override
-                    public float getSpeed() {
-                        return 4;
-                    }
-            
-                    @Override
-                    public float getAttackDamageBonus() {
-                        return 0;
-                    }
-            
-                    @Override
-                    public TagKey<Block> getIncorrectBlocksForDrops() {
-                        return BlockTags.INCORRECT_FOR_WOODEN_TOOL; // TODO
-                    }
-            
-                    @Override
-                    public int getEnchantmentValue() {
-                        return 15;
-                    }
-            
-                    @Override
-                    public Ingredient getRepairIngredient() {
-                        return Ingredient.of(ItemTags.WOOL);
-                    }
-                },
-                BlockTagGenerator.SCOOPABLE,
-                pProperties.durability(50));
-    }
-
-    @Override
-    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pMiningEntity) {
-        if (!pLevel.isClientSide && !pState.is(BlockTags.FIRE)) {
-            pStack.hurtAndBreak(1, pMiningEntity, EquipmentSlot.MAINHAND);
-        }
-        return pState.is(BlocksRegistration.BEE_NEST.get());
-    }
-
-    @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, BlockState pBlock) {
-        if (pBlock.is(BlocksRegistration.BEE_NEST.get())) {
-            return true;
-        }
-        return super.isCorrectToolForDrops(stack, pBlock);
-    }
-
-    @Override
-    public int getEnchantmentValue(ItemStack stack) {
-        return 14;
-    }
-
-    @Override
-    public boolean isValidRepairItem(ItemStack pToRepair, ItemStack pRepair) {
-        return pRepair.is(ItemTags.WOOL);
+public class ScoopItem extends Item {
+    public ScoopItem(Properties properties){super(properties.durability(50).enchantable(14).repairable(ItemTags.WOOL)
+        .component(DataComponents.TOOL,new Tool(List.of(Tool.Rule.minesAndDrops(BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(BlockTagGenerator.SCOOPABLE),4)),1,1,false)));}
+    @Override public boolean mineBlock(ItemStack stack,Level level,BlockState state,BlockPos pos,LivingEntity miner){
+        if(!level.isClientSide())stack.hurtAndBreak(1,miner,EquipmentSlot.MAINHAND);
+        return state.is(BlocksRegistration.BEE_NEST.get());
     }
 }

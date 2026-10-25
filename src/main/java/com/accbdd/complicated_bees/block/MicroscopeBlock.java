@@ -29,15 +29,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class MicroscopeBlock extends BaseEntityBlock {
+public class MicroscopeBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     private static final MapCodec<MicroscopeBlock> CODEC = simpleCodec(props -> new MicroscopeBlock());
 
     public MicroscopeBlock() {
-        super(Properties.of().noOcclusion());
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties().noOcclusion());
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -69,11 +69,11 @@ public class MicroscopeBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult blockHitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof MicroscopeBlockEntity microscope) {
                 if (microscope.isLocked()) {
-                    player.displayClientMessage(Component.translatable("gui.complicated_bees.microscope.locked"), true);
+                    player.sendOverlayMessage(Component.translatable("gui.complicated_bees.microscope.locked"));
                     return InteractionResult.CONSUME;
                 }
                 MenuProvider containerProvider = new MenuProvider() {

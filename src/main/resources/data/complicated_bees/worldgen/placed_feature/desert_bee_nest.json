@@ -22,14 +22,22 @@
         "predicates": [
           {
             "type": "minecraft:would_survive",
-            "state": { "Name": "minecraft:dead_bush" }
+            "state": {
+              "Name": "minecraft:dead_bush"
+            }
           },
           {
             "type": "minecraft:not",
             "predicate": {
               "type": "minecraft:matching_fluids",
-              "fluids": ["minecraft:water"],
-              "offset": [0, -1, 0]
+              "fluids": [
+                "minecraft:water"
+              ],
+              "offset": [
+                0,
+                -1,
+                0
+              ]
             }
           }
         ]

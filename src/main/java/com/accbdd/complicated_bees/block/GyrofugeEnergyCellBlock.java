@@ -23,9 +23,9 @@ public class GyrofugeEnergyCellBlock extends GyrofugeBlock {
     @Override
     public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pLevel.getBlockEntity(pPos) instanceof GyrofugeEnergyCellBlockEntity cell) {
-            pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.energy_cell",
+            pPlayer.sendOverlayMessage(Component.translatable("gui.complicated_bees.energy_cell",
                     FORMAT.format(cell.getEnergy().getEnergyStored() / 1000D),
-                    FORMAT.format(cell.getEnergy().getMaxEnergyStored() / 1000D)), true);
+                    FORMAT.format(cell.getEnergy().getMaxEnergyStored() / 1000D)));
             return InteractionResult.CONSUME;
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHit);

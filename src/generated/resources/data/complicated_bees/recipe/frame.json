@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "tag": "c:rods/wooden"
-    },
-    "X": {
-      "tag": "c:strings"
-    }
+    "O": "#c:rods/wooden",
+    "X": "#c:strings"
   },
   "pattern": [
     "OOO",

@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
+public abstract class AbstractGyrofugeBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     public static final String SCREEN_GYROFUGE = "gui.complicated_bees.gyrofuge";
 
     public AbstractGyrofugeBlock(Properties prop) {
@@ -57,10 +57,10 @@ public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof AbstractGyrofugeBlockEntity gyrofuge) {
                 if (gyrofuge.getLogic() == null) {
-                    pPlayer.displayClientMessage(Component.translatable("gui.complicated_bees.invalid_gyrofuge"), true);
+                    pPlayer.sendOverlayMessage(Component.translatable("gui.complicated_bees.invalid_gyrofuge"));
                     return InteractionResult.CONSUME;
                 }
 
@@ -81,13 +81,13 @@ public abstract class AbstractGyrofugeBlock extends BaseEntityBlock {
                 pPlayer.openMenu(containerProvider, pPos);
             }
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, blockEntity) -> {

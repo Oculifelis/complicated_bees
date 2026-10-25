@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.bees;
 import com.accbdd.complicated_bees.registry.CombRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_CODEC;
@@ -26,14 +26,14 @@ public class Comb {
         this.innerColor = innerColor;
     }
 
-    public ResourceLocation getId() {
-        ResourceLocation id;
+    public Identifier getId() {
+        Identifier id;
         try {
-            id = GeneticHelper.getRegistryAccess().registryOrThrow(CombRegistration.COMB_REGISTRY_KEY).getKeyOrNull(this);
+            id = GeneticHelper.getRegistryAccess().lookupOrThrow(CombRegistration.COMB_REGISTRY_KEY).getKeyOrNull(this);
         } catch (NullPointerException e) {
-            return ResourceLocation.fromNamespaceAndPath(MODID, "null");
+            return Identifier.fromNamespaceAndPath(MODID, "null");
         }
-        return id == null ? ResourceLocation.fromNamespaceAndPath(MODID, "null") : id;
+        return id == null ? Identifier.fromNamespaceAndPath(MODID, "null") : id;
     }
 
     public int getOuterColor() {

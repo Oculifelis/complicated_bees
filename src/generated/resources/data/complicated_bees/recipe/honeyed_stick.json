@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "tag": "c:rods/wooden"
-    }
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet",
+    "#c:rods/wooden"
   ],
   "result": {
     "count": 1,

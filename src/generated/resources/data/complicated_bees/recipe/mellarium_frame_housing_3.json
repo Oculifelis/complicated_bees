@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:mellarium_panel"
-    },
-    "A": {
-      "item": "complicated_bees:mellarium_frame_housing_2"
-    },
-    "N": {
-      "item": "minecraft:netherite_ingot"
-    }
+    "#": "complicated_bees:mellarium_panel",
+    "A": "complicated_bees:mellarium_frame_housing_2",
+    "N": "minecraft:netherite_ingot"
   },
   "pattern": [
     "#N#",

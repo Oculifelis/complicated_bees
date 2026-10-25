@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -26,11 +26,11 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
     private final IItemHandler itemHandler;
-    private final RecipeManager.CachedCheck<RecipeInput, MutatorRecipe> quickCheck;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, MutatorRecipe> quickCheck;
 
     public MellariumMutatorBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.MELLARIUM_MUTATOR_BLOCK_ENTITY.get(), pPos, pBlockState);
-        this.quickCheck = RecipeManager.createCheck(EsotericRegistration.MUTATOR_RECIPE.get());
+        this.quickCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.MUTATOR_RECIPE.get());
         items = new ItemStackHandler(1) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -55,7 +55,7 @@ public class MellariumMutatorBlockEntity extends AbstractMellariumBlockEntity im
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, pTag.getCompoundOrEmpty(ITEMS_TAG));
     }
 
     @Override

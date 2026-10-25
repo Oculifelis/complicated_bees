@@ -6,10 +6,10 @@ import com.accbdd.complicated_bees.screen.MicroscopeScreen;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.Random;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class ConnectWiresGame extends AbstractMicroscopeGame {
-    private static final ResourceLocation BG = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/microscope/matching.png");
+    private static final Identifier BG = Identifier.fromNamespaceAndPath(MODID, "textures/gui/microscope/matching.png");
     private static final int BORDER_WIDTH = 1;
     private static final int VERTICAL_PADDING = 3;
     private static final int VERTICAL_SPACE = 29;
@@ -51,22 +51,22 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
         if (animationTimer > 0)
             animationTimer -= pPartialTick;
-        pGuiGraphics.blit(BG,
+        com.accbdd.complicated_bees.port.PortGui.blit(pGuiGraphicsExtractor,BG,
                 getX(),
                 getY(),
                 0,
                 0,
                 animationTimer > SQUARE_ANIM_LENGTH ? (int) (getWidth()-((animationTimer-SQUARE_ANIM_LENGTH) * getWidth()/BG_ANIM_LENGTH)) : getWidth(),
                 getHeight());
-        drawAllSections(pGuiGraphics, getX(), getY());
-        drawAllLinks(pGuiGraphics);
+        drawAllSections(pGuiGraphicsExtractor, getX(), getY());
+        drawAllLinks(pGuiGraphicsExtractor);
         if (gameState != MicroscopeGameClientbound.GameState.ONGOING) {
             transparencyMod += pPartialTick;
             transparencyMod %= 30;
-            drawText(pGuiGraphics);
+            drawText(pGuiGraphicsExtractor);
         }
     }
 
@@ -82,29 +82,29 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         hintHighlighted.add(sections[sectionPairs + hint]);
     }
 
-    private void drawText(GuiGraphics graphics) {
-        graphics.pose().pushPose();
-        graphics.pose().translate(getX(), getY(), 0);
+    private void drawText(GuiGraphicsExtractor graphics) {
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(getX(), getY());
         int color = gameState == MicroscopeGameClientbound.GameState.FAILED ? 0xFFFF0000 : 0xFF00FF00;
         graphics.fill(0, getHeight()/2-Minecraft.getInstance().font.lineHeight/2 - 14, getWidth(), getHeight()/2+16, color & (transparencyMod < 15 ? 0xCCCCCC00 : 0xAACCCC00));
-        graphics.pose().scale(2, 2, 1);
-        graphics.drawCenteredString(Minecraft.getInstance().font,
+        graphics.pose().scale(2, 2);
+        graphics.centeredText(Minecraft.getInstance().font,
                 bannerText,
                 getWidth()/4,
                 getHeight()/4-Minecraft.getInstance().font.lineHeight/2-3,
                 color);
-        graphics.pose().scale(0.5f, 0.5f, 1);
-        graphics.drawCenteredString(Minecraft.getInstance().font,
+        graphics.pose().scale(0.5f, 0.5f);
+        graphics.centeredText(Minecraft.getInstance().font,
                 Component.translatable("gui.complicated_bees.microscope.click"),
                 getWidth()/2,
                 getHeight()/2-Minecraft.getInstance().font.lineHeight/2+9,
                 color);
-        graphics.pose().popPose();
+        graphics.pose().popMatrix();
     }
 
-    private void drawAllSections(GuiGraphics graphics, int pX, int pY) {
-        graphics.pose().pushPose();
-        graphics.pose().translate(getX(), getY(), 0);
+    private void drawAllSections(GuiGraphicsExtractor graphics, int pX, int pY) {
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(getX(), getY());
         if (animationTimer <= SQUARE_ANIM_LENGTH)
             for (int i = 0; i < sections.length; i++) {
                 Section section = sections[i];
@@ -118,10 +118,10 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
                             hintHighlighted.contains(section) ? 0xFF00FFFF : 0xFFFFCC00,
                             lastClicked == i ? 0x66FFCC00 : section.color);
             }
-        graphics.pose().popPose();
+        graphics.pose().popMatrix();
     }
 
-    private void drawAllLinks(GuiGraphics graphics) {
+    private void drawAllLinks(GuiGraphicsExtractor graphics) {
         for (int i = 0; i < currentGuess.length; i++) {
             if (currentGuess[i] != -1) {
                 Section start = sections[i];
@@ -131,12 +131,12 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
         }
     }
 
-    private void drawLineBetween(GuiGraphics graphics, int x, int y, int x2, int y2) {
+    private void drawLineBetween(GuiGraphicsExtractor graphics, int x, int y, int x2, int y2) {
         int dist = (int)Math.sqrt(Math.pow(x2-x, 2) + Math.pow(y2-y, 2));
-        graphics.pose().pushPose();
-        graphics.pose().rotateAround(Axis.ZP.rotationDegrees((float) (Math.atan2(x2-x, y2-y) * -180 / Math.PI)), x, y, 0);
+        graphics.pose().pushMatrix();
+        graphics.pose().rotateAbout((float)-Math.atan2(x2-x,y2-y), x, y);
         graphics.fill(x-1, y-1, x+1, y+dist+1, 0xFFFFFFFF);
-        graphics.pose().popPose();
+        graphics.pose().popMatrix();
     }
 
     private void generateSections() {
@@ -156,8 +156,9 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
     }
 
     @Override
-    public void onClick(double pMouseX, double pMouseY) {
-        super.onClick(pMouseX, pMouseY);
+    public void onClick(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        double pMouseX=event.x(), pMouseY=event.y();
+        super.onClick(event, doubleClick);
         clickedSquare = getSquare(pMouseX, pMouseY);
         if (animationTimer > 0) {
             animationTimer = 0;
@@ -195,7 +196,7 @@ public class ConnectWiresGame extends AbstractMicroscopeGame {
 
     @Override
     public void sendGuess(byte[] guess) {
-        PacketDistributor.sendToServer(new MicroscopeGameServerbound(guess));
+        net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(new MicroscopeGameServerbound(guess));
     }
 
     @Override

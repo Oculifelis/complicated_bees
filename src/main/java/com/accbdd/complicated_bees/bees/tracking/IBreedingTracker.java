@@ -2,7 +2,7 @@ package com.accbdd.complicated_bees.bees.tracking;
 
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.Collection;
@@ -18,17 +18,17 @@ public interface IBreedingTracker {
     /**
      * @return a collection of discovered species
      */
-    Collection<ResourceLocation> getDiscoveredSpecies();
+    Collection<Identifier> getDiscoveredSpecies();
 
     /**
      * @return a collection of discovered mutations
      */
-    Collection<ResourceLocation> getDiscoveredMutations();
+    Collection<Identifier> getDiscoveredMutations();
 
     /**
      * @return a collection of researched mutations
      */
-    Collection<ResourceLocation> getResearchedMutations();
+    Collection<Identifier> getResearchedMutations();
 
     /**
      * @param species the species to query

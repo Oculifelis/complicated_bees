@@ -11,7 +11,9 @@
     },
     {
       "type": "patchouli:image",
-      "images": ["complicated_bees:textures/gui/patchouli/genetics/punnettsquare.png"],
+      "images": [
+        "complicated_bees:textures/gui/patchouli/genetics/punnettsquare.png"
+      ],
       "border": true,
       "text": "庞纳特方格法，也称棋盘法，可助你直观理解杂交的各可能子代！",
       "title": "庞纳特方格法"

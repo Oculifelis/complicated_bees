@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "O": {
-      "item": "complicated_bees:honeyed_stick"
-    },
-    "X": {
-      "tag": "c:strings"
-    }
+    "O": "complicated_bees:honeyed_stick",
+    "X": "#c:strings"
   },
   "pattern": [
     "OOO",

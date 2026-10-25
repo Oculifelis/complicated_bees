@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "minecraft:comparator"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "I": {
-      "item": "minecraft:hopper"
-    },
-    "P": {
-      "item": "complicated_bees:propolis"
-    },
-    "W": {
-      "item": "complicated_bees:honeyed_planks"
-    }
+    "C": "minecraft:comparator",
+    "D": "minecraft:diamond",
+    "I": "minecraft:hopper",
+    "P": "complicated_bees:propolis",
+    "W": "complicated_bees:honeyed_planks"
   },
   "pattern": [
     "WIW",

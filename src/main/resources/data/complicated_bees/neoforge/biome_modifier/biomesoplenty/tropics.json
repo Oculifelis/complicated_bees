@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:tropics"],
+  "biomes": [
+    "biomesoplenty:tropics"
+  ],
   "features": "complicated_bees:biomesoplenty/palm_tree",
   "step": "vegetal_decoration"
 }

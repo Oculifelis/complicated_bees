@@ -64,7 +64,7 @@ public class MellariumMenu extends AbstractBaseInventoryMenu {
             addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 4, 115, 76));
             addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 5, 93, 64));
             addSlot(new OutputSlot(controller.getOutputItems(), OUTPUT_SLOT + 6, 93, 39));
-            
+
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_basic_speed_unit"
-    },
-    "C": {
-      "item": "minecraft:golden_carrot"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "G": {
-      "item": "minecraft:redstone_block"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_basic_speed_unit",
+    "C": "minecraft:golden_carrot",
+    "D": "minecraft:diamond",
+    "G": "minecraft:redstone_block"
   },
   "pattern": [
     "#C#",

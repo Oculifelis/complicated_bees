@@ -21,10 +21,9 @@ public class FrameItem extends DisableableItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, java.util.function.Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if (context.level() != null) {
-            tooltipComponents.addAll(modifier.getTooltipComponent());
+            modifier.getTooltipComponent().forEach(tooltipComponents);
         }
     }
 }
-

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "minecraft:prismarine_bricks"
-    },
-    "A": {
-      "item": "complicated_bees:mellarium_base"
-    },
-    "N": {
-      "item": "minecraft:nautilus_shell"
-    }
+    "#": "minecraft:prismarine_bricks",
+    "A": "complicated_bees:mellarium_base",
+    "N": "minecraft:nautilus_shell"
   },
   "pattern": [
     " N ",

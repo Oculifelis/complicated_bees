@@ -10,18 +10,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 
 public class HoneyGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     public static final int BASE_GENERATE = ServerConfig.SERVER_CONFIG.honeyGeneratorBaseEnergy.get();
     public static final int BASE_STORAGE = ServerConfig.SERVER_CONFIG.honeyGeneratorBaseStorage.get();
-    private final RecipeManager.CachedCheck<RecipeInput, HoneyGeneratorRecipe> quickCheck;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, HoneyGeneratorRecipe> quickCheck;
 
     public HoneyGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistration.HONEY_GENERATOR_BLOCK_ENTITY.get(), pos, state, BASE_GENERATE, BASE_STORAGE);
-        this.quickCheck = RecipeManager.createCheck(EsotericRegistration.HONEY_GENERATOR_RECIPE.get());
+        this.quickCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.HONEY_GENERATOR_RECIPE.get());
     }
 
     @Override

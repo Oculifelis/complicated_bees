@@ -1,8 +1,6 @@
 {
   "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:magma_block"
-  },
+  "input": "minecraft:magma_block",
   "temp_change": "up_1",
   "use_chance": 0.1
 }

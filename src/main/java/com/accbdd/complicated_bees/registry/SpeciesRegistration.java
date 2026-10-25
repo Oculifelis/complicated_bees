@@ -5,7 +5,7 @@ import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -16,36 +16,36 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 //custom registry for species
 public class SpeciesRegistration {
-    public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(MODID, "species"));
-    private static final Map<ResourceLocation, Integer> complexities = new HashMap<>();
+    public static final ResourceKey<Registry<Species>> SPECIES_REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.fromNamespaceAndPath(MODID, "species"));
+    private static final Map<Identifier, Integer> complexities = new HashMap<>();
 
     @Nullable
-    public static Species getFromResourceLocation(@Nullable ResourceLocation resourceLocation) {
-        return GeneticHelper.getRegistryAccess().registryOrThrow(SPECIES_REGISTRY_KEY).get(resourceLocation);
+    public static Species getFromIdentifier(@Nullable Identifier resourceLocation) {
+        return GeneticHelper.getRegistryAccess().lookupOrThrow(SPECIES_REGISTRY_KEY).getValue(resourceLocation);
     }
 
-    public static ResourceLocation getResourceLocation(Species species) {
+    public static Identifier getIdentifier(Species species) {
         if (species == null || species.equals(Species.INVALID))
-            return ResourceLocation.fromNamespaceAndPath(MODID, "invalid");
-        return GeneticHelper.getRegistryAccess().registryOrThrow(SPECIES_REGISTRY_KEY).getKey(species);
+            return Identifier.fromNamespaceAndPath(MODID, "invalid");
+        return GeneticHelper.getRegistryAccess().lookupOrThrow(SPECIES_REGISTRY_KEY).getKey(species);
     }
 
     public static int getComplexity(Species species, Level level) {
-        ResourceLocation loc = getResourceLocation(species);
+        Identifier loc = getIdentifier(species);
         if (complexities.containsKey(loc))
             return complexities.get(loc);
         return calculateComplexity(loc, level);
     }
 
-    public static int calculateComplexity(ResourceLocation species, Level level) {
+    public static int calculateComplexity(Identifier species, Level level) {
         if (complexities.containsKey(species))
             return complexities.get(species);
         Set<MutationRecipe> visited = new HashSet<>();
         return calculateComplexity(species, visited, level);
     }
 
-    public static int calculateComplexity(ResourceLocation species, Set<MutationRecipe> visited, Level level) {
-        List<MutationRecipe> x = level.getRecipeManager().getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get()).stream().map(RecipeHolder::value).filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
+    public static int calculateComplexity(Identifier species, Set<MutationRecipe> visited, Level level) {
+        List<MutationRecipe> x = com.accbdd.complicated_bees.port.PortRecipes.manager(level).getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get()).stream().map(RecipeHolder::value).filter(mutation -> mutation.getResult().equals(species) && !visited.contains(mutation)).toList();
         if (x.isEmpty())
             return complexities.getOrDefault(species, 1);
         x.forEach(mutation -> {

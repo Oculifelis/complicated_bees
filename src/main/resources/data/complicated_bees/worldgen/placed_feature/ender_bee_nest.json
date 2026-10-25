@@ -26,7 +26,11 @@
       "max_steps": 12,
       "target_condition": {
         "type": "minecraft:matching_blocks",
-        "offset": [0,-1,0],
+        "offset": [
+          0,
+          -1,
+          0
+        ],
         "blocks": "minecraft:chorus_flower"
       }
     },

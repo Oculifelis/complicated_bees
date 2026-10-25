@@ -7,7 +7,7 @@ import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -27,11 +27,11 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public class BeeNestBlock extends BaseEntityBlock {
+public class BeeNestBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     private static final MapCodec<BeeNestBlock> CODEC = simpleCodec(props -> new BeeNestBlock());
 
     public BeeNestBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .requiresCorrectToolForDrops()
                 .lightLevel(state -> 15)
                 .strength(0.6f)
@@ -39,21 +39,21 @@ public class BeeNestBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
     public static ItemStack stackNest(ItemStack stack, Species species) {
-        stack.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> {
-            tag.putString("species", SpeciesRegistration.getResourceLocation(species).toString());
+        com.accbdd.complicated_bees.port.PortData.updateBlock(stack, com.accbdd.complicated_bees.registry.BlockEntitiesRegistration.BEE_NEST_ENTITY.get(), tag -> {
+            tag.putString("species", SpeciesRegistration.getIdentifier(species).toString());
             tag.putString("id", "complicated_bees:bee_nest");
-        }));
+        });
         return stack;
     }
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
         if (tintIndex == 1) {
-            Species species = SpeciesRegistration.getFromResourceLocation(ResourceLocation.tryParse(stack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).getUnsafe().getString("species")));
+            Species species = SpeciesRegistration.getFromIdentifier(Identifier.tryParse(com.accbdd.complicated_bees.port.PortData.blockTag(stack).getStringOr("species", "")));
             if (species != null) {
                 return species.getNestColor();
             }
@@ -69,7 +69,7 @@ public class BeeNestBlock extends BaseEntityBlock {
 
     @Override
     public BlockState playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        if (!pPlayer.getMainHandItem().is(ItemTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
+        if (!pPlayer.getMainHandItem().is(ItemTags.create(Identifier.fromNamespaceAndPath(MODID, "scoop_tool"))) && pPlayer.canBeSeenAsEnemy()) {
             pPlayer.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
         }
         return super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
@@ -82,14 +82,14 @@ public class BeeNestBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         ItemStack nest = new ItemStack(ItemsRegistration.BEE_NEST.get());
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BeeNestBlockEntity ne)
-            nest.update(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY, data -> data.update(tag -> {
-                tag.putString("species", SpeciesRegistration.getResourceLocation(ne.getSpecies()).toString());
+            com.accbdd.complicated_bees.port.PortData.updateBlock(nest, com.accbdd.complicated_bees.registry.BlockEntitiesRegistration.BEE_NEST_ENTITY.get(), tag -> {
+                tag.putString("species", SpeciesRegistration.getIdentifier(ne.getSpecies()).toString());
                 tag.putString("id", "complicated_bees:bee_nest");
-            }));
+            });
         return nest;
     }
 }

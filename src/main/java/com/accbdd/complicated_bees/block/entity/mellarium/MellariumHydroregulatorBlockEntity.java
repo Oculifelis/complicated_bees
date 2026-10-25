@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
@@ -29,11 +29,11 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     private final IItemHandlerModifiable inputItemHandler;
     private final IItemHandlerModifiable outputItemHandler;
     private final IItemHandlerModifiable itemHandler;
-    private final RecipeManager.CachedCheck<RecipeInput, HydroRecipe> quickCheck;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, HydroRecipe> quickCheck;
 
     public MellariumHydroregulatorBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.MELLARIUM_HYDROREGULATOR_BLOCK_ENTITY.get(), pPos, pBlockState);
-        this.quickCheck = RecipeManager.createCheck(EsotericRegistration.HYDROREGULATOR_RECIPE.get());
+        this.quickCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.HYDROREGULATOR_RECIPE.get());
         inputItems = new ItemStackHandler(1) {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -80,7 +80,7 @@ public class MellariumHydroregulatorBlockEntity extends AbstractMellariumBlockEn
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            inputItems.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
+            inputItems.deserializeNBT(registries, pTag.getCompoundOrEmpty(ITEMS_TAG));
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -21,7 +21,7 @@ public record MicroscopeGameClientbound(GameState state) implements CustomPacket
         CLEAR
     }
 
-    public static final Type<MicroscopeGameClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "microscope_game_clientbound"));
+    public static final Type<MicroscopeGameClientbound> TYPE = new Type<>(Identifier.fromNamespaceAndPath(MODID, "microscope_game_clientbound"));
     public static final StreamCodec<RegistryFriendlyByteBuf, MicroscopeGameClientbound> STREAM_CODEC = StreamCodec.of(MicroscopeGameClientbound::encode, MicroscopeGameClientbound::decode);
 
     private static void encode(RegistryFriendlyByteBuf buf, MicroscopeGameClientbound payload) {
@@ -34,12 +34,12 @@ public record MicroscopeGameClientbound(GameState state) implements CustomPacket
 
     public static void handle(MicroscopeGameClientbound packet, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (FMLLoader.getDist().isClient()) MicroscopeGameClientbound.handlePacket(packet, ctx);
+            if (FMLLoader.getCurrent().getDist().isClient()) MicroscopeGameClientbound.handlePacket(packet, ctx);
         });
     }
 
     public static void handlePacket(MicroscopeGameClientbound packet, IPayloadContext ctx) {
-        if (Minecraft.getInstance().screen instanceof MicroscopeScreen screen) {
+        if (com.accbdd.complicated_bees.port.TargetClient.screen() instanceof MicroscopeScreen screen) {
             //ComplicatedBees.LOGGER.debug("got packet with state {}", packet.state);
             GameState state = packet.state();
             switch (state) {

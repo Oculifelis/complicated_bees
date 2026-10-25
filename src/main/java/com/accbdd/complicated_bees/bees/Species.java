@@ -10,7 +10,7 @@ import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -27,26 +27,26 @@ import static com.accbdd.complicated_bees.util.ComplicatedBeesCodecs.HEX_STRING_
 public class Species {
     private final int color;
     private final int nest_color;
-    private List<ResourceLocation> models;
+    private List<Identifier> models;
     private final List<Product> products;
     private final List<Product> specialty_products;
     private final Chromosome default_chromosome;
     private final boolean dominant;
     private final boolean foil;
 
-    public ResourceLocation builderOverride; //used in datagen, ignore otherwise
+    public Identifier builderOverride; //used in datagen, ignore otherwise
 
-    public static List<ResourceLocation> DEFAULT_MODELS = new ArrayList<>() {{
-        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_drone"));
-        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_princess"));
-        add(ResourceLocation.fromNamespaceAndPath(MODID, "bee/base_queen"));
+    public static List<Identifier> DEFAULT_MODELS = new ArrayList<>() {{
+        add(Identifier.fromNamespaceAndPath(MODID, "bee/base_drone"));
+        add(Identifier.fromNamespaceAndPath(MODID, "bee/base_princess"));
+        add(Identifier.fromNamespaceAndPath(MODID, "bee/base_queen"));
     }};
     public static final Species INVALID = new Species();
 
     public static final Codec<Species> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("dominant", true).forGetter(Species::isDominant),
             Codec.BOOL.optionalFieldOf("foil", false).forGetter(Species::isFoil),
-            ResourceLocation.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
+            Identifier.CODEC.listOf().optionalFieldOf("models", DEFAULT_MODELS).forGetter(Species::getModels),
             HEX_STRING_CODEC.optionalFieldOf("color", -1).forGetter(Species::getColor),
             HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
             Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
@@ -59,7 +59,7 @@ public class Species {
         this.models = DEFAULT_MODELS;
     }
 
-    public Species(boolean dominant, boolean foil, List<ResourceLocation> models, int color, int nest_color, List<Product> products, List<Product> specialtyProducts, Chromosome default_chromosome) {
+    public Species(boolean dominant, boolean foil, List<Identifier> models, int color, int nest_color, List<Product> products, List<Product> specialtyProducts, Chromosome default_chromosome) {
         this.dominant = dominant;
         this.foil = foil;
         this.models = models;
@@ -70,7 +70,7 @@ public class Species {
         this.default_chromosome = default_chromosome.setGene(GeneSpecies.ID, new GeneSpecies(this, dominant));
     }
 
-    public Species(boolean dominant, boolean foil, List<ResourceLocation> models, int color, int nest_color, List<Product> products, List<Product> specialtyProducts, CompoundTag defaultGenomeAsTag) {
+    public Species(boolean dominant, boolean foil, List<Identifier> models, int color, int nest_color, List<Product> products, List<Product> specialtyProducts, CompoundTag defaultGenomeAsTag) {
         this(dominant, foil, models, color, nest_color, products, specialtyProducts, new Chromosome(defaultGenomeAsTag));
         default_chromosome.setGene(GeneSpecies.ID, new GeneSpecies(this, dominant));
     }
@@ -83,7 +83,7 @@ public class Species {
         return this.dominant;
     }
 
-    public List<ResourceLocation> getModels() {
+    public List<Identifier> getModels() {
         return this.models;
     }
 
@@ -124,15 +124,15 @@ public class Species {
     public static class Builder {
         private boolean dominant;
         private boolean foil;
-        private List<ResourceLocation> models;
+        private List<Identifier> models;
         private int color;
         private int nest_color;
         private List<Product> products;
         private List<Product> specialty_products;
         private CompoundTag default_chromosome;
-        private final ResourceLocation builderOverride;
+        private final Identifier builderOverride;
 
-        public static Builder of(Species copied, ResourceLocation builderOverride) {
+        public static Builder of(Species copied, Identifier builderOverride) {
             Builder builder = new Builder(builderOverride);
             builder.dominant = copied.dominant;
             builder.foil = copied.foil;
@@ -145,7 +145,7 @@ public class Species {
             return builder;
         }
 
-        public Builder(ResourceLocation builderOverride) {
+        public Builder(Identifier builderOverride) {
             this.dominant = true;
             this.foil = false;
             this.models = DEFAULT_MODELS;
@@ -173,7 +173,7 @@ public class Species {
             return this;
         }
 
-        public Builder models(List<ResourceLocation> models) {
+        public Builder models(List<Identifier> models) {
             if (models.size() != 3)
                 throw new IllegalArgumentException("models should be a list of size 3");
             this.models = models;

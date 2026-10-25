@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
-public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implements ICentrifuge {
+public abstract class AbstractCentrifugeBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity implements ICentrifuge {
     public static final String ITEMS_INPUT_TAG = "input_items";
     public static final String ITEMS_OUTPUT_TAG = "output_items";
     public static final String ITEMS_UPGRADE_TAG = "upgrade_items";
@@ -42,7 +42,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     private final ContainerData data;
 
-    private final RecipeManager.CachedCheck<RecipeInput, CentrifugeRecipe> quickCheck;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, CentrifugeRecipe> quickCheck;
 
     private int progress;
     private int maxProgress;
@@ -53,7 +53,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
 
     public AbstractCentrifugeBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
         super(blockEntityType, pos, blockState);
-        this.quickCheck = RecipeManager.createCheck(EsotericRegistration.CENTRIFUGE_RECIPE.get());
+        this.quickCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.CENTRIFUGE_RECIPE.get());
         this.activeUsage = getActiveEnergyUsage();
         this.idleUsage = getIdleEnergyUsage();
         this.maxProgress = getMaxProgress();
@@ -93,7 +93,7 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
         ListTag bufferTag = new ListTag();
         for (ItemStack stack : outputBuffer) {
             if (!stack.isEmpty()) {
-                bufferTag.add(stack.save(registries));
+                bufferTag.add(com.accbdd.complicated_bees.port.PortData.saveStack(stack,registries));
             }
         }
         tag.put(OUTPUT_BUFFER_TAG, bufferTag);
@@ -103,18 +103,18 @@ public abstract class AbstractCentrifugeBlockEntity extends BlockEntity implemen
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_INPUT_TAG)) {
-            inputItems.deserializeNBT(registries, tag.getCompound(ITEMS_INPUT_TAG));
+            inputItems.deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_INPUT_TAG));
         }
         if (tag.contains(ITEMS_OUTPUT_TAG)) {
-            outputItems.deserializeNBT(registries, tag.getCompound(ITEMS_OUTPUT_TAG));
+            outputItems.deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_OUTPUT_TAG));
         }
         if (tag.contains(OUTPUT_BUFFER_TAG)) {
-            for (Tag itemCompound : tag.getList(OUTPUT_BUFFER_TAG, Tag.TAG_COMPOUND)) {
-                outputBuffer.add(ItemStack.parseOptional(registries, (CompoundTag) itemCompound));
+            for (Tag itemCompound : tag.getListOrEmpty(OUTPUT_BUFFER_TAG)) {
+                outputBuffer.add(com.accbdd.complicated_bees.port.PortData.loadStack(registries, (CompoundTag) itemCompound));
             }
         }
         if (tag.contains(ITEMS_UPGRADE_TAG)) {
-            upgradeItems.deserializeNBT(registries, tag.getCompound(ITEMS_UPGRADE_TAG));
+            upgradeItems.deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_UPGRADE_TAG));
         }
     }
 

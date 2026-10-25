@@ -7,14 +7,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Objects;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
-public record Bee(float age, boolean analyzed, int generation, Genome genome, Genome mate, ResourceLocation species) {
-	public static final Bee DEFAULT = new Bee(0, false, 0, new Genome(new Chromosome(), new Chromosome()), new Genome(new Chromosome(), new Chromosome()), ResourceLocation.fromNamespaceAndPath(MODID, "invalid"));
+public record Bee(float age, boolean analyzed, int generation, Genome genome, Genome mate, Identifier species) {
+	public static final Bee DEFAULT = new Bee(0, false, 0, new Genome(new Chromosome(), new Chromosome()), new Genome(new Chromosome(), new Chromosome()), Identifier.fromNamespaceAndPath(MODID, "invalid"));
 
 	public static final Codec<Bee> CODEC = RecordCodecBuilder.create(instance ->
 			instance.group(
@@ -23,7 +23,7 @@ public record Bee(float age, boolean analyzed, int generation, Genome genome, Ge
 					Codec.INT.fieldOf("generation").forGetter(Bee::generation),
 					Genome.CODEC.fieldOf("chromosomes").forGetter(Bee::genome),
 					Genome.CODEC.fieldOf("mate").forGetter(Bee::mate),
-					ResourceLocation.CODEC.fieldOf("species").forGetter(Bee::species)
+					Identifier.CODEC.fieldOf("species").forGetter(Bee::species)
 			).apply(instance, Bee::new)
 	);
 	public static final StreamCodec<RegistryFriendlyByteBuf, Bee> STREAM_CODEC = StreamCodec.composite(
@@ -37,7 +37,7 @@ public record Bee(float age, boolean analyzed, int generation, Genome genome, Ge
 			Bee::genome,
 			Genome.STREAM_CODEC,
 			Bee::mate,
-			ResourceLocation.STREAM_CODEC,
+			Identifier.STREAM_CODEC,
 			Bee::species,
 			Bee::new
 	);
@@ -62,7 +62,7 @@ public record Bee(float age, boolean analyzed, int generation, Genome genome, Ge
 		return new Bee(this.age, this.analyzed, this.generation, this.genome, mate, this.species);
 	}
 
-	public Bee withSpecies(ResourceLocation species) {
+	public Bee withSpecies(Identifier species) {
 		return new Bee(this.age, this.analyzed, this.generation, this.genome, this.mate, species);
 	}
 

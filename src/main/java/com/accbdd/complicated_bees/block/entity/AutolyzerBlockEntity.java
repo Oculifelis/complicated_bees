@@ -11,10 +11,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class AutolyzerBlockEntity extends BlockEntity {
+public class AutolyzerBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     public static final String ITEMS_TAG = "items";
     public static final int SLOT_COUNT = 2;
     public static final int SLOT = 0;
@@ -45,7 +45,7 @@ public class AutolyzerBlockEntity extends BlockEntity {
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, pTag.getCompoundOrEmpty(ITEMS_TAG));
     }
 
     private ItemStackHandler createItemHandler() {

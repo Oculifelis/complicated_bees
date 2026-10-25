@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:mystic_grove"],
+  "biomes": [
+    "biomesoplenty:mystic_grove"
+  ],
   "features": "complicated_bees:biomesoplenty/magic_tree",
   "step": "vegetal_decoration"
 }

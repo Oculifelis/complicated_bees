@@ -36,7 +36,7 @@ public class ComplicatedBeesCodecs {
 
     //item from tag
     public static final Codec<Item> ITEM_FROM_TAG = TagKey.codec(BuiltInRegistries.ITEM.key()).flatComapMap(
-            tag -> BuiltInRegistries.ITEM.getTag(tag).get().stream().findFirst().orElse(Holder.direct(Items.AIR)).value(),
+            tag -> BuiltInRegistries.ITEM.get(tag).get().stream().findFirst().orElse(Holder.direct(Items.AIR)).value(),
             item -> DataResult.error(() -> "tried to get tag from item"));
 
 }

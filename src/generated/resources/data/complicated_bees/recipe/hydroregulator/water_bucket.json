@@ -1,9 +1,7 @@
 {
   "type": "complicated_bees:hydroregulator",
   "humidity_change": "up_1",
-  "input": {
-    "item": "minecraft:water_bucket"
-  },
+  "input": "minecraft:water_bucket",
   "output": {
     "item": "minecraft:bucket"
   },

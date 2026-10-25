@@ -5,12 +5,12 @@ import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.screen.LibraryMenu;
 import com.accbdd.complicated_bees.util.GuiHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractScrollWidget;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import com.accbdd.complicated_bees.port.ScrollWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
-public class LibraryInfoWidget extends AbstractScrollWidget {
+public class LibraryInfoWidget extends ScrollWidget {
     private final LibraryMenu menu;
     private final LibraryMutationWidget mutationWidget;
     protected int infoPanelX, infoPanelY, innerHeight;
@@ -35,9 +35,9 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
     }
 
     @Override
-    protected void renderContents(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    protected void renderContents(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
         if (!menu.getSlot(0).hasItem()) {
-            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
+            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphicsExtractor,
                     infoPanelX,
                     infoPanelY,
                     0xFFFFFF,
@@ -47,9 +47,9 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                     Component.translatable("gui.complicated_bees.library.tutorial"));
             innerHeight = getHeight() - 8;
         } else if (mutationWidget.selected != -1 && mutationWidget.selected < mutationWidget.possibleMutations.size()) {
-            renderMutationInfo(pGuiGraphics, mutationWidget.possibleMutations.get(mutationWidget.selected).value());
+            renderMutationInfo(pGuiGraphicsExtractor, mutationWidget.possibleMutations.get(mutationWidget.selected).value());
         } else if (mutationWidget.possibleMutations.isEmpty()) {
-            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
+            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphicsExtractor,
                     infoPanelX,
                     infoPanelY,
                     0xFFFFFF,
@@ -59,7 +59,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
                     Component.translatable("gui.complicated_bees.library.empty"));
             innerHeight = getHeight() - 8;
         } else {
-            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphics,
+            GuiHelper.drawTopAlignedCenteredWrappedText(pGuiGraphicsExtractor,
                     infoPanelX,
                     infoPanelY,
                     0xFFFFFF,
@@ -70,7 +70,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
             innerHeight = getHeight() - 8;
         }
     }
-    private void renderMutationInfo(GuiGraphics graphics, MutationRecipe mutation) {
+    private void renderMutationInfo(GuiGraphicsExtractor graphics, MutationRecipe mutation) {
         int nextY = GuiHelper.drawTopAlignedCenteredWrappedText(graphics,
                 infoPanelX,
                 infoPanelY,
@@ -124,7 +124,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
         }
     }
 
-    private int drawTextAndValue(GuiGraphics graphics, int y, int leftColor, int rightColor, Component left, Component right) {
+    private int drawTextAndValue(GuiGraphicsExtractor graphics, int y, int leftColor, int rightColor, Component left, Component right) {
         GuiHelper.drawRightAlignedText(graphics,
                 getX() + getWidth() - 2,
                 y,
@@ -141,7 +141,7 @@ public class LibraryInfoWidget extends AbstractScrollWidget {
     }
 
     @Override
-    protected void renderBorder(GuiGraphics pGuiGraphics, int pX, int pY, int pWidth, int pHeight) {
+    protected void renderBorder(GuiGraphicsExtractor pGuiGraphicsExtractor, int pX, int pY, int pWidth, int pHeight) {
 
     }
 

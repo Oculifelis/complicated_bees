@@ -1,18 +1,18 @@
 package com.accbdd.complicated_bees.screen.widget;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Consumer;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class BeeTypeWidget extends AbstractButton {
-    private static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/bee_sorter.png");
+    private static final Identifier GUI = Identifier.fromNamespaceAndPath(MODID, "textures/gui/bee_sorter.png");
     private final Consumer<BeeTypeState> stateConsumer;
     BeeTypeState state;
 
@@ -23,15 +23,16 @@ public class BeeTypeWidget extends AbstractButton {
     }
 
     @Override
-    public void onPress() {
+    public void onPress(net.minecraft.client.input.InputWithModifiers input) {
 
     }
 
     @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        double pMouseX=event.x(), pMouseY=event.y(); int pButton=event.button();
         if (this.active && this.visible) {
             if (pButton < 2) {
-                boolean flag = this.clicked(pMouseX, pMouseY);
+                boolean flag = this.isMouseOver(pMouseX, pMouseY);
                 if (flag) {
                     this.playDownSound(Minecraft.getInstance().getSoundManager());
                     state = BeeTypeState.values()[(state.ordinal() + (pButton == 0 ? 1 : BeeTypeState.values().length - 1)) % BeeTypeState.values().length];
@@ -51,8 +52,8 @@ public class BeeTypeWidget extends AbstractButton {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        pGuiGraphics.blit(GUI, getX(), getY(), 176, state.ordinal() * 16, 16, 16);
+    protected void extractContents(GuiGraphicsExtractor pGuiGraphicsExtractor, int pMouseX, int pMouseY, float pPartialTick) {
+        com.accbdd.complicated_bees.port.PortGui.blit(pGuiGraphicsExtractor,GUI, getX(), getY(), 176, state.ordinal() * 16, 16, 16);
     }
 
     public enum BeeTypeState {

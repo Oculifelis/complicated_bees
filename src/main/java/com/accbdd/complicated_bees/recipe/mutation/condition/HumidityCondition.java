@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
@@ -22,8 +22,8 @@ public class HumidityCondition extends MutationCondition {
     }
 
     @Override
-    public ResourceLocation getID() {
-        return ResourceLocation.fromNamespaceAndPath(MODID, ID);
+    public Identifier getID() {
+        return Identifier.fromNamespaceAndPath(MODID, ID);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class HumidityCondition extends MutationCondition {
 
     @Override
     public HumidityCondition deserialize(CompoundTag tag) {
-        return new HumidityCondition(EnumHumidity.getFromString(tag.getString("min")), EnumHumidity.getFromString(tag.getString("max")));
+        return new HumidityCondition(EnumHumidity.getFromString(tag.getStringOr("min", "")), EnumHumidity.getFromString(tag.getStringOr("max", "")));
     }
 }

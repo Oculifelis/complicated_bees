@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:maple_woods"],
+  "biomes": [
+    "biomesoplenty:maple_woods"
+  ],
   "features": "complicated_bees:biomesoplenty/tall_spruce_tree",
   "step": "vegetal_decoration"
 }

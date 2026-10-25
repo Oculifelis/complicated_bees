@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mellarium_panel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:mellarium_panel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "complicated_bees:mellarium_rain_shield"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mellarium_panel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "complicated_bees:mellarium_rain_shield"
+    ]
+  }
+}

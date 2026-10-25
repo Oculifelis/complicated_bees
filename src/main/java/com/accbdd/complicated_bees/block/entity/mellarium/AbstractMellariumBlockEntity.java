@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * All mellarium blocks should extend this class
  */
-public abstract class AbstractMellariumBlockEntity extends BlockEntity {
+public abstract class AbstractMellariumBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     private MellariumLogic logic;
     private BlockPos center;
 
@@ -53,7 +53,7 @@ public abstract class AbstractMellariumBlockEntity extends BlockEntity {
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains("logic_center")) {
-            this.center = BlockPos.of(pTag.getLong("logic_center"));
+            this.center = BlockPos.of(pTag.getLongOr("logic_center", 0L));
         }
     }
 

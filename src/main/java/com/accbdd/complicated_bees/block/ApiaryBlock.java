@@ -26,13 +26,13 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ApiaryBlock extends BaseEntityBlock {
+public class ApiaryBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     private static final MapCodec<ApiaryBlock> CODEC = simpleCodec(props -> new ApiaryBlock());
 
     public static final String SCREEN_APIARY = "gui.complicated_bees.apiary";
 
     public ApiaryBlock() {
-        super(Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .noOcclusion()
                 .requiresCorrectToolForDrops()
                 .strength(5, 6)
@@ -40,7 +40,7 @@ public class ApiaryBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -52,7 +52,7 @@ public class ApiaryBlock extends BaseEntityBlock {
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof ApiaryBlockEntity apiary && placer != null) {
                 apiary.setOwner(placer.getUUID());
@@ -68,7 +68,7 @@ public class ApiaryBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof ApiaryBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
@@ -93,7 +93,7 @@ public class ApiaryBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, blockEntity) -> {

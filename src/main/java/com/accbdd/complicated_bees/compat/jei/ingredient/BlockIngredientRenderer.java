@@ -2,17 +2,16 @@ package com.accbdd.complicated_bees.compat.jei.ingredient;
 
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import org.spongepowered.asm.mixin.injection.invoke.arg.ArgumentIndexOutOfBoundsException;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -20,26 +19,27 @@ import java.util.List;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.LOGGER;
 
-@MethodsReturnNonnullByDefault @ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BlockIngredientRenderer implements IIngredientRenderer<BlockWrapper> {
     public static BlockIngredientRenderer INSTANCE = new BlockIngredientRenderer();
 
     @Override
-    public void render(GuiGraphics guiGraphics, BlockWrapper ingredient) {
+    public void render(GuiGraphicsExtractor guiGraphics, BlockWrapper ingredient) {
         drawBlock(guiGraphics, ingredient);
     }
 
-    private void drawBlock(GuiGraphics guiGraphics, BlockWrapper block) {
+    private void drawBlock(GuiGraphicsExtractor guiGraphics, BlockWrapper block) {
         try {
             ItemStack blockItemStack = new ItemStack(block.block().asItem());
             if (!blockItemStack.is(Items.AIR)) {
-                guiGraphics.renderFakeItem(new ItemStack(block.block().asItem()), 0, 0);
+                guiGraphics.fakeItem(new ItemStack(block.block().asItem()), 0, 0);
             } else {
                 // Handle blocks without corresponding BlockItems
-                ResourceLocation loc = BuiltInRegistries.BLOCK.getKeyOrNull(block.block());
+                Identifier loc = BuiltInRegistries.BLOCK.getKeyOrNull(block.block());
                 if (loc != null) {
-                    TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(block.block().defaultBlockState()).getParticleIcon(ModelData.EMPTY);
-                    guiGraphics.blit(0, 0, 0, 16, 16, sprite);
+                    TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(block.block().defaultBlockState()).sprite();
+                    guiGraphics.blitSprite(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED,sprite,0,0,16,16);
+
                 } else {
                     LOGGER.debug("Error parsing block: {} for JEI plugin.", block.block().getName().getString());
                 }

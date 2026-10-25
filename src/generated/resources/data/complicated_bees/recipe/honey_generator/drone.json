@@ -1,7 +1,5 @@
 {
   "type": "complicated_bees:honey_generator",
   "burn_time": 800,
-  "input": {
-    "item": "complicated_bees:drone"
-  }
+  "input": "complicated_bees:drone"
 }

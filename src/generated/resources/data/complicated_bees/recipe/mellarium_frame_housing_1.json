@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:mellarium_panel"
-    },
-    "A": {
-      "item": "complicated_bees:mellarium_base"
-    },
-    "C": {
-      "item": "minecraft:copper_ingot"
-    }
+    "#": "complicated_bees:mellarium_panel",
+    "A": "complicated_bees:mellarium_base",
+    "C": "minecraft:copper_ingot"
   },
   "pattern": [
     "###",

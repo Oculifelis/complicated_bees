@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     private static final String ITEMS_TAG = "Items";
     private final ItemStackHandler items;
     private final IItemHandler itemHandler;
-    private final RecipeManager.CachedCheck<RecipeInput, TempUnitRecipe> quickCheck;
+    private final com.accbdd.complicated_bees.port.PortRecipes.Check<RecipeInput, TempUnitRecipe> quickCheck;
 
     public MellariumTempUnitBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(BlockEntitiesRegistration.MELLARIUM_TEMP_UNIT_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -37,7 +37,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
             }
         };
         itemHandler = new AdaptedItemHandler(items);
-        this.quickCheck = RecipeManager.createCheck(EsotericRegistration.TEMP_UNIT_RECIPE.get());
+        this.quickCheck = com.accbdd.complicated_bees.port.PortRecipes.createCheck(EsotericRegistration.TEMP_UNIT_RECIPE.get());
     }
 
     private boolean hasRecipe(ItemStack stack) {
@@ -55,7 +55,7 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
         super.loadAdditional(pTag, registries);
         if (pTag.contains(ITEMS_TAG))
-            items.deserializeNBT(registries, pTag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, pTag.getCompoundOrEmpty(ITEMS_TAG));
     }
 
     @Override
@@ -73,8 +73,8 @@ public class MellariumTempUnitBlockEntity extends AbstractMellariumBlockEntity i
         if (hasRecipe(stack)) {
             if (level.getRandom().nextFloat() < quickCheck.getRecipeFor(new RecipeWrapper(new InvWrapper(new SimpleContainer(stack))), getLevel()).get().value().useChance()) {
                 getLogic().getController().ifPresent(controller -> {
-                    if (stack.hasCraftingRemainingItem()) {
-                        items.setStackInSlot(0, stack.getCraftingRemainingItem());
+                    if (!stack.getItem().getCraftingRemainder().create().isEmpty()) {
+                        items.setStackInSlot(0, stack.getItem().getCraftingRemainder().create());
                         controller.getLogic().clearConditionCache();
                         controller.getLogic().checkConditions();
                     } else {

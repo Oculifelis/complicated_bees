@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class InheritHiveSpeciesFunction extends LootItemConditionalFunction {
 
-    public static final MapCodec<InheritHiveSpeciesFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> 
+    public static final MapCodec<InheritHiveSpeciesFunction> CODEC = RecordCodecBuilder.mapCodec(instance ->
             commonFields(instance).apply(instance, InheritHiveSpeciesFunction::new)
     );
 
@@ -28,13 +27,11 @@ public class InheritHiveSpeciesFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    public LootItemFunctionType<InheritHiveSpeciesFunction> getType() {
-        return EsotericRegistration.INHERIT_HIVE.get();
-    }
+    public com.mojang.serialization.MapCodec<InheritHiveSpeciesFunction> codec() { return CODEC; }
 
     @Override
     protected ItemStack run(ItemStack pStack, LootContext pContext) {
-        BlockEntity blockEntity = pContext.getParam(LootContextParams.BLOCK_ENTITY);
+        BlockEntity blockEntity = pContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (blockEntity instanceof BeeNestBlockEntity) {
             Species species = ((BeeNestBlockEntity) blockEntity).getSpecies();
             return GeneticHelper.setGenome(pStack, new Genome(species.getDefaultChromosome()));

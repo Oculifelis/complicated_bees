@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "complicated_bees:item/bee_nest",
+    "tints": [
+      {
+        "type": "complicated_bees:color",
+        "index": 0
+      },
+      {
+        "type": "complicated_bees:color",
+        "index": 1
+      }
+    ]
+  }
+}

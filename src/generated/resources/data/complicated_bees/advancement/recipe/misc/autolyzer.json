@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_analyzer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "complicated_bees:analyzer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "complicated_bees:autolyzer"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_analyzer"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "complicated_bees:autolyzer"
+    ]
+  }
+}

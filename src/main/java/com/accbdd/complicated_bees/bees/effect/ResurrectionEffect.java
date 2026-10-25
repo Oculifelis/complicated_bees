@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.bees.effect;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,32 +39,32 @@ public class ResurrectionEffect extends BeeEffect {
                 }
             }
             if (!itemEntities.isEmpty()) {
-                ItemEntity chosen = itemEntities.get(apiary.getLevel().random.nextInt(itemEntities.size()));
+                ItemEntity chosen = itemEntities.get(apiary.getLevel().getRandom().nextInt(itemEntities.size()));
                 ItemStack chosenStack = chosen.getItem();
                 if (chosenStack.is(Items.BONE)) {
-                    EntityType.SKELETON.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("skeleton")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.ROTTEN_FLESH)) {
-                    EntityType.ZOMBIE.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("zombie")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.GUNPOWDER)) {
-                    EntityType.CREEPER.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("creeper")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.PORKCHOP)) {
-                    EntityType.PIG.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("pig")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.BEEF)) {
-                    EntityType.COW.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("cow")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.CHICKEN)) {
-                    EntityType.CHICKEN.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("chicken")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.MUTTON)) {
-                    EntityType.SHEEP.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("sheep")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.SLIME_BALL)) {
-                    EntityType.SLIME.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("slime")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.RABBIT)) {
-                    EntityType.RABBIT.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("rabbit")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.ENDER_PEARL)) {
-                    EntityType.ENDERMAN.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("enderman")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.BLAZE_ROD)) {
-                    EntityType.BLAZE.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("blaze")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 } else if (chosenStack.is(Items.GHAST_TEAR)) {
-                    EntityType.GHAST.spawn(level, chosen.blockPosition(), MobSpawnType.SPAWNER);
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getValue(net.minecraft.resources.Identifier.withDefaultNamespace("ghast")).spawn(level, chosen.blockPosition(), EntitySpawnReason.SPAWNER);
                 }
                 chosenStack.shrink(1);
             }

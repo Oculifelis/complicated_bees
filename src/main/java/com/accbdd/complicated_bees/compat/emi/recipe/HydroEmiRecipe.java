@@ -10,7 +10,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -18,13 +18,13 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class HydroEmiRecipe implements EmiRecipe {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final EmiIngredient input;
     private final EmiStack output;
     private final EnumTolerance humidityModifier;
     private final float consumeChance;
 
-    public HydroEmiRecipe(ResourceLocation id, HydroRecipe recipe) {
+    public HydroEmiRecipe(Identifier id, HydroRecipe recipe) {
         this.id = id;
         input = EmiIngredient.of(recipe.input());
         output = EmiStack.of(recipe.output().getStack()).setChance(recipe.output().getChance());
@@ -38,7 +38,7 @@ public class HydroEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return id;
     }
 
@@ -64,7 +64,7 @@ public class HydroEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addTexture(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
+        widgets.addTexture(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/two_slot.png"), 0, 0, 143, 40, 0, 0, 143, 40, 143, 40);
         widgets.addSlot(input, 3, 11);
         widgets.addSlot(output, 49, 11).recipeContext(this);
 

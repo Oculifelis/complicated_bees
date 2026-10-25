@@ -16,17 +16,17 @@ import java.util.List;
 
 public class MellariumEnergyCellBlockItem extends BlockItem {
     public MellariumEnergyCellBlockItem() {
-        super(BlocksRegistration.MELLARIUM_ENERGY_CELL.get(), new Item.Properties().stacksTo(1));
+        super(BlocksRegistration.MELLARIUM_ENERGY_CELL.get(), com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().stacksTo(1));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (stack.get(DataComponents.BLOCK_ENTITY_DATA) instanceof CustomData customData) {
-            tooltipComponents.add(Component.translatable("gui.complicated_bees.energy_cell",
-                    MellariumEnergyCellBlock.FORMAT.format(customData.getUnsafe().getInt(MellariumEnergyCellBlockEntity.ENERGY_TAG) / 1000D),
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, java.util.function.Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        if (stack.get(DataComponents.BLOCK_ENTITY_DATA) instanceof net.minecraft.world.item.component.TypedEntityData<?> customData) {
+            tooltipComponents.accept(Component.translatable("gui.complicated_bees.energy_cell",
+                    MellariumEnergyCellBlock.FORMAT.format(customData.getUnsafe().getIntOr(MellariumEnergyCellBlockEntity.ENERGY_TAG, 0) / 1000D),
                     MellariumEnergyCellBlock.FORMAT.format(MellariumEnergyCellBlockEntity.BASE_STORAGE / 1000D)).withStyle(ChatFormatting.GRAY));
         }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class MellariumEnergyCellBlockItem extends BlockItem {
 
     @Override
     public int getBarWidth(ItemStack pStack) {
-        if (pStack.get(DataComponents.BLOCK_ENTITY_DATA) instanceof CustomData customData) {
-            return Math.round(customData.getUnsafe().getInt(MellariumEnergyCellBlockEntity.ENERGY_TAG) / (float) MellariumEnergyCellBlockEntity.BASE_STORAGE * 13);
+        if (pStack.get(DataComponents.BLOCK_ENTITY_DATA) instanceof net.minecraft.world.item.component.TypedEntityData<?> customData) {
+            return Math.round(customData.getUnsafe().getIntOr(MellariumEnergyCellBlockEntity.ENERGY_TAG, 0) / (float) MellariumEnergyCellBlockEntity.BASE_STORAGE * 13);
         }
         return 0;
     }

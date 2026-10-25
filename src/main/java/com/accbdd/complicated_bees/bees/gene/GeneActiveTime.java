@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.bees.gene;
 import com.accbdd.complicated_bees.bees.gene.enums.EnumActiveTime;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -11,7 +11,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneActiveTime extends Gene<EnumActiveTime> {
     public static final String TAG = "active_time";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneActiveTime() {
         this(EnumActiveTime.DIURNAL, true);
@@ -24,9 +24,9 @@ public class GeneActiveTime extends Gene<EnumActiveTime> {
     public boolean isSatisfied(Level level) {
         boolean satisfied = false;
         if (geneData.equals(EnumActiveTime.CATHEMERAL))
-            return level.random.nextBoolean();
+            return level.getRandom().nextBoolean();
         for (Pair<Integer, Integer> range : get().activeTimes) {
-            long dayTicks = level.getDayTime() % 24000L;
+            long dayTicks = level.getOverworldClockTime() % 24000L;
             satisfied = satisfied || (dayTicks >= range.getLeft() && dayTicks <= range.getRight());
         }
         return satisfied;
@@ -34,7 +34,7 @@ public class GeneActiveTime extends Gene<EnumActiveTime> {
 
     @Override
     public GeneActiveTime deserialize(CompoundTag tag) {
-        return new GeneActiveTime(EnumActiveTime.getFromString(tag.getString(DATA)), tag.getBoolean(DOMINANT));
+        return new GeneActiveTime(EnumActiveTime.getFromString(tag.getStringOr(DATA, "")), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override

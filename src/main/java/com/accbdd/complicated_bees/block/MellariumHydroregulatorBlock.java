@@ -36,7 +36,7 @@ public class MellariumHydroregulatorBlock extends MellariumBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide()) {
             if (pLevel.getBlockEntity(pPos) instanceof MellariumHydroregulatorBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
@@ -53,6 +53,6 @@ public class MellariumHydroregulatorBlock extends MellariumBlock {
                 pPlayer.openMenu(containerProvider, pPos);
             }
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 }

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "N": {
-      "item": "minecraft:netherite_scrap"
-    },
-    "P": {
-      "item": "complicated_bees:pollen"
-    },
-    "R": {
-      "item": "complicated_bees:royal_upgrade"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
-    }
+    "I": "minecraft:iron_ingot",
+    "N": "minecraft:netherite_scrap",
+    "P": "complicated_bees:pollen",
+    "R": "complicated_bees:royal_upgrade",
+    "S": "minecraft:nether_star"
   },
   "pattern": [
     "ISI",

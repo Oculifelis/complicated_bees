@@ -10,10 +10,10 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
     }
 
     public static AnalyzerMenu fromNetwork(int windowId, Inventory playerInv) {
-        return new AnalyzerMenu(windowId, playerInv.player, playerInv.selected);
+        return new AnalyzerMenu(windowId, playerInv.player, playerInv.getSelectedSlot());
     }
 
     @Override
@@ -70,12 +70,12 @@ public class AnalyzerMenu extends AbstractAnalyzerMenu {
     }
 
     @Override
-    public void clicked(int pSlotId, int pButton, ClickType pClickType, Player pPlayer) {
+    public void clicked(int pSlotId, int pButton, ContainerInput pContainerInput, Player pPlayer) {
         if (this.bagSlot == pSlotId - SLOT_COUNT - 27)
             return;
-        super.clicked(pSlotId, pButton, pClickType, pPlayer);
+        super.clicked(pSlotId, pButton, pContainerInput, pPlayer);
     }
-    
+
     private static void contentsToHandler(ItemStackHandler handler, ItemStack analyzer) {
         var contents = analyzer.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
         for (int i = 0; i < contents.getSlots(); i++) {

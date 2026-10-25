@@ -1,6 +1,8 @@
 {
   "type": "neoforge:add_features",
-  "biomes": ["minecraft:warped_forest"],
+  "biomes": [
+    "minecraft:warped_forest"
+  ],
   "features": "complicated_bees:warped_bee_nest",
   "step": "vegetal_decoration"
 }

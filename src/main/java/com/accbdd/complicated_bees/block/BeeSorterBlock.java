@@ -27,20 +27,20 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class BeeSorterBlock extends BaseEntityBlock {
+public class BeeSorterBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     private static final MapCodec<BeeSorterBlock> CODEC = simpleCodec(props -> new BeeSorterBlock());
 
     public static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
     public static final String SCREEN_BEE_SORTER = "gui.complicated_bees.bee_sorter";
 
     public BeeSorterBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(3.5F)
                 .sound(SoundType.WOOD));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -57,7 +57,7 @@ public class BeeSorterBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide()) {
             BlockEntity be = pLevel.getBlockEntity(pPos);
             if (be instanceof BeeSorterBlockEntity) {
                 pPlayer.openMenu(
@@ -88,7 +88,7 @@ public class BeeSorterBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (!pLevel.isClientSide) {
+        if (!pLevel.isClientSide()) {
             return (lvl, pos, st, be) -> {
                 if (be instanceof BeeSorterBlockEntity sorter) {
                     sorter.serverTick();
@@ -99,7 +99,7 @@ public class BeeSorterBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
+    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, net.minecraft.world.level.redstone.Orientation orientation, boolean pIsMoving) {
         this.checkPoweredState(pLevel, pPos, pState, 4);
     }
 

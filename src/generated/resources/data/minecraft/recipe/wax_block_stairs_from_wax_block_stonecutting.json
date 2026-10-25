@@ -1,8 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "complicated_bees:wax_block"
-  },
+  "ingredient": "complicated_bees:wax_block",
   "result": {
     "count": 1,
     "id": "complicated_bees:wax_block_stairs"

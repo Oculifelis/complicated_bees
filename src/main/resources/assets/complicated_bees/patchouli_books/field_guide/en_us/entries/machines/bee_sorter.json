@@ -20,7 +20,9 @@
     },
     {
       "type": "patchouli:image",
-      "images": ["complicated_bees:textures/gui/patchouli/machines/bee_sorter.png"],
+      "images": [
+        "complicated_bees:textures/gui/patchouli/machines/bee_sorter.png"
+      ],
       "title": "Bee Nests",
       "border": true,
       "text": "A side is selected based on how specific the filter is..."

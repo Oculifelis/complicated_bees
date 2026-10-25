@@ -34,7 +34,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
 
     public BeeStaffProjectile(Level level, double x, double y, double z, double speedX, double speedY, double speedZ) {
         this(EntitiesRegistration.BEE_STAFF_MOUNT.get(), level);
-        this.moveTo(x, y, z, this.getYRot(), this.getXRot());
+        this.snapTo(x, y, z, this.getYRot(), this.getXRot());
         this.reapplyPosition();
         this.speedX = speedX;
         this.speedY = speedY;
@@ -53,7 +53,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
 
     public void tick() {
         Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().isAreaLoaded(this.blockPosition(), 2)) {
+        if (this.level().isClientSide() || (entity == null || !entity.isRemoved()) && this.level().isAreaLoaded(this.blockPosition(), 2)) {
             super.tick();
 
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
@@ -61,7 +61,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
                 this.onHit(hitresult);
             }
 
-            this.checkInsideBlocks();
+            this.applyEffectsFromBlocks();
             Vec3 vec3 = this.getDeltaMovement();
             double dX = this.getX() + vec3.x;
             double dY = this.getY() + vec3.y;
@@ -94,7 +94,7 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
     @Override
     protected void onHit(HitResult pResult) {
         super.onHit(pResult);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.discard();
         }
     }
@@ -126,9 +126,9 @@ public class BeeStaffProjectile extends Projectile implements ItemSupplier {
     @Override
     public void recreateFromPacket(ClientboundAddEntityPacket pPacket) {
         super.recreateFromPacket(pPacket);
-        double d0 = pPacket.getXa();
-        double d1 = pPacket.getYa();
-        double d2 = pPacket.getZa();
+        double d0 = pPacket.getMovement().x;
+        double d1 = pPacket.getMovement().y;
+        double d2 = pPacket.getMovement().z;
         this.speedX = d0;
         this.speedY = d1;
         this.speedZ = d2;

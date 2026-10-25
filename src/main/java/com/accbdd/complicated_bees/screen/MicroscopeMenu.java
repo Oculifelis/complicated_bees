@@ -14,7 +14,7 @@ import com.accbdd.complicated_bees.registry.MenuRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import com.accbdd.complicated_bees.screen.slot.TagSlot;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -131,7 +131,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
     }
 
     public void trySendHint() {
-        if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide && state != MicroscopeGameClientbound.GameState.WON && state != MicroscopeGameClientbound.GameState.FAILED) {
+        if (player instanceof ServerPlayer serverPlayer && !player.level().isClientSide() && state != MicroscopeGameClientbound.GameState.WON && state != MicroscopeGameClientbound.GameState.FAILED) {
             if (!canSendHint())
                 return;
             for (int i = 1; i < Math.min(difficulty, 6); i++) {
@@ -191,13 +191,13 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
             this.researchedMutationsCount = -1;
             return;
         }
-        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
-        List<RecipeHolder<MutationRecipe>> mutationRecipes = player.level().getRecipeManager().getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get());
+        Identifier species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
+        List<RecipeHolder<MutationRecipe>> mutationRecipes = com.accbdd.complicated_bees.port.PortRecipes.manager(player.level()).getAllRecipesFor(EsotericRegistration.MUTATION_RECIPE.get());
         this.possibleMutations = mutationRecipes.stream().filter(holder ->
                 holder.value() instanceof MutationRecipe mutation && (mutation.getFirst().equals(species) || mutation.getSecond().equals(species))).toList();
         this.possibleMutationsCount = this.possibleMutations.size();
         this.researchedMutations = this.possibleMutations.stream().filter(holder ->
-                tracker.getResearchedMutations().contains(holder.id())).toList();
+                tracker.getResearchedMutations().contains(holder.id().identifier())).toList();
         this.researchedMutationsCount = this.researchedMutations.size();
     }
 
@@ -206,7 +206,7 @@ public class MicroscopeMenu extends AbstractBaseInventoryMenu {
         if (bee.isEmpty())
             return;
         BreedingTracker tracker = BreedingTracker.getTracker(this.player);
-        ResourceLocation species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
+        Identifier species = bee.getOrDefault(EsotericRegistration.BEE, Bee.DEFAULT).species();
         List<RecipeHolder<MutationRecipe>> mutationsToDiscover = new ArrayList<>(List.copyOf(this.possibleMutations));
         mutationsToDiscover.removeAll(this.researchedMutations);
 

@@ -13,9 +13,9 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.List;
 
@@ -23,13 +23,13 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/flower_type");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, "jei/flower_type");
     public static final RecipeType<Flower> TYPE = new RecipeType<>(ID, Flower.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.flower_type");
 
-    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(ResourceLocation.parse("minecraft:textures/block/poppy.png"), 0, 0, 16, 16, 16, 16);
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/flower.png"), 0, 0, 143, 40, 143, 40);
+    public final IDrawable ICON = ComplicatedBeesJEI.createDrawable(Identifier.parse("minecraft:textures/block/poppy.png"), 0, 0, 16, 16, 16, 16);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/flower.png"), 0, 0, 143, 40, 143, 40);
 
     @Override
     public RecipeType<Flower> getRecipeType() {
@@ -41,7 +41,8 @@ public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
         return TITLE;
     }
 
-    @Override
+    public int getWidth(){return getBackground().getWidth();}
+    public int getHeight(){return getBackground().getHeight();}
     public IDrawable getBackground() {
         return BACKGROUND;
     }
@@ -53,7 +54,7 @@ public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, Flower flower, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.CATALYST, 117, 12)
+        builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 117, 12)
                 .setSlotName("flower_blocks")
                 .addIngredients(ComplicatedIngredients.BLOCK, flower.getAllFlowerBlocks().stream().map(BlockWrapper::new).toList());
 
@@ -65,7 +66,8 @@ public class FlowerTypeRecipeCategory implements IRecipeCategory<Flower> {
     }
 
     @Override
-    public void draw(Flower flower, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(Flower flower, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        getBackground().draw(guiGraphics);
         IRecipeCategory.super.draw(flower, recipeSlotsView, guiGraphics, mouseX, mouseY);
         GuiHelper.drawCenteredWrappedText(guiGraphics, 45, 16, 0xFFFFFF, Minecraft.getInstance().font.lineHeight + 2, 90, 5, GeneticHelper.getTranslationKey(flower));
     }

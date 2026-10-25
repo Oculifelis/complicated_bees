@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.Capabilities;
+import com.accbdd.complicated_bees.port.PortCapabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
@@ -37,7 +37,7 @@ public class MellariumOutputHatchBlockEntity extends AbstractMellariumBlockEntit
                 BlockEntity blockEntity = getLevel().getBlockEntity(getBlockPos().relative(dir));
                 if (blockEntity == null || blockEntity instanceof AbstractMellariumBlockEntity || blockEntity instanceof MellariumControllerBlockEntity)
                     continue;
-                IItemHandler itemCap = getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
+                IItemHandler itemCap = PortCapabilities.find(getLevel(),PortCapabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity, dir.getOpposite());
                 IItemHandler output = mellariumOutput;
                 if (itemCap != null && output != null) {
                     Util.moveInventoryItems(output, itemCap);

@@ -1,7 +1,5 @@
 {
   "type": "complicated_bees:mutator",
-  "input": {
-    "item": "minecraft:warped_wart_block"
-  },
+  "input": "minecraft:warped_wart_block",
   "modifier": 1.5
 }

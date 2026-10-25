@@ -21,7 +21,7 @@ public class Util {
             return false;
         } else if (!level.dimensionType().hasSkyLight()) { //no ceiling, but no sky light
             for (int y = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY(); y > pos.getY(); y--) {//loop through top block down, looking for skylight blocking blocks
-                if (!level.getBlockState(new BlockPos(pos.getX(), y, pos.getZ())).propagatesSkylightDown(level, pos)) {
+                if (!level.getBlockState(new BlockPos(pos.getX(), y, pos.getZ())).propagatesSkylightDown()) {
                     return false;
                 }
             }
@@ -36,7 +36,7 @@ public class Util {
      * @return whether all keys in pattern are equivalent to all keys in match
      */
     public static boolean weakNbtMatch(CompoundTag match, CompoundTag pattern) {
-        for (String key : pattern.getAllKeys()) {
+        for (String key : pattern.keySet()) {
             if (!Objects.equals(match.get(key), pattern.get(key)))
                 return false;
         }

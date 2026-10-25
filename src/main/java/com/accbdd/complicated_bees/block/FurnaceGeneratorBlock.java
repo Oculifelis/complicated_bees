@@ -34,21 +34,21 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class FurnaceGeneratorBlock extends BaseEntityBlock {
+public class FurnaceGeneratorBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
 
     private static final MapCodec<FurnaceGeneratorBlock> CODEC = simpleCodec(props -> new FurnaceGeneratorBlock());
 
     public static final String SCREEN_GENERATOR = "gui.complicated_bees.furnace_generator";
 
     public FurnaceGeneratorBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -61,7 +61,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, be) -> {
@@ -74,7 +74,7 @@ public class FurnaceGeneratorBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof FurnaceGeneratorBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {

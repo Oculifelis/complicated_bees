@@ -8,21 +8,11 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:cooked_porkchop"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    },
-    {
-      "item": "complicated_bees:honey_droplet"
-    }
+    "minecraft:cooked_porkchop",
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet",
+    "complicated_bees:honey_droplet"
   ],
   "result": {
     "count": 1,

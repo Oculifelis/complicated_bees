@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_basic_extraction_unit"
-    },
-    "C": {
-      "item": "minecraft:anvil"
-    },
-    "D": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "G": {
-      "item": "minecraft:piston"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_basic_extraction_unit",
+    "C": "minecraft:anvil",
+    "D": "minecraft:netherite_ingot",
+    "G": "minecraft:piston"
   },
   "pattern": [
     "#C#",

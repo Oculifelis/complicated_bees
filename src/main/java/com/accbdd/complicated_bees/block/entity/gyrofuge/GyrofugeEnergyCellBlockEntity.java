@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import com.accbdd.complicated_bees.port.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public class GyrofugeEnergyCellBlockEntity extends AbstractGyrofugeBlockEntity {

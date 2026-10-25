@@ -8,7 +8,7 @@ import com.accbdd.complicated_bees.registry.BeeEffectRegistration;
 import com.accbdd.complicated_bees.registry.GeneRegistration;
 import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.Map;
 import static com.accbdd.complicated_bees.datagen.builtin.BuiltIn.*;
 
 public class BuiltInSpecies {
-    public static final List<ResourceLocation> RED_MODELS = getModelList("red");
-    public static final List<ResourceLocation> GRAY_MODELS = getModelList("gray");
-    public static final List<ResourceLocation> ENDER_MODELS = getModelList("ender");
-    public static final List<ResourceLocation> JAZZY_MODELS = getModelList("jazzy");
-    public static final List<ResourceLocation> TRICKY_MODELS = getModelList("tricky");
+    public static final List<Identifier> RED_MODELS = getModelList("red");
+    public static final List<Identifier> GRAY_MODELS = getModelList("gray");
+    public static final List<Identifier> ENDER_MODELS = getModelList("ender");
+    public static final List<Identifier> JAZZY_MODELS = getModelList("jazzy");
+    public static final List<Identifier> TRICKY_MODELS = getModelList("tricky");
 
     public static final Map.Entry<ResourceKey<Species>, Species> FOREST = species(new Species.Builder(loc("forest"))
             .dominant(true)
@@ -33,7 +33,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(false, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(false, true))
@@ -49,7 +49,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.WARM, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.WET, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.JUNGLE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.JUNGLE.getKey().identifier(), true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.VENOMOUS.get(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> TANGLE = species(Species.Builder.of(JUNGLE.getValue(), loc("tangle"))
@@ -71,7 +71,7 @@ public class BuiltInSpecies {
             .products(List.of(new Product(stack(Combs.DUSTY), 0.35f)))
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.HOT, EnumTolerance.DOWN_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.DRY, EnumTolerance.NONE, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DESERT.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DESERT.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NOCTURNAL, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> OUTCAST = species(Species.Builder.of(DESERT.getValue(), loc("outcast"))
@@ -92,7 +92,7 @@ public class BuiltInSpecies {
             .models(GRAY_MODELS)
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.LUSH_CAVE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.LUSH_CAVE.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NOCTURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
     );
@@ -136,7 +136,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, false))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOW, false))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(false, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(false, true))
@@ -164,7 +164,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, false))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOW, false))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(false, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(false, true))
@@ -190,7 +190,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.EXPLORER.get(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, true))
     );
@@ -220,7 +220,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.CHORUS.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.CHORUS.getKey().identifier(), true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.ENDS.get(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, true))
     );
@@ -248,7 +248,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.NETHER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.NETHER.getKey().identifier(), true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.AGGRESSIVE.get(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
@@ -322,7 +322,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.COLD, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_1, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.SKULLS.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.SKULLS.getKey().identifier(), true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.UNHEALTHY.get(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NEVER_SLEEPS, false))
     );
@@ -354,20 +354,20 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEEPSLATE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEEPSLATE.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NOCTURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> CONDUCTIVE = species(Species.Builder.of(BITUMINOUS.getValue(), loc("conductive"))
             .colors(0xc90303)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.REDSTONE), 0.15f)))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> LAPIC = species(Species.Builder.of(BITUMINOUS.getValue(), loc("lapic"))
             .colors(0x325afb)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.LAPIS), 0.15f)))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEEPSLATE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEEPSLATE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, true))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.SHORT, true))
     );
@@ -375,7 +375,7 @@ public class BuiltInSpecies {
             .dominant(false)
             .colors(0x42d9ff)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.DIAMOND), 0.1f)))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(1, true))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.AVERAGE, false))
@@ -383,14 +383,14 @@ public class BuiltInSpecies {
     public static final Map.Entry<ResourceKey<Species>, Species> AMETHYST = species(Species.Builder.of(BITUMINOUS.getValue(), loc("amethyst"))
             .colors(0xaa42ff)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.AMETHYST), 0.15f)))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.CALCITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.CALCITE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOW, true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> EMERADIC = species(Species.Builder.of(BITUMINOUS.getValue(), loc("emeradic"))
             .dominant(false)
             .colors(0x0fff6b)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.EMERALD), 0.1f)))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWER, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(1, false))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.SHORT, true))
@@ -403,7 +403,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.SHORT, true))
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.HOT, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.DRY, EnumTolerance.UP_1, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DIORITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DIORITE.getKey().identifier(), true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOW, true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, true))
     );
@@ -421,7 +421,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.TEMPERATURE, new GeneTemperature(EnumTemperature.NORMAL, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.NONE, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.AVERAGE, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.GRANITE.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(3, false))
@@ -431,14 +431,14 @@ public class BuiltInSpecies {
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.GOLD), 0.15f)))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.AVERAGE, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DRIPSTONE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DRIPSTONE.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> FERROUS = species(Species.Builder.of(PRECIOUS.getValue(), loc("ferrous"))
             .colors(0xd1d1d1)
             .products(List.of(new Product(stack(Combs.ROCKY), 0.30f), new Product(stack(Combs.IRON), 0.15f)))
             .gene(GeneRegistration.LIFESPAN, new GeneLifespan(EnumLifespan.AVERAGE, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.TUFF.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.TUFF.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> ADAMANTINE = species(new Species.Builder(loc("adamantine"))
             .dominant(false)
@@ -451,7 +451,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.DRY, EnumTolerance.UP_1, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, false))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(1, true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEBRIS.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DEBRIS.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.CATHEMERAL, false))
             .gene(GeneRegistration.CAVE_DWELLING, new GeneBoolean(true, true))
             .gene(GeneRegistration.WEATHERPROOF, new GeneBoolean(true, true))
@@ -467,7 +467,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.WET, EnumTolerance.DOWN_1, true))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MUSICAL.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MUSICAL.getKey().identifier(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.DIURNAL, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.JAZZY.get(), true))
     );
@@ -494,7 +494,7 @@ public class BuiltInSpecies {
             .gene(GeneRegistration.HUMIDITY, new GeneHumidity(EnumHumidity.NORMAL, EnumTolerance.BOTH_1, false))
             .gene(GeneRegistration.PRODUCTIVITY, new GeneProductivity(EnumProductivity.SLOWEST, true))
             .gene(GeneRegistration.FERTILITY, new GeneFertility(2, false))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DRAGON_EGG.getKey().location(), false))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DRAGON_EGG.getKey().identifier(), false))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.ENDS.get(), true))
             .gene(GeneRegistration.ACTIVE_TIME, new GeneActiveTime(EnumActiveTime.NEVER_SLEEPS, false))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(7, 4, true))
@@ -506,7 +506,7 @@ public class BuiltInSpecies {
             .models(getModelList("plains_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.PLAINS_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> SYLVAN = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("sylvan"))
             .dominant(true)
@@ -515,7 +515,7 @@ public class BuiltInSpecies {
             .models(getModelList("forest_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.FOREST_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> BOREAL = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("boreal"))
             .dominant(true)
@@ -524,7 +524,7 @@ public class BuiltInSpecies {
             .models(getModelList("taiga_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.TAIGA_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.FLOWER.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> TROPIC = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("tropic"))
             .dominant(true)
@@ -533,7 +533,7 @@ public class BuiltInSpecies {
             .models(getModelList("jungle_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.JUNGLE_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.JUNGLE.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.JUNGLE.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> PALUDAL = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("paludal"))
             .dominant(true)
@@ -542,7 +542,7 @@ public class BuiltInSpecies {
             .models(getModelList("swamp_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.SWAMP_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.SWAMP.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.SWAMP.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> GELID = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("gelid"))
             .dominant(true)
@@ -550,7 +550,7 @@ public class BuiltInSpecies {
             .models(getModelList("snowy_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.SNOWY_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.ICY.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.ICY.getKey().identifier(), true))
     );
     public static final Map.Entry<ResourceKey<Species>, Species> MYCELIC = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("mycelic"))
             .dominant(true)
@@ -559,7 +559,7 @@ public class BuiltInSpecies {
             .models(getModelList("mushroom_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.MUSHROOM_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MYCELIC.getKey().location(), true))//todo set flower
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.MYCELIC.getKey().identifier(), true))//todo set flower
     );
     public static final Map.Entry<ResourceKey<Species>, Species> XERIC = species(Species.Builder.of(PRIMORDIAL.getValue(), loc("xeric"))
             .dominant(true)
@@ -568,10 +568,10 @@ public class BuiltInSpecies {
             .models(getModelList("desert_terraform"))
             .gene(GeneRegistration.TERRITORY, new GeneTerritory(9, 5, true))
             .gene(GeneRegistration.EFFECT, new GeneEffect(BeeEffectRegistration.DESERT_TERRAFORM.get(), true))
-            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DESERT.getKey().location(), true))
+            .gene(GeneRegistration.FLOWER, new GeneFlower(Flowers.DESERT.getKey().identifier(), true))
     );
 
-    private static List<ResourceLocation> getModelList(String name) {
+    private static List<Identifier> getModelList(String name) {
         return List.of(loc("bee/"+name+"_drone"), loc("bee/"+name+"_princess"), loc("bee/"+name+"_queen"));
     }
 }

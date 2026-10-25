@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_basic_processing_unit"
-    },
-    "C": {
-      "item": "complicated_bees:centrifuge"
-    },
-    "D": {
-      "item": "minecraft:diamond_block"
-    },
-    "G": {
-      "item": "minecraft:gold_block"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_basic_processing_unit",
+    "C": "complicated_bees:centrifuge",
+    "D": "minecraft:diamond_block",
+    "G": "minecraft:gold_block"
   },
   "pattern": [
     "#C#",

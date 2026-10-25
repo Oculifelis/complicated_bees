@@ -1,8 +1,6 @@
 {
   "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:dragon_breath"
-  },
+  "input": "minecraft:dragon_breath",
   "temp_change": "up_3",
   "use_chance": 0.01
 }

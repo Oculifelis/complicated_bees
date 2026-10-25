@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "complicated_bees:apiarist"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "complicated_bees:apiarist"
+      }
+    ]
+  }
+}

@@ -1,11 +1,11 @@
 {
   "type": "complicated_bees:centrifuge",
   "input": {
-    "type": "neoforge:components",
     "components": {
       "complicated_bees:comb_type": "complicated_bees:mysterious"
     },
-    "items": "complicated_bees:comb"
+    "items": "complicated_bees:comb",
+    "neoforge:ingredient_type": "neoforge:components"
   },
   "outputs": [
     {

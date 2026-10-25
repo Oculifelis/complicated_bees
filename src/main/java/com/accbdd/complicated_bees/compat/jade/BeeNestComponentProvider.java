@@ -3,7 +3,7 @@ package com.accbdd.complicated_bees.compat.jade;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.block.entity.BeeNestBlockEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -20,7 +20,7 @@ public class BeeNestComponentProvider implements IBlockComponentProvider {
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return ResourceLocation.fromNamespaceAndPath(MODID, "bee_nest_type");
+    public Identifier getUid() {
+        return Identifier.fromNamespaceAndPath(MODID, "bee_nest_type");
     }
 }

@@ -6,9 +6,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
@@ -17,13 +17,9 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class FlowerIngredientRenderer implements IIngredientRenderer<Flower> {
     @Override
-    public void render(GuiGraphics guiGraphics, Flower ingredient) {
+    public void render(GuiGraphicsExtractor guiGraphics, Flower ingredient) {
         BlockIngredientRenderer.INSTANCE.render(guiGraphics, ingredient.getAllFlowerBlocks().stream().map(BlockWrapper::new).findAny().get());
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), 0, 0, 0, 0, 16, 16, 16, 16);
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
+        com.accbdd.complicated_bees.port.PortGui.blit(guiGraphics,Identifier.fromNamespaceAndPath(MODID, "textures/item/flower_overlay.png"), 0, 0, 0, 0, 16, 16, 16, 16);
     }
 
     @Override

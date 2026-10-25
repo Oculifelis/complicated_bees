@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["terralith:moonlight_valley"],
+  "biomes": [
+    "terralith:moonlight_valley"
+  ],
   "features": "complicated_bees:terralith/moonlight_tree",
   "step": "vegetal_decoration"
 }

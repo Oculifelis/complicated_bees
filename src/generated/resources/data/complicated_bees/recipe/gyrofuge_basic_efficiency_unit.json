@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_base"
-    },
-    "D": {
-      "item": "minecraft:gold_ingot"
-    },
-    "R": {
-      "item": "minecraft:copper_ingot"
-    },
-    "S": {
-      "item": "minecraft:bookshelf"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_base",
+    "D": "minecraft:gold_ingot",
+    "R": "minecraft:copper_ingot",
+    "S": "minecraft:bookshelf"
   },
   "pattern": [
     "#S#",

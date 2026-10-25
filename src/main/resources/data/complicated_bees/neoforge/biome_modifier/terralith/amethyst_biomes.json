@@ -6,7 +6,10 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["terralith:amethyst_canyon", "terralith:amethyst_rainforest"],
+  "biomes": [
+    "terralith:amethyst_canyon",
+    "terralith:amethyst_rainforest"
+  ],
   "features": "complicated_bees:terralith/amethyst_tree",
   "step": "vegetal_decoration"
 }

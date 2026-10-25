@@ -28,11 +28,11 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CentrifugeBlock extends BaseEntityBlock {
+public class CentrifugeBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
     public static final String SCREEN_CENTRIFUGE = "gui.complicated_bees.centrifuge";
 
     public CentrifugeBlock() {
-        super(Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(3.5F)
                 .noOcclusion()
                 .requiresCorrectToolForDrops()
@@ -40,7 +40,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return null;
     }
 
@@ -57,7 +57,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof CentrifugeBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
@@ -82,7 +82,7 @@ public class CentrifugeBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, blockEntity) -> {

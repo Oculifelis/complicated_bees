@@ -33,21 +33,21 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class HoneyGeneratorBlock extends BaseEntityBlock {
+public class HoneyGeneratorBlock extends com.accbdd.complicated_bees.port.PortEntityBlock {
 
     private static final MapCodec<HoneyGeneratorBlock> CODEC = simpleCodec(props -> new HoneyGeneratorBlock());
 
     public static final String SCREEN_GENERATOR = "gui.complicated_bees.honey_generator";
 
     public HoneyGeneratorBlock() {
-        super(Properties.of()
+        super(com.accbdd.complicated_bees.port.RegistrationContext.blockProperties()
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends com.accbdd.complicated_bees.port.PortEntityBlock> codec() {
         return CODEC;
     }
 
@@ -60,7 +60,7 @@ public class HoneyGeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         } else {
             return (lvl, pos, st, be) -> {
@@ -73,7 +73,7 @@ public class HoneyGeneratorBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof HoneyGeneratorBlockEntity) {
                 MenuProvider containerProvider = new MenuProvider() {

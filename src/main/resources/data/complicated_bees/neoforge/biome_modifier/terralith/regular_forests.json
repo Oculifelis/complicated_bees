@@ -6,7 +6,14 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["terralith:blooming_valley", "terralith:lavender_forest", "terralith:lavender_valley", "terralith:cloud_forest", "terralith:moonlight_grove", "terralith:skylands_spring"],
+  "biomes": [
+    "terralith:blooming_valley",
+    "terralith:lavender_forest",
+    "terralith:lavender_valley",
+    "terralith:cloud_forest",
+    "terralith:moonlight_grove",
+    "terralith:skylands_spring"
+  ],
   "features": "complicated_bees:terralith/birch_forest_bees",
   "step": "vegetal_decoration"
 }

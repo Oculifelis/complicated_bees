@@ -24,25 +24,25 @@ import java.util.function.Supplier;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class ItemsRegistration {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
+    public static final DeferredRegister.Items ITEMS = new com.accbdd.complicated_bees.port.RegistrationContext.Items(MODID);
     public static final List<DeferredItem<? extends Item>> CREATIVE_TAB_ITEMS = new ArrayList<>();
 
     //no creative tab for these :)
-    public static final DeferredItem<DroneItem> DRONE = ITEMS.register("drone", () -> new DroneItem(new Item.Properties()));
-    public static final DeferredItem<PrincessItem> PRINCESS = ITEMS.register("princess", () -> new PrincessItem(new Item.Properties()));
-    public static final DeferredItem<QueenItem> QUEEN = ITEMS.register("queen", () -> new QueenItem(new Item.Properties()));
-    public static final DeferredItem<CombItem> COMB = ITEMS.register("comb", () -> new CombItem(new Item.Properties()));
-    public static final DeferredItem<Item> BEE_NEST = ITEMS.register("bee_nest", () -> new BeeNestBlockItem(new Item.Properties())); //no tab for this :)
+    public static final DeferredItem<DroneItem> DRONE = ITEMS.register("drone", () -> new DroneItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<PrincessItem> PRINCESS = ITEMS.register("princess", () -> new PrincessItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<QueenItem> QUEEN = ITEMS.register("queen", () -> new QueenItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<CombItem> COMB = ITEMS.register("comb", () -> new CombItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<Item> BEE_NEST = ITEMS.register("bee_nest", () -> new BeeNestBlockItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties())); //no tab for this :)
 
-    public static final DeferredItem<ScoopItem> SCOOP = register("scoop", () -> new ScoopItem(new Item.Properties()));
-    public static final DeferredItem<MeterItem> METER = register("meter", () -> new MeterItem(new Item.Properties()));
-    public static final DeferredItem<AnalyzerItem> ANALYZER = register("analyzer", () -> new AnalyzerItem(new Item.Properties().component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)));
-    public static final DeferredItem<ExpDropItem> EXP_DROP = register("exp_drop", () -> new ExpDropItem(new Item.Properties()));
-    public static final DeferredItem<BeeswaxItem> BEESWAX = register("beeswax", () -> new BeeswaxItem(new Item.Properties()));
+    public static final DeferredItem<ScoopItem> SCOOP = register("scoop", () -> new ScoopItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<MeterItem> METER = register("meter", () -> new MeterItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<AnalyzerItem> ANALYZER = register("analyzer", () -> new AnalyzerItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)));
+    public static final DeferredItem<ExpDropItem> EXP_DROP = register("exp_drop", () -> new ExpDropItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
+    public static final DeferredItem<BeeswaxItem> BEESWAX = register("beeswax", () -> new BeeswaxItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
 
     public static final DeferredItem<Item> HONEY_DROPLET = registerSimpleItem("honey_droplet");
     public static final DeferredItem<Item> ROYAL_JELLY = registerSimpleItem("royal_jelly");
-    public static final DeferredItem<Item> POLLEN = register("pollen", () -> new BoneMealItem(new Item.Properties()));
+    public static final DeferredItem<Item> POLLEN = register("pollen", () -> new BoneMealItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
     public static final DeferredItem<Item> PROPOLIS = registerSimpleItem("propolis");
     public static final DeferredItem<Item> SILK_WISP = registerSimpleItem("silk_wisp");
     public static final DeferredItem<Item> WOVEN_MESH = registerSimpleItem("woven_mesh");
@@ -51,25 +51,22 @@ public class ItemsRegistration {
     public static final DeferredItem<Item> HONEYED_STICK = registerSimpleItem("honeyed_stick");
     public static final DeferredItem<Item> MELLARIUM_PANEL = registerSimpleItem("mellarium_panel");
     public static final DeferredItem<Item> GYROFUGE_PANEL = registerSimpleItem("gyrofuge_panel");
-    public static final DeferredItem<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1.1f, 1.1f, 1f, 0)));
-    public static final DeferredItem<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1f, 1.25f, 1f, 0)));
-    public static final DeferredItem<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1.25f, 1f, 1f, 0)));
-    public static final DeferredItem<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(2f, 0.85f, 1f, 0)));
-    public static final DeferredItem<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(0.85f, 2f, 1f, 0)));
-    public static final DeferredItem<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(new Item.Properties(), new MachineModifier(1.5f, 1.5f, 1f, 0)));
-    public static final DeferredItem<Item> ENDENIC_UPGRADE = register("endenic_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), new MachineModifier(0.5f, 4f, 1f, 0)));
-    public static final DeferredItem<Item> WITHERED_UPGRADE = register("withered_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.UNCOMMON), new MachineModifier(4f, 0.5f, 1f, 0)));
-    public static final DeferredItem<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(new Item.Properties(), CommonConfig.COMMON_CONFIG.beeStaff));
-    public static final DeferredItem<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.4f).build()), CommonConfig.COMMON_CONFIG.honeyBread));
-    public static final DeferredItem<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder().nutrition(12).saturationModifier(0.5f).build()), CommonConfig.COMMON_CONFIG.honeyPorkchop));
-    public static final DeferredItem<Item> AMBROSIA = register("ambrosia", () -> new DisableableItem(new Item.Properties().food(new FoodProperties.Builder()
+    public static final DeferredItem<Item> BASIC_UPGRADE = register("basic_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(1.1f, 1.1f, 1f, 0)));
+    public static final DeferredItem<Item> WAXED_UPGRADE = register("waxed_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(1f, 1.25f, 1f, 0)));
+    public static final DeferredItem<Item> HONEYED_UPGRADE = register("honeyed_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(1.25f, 1f, 1f, 0)));
+    public static final DeferredItem<Item> TWISTED_UPGRADE = register("twisted_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(2f, 0.85f, 1f, 0)));
+    public static final DeferredItem<Item> SILKY_UPGRADE = register("silky_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(0.85f, 2f, 1f, 0)));
+    public static final DeferredItem<Item> ROYAL_UPGRADE = register("royal_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), new MachineModifier(1.5f, 1.5f, 1f, 0)));
+    public static final DeferredItem<Item> ENDENIC_UPGRADE = register("endenic_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().rarity(Rarity.UNCOMMON), new MachineModifier(0.5f, 4f, 1f, 0)));
+    public static final DeferredItem<Item> WITHERED_UPGRADE = register("withered_upgrade", () -> new UpgradeItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().rarity(Rarity.UNCOMMON), new MachineModifier(4f, 0.5f, 1f, 0)));
+    public static final DeferredItem<Item> BEE_STAFF = register("bee_staff", () -> new BeeStaffItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties(), CommonConfig.COMMON_CONFIG.beeStaff));
+    public static final DeferredItem<Item> HONEY_BREAD = register("honey_bread", () -> new DisableableItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().food(new FoodProperties.Builder().nutrition(8).saturationModifier(0.4f).build()), CommonConfig.COMMON_CONFIG.honeyBread));
+    public static final DeferredItem<Item> HONEY_PORKCHOP = register("honey_porkchop", () -> new DisableableItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().food(new FoodProperties.Builder().nutrition(12).saturationModifier(0.5f).build()), CommonConfig.COMMON_CONFIG.honeyPorkchop));
+    public static final DeferredItem<Item> AMBROSIA = register("ambrosia", () -> new DisableableItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().food(new FoodProperties.Builder()
             .nutrition(6)
             .saturationModifier(1.2F)
-            .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 400, 1), 1.0F)
-            .effect(() -> new MobEffectInstance(MobEffects.JUMP, 1200, 2), 1.0F)
-            .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 2400, 1), 1.0F)
             .alwaysEdible()
-            .build()).rarity(Rarity.RARE), CommonConfig.COMMON_CONFIG.ambrosia) {
+            .build()).component(DataComponents.CONSUMABLE, net.minecraft.world.item.component.Consumables.defaultFood().onConsume(new net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect(List.of(new MobEffectInstance(MobEffects.REGENERATION,400,1),new MobEffectInstance(MobEffects.JUMP_BOOST,1200,2),new MobEffectInstance(MobEffects.ABSORPTION,2400,1)),1.0f)).build()).rarity(Rarity.RARE), CommonConfig.COMMON_CONFIG.ambrosia) {
         @Override
         public boolean isFoil(ItemStack pStack) {
             return true;
@@ -77,36 +74,36 @@ public class ItemsRegistration {
     });
 
     public static final DeferredItem<FrameItem> FRAME = register("frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.25f).build(), CommonConfig.COMMON_CONFIG.frame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().productivity(1.25f).build(), CommonConfig.COMMON_CONFIG.frame));
     public static final DeferredItem<FrameItem> WAXED_FRAME = register("waxed_frame",
-            () -> new FrameItem(new Item.Properties().durability(240), new BeeHousingModifier.Builder().productivity(1.5f).build(), CommonConfig.COMMON_CONFIG.waxedFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(240), new BeeHousingModifier.Builder().productivity(1.5f).build(), CommonConfig.COMMON_CONFIG.waxedFrame));
     public static final DeferredItem<FrameItem> HONEYED_FRAME = register("honeyed_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(1.75f).lifespan(0.9f).build(), CommonConfig.COMMON_CONFIG.honeyFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().productivity(1.75f).lifespan(0.9f).build(), CommonConfig.COMMON_CONFIG.honeyFrame));
     public static final DeferredItem<FrameItem> TWISTING_FRAME = register("twisting_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.25f).build(), CommonConfig.COMMON_CONFIG.twistingFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().productivity(0.6f).lifespan(0.75f).mutation(1.25f).build(), CommonConfig.COMMON_CONFIG.twistingFrame));
     public static final DeferredItem<FrameItem> SOOTHING_FRAME = register("soothing_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), CommonConfig.COMMON_CONFIG.soothingFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().productivity(0.75f).lifespan(1.5f).mutation(0.8f).build(), CommonConfig.COMMON_CONFIG.soothingFrame));
     public static final DeferredItem<FrameItem> COLD_FRAME = register("cold_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.coldFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.DOWN_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.coldFrame));
     public static final DeferredItem<FrameItem> HOT_FRAME = register("hot_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.hotFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(60), new BeeHousingModifier.Builder().temperature(EnumTolerance.UP_1).lifespan(0.6f).build(), CommonConfig.COMMON_CONFIG.hotFrame));
     public static final DeferredItem<FrameItem> DRY_FRAME = register("dry_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.dryFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.DOWN_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.dryFrame));
     public static final DeferredItem<FrameItem> WET_FRAME = register("wet_frame",
-            () -> new FrameItem(new Item.Properties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.wetFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(60), new BeeHousingModifier.Builder().humidity(EnumTolerance.UP_1).lifespan(0.8f).build(), CommonConfig.COMMON_CONFIG.wetFrame));
     public static final DeferredItem<FrameItem> DEADLY_FRAME = register("deadly_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().lifespan(0.1f).build(), CommonConfig.COMMON_CONFIG.deadlyFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().lifespan(0.1f).build(), CommonConfig.COMMON_CONFIG.deadlyFrame));
     public static final DeferredItem<FrameItem> RESTRICTIVE_FRAME = register("restrictive_frame",
-            () -> new FrameItem(new Item.Properties().durability(80), new BeeHousingModifier.Builder().territory(0.5f).lifespan(0.75f).productivity(0.75f).build(), CommonConfig.COMMON_CONFIG.restrictiveFrame));
+            () -> new FrameItem(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().durability(80), new BeeHousingModifier.Builder().territory(0.5f).lifespan(0.75f).productivity(0.75f).build(), CommonConfig.COMMON_CONFIG.restrictiveFrame));
 
-    public static final DeferredItem<ArmorItem> APIARIST_HELMET = register("apiarist_helmet",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(5))));
-    public static final DeferredItem<ArmorItem> APIARIST_CHESTPLATE = register("apiarist_chestplate",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.CHESTPLATE, new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))));
-    public static final DeferredItem<ArmorItem> APIARIST_LEGGINGS = register("apiarist_leggings",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(5))));
-    public static final DeferredItem<ArmorItem> APIARIST_BOOTS = register("apiarist_boots",
-            () -> new ArmorItem(ArmorMaterials.APIARIST, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(5))));
+    public static final DeferredItem<Item> APIARIST_HELMET = register("apiarist_helmet",
+            () -> new Item(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().humanoidArmor(ArmorMaterials.APIARIST, net.minecraft.world.item.equipment.ArmorType.HELMET)));
+    public static final DeferredItem<Item> APIARIST_CHESTPLATE = register("apiarist_chestplate",
+            () -> new Item(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().humanoidArmor(ArmorMaterials.APIARIST, net.minecraft.world.item.equipment.ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> APIARIST_LEGGINGS = register("apiarist_leggings",
+            () -> new Item(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().humanoidArmor(ArmorMaterials.APIARIST, net.minecraft.world.item.equipment.ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> APIARIST_BOOTS = register("apiarist_boots",
+            () -> new Item(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().humanoidArmor(ArmorMaterials.APIARIST, net.minecraft.world.item.equipment.ArmorType.BOOTS)));
 
     public static final DeferredItem<Item> APIARY = registerSimpleBlockItem("apiary", BlocksRegistration.APIARY);
     public static final DeferredItem<Item> CENTRIFUGE = registerSimpleBlockItem("centrifuge", BlocksRegistration.CENTRIFUGE);
@@ -164,12 +161,12 @@ public class ItemsRegistration {
     public static final DeferredItem<Item> HONEYED_FENCE_GATE = registerSimpleBlockItem("honeyed_fence_gate", BlocksRegistration.HONEYED_FENCE_GATE);
     public static final DeferredItem<Item> HONEYED_BUTTON = registerSimpleBlockItem("honeyed_button", BlocksRegistration.HONEYED_BUTTON);
     public static final DeferredItem<Item> HONEYED_PRESSURE_PLATE = registerSimpleBlockItem("honeyed_pressure_plate", BlocksRegistration.HONEYED_PRESSURE_PLATE);
-    public static final DeferredItem<BlockItem> HONEYED_DOOR = register("honeyed_door", () -> new DoubleHighBlockItem(BlocksRegistration.HONEYED_DOOR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> HONEYED_DOOR = register("honeyed_door", () -> new DoubleHighBlockItem(BlocksRegistration.HONEYED_DOOR.get(), com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
     public static final DeferredItem<Item> HONEYED_TRAPDOOR = registerSimpleBlockItem("honeyed_trapdoor", BlocksRegistration.HONEYED_TRAPDOOR);
     public static final DeferredItem<Item> HONEYED_SIGN = register("honeyed_sign",
-            () -> new SignItem(new Item.Properties().stacksTo(16), BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get()));
+            () -> new SignItem(BlocksRegistration.HONEYED_SIGN.get(), BlocksRegistration.HONEYED_WALL_SIGN.get(), com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().stacksTo(16)));
     public static final DeferredItem<Item> HONEYED_HANGING_SIGN = register("honeyed_hanging_sign",
-            () -> new HangingSignItem(BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+            () -> new HangingSignItem(BlocksRegistration.HONEYED_HANGING_SIGN.get(), BlocksRegistration.HONEYED_WALL_HANGING_SIGN.get(), com.accbdd.complicated_bees.port.RegistrationContext.itemProperties().stacksTo(16)));
 
     private static <T extends Item> DeferredItem<T> register(String name, Supplier<T> itemSupplier) {
         var register = ITEMS.register(name, itemSupplier);
@@ -178,10 +175,10 @@ public class ItemsRegistration {
     }
 
     private static DeferredItem<Item> registerSimpleItem(String name) {
-        return register(name, () -> new Item(new Item.Properties()));
+        return register(name, () -> new Item(com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
     }
 
     private static <T extends Block> DeferredItem<Item> registerSimpleBlockItem(String name, DeferredBlock<T> block) {
-        return register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return register(name, () -> new BlockItem(block.get(), com.accbdd.complicated_bees.port.RegistrationContext.itemProperties()));
     }
 }

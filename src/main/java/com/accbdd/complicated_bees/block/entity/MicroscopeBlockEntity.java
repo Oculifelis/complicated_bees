@@ -12,11 +12,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import com.accbdd.complicated_bees.port.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MicroscopeBlockEntity extends BlockEntity {
+public class MicroscopeBlockEntity extends com.accbdd.complicated_bees.port.PortBlockEntity {
     public static final String ITEMS_TAG = "items";
     private final ItemStackHandler items = createItemHandler();
     private final IItemHandler itemHandler = new AdaptedItemHandler(items);
@@ -50,7 +50,7 @@ public class MicroscopeBlockEntity extends BlockEntity {
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(ITEMS_TAG)) {
-            items.deserializeNBT(registries, tag.getCompound(ITEMS_TAG));
+            items.deserializeNBT(registries, tag.getCompoundOrEmpty(ITEMS_TAG));
         }
     }
 

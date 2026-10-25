@@ -13,7 +13,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +30,7 @@ public class Product {
     public static final Codec<Product> CODEC = Codec.of(Product::encode, Product::decode);
     public static final StreamCodec<RegistryFriendlyByteBuf, Product> STREAM_CODEC = StreamCodec.of((buf, val) -> val.toNetwork(buf), Product::fromNetwork);
 
-    public static final List<Product> EMPTY = List.of(new Product(Items.AIR.getDefaultInstance(), 0));
+    public static final List<Product> EMPTY = List.of(new Product(Items.AIR,0,0f));
     public static final Random rand = new Random();
 
     private final Item item;
@@ -44,7 +44,7 @@ public class Product {
     public Product(Item item, int count, @Nullable DataComponentPatch components, @Nullable TagKey<Item> tag, float chance) {
         this.item = item;
         this.count = count;
-        this.components = components;
+        this.components = components == null ? DataComponentPatch.EMPTY : components;
         this.tag = tag;
         this.chance = chance;
     }
@@ -74,7 +74,7 @@ public class Product {
 
         Item resolvedItem;
         if (isTagProduct()) {
-            Optional<Item> firstItem = BuiltInRegistries.ITEM.getTag(tag).flatMap(set -> set.stream()
+            Optional<Item> firstItem = BuiltInRegistries.ITEM.get(tag).flatMap(set -> set.stream()
                     .map(Holder::value).min(Comparator.comparing(i -> BuiltInRegistries.ITEM.getKey(i).toString())));
 
             if (firstItem.isEmpty()) {
@@ -114,7 +114,7 @@ public class Product {
         DataComponentPatch.STREAM_CODEC.encode(buf, components);
 
         if (isTagProduct()) {
-            buf.writeResourceLocation(tag.location());
+            buf.writeIdentifier(tag.location());
         } else {
             ByteBufCodecs.registry(Registries.ITEM).encode(buf, item);
         }
@@ -127,7 +127,7 @@ public class Product {
         DataComponentPatch components = DataComponentPatch.STREAM_CODEC.decode(buf);
 
         if (isTag) {
-            ResourceLocation tagId = buf.readResourceLocation();
+            Identifier tagId = buf.readIdentifier();
             TagKey<Item> tag = TagKey.create(BuiltInRegistries.ITEM.key(), tagId);
             return new Product(Items.AIR, count, components, tag, chance);
         } else {
@@ -141,7 +141,7 @@ public class Product {
         RecordBuilder<T> builder = ops.mapBuilder();
 
         if (isTagProduct()) {
-            builder.add("tag", ResourceLocation.CODEC.encodeStart(ops, tag.location()).result().orElse(ops.empty()));
+            builder.add("tag", Identifier.CODEC.encodeStart(ops, tag.location()).result().orElse(ops.empty()));
         } else {
             builder.add("item", BuiltInRegistries.ITEM.byNameCodec().encodeStart(ops, item));
         }
@@ -168,13 +168,12 @@ public class Product {
         }
         if (item.isPresent()) {
             return BuiltInRegistries.ITEM.byNameCodec().parse(ops, item.get()).map(i -> {
-                ItemStack stack = new ItemStack(i.builtInRegistryHolder(), count, components);
-                return Pair.of(new Product(stack, chance), input);
+                return Pair.of(new Product(i,count,components,null,chance), input);
             });
         }
 
         //wow this is messy
-        return ResourceLocation.CODEC.xmap(
+        return Identifier.CODEC.xmap(
                 loc -> TagKey.create(BuiltInRegistries.ITEM.key(), loc),
                 TagKey::location
         ).parse(ops, tag.get()).flatMap(tagKey -> DataResult.success(Pair.of(new Product(Items.AIR, count, components, tagKey, chance), input)));

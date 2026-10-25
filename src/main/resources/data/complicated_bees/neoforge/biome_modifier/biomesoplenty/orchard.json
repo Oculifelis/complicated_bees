@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:orchard"],
+  "biomes": [
+    "biomesoplenty:orchard"
+  ],
   "features": "complicated_bees:biomesoplenty/flowering_oak_tree",
   "step": "vegetal_decoration"
 }

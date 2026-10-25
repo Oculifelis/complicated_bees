@@ -20,7 +20,9 @@
     },
     {
       "type": "patchouli:image",
-      "images": ["complicated_bees:textures/gui/patchouli/machines/bee_sorter.png"],
+      "images": [
+        "complicated_bees:textures/gui/patchouli/machines/bee_sorter.png"
+      ],
       "title": "蜂巢",
       "border": true,
       "text": "去向取决于过滤器匹配的程度……"

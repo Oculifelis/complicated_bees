@@ -6,7 +6,9 @@
     }
   ],
   "type": "neoforge:add_features",
-  "biomes": ["biomesoplenty:rainforest"],
+  "biomes": [
+    "biomesoplenty:rainforest"
+  ],
   "features": "complicated_bees:biomesoplenty/mahogany_tree",
   "step": "vegetal_decoration"
 }

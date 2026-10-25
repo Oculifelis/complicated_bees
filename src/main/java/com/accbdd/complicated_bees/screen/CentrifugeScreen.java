@@ -2,10 +2,10 @@ package com.accbdd.complicated_bees.screen;
 
 import com.accbdd.complicated_bees.block.entity.CentrifugeBlockEntity;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeMenu> {
-    private final ResourceLocation GUI = ResourceLocation.tryBuild(MODID, "textures/gui/centrifuge.png");
+    private final Identifier GUI = Identifier.tryBuild(MODID, "textures/gui/centrifuge.png");
 
     public CentrifugeScreen(CentrifugeMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -21,24 +21,24 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
-        graphics.blit(GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
+        com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
 
         renderProgressArrow(graphics, relX, relY);
         renderPowerBar(graphics, relX, relY);
     }
 
-    private void renderProgressArrow(GuiGraphics graphics, int x, int y) {
+    private void renderProgressArrow(GuiGraphicsExtractor graphics, int x, int y) {
         if (menu.isCrafting()) {
-            graphics.blit(GUI, x + 60, y + 35, 176, 0, menu.getScaledProgress(), 18);
+            com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI, x + 60, y + 35, 176, 0, menu.getScaledProgress(), 18);
         }
     }
 
-    private void renderPowerBar(GuiGraphics graphics, int relX, int relY) {
+    private void renderPowerBar(GuiGraphicsExtractor graphics, int relX, int relY) {
         int powerScaled = getScaled(menu.getPower(), CentrifugeBlockEntity.CAPACITY, 70);
-        graphics.blit(GUI,
+        com.accbdd.complicated_bees.port.PortGui.blit(graphics,GUI,
                 relX + 163,
                 relY + 8 + (70 - powerScaled),
                 196,
@@ -48,9 +48,9 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeMenu> {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
-        renderTooltip(graphics, mouseX, mouseY);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+        extractTooltip(graphics, mouseX, mouseY);
     }
 
     public int getScaled(int value, int max, int scaleTo) {
@@ -59,11 +59,11 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeMenu> {
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics graphics, int pX, int pY) {
-        super.renderTooltip(graphics, pX, pY);
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int pX, int pY) {
+        super.extractTooltip(graphics, pX, pY);
         if (pX >= leftPos + 163 && pX < leftPos + 163 + 5 && pY >= topPos + 8 && pY < topPos + 8 + 70) {
             int power = menu.getPower();
-            graphics.renderComponentTooltip(
+            com.accbdd.complicated_bees.port.PortGui.tooltip(graphics,
                     this.font,
                     List.of(Component.literal(power + " RF"),
                             Component.literal(menu.getPowerUsage() + " RF/t")

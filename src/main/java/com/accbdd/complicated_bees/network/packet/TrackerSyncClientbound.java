@@ -5,14 +5,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public record TrackerSyncClientbound(BreedingTracker tracker) implements CustomPacketPayload {
-    public static final Type<TrackerSyncClientbound> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "tracker_sync_clientbound"));
+    public static final Type<TrackerSyncClientbound> TYPE = new Type<>(Identifier.fromNamespaceAndPath(MODID, "tracker_sync_clientbound"));
     public static final StreamCodec<RegistryFriendlyByteBuf, TrackerSyncClientbound> STREAM_CODEC = StreamCodec.of(TrackerSyncClientbound::encode, TrackerSyncClientbound::decode);
 
     private static void encode(RegistryFriendlyByteBuf buf, TrackerSyncClientbound payload) {
@@ -30,7 +30,7 @@ public record TrackerSyncClientbound(BreedingTracker tracker) implements CustomP
 
     public static void handle(TrackerSyncClientbound packet, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (FMLLoader.getDist().isClient()) TrackerSyncClientbound.handlePacket(packet, ctx);
+            if (FMLLoader.getCurrent().getDist().isClient()) TrackerSyncClientbound.handlePacket(packet, ctx);
         });
     }
 

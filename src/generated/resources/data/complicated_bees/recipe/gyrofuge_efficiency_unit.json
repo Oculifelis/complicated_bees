@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "item": "complicated_bees:gyrofuge_panel"
-    },
-    "A": {
-      "item": "complicated_bees:gyrofuge_basic_efficiency_unit"
-    },
-    "C": {
-      "item": "minecraft:crying_obsidian"
-    },
-    "D": {
-      "item": "minecraft:diamond"
-    },
-    "G": {
-      "item": "minecraft:copper_block"
-    }
+    "#": "complicated_bees:gyrofuge_panel",
+    "A": "complicated_bees:gyrofuge_basic_efficiency_unit",
+    "C": "minecraft:crying_obsidian",
+    "D": "minecraft:diamond",
+    "G": "minecraft:copper_block"
   },
   "pattern": [
     "#C#",

@@ -12,20 +12,20 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, "jei/comb_product");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, "jei/comb_product");
     public static final RecipeType<CentrifugeRecipe> TYPE = new RecipeType<>(ID, CentrifugeRecipe.class);
 
     private static final Component TITLE = Component.translatable("gui.complicated_bees.jei.centrifuge");
 
     public final IDrawable icon;
-    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(ResourceLocation.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 128, 64);
+    public final IDrawable BACKGROUND = ComplicatedBeesJEI.createDrawable(Identifier.fromNamespaceAndPath(MODID, "textures/gui/jei/centrifuge_products.png"), 0, 0, 128, 64, 128, 64);
 
     public CentrifugeRecipeCategory(IGuiHelper helper) {
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ItemsRegistration.CENTRIFUGE.get()));
@@ -41,7 +41,10 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         return TITLE;
     }
 
-    @Override
+
+    public void draw(CentrifugeRecipe recipe, mezz.jei.api.gui.ingredient.IRecipeSlotsView slots, net.minecraft.client.gui.GuiGraphicsExtractor graphics, double mouseX, double mouseY){getBackground().draw(graphics);}
+    public int getWidth(){return getBackground().getWidth();}
+    public int getHeight(){return getBackground().getHeight();}
     public IDrawable getBackground() {
         return BACKGROUND;
     }

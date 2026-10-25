@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "item": "complicated_bees:basic_upgrade"
-    },
-    "P": {
-      "item": "complicated_bees:propolis"
-    },
-    "W": {
-      "item": "complicated_bees:beeswax"
-    }
+    "B": "complicated_bees:basic_upgrade",
+    "P": "complicated_bees:propolis",
+    "W": "complicated_bees:beeswax"
   },
   "pattern": [
     "PWP",

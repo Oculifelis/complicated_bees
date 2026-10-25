@@ -1,8 +1,6 @@
 {
   "type": "complicated_bees:temp_unit",
-  "input": {
-    "item": "minecraft:blaze_powder"
-  },
+  "input": "minecraft:blaze_powder",
   "temp_change": "up_2",
   "use_chance": 0.1
 }

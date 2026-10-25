@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "W": {
-      "item": "complicated_bees:silk_wisp"
-    }
+    "W": "complicated_bees:silk_wisp"
   },
   "pattern": [
     "WWW",

@@ -2,8 +2,6 @@ package com.accbdd.complicated_bees.bees.tracking;
 
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
-import com.accbdd.complicated_bees.client.DiscoverToast;
-import com.accbdd.complicated_bees.client.ResearchToast;
 import com.accbdd.complicated_bees.component.Bee;
 import com.accbdd.complicated_bees.datagen.ItemTagGenerator;
 import com.accbdd.complicated_bees.network.packet.TrackerSyncClientbound;
@@ -11,18 +9,17 @@ import com.accbdd.complicated_bees.network.packet.TrackerUpdateClientbound;
 import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.storage.SavedDataStorage;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -43,9 +40,9 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     public static String RESEARCH_KEY = "researched";
 
     private final UUID playerId;
-    protected final Set<ResourceLocation> discoveredSpecies;
-    protected final Set<ResourceLocation> discoveredMutations;
-    protected final Set<ResourceLocation> researchedMutations;
+    protected final Set<Identifier> discoveredSpecies;
+    protected final Set<Identifier> discoveredMutations;
+    protected final Set<Identifier> researchedMutations;
 
     public BreedingTracker(UUID playerId) {
         this.playerId = playerId;
@@ -60,33 +57,33 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     }
 
     @Override
-    public Set<ResourceLocation> getDiscoveredSpecies() {
+    public Set<Identifier> getDiscoveredSpecies() {
         return discoveredSpecies;
     }
 
     @Override
-    public Collection<ResourceLocation> getDiscoveredMutations() {
+    public Collection<Identifier> getDiscoveredMutations() {
         return discoveredMutations;
     }
 
     @Override
-    public Set<ResourceLocation> getResearchedMutations() {
+    public Set<Identifier> getResearchedMutations() {
         return researchedMutations;
     }
 
     @Override
     public boolean isDiscovered(Species species) {
-        return discoveredSpecies.contains(SpeciesRegistration.getResourceLocation(species));
+        return discoveredSpecies.contains(SpeciesRegistration.getIdentifier(species));
     }
 
     @Override
     public boolean isDiscovered(RecipeHolder<MutationRecipe> mutation) {
-        return discoveredMutations.contains(mutation.id());
+        return discoveredMutations.contains(mutation.id().identifier());
     }
 
     @Override
     public boolean isResearched(RecipeHolder<MutationRecipe> mutation) {
-        return researchedMutations.contains(mutation.id());
+        return researchedMutations.contains(mutation.id().identifier());
     }
 
     public void discoverIndividual(ItemStack stack) {
@@ -101,7 +98,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     @Override
     public void discover(Species species) {
         if (!isDiscovered(species)) {
-            ResourceLocation loc = SpeciesRegistration.getResourceLocation(species);
+            Identifier loc = SpeciesRegistration.getIdentifier(species);
             discoveredSpecies.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.SPECIES, loc);
@@ -111,7 +108,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     @Override
     public void discover(RecipeHolder<MutationRecipe> mutation) {
         if (!isDiscovered(mutation)) {
-            ResourceLocation loc = mutation.id();
+            Identifier loc = mutation.id().identifier();
             discoveredMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.MUTATION, loc);
@@ -121,7 +118,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     @Override
     public void research(RecipeHolder<MutationRecipe> mutation) {
         if (!isResearched(mutation)) {
-            ResourceLocation loc = mutation.id();
+            Identifier loc = mutation.id().identifier();
             researchedMutations.add(loc);
             setDirty();
             sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType.RESEARCH, loc);
@@ -150,14 +147,13 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
         PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerSyncClientbound(this));
     }
 
-    public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, ResourceLocation loc) {
+    public void sendUpdateToPlayer(TrackerUpdateClientbound.UpdateType type, Identifier loc) {
         if (ServerLifecycleHooks.getCurrentServer() != null && ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()) != null)
             PacketDistributor.sendToPlayer(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(getUUID()), new TrackerUpdateClientbound(type, loc));
     }
 
-    @Override
     public CompoundTag save(CompoundTag pCompoundTag, HolderLookup.Provider registries) {
-        pCompoundTag.putUUID(UUID_KEY, playerId);
+        pCompoundTag.store(UUID_KEY, net.minecraft.core.UUIDUtil.CODEC, playerId);
         writeListToNBT(pCompoundTag, discoveredSpecies, SPECIES_KEY);
         writeListToNBT(pCompoundTag, discoveredMutations, MUTATIONS_KEY);
         writeListToNBT(pCompoundTag, researchedMutations, RESEARCH_KEY);
@@ -167,10 +163,10 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     public static BreedingTracker load(CompoundTag tag, HolderLookup.Provider registries) {
         if (!tag.contains(UUID_KEY))
             throw new NullPointerException("tried to load breeding tracker with no uuid!");
-        BreedingTracker tracker = new BreedingTracker(tag.getUUID(UUID_KEY));
-        readListFromNBT(tag, str -> tracker.discoveredSpecies.add(ResourceLocation.tryParse(str)), SPECIES_KEY);
-        readListFromNBT(tag, str -> tracker.discoveredMutations.add(ResourceLocation.tryParse(str)), MUTATIONS_KEY);
-        readListFromNBT(tag, str -> tracker.researchedMutations.add(ResourceLocation.tryParse(str)), RESEARCH_KEY);
+        BreedingTracker tracker = new BreedingTracker(tag.read(UUID_KEY, net.minecraft.core.UUIDUtil.CODEC).orElse(null));
+        readListFromNBT(tag, str -> tracker.discoveredSpecies.add(Identifier.tryParse(str)), SPECIES_KEY);
+        readListFromNBT(tag, str -> tracker.discoveredMutations.add(Identifier.tryParse(str)), MUTATIONS_KEY);
+        readListFromNBT(tag, str -> tracker.researchedMutations.add(Identifier.tryParse(str)), RESEARCH_KEY);
         return tracker;
     }
 
@@ -180,9 +176,9 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
      * @param values values to write
      * @param key key of the values
      */
-    private static void writeListToNBT(CompoundTag tag, Iterable<ResourceLocation> values, String key) {
+    private static void writeListToNBT(CompoundTag tag, Iterable<Identifier> values, String key) {
         ListTag listTag = new ListTag();
-        for (ResourceLocation value : values) {
+        for (Identifier value : values) {
             listTag.add(StringTag.valueOf(value.toString()));
         }
         tag.put(key, listTag);
@@ -196,9 +192,9 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
      */
     private static void readListFromNBT(CompoundTag tag, Consumer<String> consumer, String key) {
         if (tag.contains(key)) {
-            ListTag listTag = tag.getList(key, StringTag.TAG_STRING);
+            ListTag listTag = tag.getListOrEmpty(key);
             for (Tag stringTag : listTag) {
-                consumer.accept(stringTag.getAsString());
+                consumer.accept(stringTag.asString().orElse(""));
             }
         }
     }
@@ -210,27 +206,7 @@ public class BreedingTracker extends SavedData implements IBreedingTracker {
     public static BreedingTracker getTracker(UUID uuid) {
         if (ServerLifecycleHooks.getCurrentServer() == null)
             return CLIENT_INSTANCE;
-        DimensionDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
-        return storage.computeIfAbsent(new Factory<BreedingTracker>(() -> new BreedingTracker(uuid), BreedingTracker::load), "complicated_bees." + uuid.toString());
+        SavedDataStorage storage = ServerLifecycleHooks.getCurrentServer().overworld().getDataStorage();
+        return storage.computeIfAbsent(new net.minecraft.world.level.saveddata.SavedDataType<>(Identifier.fromNamespaceAndPath("complicated_bees",uuid.toString()), () -> new BreedingTracker(uuid), CompoundTag.CODEC.xmap(tag -> load(tag,null), tracker -> tracker.save(new CompoundTag(),null))));
     }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void updateFromPacket(TrackerUpdateClientbound packet) {
-        switch (packet.updateType()) {
-            case SPECIES -> {
-                CLIENT_INSTANCE.discoveredSpecies.add(packet.loc());
-                Minecraft.getInstance().getToasts().addToast(new DiscoverToast(SpeciesRegistration.getFromResourceLocation(packet.loc())));
-            }
-            case MUTATION -> CLIENT_INSTANCE.discoveredMutations.add(packet.loc());
-            case RESEARCH -> {
-                CLIENT_INSTANCE.researchedMutations.add(packet.loc());
-                Minecraft.getInstance().level.getRecipeManager().byKey(packet.loc()).ifPresent(holder -> {
-                    if (holder.value() instanceof MutationRecipe mutation) {
-                        Minecraft.getInstance().getToasts().addToast(new ResearchToast(mutation));
-                    }
-                });
-            }
-        }
-    }
-
 }

@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nullable;
 
@@ -15,7 +15,7 @@ import static com.accbdd.complicated_bees.ComplicatedBees.MODID;
 
 public class GeneEffect extends Gene<IBeeEffect> {
     public static final String TAG = "effect";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(MODID, TAG);
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(MODID, TAG);
 
     public GeneEffect() {
         super(null, true);
@@ -28,7 +28,7 @@ public class GeneEffect extends Gene<IBeeEffect> {
     @Override
     public CompoundTag serialize() {
         CompoundTag tag = new CompoundTag();
-        ResourceLocation effectKey = ComplicatedBees.BEE_EFFECT_REGISTRY.get().getKey(get());
+        Identifier effectKey = ComplicatedBees.BEE_EFFECT_REGISTRY.get().getKey(get());
         tag.put(DATA, StringTag.valueOf(effectKey == null ? "INVALID" : effectKey.toString()));
         tag.put(DOMINANT, ByteTag.valueOf(isDominant()));
         return tag;
@@ -36,8 +36,8 @@ public class GeneEffect extends Gene<IBeeEffect> {
 
     @Override
     public GeneEffect deserialize(CompoundTag tag) {
-        String effectKeyString = tag.getString(DATA);
-        return new GeneEffect(effectKeyString.equals("INVALID") ? null : ComplicatedBees.BEE_EFFECT_REGISTRY.get().get(ResourceLocation.tryParse(effectKeyString)), tag.getBoolean(DOMINANT));
+        String effectKeyString = tag.getStringOr(DATA, "");
+        return new GeneEffect(effectKeyString.equals("INVALID") ? null : ComplicatedBees.BEE_EFFECT_REGISTRY.get().getValue(Identifier.tryParse(effectKeyString)), tag.getBooleanOr(DOMINANT, false));
     }
 
     @Override
