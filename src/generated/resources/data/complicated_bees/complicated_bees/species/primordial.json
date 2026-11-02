@@ -65,11 +65,25 @@
   "nest_color": "ffffff",
   "products": [
     {
-      "chance": 0.25,
+      "chance": 0.4,
       "components": {
         "complicated_bees:comb_type": "complicated_bees:mysterious"
       },
       "item": "complicated_bees:comb"
+    }
+  ],
+  "specialty_products": [
+    {
+      "chance": 0.06,
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "chance": 0.03,
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "chance": 0.005,
+      "item": "minecraft:nether_star"
     }
   ]
 }
