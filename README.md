@@ -11,7 +11,7 @@ The branch starts at upstream `1.21.1` revision `68d1299ef688ff9a844c5e16b37876c
 
 The two targets are independent builds: use the jar matching your Minecraft version. JEI and Jade are optional and are not bundled.
 
-The Genetic Industry addon port lives in its own fork: [eriritarded/Complicated-Bees-Genetic-Industry](https://github.com/eriritarded/Complicated-Bees-Genetic-Industry) (branch `port/26.x`). It needs this mod's jar for the same Minecraft version.
+The Genetic Industry addon port lives in its own fork: [Oculifelis/Complicated-Bees-Genetic-Industry](https://github.com/Oculifelis/Complicated-Bees-Genetic-Industry) (branch `port/26.x`). It needs this mod's jar for the same Minecraft version.
 
 ## What changed
 
