@@ -12,11 +12,16 @@ field-by-field comparison of this branch's generated data with upstream Complica
 | Unresolved ids in the pack | 0 |
 | Orphan species | None |
 | Combs without a centrifuge | 0 |
-| Primordial | Upstream gives Primordial one product: 25% Mysterious comb (beeswax, honey, 10% pearl shard) and no specialty. That is the original design, not a port loss; its value is the Ends effect and long-lived, never-sleeping genes. Buffed in port.4, see below. |
+| Primordial | Upstream gives Primordial one product: 25% Mysterious comb (beeswax, honey, 10% pearl shard) and no specialty. That is the original design, not a port loss; its value is the Ends effect and long-lived, never-sleeping genes. Buffed in port.4; since 2026-11-07 the buff ships in Magic Bees instead, see below. |
 
 No port faults were found.
 
-## Primordial buff (port.4, 2026-11-02)
+## Primordial buff (port.4, 2026-11-02; moved to Magic Bees 2026-11-07)
+
+Moved: The author wants this fork to stay a faithful port, so `species/primordial.json` here is back to upstream and the
+buffed file now lives in Magic Bees (`MagicBees/src/main/resources/data/complicated_bees/complicated_bees/species/primordial.json`),
+which loads after Complicated Bees and overrides it. The next fork build (port.5) drops the buff; the port.4 jar still has it.
+
 
 The author asked for Primordial to be worth breeding ("Buff it"). It is the last bee in the tree (dragon-egg flower, Ends
 effect) but only dropped a 25% Mysterious comb. Port.4 changes `species/primordial.json` only:
