@@ -6,6 +6,7 @@ modId="complicated_bees"
 version="${mod_version}"
 displayName="Complicated Bees"
 authors="ACCBDD"
+credits="26.1.2 and 26.2 port by Oculifelis"
 description='''Diploid bees, crossbreeding, mutations, machines and data-driven genetics. Unofficial 26.x port.'''
 iconFile="icon.png"
 [[dependencies.complicated_bees]]
