@@ -29,8 +29,15 @@ def comb_bg(cv, cols, wall, s=7):
 def frame(cv, ink, r=3):
     round_corners(cv.im, r)
 
-def bee(over=None):
-    b = sprite(CB + 'item/bee_base.png')
+def bee(over=None, tint=(0x9a, 0x6a, 0x3a)):
+    b = sprite(CB + 'item/bee_base.png').copy()
+    o = sprite(CB + 'item/bee_outline.png').copy()
+    px = o.load()
+    for y in range(o.height):
+        for x in range(o.width):
+            r, g, bl, a = px[x, y]
+            px[x, y] = (r * tint[0] // 255, g * tint[1] // 255, bl * tint[2] // 255, a)
+    b.alpha_composite(o)
     if over:
         o = sprite(over)
         b = b.copy(); b.alpha_composite(o)
@@ -47,7 +54,11 @@ def badge(subject_imgs, bgfn, ink, n=24, floor=None):
         for x, y in mask_of(im, ox, oy):
             cv.put(x, y, im.getpixel((x - ox, y - oy)))
         m |= mask_of(im, ox, oy)
-    jappa_outline(cv, m, floor=floor or ink)
+    ring = {(x + dx, y + dy) for x, y in m for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))} - m
+    for x, y in ring:
+        if 0 <= x < n and 0 <= y < n:
+            cv.put(x, y, ink)
+    jappa_outline(cv, m | ring, floor=floor or ink)
     # rim
     for y in range(n):
         for x in range(n):
