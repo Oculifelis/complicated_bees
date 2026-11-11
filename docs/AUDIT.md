@@ -1,7 +1,7 @@
 # Bee audit (2026-11-01, port.2)
 
 Checked with `H:\AI_MC_Modding\_handoff\tools\bee_audit.py` against the installed Simply NeoForged jars, and by a
-field-by-field comparison of this branch's generated data with upstream Complicated Bees 3.6.2
+field-by-field comparison of this branch's created data with upstream Complicated Bees 3.6.2
 (`ComplicatedBees/reference`, revision 68d1299).
 
 | Check | Result |

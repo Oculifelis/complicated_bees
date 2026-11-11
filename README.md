@@ -18,7 +18,7 @@ The Genetic Industry addon port lives in its own fork: [Oculifelis/Complicated-B
 * Sources under `src/main` are adapted to native 26.x APIs (official names): native component codecs, Value I/O persistence, transactional capabilities, native recipe serializers, ItemModel baking for bee models and GUI extraction.
 * `src/targets/<minecraft>/` holds per-target Java and resource overlays. A resource file there replaces the shared file at the same path for that target only.
 * EMI integration is kept as source but excluded from compilation, because no EMI release exists for these targets.
-* The original data generators (`src/datagen`) and the old bee model loader (`src/legacy-client`) are kept as inactive reference source. The generated resources under `src/generated` ship in the jar.
+* The original data generators (`src/datagen`) and the old bee model loader (`src/legacy-client`) are kept as inactive reference source. The created resources under `src/generated` ship in the jar.
 * Biomes O' Plenty biome modifiers that named removed BoP biomes (`aspen_glade`, `jacaranda_glade`, and `grassland` in `plains_bee_nest.json`) are removed or trimmed; see PORT_STATUS.md.
 
 ## Build
