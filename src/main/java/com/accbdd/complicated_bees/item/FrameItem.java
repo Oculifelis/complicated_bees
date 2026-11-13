@@ -1,6 +1,7 @@
 package com.accbdd.complicated_bees.item;
 
 import com.accbdd.complicated_bees.bees.BeeHousingModifier;
+import com.accbdd.complicated_bees.bees.IBeeHousing;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -18,6 +19,16 @@ public class FrameItem extends DisableableItem {
 
     public BeeHousingModifier getModifier() {
         return modifier;
+    }
+
+    /**
+     * Called on the server once per bee cycle for every frame in a working housing, before frames take damage.
+     * Addons override this for frames that do something each cycle.
+     * @param housing the housing the frame sits in
+     * @param frame the frame stack itself
+     * @param queen the queen being worked
+     */
+    public void onBeeCycle(IBeeHousing housing, ItemStack frame, ItemStack queen) {
     }
 
     @Override

@@ -221,6 +221,18 @@ public class MellariumControllerBlockEntity extends BaseBeeHousing {
     }
 
     @Override
+    public List<ItemStack> getActiveFrames() {
+        List<ItemStack> frames = new ArrayList<>();
+        if (getMellariumLogic() == null) return frames;
+        getMellariumLogic().getSpecialBlocks().forEach(pos -> {
+            if (getLevel().getBlockEntity(pos) instanceof IMellariumFrameHolder frameHolder) {
+                frameHolder.getFrames().stream().filter(stack -> !stack.isEmpty()).forEach(frames::add);
+            }
+        });
+        return frames;
+    }
+
+    @Override
     public void damageFrames() {
         Map<Item, Integer> frameMap = new HashMap<>();
         getMellariumLogic().getSpecialBlocks().stream().forEach(pos -> {

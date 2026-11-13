@@ -281,6 +281,7 @@ public abstract class BaseBeeHousing extends com.accbdd.complicated_bees.port.Po
     public void beeTick() {
         ItemStack top_stack = getBeeItems().getStackInSlot(0);
         ageQueenAndGenerateProduce(top_stack);
+        runFrameCycle(top_stack);
         damageFrames();
     }
 
@@ -344,6 +345,24 @@ public abstract class BaseBeeHousing extends com.accbdd.complicated_bees.port.Po
                 modifiers.add(frame.getModifier());
         }
         return modifiers;
+    }
+
+    /** The frame stacks working on this housing's queen. */
+    public List<ItemStack> getActiveFrames() {
+        List<ItemStack> frames = new ArrayList<>();
+        for (int i = 0; i < getFrameItems().getSlots(); i++) {
+            ItemStack stack = getFrameItems().getStackInSlot(i);
+            if (!stack.isEmpty()) frames.add(stack);
+        }
+        return frames;
+    }
+
+    /** Gives every frame its per-cycle callback. */
+    public void runFrameCycle(ItemStack queen) {
+        if (!(level instanceof ServerLevel)) return;
+        for (ItemStack stack : getActiveFrames()) {
+            if (stack.getItem() instanceof FrameItem frame) frame.onBeeCycle(this, stack, queen);
+        }
     }
 
     public void damageFrames() {

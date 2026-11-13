@@ -10,7 +10,9 @@ public enum EnumLifespan {
     AVERAGE("average", 50),
     LONG("long", 65),
     LONGER("longer", 75),
-    LONGEST("longest", 90);
+    LONGEST("longest", 90),
+    /** Never reaches the end of its life. */
+    IMMORTAL("immortal", Integer.MAX_VALUE);
 
     public final String name;
     public final int value;

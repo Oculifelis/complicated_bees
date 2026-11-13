@@ -36,7 +36,7 @@ public class GeneFertility extends Gene<Integer> {
 
     @Override
     public MutableComponent getTranslationKey() {
-        return Component.literal(geneData.toString());
+        return Component.translatableWithFallback("gene.complicated_bees.fertility." + geneData, geneData.toString());
     }
 
     @Override

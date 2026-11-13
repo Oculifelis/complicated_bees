@@ -4,13 +4,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 public enum EnumProductivity {
+    LAZY("lazy", 0.001f),
     SLOWEST("slowest", 0.3f),
     SLOWER("slower", 0.5f),
     SLOW("slow", 0.8f),
     AVERAGE("average", 1f),
     FAST("fast", 1.2f),
     FASTER("faster", 1.5f),
-    FASTEST("fastest", 1.7f);
+    FASTEST("fastest", 1.7f),
+    ROBOTIC("robotic", 2.5f);
 
     public final String name;
     public final float value;

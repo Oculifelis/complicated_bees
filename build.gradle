@@ -13,7 +13,7 @@ def jeiVersion = mcTarget == '26.1.2' ? '29.47.0.111' : '30.42.0.237'
 def jadeVersion = mcTarget == '26.1.2' ? '26.1.12+neoforge' : '26.2.10+neoforge'
 
 group = 'com.accbdd.complicated_bees'
-version = "3.6.2+${mcTarget}-port.5"
+version = "3.6.2+${mcTarget}-port.6"
 base.archivesName = 'complicated_bees-neoforge'
 layout.buildDirectory = file("build/${mcTarget}")
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
