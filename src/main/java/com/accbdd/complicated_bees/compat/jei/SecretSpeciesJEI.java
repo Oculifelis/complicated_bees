@@ -3,12 +3,15 @@ package com.accbdd.complicated_bees.compat.jei;
 import com.accbdd.complicated_bees.bees.GeneticHelper;
 import com.accbdd.complicated_bees.bees.Species;
 import com.accbdd.complicated_bees.bees.tracking.BreedingTracker;
+import com.accbdd.complicated_bees.block.BeeNestBlock;
+import com.accbdd.complicated_bees.registry.ItemsRegistration;
 import com.accbdd.complicated_bees.recipe.mutation.MutationRecipe;
 import com.accbdd.complicated_bees.registry.EsotericRegistration;
 import com.accbdd.complicated_bees.registry.SpeciesRegistration;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.Set;
 
 /**
  * Keeps species marked "secret" out of JEI until the player discovers them: their bees, their
- * produce page and the mutations that make them. Re-checked whenever the client's discoveries change.
+ * nest, produce page and the mutations that make them. Re-checked whenever the client's discoveries change.
  */
 final class SecretSpeciesJEI {
     private static IJeiRuntime runtime;
@@ -54,17 +57,24 @@ final class SecretSpeciesJEI {
             List<RecipeHolder<MutationRecipe>> makers = new ArrayList<>();
             for (RecipeHolder<MutationRecipe> m : mutations) if (m.value().getResultSpecies() == species) makers.add(m);
             if (known) {
-                jei.getIngredientManager().addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, species.toMembers());
+                jei.getIngredientManager().addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, members(species));
                 jei.getRecipeManager().unhideRecipes(BeeProduceRecipeCategory.TYPE, List.of(species));
                 jei.getRecipeManager().unhideRecipes(MutationRecipeCategory.TYPE, makers);
                 HIDDEN.remove(species);
             } else {
-                jei.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, species.toMembers());
+                jei.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, members(species));
                 jei.getRecipeManager().hideRecipes(BeeProduceRecipeCategory.TYPE, List.of(species));
                 jei.getRecipeManager().hideRecipes(MutationRecipeCategory.TYPE, makers);
                 HIDDEN.add(species);
             }
         }
+    }
+
+    /** Its queen, princess, drone and nest. */
+    private static List<ItemStack> members(Species species) {
+        List<ItemStack> out = new ArrayList<>(species.toMembers());
+        out.add(BeeNestBlock.stackNest(ItemsRegistration.BEE_NEST.get().getDefaultInstance(), species));
+        return out;
     }
 
     private SecretSpeciesJEI() {}

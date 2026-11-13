@@ -16,6 +16,6 @@ public class BeeNestBlockItem extends BlockItem {
     public Component getName(ItemStack pStack) {
         return Component.translatable("species.complicated_bees." + com.accbdd.complicated_bees.port.PortData.blockTag(pStack).getStringOr("species", ""))
                 .append(" ")
-                .append(super.getName(pStack));
+                .append(getBlock().getName());
     }
 }
