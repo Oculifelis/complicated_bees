@@ -33,6 +33,8 @@ public class Species {
     private final Chromosome default_chromosome;
     private final boolean dominant;
     private final boolean foil;
+    private boolean secret;
+    private boolean rainbow;
 
     public Identifier builderOverride; //used in datagen, ignore otherwise
 
@@ -51,8 +53,15 @@ public class Species {
             HEX_STRING_CODEC.optionalFieldOf("nest_color", -1).forGetter(Species::getNestColor),
             Product.CODEC.listOf().optionalFieldOf("products", new ArrayList<>()).forGetter(Species::getProducts),
             Product.CODEC.listOf().optionalFieldOf("specialty_products", new ArrayList<>()).forGetter(Species::getSpecialtyProducts),
-            Chromosome.CODEC.optionalFieldOf("default_chromosome", new Chromosome()).forGetter(Species::getDefaultChromosome)
-    ).apply(instance, Species::new));
+            Chromosome.CODEC.optionalFieldOf("default_chromosome", new Chromosome()).forGetter(Species::getDefaultChromosome),
+            Codec.BOOL.optionalFieldOf("secret", false).forGetter(Species::isSecret),
+            Codec.BOOL.optionalFieldOf("rainbow", false).forGetter(Species::isRainbow)
+    ).apply(instance, (dominant, foil, models, color, nestColor, products, specialty, chromosome, secret, rainbow) -> {
+        Species species = new Species(dominant, foil, models, color, nestColor, products, specialty, chromosome);
+        species.secret = secret;
+        species.rainbow = rainbow;
+        return species;
+    }));
 
     public Species() {
         this(false, false, new ArrayList<>(), 0xFFFFFF, 0xFFFFFF, new ArrayList<>(), new ArrayList<>(), new Chromosome());
@@ -77,6 +86,16 @@ public class Species {
 
     public boolean isFoil() {
         return this.foil;
+    }
+
+    /** Hidden from recipe viewers until the player discovers it. */
+    public boolean isSecret() {
+        return this.secret;
+    }
+
+    /** The bee's colour cycles through the hues instead of using its fixed colour. */
+    public boolean isRainbow() {
+        return this.rainbow;
     }
 
     public boolean isDominant() {

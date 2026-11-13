@@ -68,6 +68,10 @@ public class BeeItem extends Item {
         if (tintIndex == 1) {
             Species species = GeneticHelper.getSpecies(stack, true);
             if (species != null) {
+                if (species.isRainbow()) {
+                    float hue = (System.currentTimeMillis() % 4000L) / 4000f;
+                    return java.awt.Color.HSBtoRGB(hue, 0.6f, 1f) & 0xFFFFFF;
+                }
                 return species.getColor();
             }
             return 0xFFFFFF;

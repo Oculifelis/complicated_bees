@@ -36,6 +36,7 @@ public record TrackerSyncClientbound(BreedingTracker tracker) implements CustomP
 
     public static void handlePacket(TrackerSyncClientbound packet, IPayloadContext ctx) {
         BreedingTracker.CLIENT_INSTANCE = packet.tracker;
+        BreedingTracker.fireClientListeners();
     }
 
     @Override

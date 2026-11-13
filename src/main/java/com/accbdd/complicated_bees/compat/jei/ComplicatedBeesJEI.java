@@ -90,6 +90,16 @@ public class ComplicatedBeesJEI implements IModPlugin {
     }
 
     @Override
+    public void onRuntimeAvailable(mezz.jei.api.runtime.IJeiRuntime jeiRuntime) {
+        SecretSpeciesJEI.start(jeiRuntime);
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        SecretSpeciesJEI.stop();
+    }
+
+    @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGhostIngredientHandler(BeeSorterScreen.class, new BeeSorterDragDropJEI());
     }

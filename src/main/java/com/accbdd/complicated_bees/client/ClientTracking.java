@@ -10,6 +10,7 @@ public final class ClientTracking {
             case SPECIES -> {
                 BreedingTracker.CLIENT_INSTANCE.getDiscoveredSpecies().add(packet.loc());
                 com.accbdd.complicated_bees.port.TargetClient.toast(new DiscoverToast(SpeciesRegistration.getFromIdentifier(packet.loc())));
+                BreedingTracker.fireClientListeners();
             }
             case MUTATION -> BreedingTracker.CLIENT_INSTANCE.getDiscoveredMutations().add(packet.loc());
             case RESEARCH -> {

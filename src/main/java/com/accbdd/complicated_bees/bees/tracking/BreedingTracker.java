@@ -33,6 +33,12 @@ import java.util.function.Consumer;
 
 public class BreedingTracker extends SavedData implements IBreedingTracker {
     public static BreedingTracker CLIENT_INSTANCE;
+    /** Run on the client whenever the discovered species change (sync or a new discovery). */
+    public static final java.util.List<Runnable> CLIENT_LISTENERS = new java.util.concurrent.CopyOnWriteArrayList<>();
+
+    public static void fireClientListeners() {
+        for (Runnable r : CLIENT_LISTENERS) r.run();
+    }
 
     public static String UUID_KEY = "uuid";
     public static String SPECIES_KEY = "species";
