@@ -47,3 +47,7 @@ The port was checked with a dedicated-server fixture (130 assertions per target)
 ## Credits and licence
 
 Complicated Bees is by ACCBDD and contributors (EMI plugin by @Abbie5), MIT licensed; see [LICENSE.txt](LICENSE.txt), which also notes that the bee and comb textures are not covered by it. The `LGPLv3.txt` file is kept from upstream. Original mod IDs, textures, recipes, species definitions and translations are retained. The port's changes are offered under the same MIT terms.
+
+## Compatibility
+
+Works with [Patchouli](https://www.curseforge.com/projects/306770) (optional) on 1.20.1 and 1.21.1.
